@@ -1,21 +1,22 @@
 import * as React from 'react'
 import  { Layout, Menu } from 'antd'
 import { MenuItemType } from 'antd/es/menu/hooks/useItems';
+import { pushPath } from '../../core/history';
 
 const { Header } = Layout;
 
 const items: MenuItemType[] = [{
-    key: "sklad",
-    label: "Склад",
+    key: "home",
+    label: "Главная",
+    onClick: ()=>{pushPath('/')}
   },{
-    key: "sale",
-    label: "Продажи",
+    key: "parcels",
+    label: "Накладные",
+    onClick: ()=>{pushPath('/parcels/123')}
   },{
-    key: "courier",
+    key: "couriers",
     label: "Курьеры",
-  },{
-    key: "manage",
-    label: "Управление",
+    onClick: ()=>{pushPath('/couriers')}
   }];
 
 export const AppHeader = <Header className="header">
