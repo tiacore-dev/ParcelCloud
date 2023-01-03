@@ -14,7 +14,7 @@ export const App = () => {
 
   return (
     <Layout>
-      {AppHeader}
+      <AppHeader/>
       <Layout>
         {LentMenu}
         <AppRouter/>

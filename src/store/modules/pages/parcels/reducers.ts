@@ -5,7 +5,8 @@ export const parcels = createReducer<string[]>(
     ['123', '3234'],
     {
         ['add']: (state, { payload }) => {
-            state = [...state, payload]
+            console.log(payload)
+            return [...state, payload]
         }
     }
 )
