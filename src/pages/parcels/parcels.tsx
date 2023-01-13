@@ -4,6 +4,8 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { IState } from '../../store/modules';
+import { useApi } from '../../hooks/useApi';
+import { authToken } from '../../hooks/useAuth';
 // import {Buffer} from 'buffer'
 // import { setParcels } from '../../store/modules/pages/parcels/actions';
 
@@ -24,8 +26,6 @@ export const Parcels = () => {
 
   const [testValue, setTestValue] = React.useState("")
 
-  const url = "http://localhost/api/hs/api/test/gettestinfo"
-
   const dispatch = useDispatch();
   const data = useSelector((state: IState) => state.pages.parcels)
   // const username = "admin";
@@ -33,17 +33,15 @@ export const Parcels = () => {
   
   // const token = Buffer.from(`${username}:${password}`,'utf8').toString('base64');
 
+  const token = authToken()
 
   const handleClick = React.useCallback(
-    async () => {
-      return axios.get(
-        url,
-        {},
-      ).then((response: ITestResponse)=> {
-      console.log(response)
-     return dispatch({ type: 'add', payload: response.data.a})
-    })
-      .catch(err => console.log(err));
+    async (param) => {
+
+      const data = await useApi<ITest>('test', 'gettestinfo', {...param, ...token})
+     return dispatch({ type: 'add', payload: data})
+    // })
+    //   .catch(err => console.log(err));
     }, []
   )
 
@@ -79,7 +77,7 @@ export const Parcels = () => {
         {parcelId}
         {data.map((el, i) => (<div key={i}>{el}</div>))}
         <Button
-          onClick={() => handleClick()}
+          onClick={() => handleClick({testValue})}
         >Установить</Button>
       </Content>
     </Layout>

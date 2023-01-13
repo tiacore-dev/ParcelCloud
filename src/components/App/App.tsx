@@ -4,15 +4,22 @@ import { AppHeader } from '../AppHeader/AppHeader';
 import { AppFooter } from '../AppFooter/AppFooter';
 import { LentMenu } from '../LeftMenu/LeftMenu';
 import { AppRouter } from '../../core/router';
+import { authData } from '../../hooks/useAuth';
+import { pushPath } from '../../core/history';
+import { Auth } from '../../pages/auth/auth';
+
 
 
 export const App = () => {
 
-  React.useEffect(()=>{
-    console.log(location),[location]
-  })
+  const isAuth = authData().isAuth;
 
+  if (!isAuth) {
+    pushPath('/auth')
+  }
+  
   return (
+    isAuth ? 
     <Layout>
       <AppHeader/>
       <Layout>
@@ -20,6 +27,9 @@ export const App = () => {
         <AppRouter/>
       </Layout>
       {AppFooter}
-    </Layout>
+    </Layout> : 
+      <Auth/>   
   );
 };
+
+
