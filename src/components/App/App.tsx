@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Layout } from 'antd'
 import { AppHeader } from '../AppHeader/AppHeader';
 import { AppFooter } from '../AppFooter/AppFooter';
-import { LentMenu } from '../LeftMenu/LeftMenu';
+import { LeftMenu } from '../LeftMenu/leftMenu';
 import { AppRouter } from '../../core/router';
 import { authData } from '../../hooks/useAuth';
 import { pushPath } from '../../core/history';
@@ -10,7 +10,9 @@ import { Auth } from '../../pages/auth/auth';
 
 
 
+
 export const App = () => {
+
 
   const isAuth = authData().isAuth;
 
@@ -19,16 +21,24 @@ export const App = () => {
   }
   
   return (
-    isAuth ? 
+    <>
+    {isAuth ? 
     <Layout>
       <AppHeader/>
       <Layout>
-        {LentMenu}
+        <LeftMenu />
+        <Layout
+          style={{
+            padding: '0 24px',
+          }}
+        >
         <AppRouter/>
+        </Layout>
       </Layout>
       {AppFooter}
     </Layout> : 
-      <Auth/>   
+      <Auth/>}
+      </>   
   );
 };
 

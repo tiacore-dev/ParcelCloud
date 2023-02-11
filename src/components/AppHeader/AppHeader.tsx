@@ -2,8 +2,7 @@ import * as React from 'react'
 import { Layout, Menu } from 'antd'
 import { MenuItemType } from 'antd/es/menu/hooks/useItems';
 import { pushPath } from '../../core/history';
-import { authlogout } from '../../store/modules/auth';
-import { useDispatch } from 'react-redux';
+
 
 const { Header } = Layout;
 
@@ -12,7 +11,7 @@ const { Header } = Layout;
 
 export const AppHeader = () => {
 
-  const dispatch = useDispatch();
+
 
   const items: MenuItemType[] = [{
     key: "home",
@@ -23,15 +22,14 @@ export const AppHeader = () => {
     label: "Накладные",
     onClick: () => { pushPath('/parcels/123') }
   }, {
-    key: "couriers",
-    label: "Курьеры",
-    onClick: () => { pushPath('/couriers') }
+    key: "reports",
+    label: "Отчетность",
+    onClick: () => { pushPath('/reports') }
   },{
-    key: "logout",
-    label: "Выход",
+    key: "auth",
+    label: "Аккаунт",
     onClick: () => { 
-      // pushPath('/auth')
-      dispatch(authlogout())
+      pushPath('/auth')
      }
   }];
 

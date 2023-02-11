@@ -3,6 +3,8 @@ import { Route, Switch } from "react-router-dom";
 import { Auth } from '../pages/auth/auth';
 import { Couriers } from '../pages/couriers/couriers';
 import { Main } from '../pages/main/main';
+import { CreateParcel } from '../pages/parcels/createParcel';
+import { findParcelByNumber } from '../pages/parcels/findParcelByNumber';
 import { Parcels } from "../pages/parcels/parcels"
 
 export const AppRouter = () => {
@@ -13,13 +15,25 @@ export const AppRouter = () => {
         path="/auth"
         component={Auth}
       />
+       <Route
+        path="/parcels/create"
+        component={CreateParcel}
+      />
       <Route
-        path="/parcels/:parcelId"
+        path="/parcels/instorage/:storageId"
+        component={Parcels}
+      />
+       <Route
+        path="/parcels/find"
+        component={findParcelByNumber}
+      />
+      <Route
+        path="/parcels/"
         component={Parcels}
       />
       <Route
-        path="/couriers"
-        component={Couriers}
+        path="/reports"
+        // component={Reports}
       />
       <Route
         path="/"
@@ -31,3 +45,6 @@ export const AppRouter = () => {
 
   );
 }
+
+
+

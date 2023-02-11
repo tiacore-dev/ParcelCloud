@@ -7,11 +7,6 @@ const { Content } = Layout;
 
     return (
         <>
-        <Layout
-          style={{
-            padding: '0 24px',
-          }}
-        >
           <Breadcrumb
             style={{
               margin: '16px 0',
@@ -30,7 +25,7 @@ const { Content } = Layout;
           >
             Couriers
           </Content>
-        </Layout>
+  
         </>
     )
 }
