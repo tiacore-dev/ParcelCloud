@@ -1,9 +1,8 @@
 import * as React from 'react'
-// import * as ReactDOM from 'react-dom'
-import { Layout, Menu, theme } from 'antd'
+import { Layout, Menu } from 'antd'
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
 import { pushPath } from '../../core/history';
-import { authData, checkBranchesPermission } from '../../hooks/useAuth';
+import { authData } from '../../hooks/useAuth';
 
 const { Sider } = Layout;
 
@@ -11,29 +10,11 @@ const { Sider } = Layout;
 export const ParcelsLentMenu = () => {
 
     const data = authData();
-    const branches = data.branches;
-    const branchesKeys = Object.keys(branches);
     const items = []
 
-    if (checkBranchesPermission("parcel-create")) {
-        items.push({
-            key: "parcel-create",
-            icon: React.createElement(NotificationOutlined),
-            label: 'Создать накладную',
-            onClick: () => { pushPath('/parcels/create') }
-        })
-    }
     items.push({
         key: "storage",
         icon: React.createElement(LaptopOutlined),
-        label: 'На складе',
-        children: branchesKeys.map((branchKey: string) => {
-            return {
-                key: branchKey,
-                label: branches[branchKey],
-                onClick: () => { pushPath(`/parcels/storage/${branchKey}`) }
-            }
-        })
     })
     items.push({
         key: "acceptanceinstorage",

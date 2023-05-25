@@ -20,7 +20,7 @@ export const Account = () => {
             </Descriptions>
 
 
-            <List
+            {/* <List
                 className='list'
                 header={<b>Доступные компании:</b>}
                 bordered
@@ -42,7 +42,7 @@ export const Account = () => {
                 bordered
                 dataSource={Object.values(data.organizations)}
                 renderItem={(item) => <List.Item>{item}</List.Item>}
-            />
+            /> */}
 
             <Button
                 onClick={() => dispatch(authlogout())}

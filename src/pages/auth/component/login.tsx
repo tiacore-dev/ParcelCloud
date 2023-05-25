@@ -4,73 +4,27 @@ import { useDispatch } from 'react-redux';
 import { pushPath } from '../../../core/history';
 import { useApi } from '../../../hooks/useApi';
 import { ILoginData } from '../../../hooks/useAuth';
-import { authlogin, IAuthLoginPayload } from '../../../store/modules/auth';
+import { authlogin } from '../../../store/modules/auth';
 import Title from 'antd/es/typography/Title';
-
-interface IResponcePermissions {
-    code: string;
-    permissions: string[]
-}
-
-interface IResponceAvailableEntities {
-    code: string;
-    name: string;
-}
 
 export interface ILoginResponce {
     fullName: string;
     email: string;
     userKey: string;
     token: string;
-    branchesPermissions: IResponcePermissions[];
-    companiesPermissions: IResponcePermissions[];
-    organizationsPermissions: IResponcePermissions[];
-    branches: IResponceAvailableEntities[];
-    companies: IResponceAvailableEntities[];
-    organizations: IResponceAvailableEntities[];
-
-
+    permissions: string[];
 }
 
 export const Login = () => {
 
     const dispatch = useDispatch();
-    const [messageApi, contextHolder] = message.useMessage();
-
-    const reducePermissions = (prev: Record <string, string[]> , item: IResponcePermissions) => {
-        prev[item.code] = item.permissions
-        return prev
-    }
-
-    const reduceAvailableEntities = (prev: Record <string, string> , item: IResponceAvailableEntities) => {
-        prev[item.code] = item.name
-        return prev
-    }
-    
-    const convertLoginResponce = (loginResponce: ILoginResponce): IAuthLoginPayload => {
-        const branchesPermissions = loginResponce.branchesPermissions.reduce(reducePermissions, {})
-        const companiesPermissions = loginResponce.companiesPermissions.reduce(reducePermissions, {})
-        const organizationsPermissions = loginResponce.organizationsPermissions.reduce(reducePermissions, {})
-        const branches =  loginResponce.branches.reduce(reduceAvailableEntities, {})
-        const companies =  loginResponce.companies.reduce(reduceAvailableEntities, {})
-        const organizations =  loginResponce.organizations.reduce(reduceAvailableEntities, {})
-
-
-        return {...loginResponce, 
-            branchesPermissions,
-            companiesPermissions,
-            organizationsPermissions,
-            branches,
-            companies,
-            organizations
-        }
-    }
+    const [messageApi, contextHolder] = message.useMessage();    
 
     const login = React.useCallback(
         async (loginData) => {
             useApi<ILoginResponce, ILoginData>('auth', 'login', loginData)
                 .then((data) => {
-                    dispatch(authlogin(convertLoginResponce(data)))
+                    dispatch(authlogin(data))
                     pushPath('/')
                 })
                 .catch((err) => {
@@ -89,7 +43,7 @@ export const Login = () => {
                 marginTop: "40px",
                 textAlign: "center"
             }}>
-            Parcel Cloud
+            SVS Logistik Parcel Cloud
         </Title>
         <Form
             name="login"
