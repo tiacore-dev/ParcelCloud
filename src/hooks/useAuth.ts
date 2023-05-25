@@ -4,7 +4,7 @@ import { IState } from "../store/modules";
 
 
 export interface ILoginData {
-    username: string;
+    email: string;
     password: string
 }
 
