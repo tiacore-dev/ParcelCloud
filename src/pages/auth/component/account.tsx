@@ -20,31 +20,7 @@ export const Account = () => {
             </Descriptions>
 
 
-            {/* <List
-                className='list'
-                header={<b>Доступные компании:</b>}
-                bordered
-                dataSource={Object.values(data.companies)}
-                renderItem={(item) => <List.Item>{item}</List.Item>}
-            />
-
-            <List
-                className='list'
-                header={<b>Доступные филиалы:</b>}
-                bordered
-                dataSource={Object.values(data.branches)}
-                renderItem={(item) => <List.Item>{item}</List.Item>}
-            />
-            
-            <List
-                className='list'
-                header={<b>Доступные организации:</b>}
-                bordered
-                dataSource={Object.values(data.organizations)}
-                renderItem={(item) => <List.Item>{item}</List.Item>}
-            /> */}
-
-            <Button
+           <Button
                 onClick={() => dispatch(authlogout())}
             >
                 Выход

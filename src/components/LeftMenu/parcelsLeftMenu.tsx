@@ -1,34 +1,36 @@
 import * as React from 'react'
 import { Layout, Menu } from 'antd'
-import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, PlusCircleOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import { pushPath } from '../../core/history';
-import { authData } from '../../hooks/useAuth';
 
 const { Sider } = Layout;
 
 
 export const ParcelsLentMenu = () => {
 
-    const data = authData();
     const items = []
 
     items.push({
-        key: "storage",
-        icon: React.createElement(LaptopOutlined),
-    })
-    items.push({
-        key: "acceptanceinstorage",
-        icon: React.createElement(NotificationOutlined),
-        label: 'Прнинять на склад',
-        onClick: () => { pushPath('/parcels/storage/acceptance') }
+        key: "parcels.create",
+        icon: <PlusCircleOutlined />,
+        label: 'Создать накладную',
+        onClick: () => { pushPath('/parcels/create') }
     })
 
     items.push({
-        key: "handovertocourier",
-        icon: React.createElement(UserOutlined),
-        label: 'Выдать курьеру',
-        onClick: () => { pushPath('/parcels/storage/acceptance') }
+        key: "parcels.all",
+        icon: <UnorderedListOutlined />,
+        label: 'Мои накладные',
+        onClick: () => { pushPath('/parcels/all') }
     })
+
+    items.push({
+        key: "parcels.template",
+        icon: <AppstoreOutlined />,
+        label: 'Шаблоны',
+        onClick: () => { pushPath('/parcels/template') }
+    })
+
 
 
 

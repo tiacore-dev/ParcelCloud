@@ -9,6 +9,13 @@ export const LeftMenu = () => {
       <Route
         path="/parcels"
         component={ParcelsLentMenu}
+        key='parcels'
+      />
+
+      <Route
+        path="/docs"
+        component={ParcelsLentMenu}
+        key='docs'
       />
 
     </Switch>

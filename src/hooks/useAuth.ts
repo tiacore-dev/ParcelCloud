@@ -8,7 +8,7 @@ export interface ILoginData {
     password: string
 }
 
-interface IauthToken {
+export interface IauthToken {
     userKey: string;
     token: string
 }

@@ -28,10 +28,6 @@ export const findParcelByNumber = () => {
 
   const dispatch = useDispatch();
   const data = useSelector((state: IState) => state.pages.parcels)
-  // const username = "admin";
-  // const password = "0000"
-
-  // const token = Buffer.from(`${username}:${password}`,'utf8').toString('base64');
 
   const token = authToken()
 
@@ -40,8 +36,6 @@ export const findParcelByNumber = () => {
 
       const data = await useApi<ITest>('test', 'gettestinfo', { ...param, ...token })
       return dispatch({ type: 'add', payload: data })
-      // })
-      //   .catch(err => console.log(err));
     }, []
   )
 
