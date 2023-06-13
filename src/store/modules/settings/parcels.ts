@@ -51,6 +51,9 @@ const parcelsSettingsSlice = createSlice({
         setParcelsFiltersRecCities: (state: IParcelsSettingsState, action: { payload: string[] }) => {
             state.filters.recCities = action.payload;
         },
+        clearData: (state: IParcelsSettingsState) => {
+            state = initialState
+        }
     },
 });
 
@@ -59,7 +62,8 @@ export const {
     setParcelsFiltersDateTo,
     setParcelsFiltersNumber,
     setParcelsFiltersSendCities,
-    setParcelsFiltersRecCities
+    setParcelsFiltersRecCities,
+    clearData
 } = parcelsSettingsSlice.actions;
 
 export const parcelsSettings = parcelsSettingsSlice.reducer
