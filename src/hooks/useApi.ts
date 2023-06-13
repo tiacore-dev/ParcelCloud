@@ -15,7 +15,9 @@ export const useApi = async <R, D = any>(templateName: string, methodName: strin
         {withCredentials: false}
         )
     if (responce.data.error) {
+        console.log(responce.data.errorMessage)
         throw responce.data.errorMessage;
     }
+    console.log(responce.data.responceData)
     return responce.data.responceData
 }

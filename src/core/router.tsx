@@ -4,7 +4,6 @@ import { Auth } from '../pages/auth/auth';
 import { Couriers } from '../pages/couriers/couriers';
 import { Main } from '../pages/main/main';
 import { CreateParcel } from '../pages/parcels/createParcel';
-import { findParcelByNumber } from '../pages/parcels/findParcelByNumber';
 import { Parcels } from "../pages/parcels/Parcels/parcels"
 
 export const AppRouter = () => {
@@ -20,12 +19,6 @@ export const AppRouter = () => {
         path="/parcels/create"
         component={CreateParcel}
         key='parcelscreate'
-      />
-      <Route
-        path="/parcels/find"
-        component={findParcelByNumber}
-        key='parcelsfind'
-
       />
       <Route
         path="/parcels/all"

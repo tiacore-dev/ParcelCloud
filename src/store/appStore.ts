@@ -11,7 +11,6 @@ import {
  } from "redux-persist"
 import storage from "redux-persist/lib/storage";
 import { rootReducer } from "./modules";
-// import { formPersistConfig } from "./storage/formPersistConfig";
 
 const persistConfig = {
     key: 'root',
@@ -26,9 +25,7 @@ export const store = configureStore({
     ),
     middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
+      serializableCheck: false,
     }),
     devTools: true
 
@@ -38,3 +35,4 @@ export const persistor = persistStore(store)
 
 export type AppDispatch = typeof store.dispatch;
 export type AppStore = typeof store;
+

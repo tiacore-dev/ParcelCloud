@@ -1,3 +1,5 @@
+export const dateFormat = 'DD.MM.YYYY'
+
 export const dateToLocalString = (string: string) => {
     const timestamp = Date.parse(string)
     if (timestamp > 0) {

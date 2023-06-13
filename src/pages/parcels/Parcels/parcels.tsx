@@ -1,24 +1,18 @@
-import { Breadcrumb, Layout, Table } from 'antd';
+import { Breadcrumb, Layout, Table, DatePicker, Space } from 'antd';
 import * as React from 'react';
 import { useApi } from '../../../hooks/useApi';
 import { parcelsDesktopColumns } from './components/desktop.columns';
 import { IauthToken, authToken } from '../../../hooks/useAuth';
 import { convertParcelsData } from './convertParcelsData';
+import { getParcelsFailure, getParcelsRequest, getParcelsSuccess } from '../../../store/modules/pages/parcels';
+import { useDispatch, useSelector } from 'react-redux';
+import { IState } from '../../../store/modules';
+import { IParcelsSettingsState } from '../../../store/modules/settings/parcels';
+import { Filters } from './components/filters';
 
 
-interface IParcelsFilter {
-
-  date: Date,
-  number: string,
-
-}
-
-interface GetParcelsDto {
+interface GetParcelsDto extends IParcelsSettingsState {
   authToken: IauthToken
-  filterts?: IParcelsFilter,
-  sort?: Record<string, 1 | -1>,
-  limit?: number,
-  offset?: number
 }
 
 export interface IParcelsResponce {
@@ -26,7 +20,7 @@ export interface IParcelsResponce {
   number: string,
   recCity: string,
   recAddress: string,
-  recCompany: string, 
+  recCompany: string,
   sendCity: string,
   sendAddress: string,
   sendCompany: string,
@@ -53,17 +47,25 @@ export const Parcels = () => {
 
   const { Content } = Layout;
 
-  const [data, setData] = React.useState<IParcelsCovertedData[]>([])
-
+  const filters = useSelector((state: IState) => state.settings.parcelsSettings.filters)
   const param: GetParcelsDto = {
-    authToken: authToken()
+    authToken: authToken(),
+    filters
   }
 
-  React.useEffect(()=>{
-    useApi<IParcelsResponce[], GetParcelsDto>('parcels', 'get', param).then((parcelsData ) => {
-      setData(convertParcelsData(parcelsData))
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(getParcelsRequest())
+    useApi<IParcelsResponce[], GetParcelsDto>('parcels', 'get', param).then((parcelsData) => {
+      dispatch(getParcelsSuccess(convertParcelsData(parcelsData)))
+    }).catch(err => {
+      dispatch(getParcelsFailure(err))
     })
-  }, [])
+  }, [filters])
+
+  const parcelsData = useSelector((state: IState) => state.pages.parcels.data)
+  const isLoading = useSelector((state: IState) => state.pages.parcels.loading)
 
   return (
 
@@ -86,8 +88,10 @@ export const Parcels = () => {
           background: '#FFF',
         }}
       >
-        <Table dataSource={data} columns={parcelsDesktopColumns} />
-        
+       <Filters />
+        {isLoading ? <></> :  <Table dataSource={parcelsData} columns={parcelsDesktopColumns} />}
+       
+
       </Content>
     </>
 
