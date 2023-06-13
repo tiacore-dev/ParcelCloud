@@ -1,11 +1,15 @@
 import * as React from 'react';
 import { Route, Switch } from "react-router-dom";
 import { Auth } from '../pages/auth/auth';
-import { Couriers } from '../pages/couriers/couriers';
+// import { Couriers } from '../pages/couriers/couriers';
 import { Main } from '../pages/main/main';
-import { CreateParcel } from '../pages/parcels/createParcel';
-import { Parcels } from "../pages/parcels/Parcels/parcels"
+import { CreateParcel } from '../pages/parcel/createParcel';
+import { Parcels } from "../pages/parcels/parcels"
+import { Parcel } from '../pages/parcel/parcel';
 
+export interface IParcelsRouteParams {
+  parcelId: string
+}
 export const AppRouter = () => {
   return (<>
 
@@ -16,16 +20,16 @@ export const AppRouter = () => {
         key='auth'
       />
        <Route
-        path="/parcels/create"
-        component={CreateParcel}
-        key='parcelscreate'
+        path="/parcels/:parcelId"
+        component={Parcel}
+        key='parcel'
       />
       <Route
-        path="/parcels/all"
+        path="/parcels"
         component={Parcels}
-        key='parcelsall'
-
+        key='parcels'
       />
+  
       <Route
         path="/reports"
         // component={Reports}

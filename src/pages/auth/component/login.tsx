@@ -6,7 +6,6 @@ import { useApi } from '../../../hooks/useApi';
 import { ILoginData } from '../../../hooks/useAuth';
 import { authlogin } from '../../../store/modules/auth';
 import Title from 'antd/es/typography/Title';
-import { clearData } from '../../../store/modules/settings/parcels';
 
 export interface ILoginResponce {
     fullName: string;
@@ -27,7 +26,6 @@ export const Login = () => {
             useApi<ILoginResponce, ILoginData>('auth', 'login', loginData)
                 .then((data) => {
                     dispatch(authlogin(data))
-                    dispatch(clearData())
                     pushPath('/')
                 })
                 .catch((err) => {

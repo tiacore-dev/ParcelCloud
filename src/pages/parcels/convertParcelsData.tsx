@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { IParcelsCovertedData, IParcelsResponce } from "./parcels";
-import { dateToLocalString } from '../../../utils/dateConverter';
+import { IParcelsCovertedData } from "./parcels";
+import { dateToLocalString } from '../../utils/dateConverter';
+import { IParcelsList } from '../../interfaces/parcels/IParcelsList';
  
 
-export const convertParcelsData = (data: IParcelsResponce[]): IParcelsCovertedData[] => {
+export const convertParcelsData = (data: IParcelsList[]): IParcelsCovertedData[] => {
 
     return data.map((parcel, index) => {
 
@@ -62,7 +63,8 @@ export const convertParcelsData = (data: IParcelsResponce[]): IParcelsCovertedDa
         </>)
 
         return {
-            key: `${parcel.number}${index}`,
+            
+            key: parcel.id,
             number,
             rec,
             send,

@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IParcelsCovertedData } from "../../../pages/parcels/Parcels/parcels";
+import { IParcelsList } from "../../../interfaces/parcels/IParcelsList";
 
 interface IParcelsState {
-    data: IParcelsCovertedData[]
+    data: IParcelsList[]
     loading: boolean
     loaded: boolean
     errMsg: string
@@ -29,14 +29,20 @@ const parcelsSlice = createSlice({
             state.loaded =  false
             state.errMsg = action.payload;
         },
-        getParcelsSuccess: (state: IParcelsState, action: {payload: IParcelsCovertedData[]}) => {
+        getParcelsSuccess: (state: IParcelsState, action: {payload: IParcelsList[]}) => {
             state.loading = false;
             state.loaded =  true
             state.data = action.payload;
-        }
+        },
+        clearParcelsState: (state: IParcelsState) => {
+            state.data = [];
+            state.loaded = false;
+            state.loading = false;
+            state.errMsg = ""
+        },
     },
 });
 
-export const { getParcelsRequest, getParcelsFailure, getParcelsSuccess } = parcelsSlice.actions;
+export const { getParcelsRequest, getParcelsFailure, getParcelsSuccess, clearParcelsState } = parcelsSlice.actions;
 
 export const parcels = parcelsSlice.reducer

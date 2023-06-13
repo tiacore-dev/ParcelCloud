@@ -21,14 +21,14 @@ export const ParcelsLentMenu = () => {
         key: "parcels.all",
         icon: <UnorderedListOutlined />,
         label: 'Мои накладные',
-        onClick: () => { pushPath('/parcels/all') }
+        onClick: () => { pushPath('/parcels') }
     })
 
     items.push({
         key: "parcels.template",
         icon: <AppstoreOutlined />,
         label: 'Шаблоны',
-        onClick: () => { pushPath('/parcels/template') }
+        onClick: () => { pushPath('/parcelstemplates') }
     })
 
 

@@ -20,8 +20,8 @@ export interface IParcelsSettingsState {
 
 const initialState: IParcelsSettingsState = {
     filters: {
-        dateFrom: 1550412452000,
-        dateTo: 1589312452000,
+        dateFrom: new Date().valueOf() - 86400 * 1000 * 30,
+        dateTo: new Date().valueOf(),
         number: "",
         sendCities: [],
         recCities: [],
@@ -36,7 +36,6 @@ const parcelsSettingsSlice = createSlice({
     initialState,
     reducers: {
         setParcelsFiltersDateFrom: (state: IParcelsSettingsState, action: { payload: number }) => {
-            console.log(action.payload)
             state.filters.dateFrom = action.payload;
         },
         setParcelsFiltersDateTo: (state: IParcelsSettingsState, action: { payload: number }) => {
@@ -51,8 +50,8 @@ const parcelsSettingsSlice = createSlice({
         setParcelsFiltersRecCities: (state: IParcelsSettingsState, action: { payload: string[] }) => {
             state.filters.recCities = action.payload;
         },
-        clearData: (state: IParcelsSettingsState) => {
-            state = initialState
+        clearParcelsSettingsState: (state: IParcelsSettingsState) => {
+            state.filters = initialState.filters
         }
     },
 });
@@ -63,7 +62,7 @@ export const {
     setParcelsFiltersNumber,
     setParcelsFiltersSendCities,
     setParcelsFiltersRecCities,
-    clearData
+    clearParcelsSettingsState
 } = parcelsSettingsSlice.actions;
 
 export const parcelsSettings = parcelsSettingsSlice.reducer

@@ -1,10 +1,10 @@
 import { DatePicker, Input, Space } from 'antd';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IState } from '../../../../store/modules';
-import { setParcelsFiltersDateFrom, setParcelsFiltersDateTo, setParcelsFiltersNumber } from '../../../../store/modules/settings/parcels';
+import { IState } from '../../../store/modules';
+import { setParcelsFiltersDateFrom, setParcelsFiltersDateTo, setParcelsFiltersNumber } from '../../../store/modules/settings/parcels';
 import dayjs from 'dayjs';
-import { dateFormat } from '../../../../utils/dateConverter';
+import { dateFormat } from '../../../utils/dateConverter';
 import Search from 'antd/es/input/Search';
 
 
@@ -21,12 +21,14 @@ export const Filters = () => {
     }
 
     const numberChangeHandler = (number: string) => {
-        console.log(number)
         dispatch(setParcelsFiltersNumber(number))
     }
 
     return (
-        <Space direction="horizontal">
+        <Space
+            direction="horizontal"
+            className='parcels_filters'
+        >
             <DatePicker
                 value={dayjs(filters.dateFrom)}
                 placeholder='Дата начала'
