@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IParcel } from "../../../interfaces/parcels/IParcel";
 
-interface IEditableParcelState {
+interface IParcelState {
     data: IParcel | undefined
     loading: boolean
     loaded: boolean
@@ -9,7 +9,7 @@ interface IEditableParcelState {
 }
 
 
-const initialState: IEditableParcelState = {
+const initialState: IParcelState = {
     data: undefined,
     loading: false,
     loaded: false,
@@ -20,21 +20,21 @@ const parcelSlice = createSlice({
     name: 'parcel',
     initialState,
     reducers: {
-        getParcelRequest: (state: IEditableParcelState) => {
+        getParcelRequest: (state: IParcelState) => {
             state.loading = true;
             state.loaded =  false
         },
-        getParcelFailure: (state: IEditableParcelState, action: {payload: string}) => {
+        getParcelFailure: (state: IParcelState, action: {payload: string}) => {
             state.loading = false;
             state.loaded =  false
             state.errMsg = action.payload;
         },
-        getParcelSuccess: (state: IEditableParcelState, action: {payload: IParcel}) => {
+        getParcelSuccess: (state: IParcelState, action: {payload: IParcel}) => {
             state.loading = false;
             state.loaded =  true
             state.data = action.payload;
         },
-        clearParceltate: (state: IEditableParcelState) => {
+        clearParceltate: (state: IParcelState) => {
             state.data = undefined;
             state.loaded = false;
             state.loading = false;

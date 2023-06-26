@@ -52,7 +52,7 @@ export const Parcel = () => {
   const isLoaded = useSelector((state: IState) => state.pages.parcel.loaded)
 
   console.log('parcelId', routeParams.parcelId)
-  console.log('parcelData.id', parcelData.id)
+  console.log('parcelData.id', parcelData?.id)
 
 
   return  <>
@@ -65,10 +65,10 @@ export const Parcel = () => {
         <Breadcrumb.Item>
           <Link to="/parcels">Накладные</Link>
         </Breadcrumb.Item>
-        <Breadcrumb.Item>{parcelData.number}</Breadcrumb.Item>
+        <Breadcrumb.Item>{parcelData?.number}</Breadcrumb.Item>
 
       </Breadcrumb>
-     { isLoaded && routeParams.parcelId === parcelData.id ?
+     { isLoaded && parcelData && routeParams.parcelId === parcelData.id ?
       <Content
         style={{
           padding: "0 24px",
