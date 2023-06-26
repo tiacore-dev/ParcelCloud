@@ -51,9 +51,11 @@ export const Parcel = () => {
   const isLoading = useSelector((state: IState) => state.pages.parcel.loading)
   const isLoaded = useSelector((state: IState) => state.pages.parcel.loaded)
 
+  console.log('parcelId', routeParams.parcelId)
+  console.log('parcelData.id', parcelData.id)
 
-  return isLoaded && (!isLoading) ?
-    <>
+
+  return  <>
       <Breadcrumb
         style={{
           margin: '16px 0',
@@ -66,6 +68,7 @@ export const Parcel = () => {
         <Breadcrumb.Item>{parcelData.number}</Breadcrumb.Item>
 
       </Breadcrumb>
+     { isLoaded && routeParams.parcelId === parcelData.id ?
       <Content
         style={{
           padding: "0 24px",
@@ -115,7 +118,7 @@ export const Parcel = () => {
           >
             {<Table
               pagination={false}
-              dataSource={parcelData.items.map((el: IParcelItem) => ({ ...el, size: `${el.h}x${el.l}x${el.w}` }))}
+              dataSource={parcelData.items.map((el: IParcelItem, index: number) => ({ ...el, size: `${el.h}x${el.l}x${el.w}`, key: index }))}
               columns={itemsColumns}
             />}
           </Card>
@@ -127,7 +130,7 @@ export const Parcel = () => {
         >
           <p>Тип доставки: {parcelData.delType}</p>
           {!!parcelData.cost && <p>Стоимость доставки: {parcelData.cost}</p>}
-          <p>Тип оплаты:  {parcelData.payMethod}</p>
+          <p>Тип оплаты:  {parcelData.payType}</p>
         </Card>
 
         {parcelData.history.length && <>
@@ -137,15 +140,15 @@ export const Parcel = () => {
           >
             {<Table
               pagination={false}
-              dataSource={parcelData.history.map((el: IParcelHistory) => ({ ...el, date: dateToLocalString(el.date) }))}
+              dataSource={parcelData.history.map((el: IParcelHistory, index: number) => ({ ...el, date: dateToLocalString(el.date), key: index}))}
               columns={historyColumns}
             />}
           </Card>
         </>}
 
 
-      </Content>
-    </> : <></>
+      </Content>  : <></>}
+    </>
 }
 
 

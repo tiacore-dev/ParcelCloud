@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
-import { Cities } from "./cities"
+import { cities } from "./cities"
+import { templates } from "./templates"
 
 export const dictionaries = combineReducers({
-    Cities
+    cities,
+    templates
 })

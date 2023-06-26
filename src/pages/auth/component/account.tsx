@@ -3,17 +3,18 @@ import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { authData } from '../../../hooks/useAuth';
 import { authlogout } from '../../../store/modules/auth';
-import { clearParcelsSettingsState } from '../../../store/modules/settings/parcels';
-import { clearParcelsState } from '../../../store/modules/pages/parcels';
+import { useloadSourse } from '../../../components/App/App';
 
 
 export const Account = () => {
     const data = authData();
     const dispatch = useDispatch();
 
-    const clearStates = () => {
-        dispatch(clearParcelsSettingsState())
-        dispatch(clearParcelsState())
+    const [load, clearStates] = useloadSourse()
+
+    const refresh = () => {
+        clearStates()
+        load(data)
     }
 
     return (
@@ -27,7 +28,7 @@ export const Account = () => {
             </Descriptions>
             <Space direction="vertical">
                 <Button
-                    onClick={clearStates}
+                    onClick={refresh}
                 >
                     Обновить данные
                 </Button>

@@ -13,6 +13,12 @@ export const LeftMenu = () => {
       />
 
       <Route
+        path="/templates"
+        component={ParcelsLentMenu}
+        key='templates'
+      />
+
+      <Route
         path="/docs"
         component={ParcelsLentMenu}
         key='docs'

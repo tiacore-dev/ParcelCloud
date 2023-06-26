@@ -1,26 +1,10 @@
+import { delTypeEnum } from "../../../enumerations/delTypeEnum";
+import { payTypeEnum } from "../../../enumerations/payTypeEnum";
+import { IauthToken } from "../../../hooks/useAuth";
+import { IParcelItem } from "../../../interfaces/parcels/IParcel";
 
-
-export interface IParcelItem {
-    weight: number;
-    h: number;
-    l: number;
-    w: number;
-    volume: number;
-    qt?: number;
-    tWeight?: number;
-    tVolume?: number;
-    comment?: string;
-}
-
-export interface IParcelHistory {
-    date: string;
-    type?: string;
-    comment?: string;
-}
-
-export interface IParcel {
-    id: string;
-    number: string;
+export interface CreateParcelDto {
+    authToken: IauthToken
     sendCity: string;
     sendPerson: string;
     sendAddress: string;
@@ -40,12 +24,11 @@ export interface IParcel {
     cost: number;
     insureValue: number;
     COD: number;
-    payType: string;
-    delType: string;
+    payType: keyof typeof payTypeEnum;
+    delType: keyof typeof delTypeEnum;
     tMax: number;
     tMin: number;
     fragile: boolean;
-    items: IParcelItem[],
-    history: IParcelHistory[]
+    notification: boolean;
+    items: IParcelItem[], 
 }
-

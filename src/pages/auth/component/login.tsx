@@ -6,6 +6,7 @@ import { useApi } from '../../../hooks/useApi';
 import { ILoginData } from '../../../hooks/useAuth';
 import { authlogin } from '../../../store/modules/auth';
 import Title from 'antd/es/typography/Title';
+import { useloadSourse } from '../../../components/App/App';
 
 export interface ILoginResponce {
     fullName: string;
@@ -18,14 +19,16 @@ export interface ILoginResponce {
 export const Login = () => {
 
     const dispatch = useDispatch();
-    const [messageApi, contextHolder] = message.useMessage();    
+    const [load] = useloadSourse()
 
+    const [messageApi, contextHolder] = message.useMessage();    
     const login = React.useCallback(
         async (loginData: ILoginData) => {
             console.log(loginData)
             useApi<ILoginResponce, ILoginData>('auth', 'login', loginData)
                 .then((data) => {
-                    dispatch(authlogin(data))
+                    dispatch(authlogin(data)) 
+                    load(data)
                     pushPath('/')
                 })
                 .catch((err) => {

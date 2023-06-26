@@ -1,39 +1,41 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { ITemplate } from "../../../interfaces/templates/ITemplate";
 
-interface ICitiesState {
-    data: string[]
+
+interface ITemplatesState {
+    data: ITemplate[]
     loading: boolean
     loaded: boolean
     errMsg: string
 }
 
 
-const initialState: ICitiesState = {
+const initialState: ITemplatesState = {
     data: [],
     loading: false,
     loaded: false,
     errMsg: ''
 }
 
-const citiesSlice = createSlice({
-    name: 'cities',
+const templatesSlice = createSlice({
+    name: 'templates',
     initialState,
     reducers: {
-        getCitiesRequest: (state: ICitiesState) => {
+        getTemplatesRequest: (state: ITemplatesState) => {
             state.loading = true;
             state.loaded =  false
         },
-        getCitiesFailure: (state: ICitiesState, action: {payload: string}) => {
+        getTemplatesFailure: (state: ITemplatesState, action: {payload: string}) => {
             state.loading = false;
             state.loaded =  false
             state.errMsg = action.payload;
         },
-        getCitiesSuccess: (state: ICitiesState, action: {payload: string[]}) => {
+        getTemplatesSuccess: (state: ITemplatesState, action: {payload: ITemplate[]}) => {
             state.loading = false;
             state.loaded =  true
             state.data = action.payload;
         },
-        clearCitiesState: (state: ICitiesState) => {
+        clearTemplatesState: (state: ITemplatesState) => {
             state.data = [],
             state.loading = true;
             state.loaded =  false
@@ -42,6 +44,6 @@ const citiesSlice = createSlice({
     },
 });
 
-export const { getCitiesRequest, getCitiesFailure, getCitiesSuccess, clearCitiesState } = citiesSlice.actions;
+export const { getTemplatesRequest, getTemplatesFailure, getTemplatesSuccess, clearTemplatesState } = templatesSlice.actions;
 
-export const cities = citiesSlice.reducer
+export const templates = templatesSlice.reducer

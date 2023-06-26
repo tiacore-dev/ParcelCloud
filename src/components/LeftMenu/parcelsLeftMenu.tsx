@@ -28,7 +28,7 @@ export const ParcelsLentMenu = () => {
         key: "parcels.template",
         icon: <AppstoreOutlined />,
         label: 'Шаблоны',
-        onClick: () => { pushPath('/parcelstemplates') }
+        onClick: () => { pushPath('/templates') }
     })
 
 
