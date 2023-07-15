@@ -7,14 +7,14 @@ export const parcelsDesktopColumns = [
     },
     {
         title: 'Отправитель',
-        dataIndex: 'rec',
-        key: 'rec',
+        dataIndex: 'send',
+        key: 'send',
         width: '27%',
     },
     {
         title: 'Получатель',
-        dataIndex: 'send',
-        key: 'send',
+        dataIndex: 'rec',
+        key: 'rec',
         width: '27%',
     },
     {

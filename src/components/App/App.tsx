@@ -11,7 +11,7 @@ import { IState } from '../../store/modules';
 import { clearCitiesState, getCitiesFailure, getCitiesRequest, getCitiesSuccess } from '../../store/modules/dictionaries/cities';
 import { useApi } from '../../hooks/useApi';
 import { IauthToken } from '../../hooks/useAuth';
-import { clearTemplatesState, getTemplatesFailure, getTemplatesRequest, getTemplatesSuccess } from '../../store/modules/dictionaries/templates';
+import { clearTemplatesState, getTemplatesFailure, getTemplatesRequest, getTemplatesSuccess } from '../../store/modules/pages/templates';
 import { clearParcelsSettingsState } from '../../store/modules/settings/parcels';
 import { clearParcelsState } from '../../store/modules/pages/parcels';
 import { ITemplate } from '../../interfaces/templates/ITemplate';

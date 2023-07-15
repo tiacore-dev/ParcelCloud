@@ -78,16 +78,30 @@ export const columns = () => {
         },
 
         {
-            title: 'Комментарий',
-            dataIndex: 'comment',
+            title: 'Количество',
+            dataIndex: 'qt',
             render: (text: string, record: IParcelItem, index: number) => (
-                <Input
-                    value={record?.comment || ""}
+                <InputNumber
+                    value={record?.qt || 0}
                     bordered={false}
-                    onChange={(event) => dispatch(editParcel.editItemComment({ index, value: event.target.value }))}
+                    min={1}
+                    onChange={(value) => dispatch(editParcel.editItemQt({ index, value }))}
                 />
             )
         },
+
+        {
+            title: 'Итого вес (кг)',
+            dataIndex: 'tWeight',
+            key: 'tWeight',
+        },
+
+        {
+            title: 'Итого об. вес (кг)',
+            dataIndex: 'tVolume',
+            key: 'tVolume',
+        },
+       
         {
             dataIndex: 'operation',
             render: (text: string, record: IParcelItem, index: number) =>

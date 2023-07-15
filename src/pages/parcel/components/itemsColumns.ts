@@ -29,10 +29,5 @@ export const itemsColumns = [
         title: 'Σ Об. вес',
         dataIndex: 'tVolume',
         key: 'tVolume',
-    },
-    {
-        title: 'Комментарий',
-        dataIndex: 'comment',
-        key: 'comment',
     }
 ];

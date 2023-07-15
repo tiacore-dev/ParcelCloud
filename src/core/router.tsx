@@ -6,10 +6,16 @@ import { CreateParcel } from '../pages/createParcel/createParcel';
 import { Parcels } from "../pages/parcels/parcels"
 import { Parcel } from '../pages/parcel/parcel';
 import { Templates } from '../pages/templates/templates';
+import { Template } from '../pages/template/template';
 
 export interface IParcelsRouteParams {
   parcelId: string
 }
+
+export interface ITemplatesRouteParams {
+  templateId: string
+}
+
 export const AppRouter = () => {
   return (<>
 
@@ -34,7 +40,11 @@ export const AppRouter = () => {
         component={Parcels}
         key='parcels'
       />
-  
+      <Route
+        path="/templates/:templateId"
+        component={Template}
+        key='template'
+      />
       <Route
         path="/templates"
         component={Templates}

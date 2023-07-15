@@ -6,9 +6,9 @@ export interface IParcelItem {
     l: number;
     w: number;
     volume: number;
-    qt?: number;
-    tWeight?: number;
-    tVolume?: number;
+    qt: number;
+    tWeight: number;
+    tVolume: number;
     comment?: string;
 }
 

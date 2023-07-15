@@ -10,6 +10,7 @@ import {
   Switch,
   Row,
   Col,
+  Modal,
 } from 'antd';
 import Title from 'antd/es/typography/Title';
 import { Link } from 'react-router-dom';
@@ -23,6 +24,7 @@ import { useApi } from '../../hooks/useApi';
 import { CreateParcelDto } from './dto/createParcel.dto';
 import { pushPath } from '../../core/history';
 import { authToken } from '../../hooks/useAuth';
+import { TemplatesTable } from '../templates/components/table';
 
 
 
@@ -39,9 +41,22 @@ export const CreateParcel = () => {
     setComponentDisabled(disabled);
   }
 
+  const [isSendModalOpen, setIsSendModalOpen] = React.useState(false);
+  const [isRecModalOpen, setIsRecModalOpen] = React.useState(false);
+
+  const showSendModal = () => {
+    setIsSendModalOpen(true);
+  };
+
+  const showRecModal = () => {
+    setIsRecModalOpen(true);
+  };
+
+  const templatesData = useSelector((state: IState) => state.pages.templates.data)
+
   const createParcelParams: CreateParcelDto = { ...data, authToken: authToken() }
   const handleSave = React.useCallback(() => {
-    console.log('save')
+
     dispatch(editParcel.sendParcel())
 
     console.log(createParcelParams)
@@ -60,8 +75,33 @@ export const CreateParcel = () => {
 
   }, [])
 
+  const onSendTemplateRowClick = (id: string) => {
 
+    const templateData = templatesData.find(template => template.id === id)
 
+    dispatch(editParcel.setSendCity(templateData.city))
+    dispatch(editParcel.setSendAddInfo(templateData.addInfo))
+    dispatch(editParcel.setSendAddress(templateData.address))
+    dispatch(editParcel.setSendCompany(templateData.company))
+    dispatch(editParcel.setSendPerson(templateData.person))
+    dispatch(editParcel.setSendPhone(templateData.phone))
+
+    setIsSendModalOpen(false)
+  }
+
+  const onRecTemplateRowClick = (id: string) => {
+
+    const templateData = templatesData.find(template => template.id === id)
+
+    dispatch(editParcel.setRecCity(templateData.city))
+    dispatch(editParcel.setRecAddInfo(templateData.addInfo))
+    dispatch(editParcel.setRecAddress(templateData.address))
+    dispatch(editParcel.setRecCompany(templateData.company))
+    dispatch(editParcel.setRecPerson(templateData.person))
+    dispatch(editParcel.setRecPhone(templateData.phone))
+
+    setIsRecModalOpen(false)
+  }
 
   return (
 
@@ -96,8 +136,27 @@ export const CreateParcel = () => {
         >
           <Row>
             <Col span={12}>
+              <Form.Item>
+                Данные отправителя
+              </Form.Item>
+              <Form.Item >
+                <Button onClick={showSendModal}>
+                  Заполнить из шаблона
+                </Button>
 
-              Данные отправителя
+                <Modal
+                  title="Данные отправителя: выберите шаблон"
+                  open={isSendModalOpen}
+                  width={1000}
+                  footer={false}
+                  onCancel={() => { setIsSendModalOpen(false) }}
+                >
+                  <TemplatesTable
+                    onRowClick={onSendTemplateRowClick}
+                  />
+                </Modal>
+              </Form.Item>
+
               <Form.Item label="Город">
                 <Select
                   value={data.sendCity}
@@ -153,7 +212,26 @@ export const CreateParcel = () => {
             <Col
               span={12
               }>
-              Данные получателя
+              <Form.Item >
+                Данные получателя
+              </Form.Item>
+              <Form.Item >
+                <Button onClick={showRecModal}>
+                  Заполнить из шаблона
+                </Button>
+
+                <Modal
+                  title="Данные получателя: выберите шаблон"
+                  open={isRecModalOpen}
+                  width={1000}
+                  footer={false}
+                  onCancel={() => { setIsRecModalOpen(false) }}
+                >
+                  <TemplatesTable
+                    onRowClick={onRecTemplateRowClick}
+                  />
+                </Modal>
+              </Form.Item>
 
               <Form.Item label="Город">
                 <Select

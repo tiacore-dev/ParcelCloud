@@ -32,7 +32,7 @@ export interface IEditableParcelState {
     tMin: number;
     fragile: boolean;
     notification: boolean;
-    items: IParcelItem[], 
+    items: IParcelItem[],
 }
 
 const initialItem: IParcelItem = {
@@ -107,33 +107,70 @@ const editableParcelSlice = createSlice({
         addItem: (state: IEditableParcelState) => {
             state.items = [...state.items, { ...initialItem } as IParcelItem]
             state.qt = state.items.length
-            state.weight = state.items.reduce((weight: number, item: IParcelItem) => (weight + item.weight || 0), 0)
-            state.volume = state.items.reduce((volume: number, item: IParcelItem) => (volume + item.volume || 0), 0)
+            state.weight = state.items.reduce((weight: number, item: IParcelItem) => (weight + item.tWeight || 0), 0)
+            state.volume = state.items.reduce((volume: number, item: IParcelItem) => (volume + item.tVolume || 0), 0)
         },
         deleteItem: (state: IEditableParcelState, action: { payload: number }) => {
             state.items = state.items.filter((item, index) => index !== action.payload)
             state.qt = state.items.length
-            state.weight = state.items.reduce((weight: number, item: IParcelItem) => (weight + item.weight || 0), 0)
-            state.volume = state.items.reduce((volume: number, item: IParcelItem) => (volume + item.volume || 0), 0)
+            state.weight = state.items.reduce((weight: number, item: IParcelItem) => (weight + item.tWeight || 0), 0)
+            state.volume = state.items.reduce((volume: number, item: IParcelItem) => (volume + item.tVolume || 0), 0)
         },
         editItemWeight: (state: IEditableParcelState, action: { payload: { index: number, value: number } }) => {
-            state.items = state.items.map((item, index) => index === action.payload.index ? { ...item, weight: action.payload.value } : item)
-            state.weight = state.items.reduce((weight: number, item: IParcelItem) => (weight + item.weight || 0), 0)
+            state.items = state.items.map((item, index) => index === action.payload.index ? { ...item, weight: action.payload.value, tWeight: Number((action.payload.value * item.qt).toFixed(3)) } : item)
+            state.weight = state.items.reduce((weight: number, item: IParcelItem) => (weight + item.tWeight || 0), 0)
         },
         editItemL: (state: IEditableParcelState, action: { payload: { index: number, value: number } }) => {
-            state.items = state.items.map((item, index) => index === action.payload.index ? { ...item, l: action.payload.value, volume: item.h * item.w * action.payload.value / 5000 || 0 } : item)
-            state.volume = state.items.reduce((volume: number, item: IParcelItem) => (volume + item.volume || 0), 0)
+            state.items = state.items.map((item, index) => {
+                if (index === action.payload.index) {
+                    const l = action.payload.value
+                    const volume = item.h * item.w * l / 5000 || 0 
+                    const tVolume = Number((volume * item.qt).toFixed(3))
+                    return { ...item, l, volume, tVolume}
+                }
+                return item
+
+            })
+            state.volume = state.items.reduce((volume: number, item: IParcelItem) => (volume + item.tVolume || 0), 0)
         },
         editItemW: (state: IEditableParcelState, action: { payload: { index: number, value: number } }) => {
-            state.items = state.items.map((item, index) => index === action.payload.index ? { ...item, w: action.payload.value, volume: item.h * item.l * action.payload.value / 5000 || 0 } : item)
-            state.volume = state.items.reduce((volume: number, item: IParcelItem) => (volume + item.volume || 0), 0)
+            state.items = state.items.map((item, index) => {
+                if (index === action.payload.index) {
+                    const w = action.payload.value
+                    const volume = item.h * w * item.l / 5000 || 0 
+                    const tVolume = Number((volume * item.qt).toFixed(3))
+                    return { ...item, w, volume, tVolume}
+                }
+                return item
+
+            })
+            state.volume = state.items.reduce((volume: number, item: IParcelItem) => (volume + item.tVolume || 0), 0)
         },
         editItemH: (state: IEditableParcelState, action: { payload: { index: number, value: number } }) => {
-            state.items = state.items.map((item, index) => index === action.payload.index ? { ...item, h: action.payload.value, volume: item.w * item.l * action.payload.value / 5000 || 0 } : item)
-            state.volume = state.items.reduce((volume: number, item: IParcelItem) => (volume + item.volume || 0), 0)
+            state.items = state.items.map((item, index) => {
+                if (index === action.payload.index) {
+                    const h = action.payload.value
+                    const volume = h * item.w * item.l / 5000 || 0 
+                    const tVolume = Number((volume * item.qt).toFixed(3))
+                    return { ...item, h, volume, tVolume}
+                }
+                return item
+
+            })
+            state.volume = state.items.reduce((volume: number, item: IParcelItem) => (volume + item.tVolume || 0), 0)
         },
-        editItemComment: (state: IEditableParcelState, action: { payload: { index: number, value: string } }) => {
-            state.items = state.items.map((item, index) => index === action.payload.index ? { ...item, comment: action.payload.value } : item)
+        editItemQt: (state: IEditableParcelState, action: { payload: { index: number, value: number } }) => {
+            state.items = state.items.map((item, index) => index === action.payload.index ?
+                { 
+                    ...item, 
+                    qt: action.payload.value, 
+                    tVolume:  Number((item.volume * action.payload.value).toFixed(3)), 
+                    tWeight: Number((item.weight * action.payload.value).toFixed(3)) 
+                }
+                : item)
+            state.volume = state.items.reduce((volume: number, item: IParcelItem) => (volume + item.tVolume || 0), 0)
+            state.weight = state.items.reduce((weight: number, item: IParcelItem) => (weight + item.tWeight || 0), 0)
+
         },
         sendParcel: (state: IEditableParcelState) => { state.sent = true },
         savedParcel: (state: IEditableParcelState, action: { payload: { number: string, id: string } }) => { state.id = action.payload.id, state.number = action.payload.number },

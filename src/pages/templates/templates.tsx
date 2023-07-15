@@ -1,16 +1,18 @@
-import { Breadcrumb, Layout, Table, DatePicker, Space } from 'antd';
 import * as React from 'react';
-import { templatesDesktopColumns } from './components/desktop.columns';
-import {  useSelector } from 'react-redux';
-import { IState } from '../../store/modules';
-// import { pushPath } from '../../core/history';
+import { Breadcrumb, Layout, Button } from 'antd';
+import { pushPath } from '../../core/history';
+import { TemplatesTable } from './components/table';
 
 
 export const Templates = () => {
 
   const { Content } = Layout;
-  const templatesData = useSelector((state: IState) => state.dictionaries.templates.data)
-  const isLoading = useSelector((state: IState) => state.dictionaries.templates.loading)
+
+  const onRowClick = (id: string) => {
+
+    pushPath(`/templates/${id}`)
+
+  }
 
   return (
 
@@ -33,19 +35,18 @@ export const Templates = () => {
           background: '#FFF',
         }}
       >
-        {isLoading ? <></> :
-          <Table
-            dataSource={templatesData.map(template => ({...template, key: template.id}))}
-            columns={templatesDesktopColumns}
-            onRow={(record) => {
-              return {
-                onClick: () => {
-                  // pushPath(`/templates/${record.id}`)
-                }, 
-              };
-            }}
-          />}
+        <Button
+          type="primary"
+          onClick={() => { pushPath(`/templates/create`) }}
+          style={{ marginBottom: 24 }}
+        >
+          Создать шаблон
+        </Button>
 
+
+        <TemplatesTable
+          onRowClick={onRowClick}
+        />
 
       </Content>
     </>

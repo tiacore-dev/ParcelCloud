@@ -15,6 +15,11 @@ export const templatesDesktopColumns = [
         key: 'address',
     },
     {
+        title: 'Контактное лицо',
+        dataIndex: 'person',
+        key: 'person',
+    },
+    {
         title: 'Компания',
         dataIndex: 'company',
         key: 'company',

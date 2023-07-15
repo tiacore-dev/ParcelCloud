@@ -40,6 +40,7 @@ export const Parcels = () => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
+    console.log(param)
     dispatch(getParcelsRequest())
     useApi<IParcelsList[], GetParcelsDto>('parcels', 'get', param).then((parcelsData) => {
       dispatch(getParcelsSuccess(parcelsData))
