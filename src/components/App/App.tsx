@@ -15,6 +15,8 @@ import { clearTemplatesState, getTemplatesFailure, getTemplatesRequest, getTempl
 import { clearParcelsSettingsState } from '../../store/modules/settings/parcels';
 import { clearParcelsState } from '../../store/modules/pages/parcels';
 import { ITemplate } from '../../interfaces/templates/ITemplate';
+import { clearParcelState } from '../../store/modules/pages/parcel';
+import { clearCreateParcelState } from '../../store/modules/editableEntities/editableParcel';
 
 interface useloadSourseDto {
   authToken: IauthToken
@@ -30,6 +32,8 @@ export const useloadSourse = ():[(authData:IauthToken)=>void, ()=>void ] => {
     dispatch(clearCitiesState())
     dispatch(clearCitiesState())
     dispatch(clearTemplatesState())
+    dispatch(clearParcelState())
+    dispatch(clearCreateParcelState())   
   }, [])
 
   const load = React.useCallback((authData: IauthToken) => {

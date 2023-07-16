@@ -11,12 +11,13 @@ import {
   Row,
   Col,
   Modal,
+  message
 } from 'antd';
 import Title from 'antd/es/typography/Title';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { IState } from '../../store/modules';
-import { editParcel } from '../../store/modules/editableEntities/editableParcel';
+import { clearCreateParcelState, editParcel } from '../../store/modules/editableEntities/editableParcel';
 import { delTypeSelectOptions } from '../../enumerations/delTypeEnum';
 import { PayTypeSelectOptions } from '../../enumerations/payTypeEnum';
 import { ItemsTable } from './components/itemsTable';
@@ -25,6 +26,8 @@ import { CreateParcelDto } from './dto/createParcel.dto';
 import { pushPath } from '../../core/history';
 import { authToken } from '../../hooks/useAuth';
 import { TemplatesTable } from '../templates/components/table';
+import { temperatureSelectOptions, temperatureValues } from '../../enumerations/temperatires';
+import { CalculateDto } from './dto/calculate.dto';
 
 
 
@@ -51,11 +54,13 @@ export const CreateParcel = () => {
   const showRecModal = () => {
     setIsRecModalOpen(true);
   };
+  const [messageApi, contextHolder] = message.useMessage();
 
   const templatesData = useSelector((state: IState) => state.pages.templates.data)
 
   const createParcelParams: CreateParcelDto = { ...data, authToken: authToken() }
-  const handleSave = React.useCallback(() => {
+
+  const handleSave = () => {
 
     dispatch(editParcel.sendParcel())
 
@@ -64,7 +69,7 @@ export const CreateParcel = () => {
     useApi<{ id: string, number: string }, CreateParcelDto>('parcelcreate', 'create', createParcelParams).then((parcelData) => {
       dispatch(editParcel.savedParcel(parcelData))
       pushPath(`/parcels/${parcelData.id}`)
-      dispatch(editParcel.clearParcelState())
+      dispatch(clearCreateParcelState())
 
 
     }).catch(err => {
@@ -73,7 +78,58 @@ export const CreateParcel = () => {
     })
 
 
-  }, [])
+  }
+
+  const calculateParams: CalculateDto = {
+    authToken: authToken(),
+    sendCity: data.sendCity,
+    recCity: data.recCity,
+    weight: Math.max(data.weight, data.volume),
+    delType: data.delType,
+    temperature: !(data.tMax === 0 && data.tMin === 0)
+  }
+
+  const handleCalculate = () => {
+
+    if (!data.recCity) {
+      messageApi.open({
+        type: 'warning',
+        content: String('не заполнен город получателя'),
+      });
+    }
+
+    if (!data.sendCity) {
+      messageApi.open({
+        type: 'warning',
+        content: String('не заполнен город отправителя'),
+      });
+    }
+
+    useApi<{ cost: number }, CalculateDto>('calculate', 'get', calculateParams).then((result) => {
+      if (result.cost === 0) {
+        messageApi.open({
+          type: 'warning',
+          content: String('Не удалось расчитать тариф'),
+        });
+      }
+
+
+      dispatch(editParcel.setCost(result.cost))
+    }).catch(err => {
+      console.log(err)
+    })
+
+  }
+
+  const onTemperatureSelect = (value: string) => {
+
+    const temperature = temperatureValues[value]
+    if (temperature) {
+      dispatch(editParcel.settMin(temperature.min))
+      dispatch(editParcel.settMax(temperature.max))
+    }
+
+  }
 
   const onSendTemplateRowClick = (id: string) => {
 
@@ -106,6 +162,8 @@ export const CreateParcel = () => {
   return (
 
     <>
+      {contextHolder}
+
       <Breadcrumb
         style={{
           margin: '16px 0',
@@ -324,21 +382,12 @@ export const CreateParcel = () => {
             />
           </Form.Item>
 
-          <Form.Item label="Температурный режим минимум">
-            <InputNumber
-              value={data.tMin}
-              min={-100}
-              max={100}
-              onChange={(value) => dispatch(editParcel.settMin(value))}
-            />
-          </Form.Item>
-
-          <Form.Item label="Температурный режим максимум">
-            <InputNumber
-              value={data.tMax}
-              min={-100}
-              max={100}
-              onChange={(value) => dispatch(editParcel.settMax(value))}
+          <Form.Item label="Температурный режим">
+            <Select
+              value={data.tMin.toString() + data.tMax.toString()}
+              optionFilterProp="children"
+              onChange={onTemperatureSelect}
+              options={temperatureSelectOptions}
             />
           </Form.Item>
 
@@ -362,6 +411,18 @@ export const CreateParcel = () => {
             />
           </Form.Item>
 
+          <Form.Item>
+            <Button
+              onClick={handleCalculate}
+            >
+              Расчет тарифа
+            </Button>
+          </Form.Item>
+
+          {!!data.cost && (<Form.Item label="Стоимость доставвки">
+            {data.cost} руб.
+
+          </Form.Item>)}
           <Form.Item>
             <Button
               onClick={handleSave}

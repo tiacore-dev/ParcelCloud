@@ -94,6 +94,7 @@ const editableParcelSlice = createSlice({
         setRecAddress: (state: IEditableParcelState, action: { payload: string }) => { state.recAddress = action.payload },
         setRecCompany: (state: IEditableParcelState, action: { payload: string }) => { state.recCompany = action.payload },
         setRecAddInfo: (state: IEditableParcelState, action: { payload: string }) => { state.recAddInfo = action.payload },
+        setCost: (state: IEditableParcelState, action: { payload: number }) => { state.cost = action.payload },
         setRecPhone: (state: IEditableParcelState, action: { payload: string }) => { state.recPhone = action.payload },
         setQt: (state: IEditableParcelState, action: { payload: number }) => { state.qt = action.payload },
         setPriceId: (state: IEditableParcelState, action: { payload: string }) => { state.priceId = action.payload },
@@ -176,7 +177,7 @@ const editableParcelSlice = createSlice({
         savedParcel: (state: IEditableParcelState, action: { payload: { number: string, id: string } }) => { state.id = action.payload.id, state.number = action.payload.number },
 
 
-        clearParcelState: (state: IEditableParcelState) => {
+        clearCreateParcelState: (state: IEditableParcelState) => {
             state.sent = initialState.sent
             state.id = initialState.id
             state.number = initialState.number
@@ -212,6 +213,6 @@ const editableParcelSlice = createSlice({
 }
 )
 
-export const editParcel = editableParcelSlice.actions;
+export const {clearCreateParcelState, ...editParcel} = editableParcelSlice.actions;
 
 export const editableParcel = editableParcelSlice.reducer

@@ -34,7 +34,7 @@ const parcelSlice = createSlice({
             state.loaded =  true
             state.data = action.payload;
         },
-        clearParceltate: (state: IParcelState) => {
+        clearParcelState: (state: IParcelState) => {
             state.data = undefined;
             state.loaded = false;
             state.loading = false;
@@ -43,6 +43,6 @@ const parcelSlice = createSlice({
     },
 });
 
-export const { getParcelRequest, getParcelFailure, getParcelSuccess, clearParceltate } = parcelSlice.actions;
+export const { getParcelRequest, getParcelFailure, getParcelSuccess, clearParcelState } = parcelSlice.actions;
 
 export const parcel = parcelSlice.reducer

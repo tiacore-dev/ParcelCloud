@@ -51,6 +51,13 @@ export const Parcel = () => {
   const isLoading = useSelector((state: IState) => state.pages.parcel.loading)
   const isLoaded = useSelector((state: IState) => state.pages.parcel.loaded)
 
+  {(parcelData.tMax !==0 || parcelData.tMin!== 0) && <p>Температурный режим: {parcelData.tMin > 0 && "+"}{parcelData.tMin} {parcelData.tMax > 0 && "+"}{parcelData.tMax}</p>}
+
+  let temperature: string
+
+  if (parcelData.tMax !== 0 || parcelData.tMin !== 0) {
+    temperature = `${parcelData.tMin > 0 && "+"}${parcelData.tMin} ${parcelData.tMax > 0 && "+"}${parcelData.tMax}`
+  }
   console.log('parcelId', routeParams.parcelId)
   console.log('parcelData.id', parcelData?.id)
 
@@ -107,6 +114,7 @@ export const Parcel = () => {
           title="Отправление:"
           style={{ margin: "8px 0" }}
         >
+          <p>Температурный режим: {temperature}</p>
           <p>Итого мест: {parcelData.qt}</p>
           <p>Вес: {parcelData.weight}</p>
           <p>Объемный вес: {parcelData.volume}</p>
