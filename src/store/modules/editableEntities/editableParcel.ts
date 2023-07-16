@@ -105,15 +105,21 @@ const editableParcelSlice = createSlice({
         setInsureValue: (state: IEditableParcelState, action: { payload: number }) => { state.insureValue = action.payload },
         toggleFragile: (state: IEditableParcelState) => { state.fragile = !state.fragile },
         toggleNotification: (state: IEditableParcelState) => { state.notification = !state.notification },
+        setItems: (state: IEditableParcelState, action: { payload: IParcelItem[] }) => { 
+            state.items = action.payload 
+            state.qt = state.items.reduce((qt: number, item: IParcelItem) => (qt + item.qt || 0), 0)
+            state.weight = state.items.reduce((weight: number, item: IParcelItem) => (weight + item.tWeight || 0), 0)
+            state.volume = state.items.reduce((volume: number, item: IParcelItem) => (volume + item.tVolume || 0), 0)
+        },
         addItem: (state: IEditableParcelState) => {
             state.items = [...state.items, { ...initialItem } as IParcelItem]
-            state.qt = state.items.length
+            state.qt = state.items.reduce((qt: number, item: IParcelItem) => (qt + item.qt || 0), 0)
             state.weight = state.items.reduce((weight: number, item: IParcelItem) => (weight + item.tWeight || 0), 0)
             state.volume = state.items.reduce((volume: number, item: IParcelItem) => (volume + item.tVolume || 0), 0)
         },
         deleteItem: (state: IEditableParcelState, action: { payload: number }) => {
             state.items = state.items.filter((item, index) => index !== action.payload)
-            state.qt = state.items.length
+            state.qt = state.items.reduce((qt: number, item: IParcelItem) => (qt + item.qt || 0), 0)
             state.weight = state.items.reduce((weight: number, item: IParcelItem) => (weight + item.tWeight || 0), 0)
             state.volume = state.items.reduce((volume: number, item: IParcelItem) => (volume + item.tVolume || 0), 0)
         },
@@ -171,6 +177,7 @@ const editableParcelSlice = createSlice({
                 : item)
             state.volume = state.items.reduce((volume: number, item: IParcelItem) => (volume + item.tVolume || 0), 0)
             state.weight = state.items.reduce((weight: number, item: IParcelItem) => (weight + item.tWeight || 0), 0)
+            state.qt = state.items.reduce((qt: number, item: IParcelItem) => (qt + item.qt || 0), 0)
 
         },
         sendParcel: (state: IEditableParcelState) => { state.sent = true },

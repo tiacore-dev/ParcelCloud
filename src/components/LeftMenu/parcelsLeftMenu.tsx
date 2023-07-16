@@ -6,7 +6,7 @@ import { pushPath } from '../../core/history';
 const { Sider } = Layout;
 
 
-export const ParcelsLentMenu = () => {
+export const ParcelsLeftMenu = () => {
 
     const items = []
 
@@ -39,7 +39,7 @@ export const ParcelsLentMenu = () => {
         width={200}
         style={{
             background: '#FFF',
-            height: "calc(100vh - 129px)"
+            height: "calc(100vh - 131px)"
         }}
     >
         <Menu

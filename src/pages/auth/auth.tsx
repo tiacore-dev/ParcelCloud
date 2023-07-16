@@ -12,18 +12,27 @@ export const Auth = () => {
 
     return (
         <>
-                <Content
-                    style={{
-                        padding: 24,
-                        margin: 0,
-                        minHeight: 280,
-                        minWidth: 380,
-                        background: '#FFF',
-                    }}
-                >
-                    {authData().isAuth ? <Account /> : <Login />}
+            <Breadcrumb
+                style={{
+                    margin: '16px 0',
+                }}
+            >
+                <Breadcrumb.Item>Главная</Breadcrumb.Item>
+                <Breadcrumb.Item>Аккаунт</Breadcrumb.Item>
 
-                </Content>
+            </Breadcrumb>
+            <Content
+                style={{
+                    padding: 24,
+                    margin: 0,
+                    minHeight: "calc(100vh - 185px)",
+                    minWidth: 380,
+                    background: '#FFF',
+                }}
+            >
+                {authData().isAuth ? <Account /> : <Login />}
+
+            </Content>
         </>
     )
 }

@@ -389,6 +389,13 @@ export const CreateParcel = () => {
             data={data}
           />
 
+          <Form.Item label="Общее количество мест">
+            <InputNumber
+              value={data.qt}
+              readOnly
+            />
+          </Form.Item>
+
           <Form.Item label="Общий вес">
             <InputNumber
               value={data.weight}

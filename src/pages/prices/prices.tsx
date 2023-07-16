@@ -1,9 +1,96 @@
-import { Breadcrumb, Layout } from 'antd';
+import { Breadcrumb, Button, Form, InputNumber, Layout, Select, Table } from 'antd';
 import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { IState } from '../../store/modules';
+import { clearPricesState, editPrices, getPricesFailure, getPricesRequest, getPricesSuccess } from '../../store/modules/pages/prices';
+import { ItemsTable } from './components/itemsTable';
+import { IauthToken, authToken } from '../../hooks/useAuth';
+import { useApi } from '../../hooks/useApi';
+import { IPrice } from '../../interfaces/prices/IPrice';
+import { pricesColumns } from './components/pricesCollumns';
+import { clearCreateParcelState, editParcel } from '../../store/modules/editableEntities/editableParcel';
+import { delTypeEnum } from '../../enumerations/delTypeEnum';
+import { pushPath } from '../../core/history';
+import { temperatureSelectOptions, temperatureValues } from '../../enumerations/temperatires';
 
-export const Parcels = () => {
+interface GetPricesDto {
+  authToken: IauthToken;
+  sendCity: string;
+  recCity: string
+}
 
+export interface GetParcelResponce {
+  prices: IPrice[];
+  temperatureModify: number;
+  vatExtra: boolean;
+  bonusModify: number;
+
+  // Ответ.Вставить("prices", Тарифы);
+	// 	Ответ.Вставить("temperatureModify", КофэТермо);
+	// 	Ответ.Вставить("vatExtra", НДССверху);
+	// 	Ответ.Вставить("bonusModify", Наценка);
+
+}
+
+export const Prices = () => {
+
+  const dispatch = useDispatch();
+  const cities = useSelector((state: IState) => state.dictionaries.cities.data)
   const { Content } = Layout;
+  const citySelectOptions = cities.map(city => ({ label: city, value: city }))
+  const data = useSelector((state: IState) => state.pages.prices)
+
+  const getPricesParams: GetPricesDto = {
+    authToken: authToken(),
+    sendCity: data.sendCity,
+    recCity: data.recCity
+  }
+  const handleCreate = (delType:  keyof typeof delTypeEnum) => {
+    dispatch(clearCreateParcelState())
+
+    dispatch(editParcel.setSendCity(data.sendCity))
+    dispatch(editParcel.setRecCity(data.recCity))
+    dispatch(editParcel.settMax(data.tMax))
+    dispatch(editParcel.settMin(data.tMin))
+
+    dispatch(editParcel.setDelType(delType))
+    dispatch(editParcel.setItems(data.items))
+
+    pushPath("/parcels/create")
+
+  }
+
+  const onTemperatureSelect = (value: string) => {
+
+    const temperature = temperatureValues[value]
+    if (temperature) {
+      dispatch(editParcel.settMin(temperature.min))
+      dispatch(editParcel.settMax(temperature.max))
+    }
+
+  }
+
+  const priceCollumns = pricesColumns(
+    Math.max(data.weight, data.volume), 
+    (!!data.tMax || !!data.tMin) ? data.temperatureModify : 0,
+    data.vatExtra,
+    data.bonusModify,
+    handleCreate
+    )
+  React.useEffect(() => {
+    dispatch(clearPricesState())
+  }, [])
+
+  React.useEffect(() => {
+    if (data.sendCity !== "" && data.recCity !== "") {
+      dispatch(getPricesRequest())
+      useApi<GetParcelResponce, GetPricesDto>('prices', 'get', getPricesParams).then((pricesData) => {
+        dispatch(getPricesSuccess(pricesData))
+      }).catch(err => {
+        dispatch(getPricesFailure(err))
+      })
+    }
+  }, [data.sendCity, data.recCity])
 
   return (
 
@@ -21,11 +108,100 @@ export const Parcels = () => {
         style={{
           padding: 24,
           margin: 0,
-          minHeight: 280,
+          minHeight: "calc(100vh - 185px)",
           background: '#FFF',
         }}
       >
-        
+
+        <Form
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 14 }}
+          layout="horizontal"
+        >
+
+          <Form.Item label="Город отправителя">
+            <Select
+              value={data.sendCity}
+              showSearch
+              optionFilterProp="children"
+              onChange={(value: string) => dispatch(editPrices.setSendCity(value))}
+              filterOption={(input, option) =>
+                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+              }
+              options={citySelectOptions}
+            />
+          </Form.Item>
+
+          <Form.Item label="Город получателя">
+            <Select
+              value={data.recCity}
+              showSearch
+              optionFilterProp="children"
+              onChange={(value: string) => dispatch(editPrices.setRecCity(value))}
+              filterOption={(input, option) =>
+                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+              }
+              options={citySelectOptions}
+            />
+          </Form.Item>
+          
+          <Form.Item label="Температурный режим">
+            <Select
+              value={data.tMin.toString() + data.tMax.toString()}
+              optionFilterProp="children"
+              onChange={onTemperatureSelect}
+              options={temperatureSelectOptions}
+            />
+          </Form.Item>
+
+          <Form.Item label="Грузы">
+            <ItemsTable
+              data={data}
+            />
+          </Form.Item>
+
+          <Form.Item label="Общее количество мест">
+            <InputNumber
+              value={data.qt}
+              readOnly
+            />
+          </Form.Item>
+
+          <Form.Item label="Общий вес">
+            <InputNumber
+              value={data.weight}
+              readOnly
+            />
+          </Form.Item>
+
+          <Form.Item label="Общий объемный вес">
+            <InputNumber
+              value={data.volume}
+              readOnly
+              precision={3}
+            />
+          </Form.Item>
+          {!!data.prices.length ?
+            <Form.Item label="Доступные тарифы">
+              <Table
+                columns={priceCollumns}
+                rowClassName={() => 'editable-row'}
+                dataSource={data.prices.map((item, index) => ({ ...item, key: index }))}
+                bordered
+                size="middle"
+                pagination={false}
+              />
+            </Form.Item> :
+
+            (!!data.recCity && !!data.sendCity) &&
+              <Form.Item label="Доступные тарифы">
+                {!!data.loading ? "Загрузка..." :
+                "Нет доступных тарифов по заданному направлению"}
+              </Form.Item>
+
+          }
+        </Form>
+
       </Content>
     </>
 

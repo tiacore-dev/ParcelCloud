@@ -15,7 +15,6 @@ import { useApi } from '../../hooks/useApi';
 import { IParcel, IParcelHistory, IParcelItem } from '../../interfaces/parcels/IParcel';
 import { IauthToken, authToken } from '../../hooks/useAuth';
 import { IState } from '../../store/modules';
-import { pushPath } from '../../core/history';
 import { historyColumns } from './components/historyColumns';
 import { itemsColumns } from './components/itemsColumns';
 import { dateToLocalString } from '../../utils/dateConverter';
