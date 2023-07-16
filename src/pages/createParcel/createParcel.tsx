@@ -375,13 +375,6 @@ export const CreateParcel = () => {
             />
           </Form.Item>
 
-          <Form.Item label="С уведомлением" valuePropName="checked">
-            <Switch
-              checked={data.notification}
-              onChange={() => dispatch(editParcel.toggleNotification())}
-            />
-          </Form.Item>
-
           <Form.Item label="Температурный режим">
             <Select
               value={data.tMin.toString() + data.tMax.toString()}
