@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
   Breadcrumb,
+  Button,
   Card,
   Layout,
   Space,
@@ -18,6 +19,7 @@ import { IState } from '../../store/modules';
 import { historyColumns } from './components/historyColumns';
 import { itemsColumns } from './components/itemsColumns';
 import { dateToLocalString } from '../../utils/dateConverter';
+import { PrintModal } from './components/printModal';
 
 interface GetParcelDto {
   parcelId: string;
@@ -50,31 +52,35 @@ export const Parcel = () => {
   const isLoading = useSelector((state: IState) => state.pages.parcel.loading)
   const isLoaded = useSelector((state: IState) => state.pages.parcel.loaded)
 
-  {(parcelData.tMax !==0 || parcelData.tMin!== 0) && <p>Температурный режим: {parcelData.tMin > 0 && "+"}{parcelData.tMin} {parcelData.tMax > 0 && "+"}{parcelData.tMax}</p>}
+  { (parcelData && (parcelData.tMax !== 0 || parcelData.tMin !== 0)) && <p>Температурный режим: {parcelData.tMin > 0 && "+"}{parcelData.tMin} {parcelData.tMax > 0 && "+"}{parcelData.tMax}</p> }
 
   let temperature: string
 
-  if (parcelData.tMax !== 0 || parcelData.tMin !== 0) {
+  if (parcelData && (parcelData.tMax !== 0 || parcelData.tMin !== 0)) {
     temperature = `${parcelData.tMin > 0 && "+"}${parcelData.tMin} ${parcelData.tMax > 0 && "+"}${parcelData.tMax}`
   }
   console.log('parcelId', routeParams.parcelId)
   console.log('parcelData.id', parcelData?.id)
 
 
-  return  <>
-      <Breadcrumb
-        style={{
-          margin: '16px 0',
-        }}
-      >
-        <Breadcrumb.Item>Главная</Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <Link to="/parcels">Накладные</Link>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>{parcelData?.number}</Breadcrumb.Item>
 
-      </Breadcrumb>
-     { isLoaded && parcelData && routeParams.parcelId === parcelData.id ?
+  return <>
+
+
+
+    <Breadcrumb
+      style={{
+        margin: '16px 0',
+      }}
+    >
+      <Breadcrumb.Item>Главная</Breadcrumb.Item>
+      <Breadcrumb.Item>
+        <Link to="/parcels">Накладные</Link>
+      </Breadcrumb.Item>
+      <Breadcrumb.Item>{parcelData?.number}</Breadcrumb.Item>
+
+    </Breadcrumb>
+    {isLoaded && parcelData && routeParams.parcelId === parcelData.id ?
       <Content
         style={{
           padding: "0 24px",
@@ -85,6 +91,11 @@ export const Parcel = () => {
       >
         <Title level={3}>{`Накладная ${parcelData.number}`}</Title>
 
+        {parcelData &&
+          <PrintModal
+            data={parcelData}
+          />
+        }
 
         <Card
           title="Данные отправителя:"
@@ -147,15 +158,15 @@ export const Parcel = () => {
           >
             {<Table
               pagination={false}
-              dataSource={parcelData.history.map((el: IParcelHistory, index: number) => ({ ...el, date: dateToLocalString(el.date), key: index}))}
+              dataSource={parcelData.history.map((el: IParcelHistory, index: number) => ({ ...el, date: dateToLocalString(el.date), key: index }))}
               columns={historyColumns}
             />}
           </Card>
         </>}
 
 
-      </Content>  : <></>}
-    </>
+      </Content> : <></>}
+  </>
 }
 
 

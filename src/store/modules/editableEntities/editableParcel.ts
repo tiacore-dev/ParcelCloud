@@ -31,7 +31,9 @@ export interface IEditableParcelState {
     tMax: number;
     tMin: number;
     fragile: boolean;
+    containerRent: boolean;
     notification: boolean;
+    date: number;
     items: IParcelItem[],
 }
 
@@ -75,7 +77,9 @@ const initialState: IEditableParcelState = {
     tMax: 0,
     tMin: 0,
     fragile: false,
+    containerRent: false,
     notification: false,
+    date: Date.now(),
     items: [initialItem],
 }
 
@@ -103,7 +107,9 @@ const editableParcelSlice = createSlice({
         settMax: (state: IEditableParcelState, action: { payload: number }) => { state.tMax = action.payload },
         settMin: (state: IEditableParcelState, action: { payload: number }) => { state.tMin = action.payload },
         setInsureValue: (state: IEditableParcelState, action: { payload: number }) => { state.insureValue = action.payload },
+        setDate:(state: IEditableParcelState, action: { payload: number }) => { state.date = action.payload },
         toggleFragile: (state: IEditableParcelState) => { state.fragile = !state.fragile },
+        toggleContainerRent: (state: IEditableParcelState) => { state.containerRent = !state.containerRent },
         toggleNotification: (state: IEditableParcelState) => { state.notification = !state.notification },
         setItems: (state: IEditableParcelState, action: { payload: IParcelItem[] }) => { 
             state.items = action.payload 
@@ -212,6 +218,7 @@ const editableParcelSlice = createSlice({
             state.tMax = initialState.tMax
             state.tMin = initialState.tMin
             state.fragile = initialState.fragile
+            state.containerRent = initialState.containerRent
             state.notification = initialState.notification
             state.items = initialState.items
 

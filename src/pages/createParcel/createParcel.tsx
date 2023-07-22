@@ -11,7 +11,8 @@ import {
   Row,
   Col,
   Modal,
-  message
+  message,
+  DatePicker
 } from 'antd';
 import Title from 'antd/es/typography/Title';
 import { Link } from 'react-router-dom';
@@ -28,6 +29,8 @@ import { authToken } from '../../hooks/useAuth';
 import { TemplatesTable } from '../templates/components/table';
 import { temperatureSelectOptions, temperatureValues } from '../../enumerations/temperatires';
 import { CalculateDto } from './dto/calculate.dto';
+import dayjs from 'dayjs';
+import { dateFormat } from '../../utils/dateConverter';
 
 
 
@@ -341,8 +344,14 @@ export const CreateParcel = () => {
               </Form.Item>
             </Col>
           </Row>
-
-
+          <Form.Item label="Дата вызова курьера">
+            <DatePicker
+              value={dayjs(data.date)}
+              placeholder='Дата начала'
+              onChange={(value) => dispatch(editParcel.setDate(value.valueOf()))}
+              format={dateFormat}
+            />
+          </Form.Item>
 
           <Form.Item label="Тип доставки">
             <Select
@@ -372,6 +381,13 @@ export const CreateParcel = () => {
             <Switch
               checked={data.fragile}
               onChange={() => dispatch(editParcel.toggleFragile())}
+            />
+          </Form.Item>
+
+          <Form.Item label="Аренда термоконтейнера" valuePropName="checked">
+            <Switch
+              checked={data.containerRent}
+              onChange={() => dispatch(editParcel.toggleContainerRent())}
             />
           </Form.Item>
 

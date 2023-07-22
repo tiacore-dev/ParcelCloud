@@ -45,6 +45,7 @@ export interface IParcel {
     tMax: number;
     tMin: number;
     fragile: boolean;
+    containerRent: boolean;
     items: IParcelItem[],
     history: IParcelHistory[]
 }
