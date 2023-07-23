@@ -1,10 +1,14 @@
 import { Breadcrumb, Layout } from 'antd';
 import * as React from 'react';
+import { pushPath } from '../../core/history';
 
 export const Main = () => {
 
   const { Content } = Layout;
 
+  {React.useEffect(()=>{
+    pushPath("/parcels")
+  },[])}
   return (
     <>
       <Breadcrumb

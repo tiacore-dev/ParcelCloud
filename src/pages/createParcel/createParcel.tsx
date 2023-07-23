@@ -89,7 +89,7 @@ export const CreateParcel = () => {
     recCity: data.recCity,
     weight: Math.max(data.weight, data.volume),
     delType: data.delType,
-    temperature: !(data.tMax === 0 && data.tMin === 0)
+    temperature: data.tMax
   }
 
   const handleCalculate = () => {

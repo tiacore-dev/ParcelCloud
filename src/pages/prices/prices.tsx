@@ -64,15 +64,19 @@ export const Prices = () => {
 
     const temperature = temperatureValues[value]
     if (temperature) {
-      dispatch(editParcel.settMin(temperature.min))
-      dispatch(editParcel.settMax(temperature.max))
+      dispatch(editPrices.settMin(temperature.min))
+      dispatch(editPrices.settMax(temperature.max))
     }
 
   }
 
+  const useTemperatureModify = (data.tMax !== 0 || data.tMin !== 0) 
+  
+  const temperatureModify = !!data.temperatureModify ? data.temperatureModify : data.tMax < 0 ? 1.5 : 1.3
+
   const priceCollumns = pricesColumns(
     Math.max(data.weight, data.volume), 
-    (!!data.tMax || !!data.tMin) ? data.temperatureModify : 0,
+    useTemperatureModify ? temperatureModify : 0,
     data.vatExtra,
     data.bonusModify,
     handleCreate
@@ -181,7 +185,7 @@ export const Prices = () => {
               precision={3}
             />
           </Form.Item>
-          {!!data.prices.length ?
+          {!!data.recCity && !!data.sendCity && !!data.prices.length ?
             <Form.Item label="Доступные тарифы">
               <Table
                 columns={priceCollumns}

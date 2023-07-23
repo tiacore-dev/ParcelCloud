@@ -7,5 +7,5 @@ export interface CalculateDto {
     recCity: string;
     weight: number;
     delType: keyof typeof delTypeEnum;
-    temperature: boolean
+    temperature: number
 }

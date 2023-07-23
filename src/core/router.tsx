@@ -58,7 +58,7 @@ export const AppRouter = () => {
       />
       <Route
         path="/"
-        component={Parcels}
+        component={Main}
         key='main'
       />
 

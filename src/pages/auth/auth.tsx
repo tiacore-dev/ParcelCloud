@@ -11,7 +11,7 @@ export const Auth = () => {
     const { Content } = Layout;
 
     return (
-        <>
+        <>  {authData().isAuth &&
             <Breadcrumb
                 style={{
                     margin: '16px 0',
@@ -20,7 +20,7 @@ export const Auth = () => {
                 <Breadcrumb.Item>Главная</Breadcrumb.Item>
                 <Breadcrumb.Item>Аккаунт</Breadcrumb.Item>
 
-            </Breadcrumb>
+            </Breadcrumb>}
             <Content
                 style={{
                     padding: 24,

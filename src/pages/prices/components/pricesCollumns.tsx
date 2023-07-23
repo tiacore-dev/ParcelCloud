@@ -48,13 +48,13 @@ export const pricesColumns = (
                             total = total*1.2
                         }
 
-                        if(temperatureModify){
+                        if(!!temperatureModify){
                             total = total * temperatureModify
                         }
                     }
                 })
 
-                return total
+                return Number((total).toFixed(2))
             }
         },
         {

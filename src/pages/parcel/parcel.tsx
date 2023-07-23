@@ -129,7 +129,7 @@ export const Parcel = () => {
           <p>Вес: {parcelData.weight}</p>
           <p>Объемный вес: {parcelData.volume}</p>
         </Card>
-        {parcelData.items.length && <>
+        {!!parcelData.items.length && <>
           <Card
             title="Грузы:"
             style={{ margin: "8px 0" }}
