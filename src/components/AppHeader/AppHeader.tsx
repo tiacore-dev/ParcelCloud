@@ -24,11 +24,11 @@ export const AppHeader = () => {
       label: "Расчет тарифа",
       onClick: () => { pushPath('/prices') }
     },
-    // {
-    //   key: "reports",
-    //   label: "Отчетность",
-    //   onClick: () => { pushPath('/reports') }
-    // },
+    {
+      key: "documents",
+      label: "Документы",
+      onClick: () => { pushPath('/documents') }
+    },
     {
       key: "auth",
       label: "Аккаунт",

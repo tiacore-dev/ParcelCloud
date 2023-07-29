@@ -18,6 +18,7 @@ import { ITemplate } from '../../interfaces/templates/ITemplate';
 import { clearParcelState } from '../../store/modules/pages/parcel';
 import { clearCreateParcelState } from '../../store/modules/editableEntities/editableParcel';
 import { clearPricesState } from '../../store/modules/pages/prices';
+import { clearDocumentsState } from '../../store/modules/pages/documents';
 
 interface useloadSourseDto {
   authToken: IauthToken
@@ -36,6 +37,7 @@ export const useloadSourse = ():[(authData:IauthToken)=>void, ()=>void ] => {
     dispatch(clearParcelState())
     dispatch(clearCreateParcelState())   
     dispatch(clearPricesState())
+    dispatch(clearDocumentsState())
   }, [])
 
   const load = React.useCallback((authData: IauthToken) => {

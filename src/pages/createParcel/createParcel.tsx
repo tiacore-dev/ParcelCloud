@@ -31,6 +31,7 @@ import { temperatureSelectOptions, temperatureValues } from '../../enumerations/
 import { CalculateDto } from './dto/calculate.dto';
 import dayjs from 'dayjs';
 import { dateFormat } from '../../utils/dateConverter';
+import { clearTemplatesSettingsState } from '../../store/modules/settings/templates';
 
 
 
@@ -51,10 +52,12 @@ export const CreateParcel = () => {
   const [isRecModalOpen, setIsRecModalOpen] = React.useState(false);
 
   const showSendModal = () => {
+    dispatch(clearTemplatesSettingsState())
     setIsSendModalOpen(true);
   };
 
   const showRecModal = () => {
+    dispatch(clearTemplatesSettingsState())
     setIsRecModalOpen(true);
   };
   const [messageApi, contextHolder] = message.useMessage();
@@ -214,6 +217,7 @@ export const CreateParcel = () => {
                 >
                   <TemplatesTable
                     onRowClick={onSendTemplateRowClick}
+                    search
                   />
                 </Modal>
               </Form.Item>
@@ -290,6 +294,7 @@ export const CreateParcel = () => {
                 >
                   <TemplatesTable
                     onRowClick={onRecTemplateRowClick}
+                    search
                   />
                 </Modal>
               </Form.Item>

@@ -14,6 +14,14 @@ export const ParcelPrint = React.forwardRef((props: IParcelPrintProps, ref: Reac
 
     const { data } = props;
 
+    let temperature: string
+
+    if (data && (data.tMax !== 0 || data.tMin !== 0)) {
+      temperature = `${data.tMin > 0 && "+"}${data.tMin} ${data.tMax > 0 && "+"}${data.tMax}`
+    } else {
+        temperature = "Отсутствует"
+    }
+
     const table = (<table className='parceltable' >
         <tr>
             <td style={{ width: "32mm" }}></td>
@@ -72,8 +80,8 @@ export const ParcelPrint = React.forwardRef((props: IParcelPrintProps, ref: Reac
         <tr>
             <td className="parceltd">Адрес</td>
             <td className="parceltd" colSpan={3}>{data.sendAddress}</td>
-            <td className="parceltd">С уведомлением</td>
-            <td className="parceltd parcel_check">{ }</td>
+            <td className="parceltd">Терморежим</td>
+            <td className="parceltd parcel_check">{temperature}</td>
             <td className="parceltd">Опасный груз</td>
             <td className="parceltd parcel_check">{ }</td>
         </tr>
