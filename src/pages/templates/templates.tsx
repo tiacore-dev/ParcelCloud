@@ -46,6 +46,7 @@ export const Templates = () => {
 
         <TemplatesTable
           onRowClick={onRowClick}
+          search
         />
 
       </Content>
