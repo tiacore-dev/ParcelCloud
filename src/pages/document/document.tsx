@@ -52,16 +52,15 @@ export const Document = () => {
   const isLoaded = useSelector((state: IState) => state.pages.document.loaded)
 
   const convertedParcelData = convertDocumentParcelsData(documentData?.parcels)
-  const vat = !!documentData.parcels?.length ?
+  const vat = !!documentData ? !!documentData.parcels?.length ?
     documentData.parcels.reduce((total, parcel) => {
       return total + Number((parcel.summ - parcel.summ / (1 + documentData.vat / 100)).toFixed(2))
     }, 0)
     :
     Number((documentData.summ / (1 + documentData.vat / 100)).toFixed(2))
+    : 0
 
   return <>
-
-
 
     <Breadcrumb
       style={{
