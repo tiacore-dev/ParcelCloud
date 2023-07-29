@@ -24,7 +24,6 @@ export const Login = () => {
     const [messageApi, contextHolder] = message.useMessage();    
     const login = React.useCallback(
         async (loginData: ILoginData) => {
-            console.log(loginData)
             useApi<ILoginResponce, ILoginData>('auth', 'login', loginData)
                 .then((data) => {
                     dispatch(authlogin(data)) 

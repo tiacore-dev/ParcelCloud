@@ -70,8 +70,6 @@ export const CreateParcel = () => {
 
     dispatch(editParcel.sendParcel())
 
-    console.log(createParcelParams)
-
     useApi<{ id: string, number: string }, CreateParcelDto>('parcelcreate', 'create', createParcelParams).then((parcelData) => {
       dispatch(editParcel.savedParcel(parcelData))
       pushPath(`/parcels/${parcelData.id}`)
@@ -79,7 +77,6 @@ export const CreateParcel = () => {
 
 
     }).catch(err => {
-      console.log(err)
       // dispatch(getParcelFailure(err))
     })
 
@@ -122,7 +119,6 @@ export const CreateParcel = () => {
 
       dispatch(editParcel.setCost(result.cost))
     }).catch(err => {
-      console.log(err)
     })
 
   }

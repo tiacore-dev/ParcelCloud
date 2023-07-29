@@ -39,7 +39,6 @@ export const Documents = () => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    console.log(param)
     dispatch(getDocumentsRequest())
     useApi<IDocumentsList[], GetDocumentsDto>('documents', 'get', param).then((documentsData) => {
       dispatch(getDocumentsSuccess(documentsData))
