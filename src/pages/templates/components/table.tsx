@@ -61,6 +61,7 @@ export const TemplatesTable = (props: TemplatesTableProps) => {
             <Table
                 dataSource={filtredTemplates}
                 columns={templatesDesktopColumns}
+                pagination={false}
                 onRow={(record) => {
                     return {
                         onClick: () => { onRowClick(record.id) }
