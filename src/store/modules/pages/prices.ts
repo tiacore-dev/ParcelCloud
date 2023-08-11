@@ -66,7 +66,7 @@ const pricesSlice = createSlice({
         },
         deleteItem: (state: IPricesState, action: { payload: number }) => {
             state.items = state.items.filter((item, index) => index !== action.payload)
-            state.qt = state.items.length
+            state.qt = state.items?.length
             state.weight = state.items.reduce((weight: number, item: IParcelItem) => (weight + item.tWeight || 0), 0)
             state.volume = state.items.reduce((volume: number, item: IParcelItem) => (volume + item.tVolume || 0), 0)
         },

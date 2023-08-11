@@ -12,7 +12,7 @@ import { Link, useParams } from 'react-router-dom';
 import { IDocumentsRouteParams } from '../../core/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDocumentFailure, getDocumentRequest, getDocumentSuccess } from '../../store/modules/pages/document';
-import { useApi } from '../../hooks/useApi';
+import { useApi, useGettingFile } from '../../hooks/useApi';
 import { IDocument, IDocumentParcel } from '../../interfaces/documents/IDocument';
 import { IauthToken, authToken } from '../../hooks/useAuth';
 import { IState } from '../../store/modules';
@@ -38,6 +38,8 @@ export const Document = () => {
     documentId: routeParams.documentId
   }
 
+
+
   React.useEffect(() => {
     dispatch(getDocumentRequest())
     useApi<IDocument, GetDocumentDto>('document', 'get', params).then((documentData) => {
@@ -50,6 +52,13 @@ export const Document = () => {
   const documentData = useSelector((state: IState) => state.pages.document.data)
   const isLoading = useSelector((state: IState) => state.pages.document.loading)
   const isLoaded = useSelector((state: IState) => state.pages.document.loaded)
+
+  const getOrder = () => {
+    if (!documentData.number) {
+      return
+    }
+    useGettingFile('order', documentData.number, `Счёт ${documentData.number}`)
+  }
 
   const convertedParcelData = convertDocumentParcelsData(documentData?.parcels)
   const vat = !!documentData ? !!documentData.parcels?.length ?
@@ -131,6 +140,12 @@ export const Document = () => {
             <p>в том числе НДС {vat.toFixed(2)} руб.</p>
             : <p>НДС не облагается.</p>
           }
+
+          <Button
+            onClick={getOrder}
+          >
+            Скачать Счет
+          </Button>
 
         </Card>
       </Content> : <></>}

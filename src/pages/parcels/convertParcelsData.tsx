@@ -6,8 +6,11 @@ import { IParcelsList } from '../../interfaces/parcels/IParcelsList';
 
 export const convertParcelsData = (data: IParcelsList[]): IParcelsCovertedData[] => {
 
-    return data.map((parcel, index) => {
+    if (!data) {
+        return []
+    }
 
+    return data.map((parcel, index) => {
 
         const number = (<>
             <div>

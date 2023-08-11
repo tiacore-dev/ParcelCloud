@@ -125,7 +125,7 @@ export const Parcel = () => {
           <p>Вес: {parcelData.weight}</p>
           <p>Объемный вес: {parcelData.volume}</p>
         </Card>
-        {!!parcelData.items.length && <>
+        {!!parcelData.items?.length && <>
           <Card
             title="Грузы:"
             style={{ margin: "8px 0" }}
@@ -147,7 +147,7 @@ export const Parcel = () => {
           <p>Тип оплаты:  {parcelData.payType}</p>
         </Card>
 
-        {parcelData.history.length && <>
+        {parcelData.history?.length && <>
           <Card
             title="История накладной:"
             style={{ margin: "8px 0" }}

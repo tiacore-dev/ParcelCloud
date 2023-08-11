@@ -185,7 +185,7 @@ export const Prices = () => {
               precision={3}
             />
           </Form.Item>
-          {!!data.recCity && !!data.sendCity && !!data.prices.length ?
+          {!!data.recCity && !!data.sendCity && !!data.prices?.length ?
             <Form.Item label="Доступные тарифы">
               <Table
                 columns={priceCollumns}
