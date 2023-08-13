@@ -1,4 +1,9 @@
-export const templatesDesktopColumns = [
+import { ColumnsType } from "antd/es/table";
+import { ITemplate } from "../../../interfaces/templates/ITemplate";
+
+
+
+export const templatesDesktopColumns: ColumnsType<ITemplate> = [
     {
         title: 'Наименование',
         dataIndex: 'name',

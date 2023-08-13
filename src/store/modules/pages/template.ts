@@ -9,6 +9,7 @@ interface ITemplateState extends ITemplate{
 
 const initialState: ITemplateState = {
     id: undefined,
+    key: 0,
     name: "",
     city: "",
     address: "",
