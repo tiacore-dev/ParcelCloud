@@ -34,7 +34,6 @@ import { dateFormat } from '../../utils/dateConverter';
 import { clearTemplatesSettingsState } from '../../store/modules/settings/templates';
 
 
-
 export const CreateParcel = () => {
 
   const dispatch = useDispatch();

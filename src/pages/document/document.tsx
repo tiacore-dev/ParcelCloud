@@ -4,7 +4,6 @@ import {
   Button,
   Card,
   Layout,
-  Space,
   Table
 } from 'antd';
 import Title from 'antd/es/typography/Title';
@@ -13,7 +12,7 @@ import { IDocumentsRouteParams } from '../../core/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDocumentFailure, getDocumentRequest, getDocumentSuccess } from '../../store/modules/pages/document';
 import { useApi, useGettingFile } from '../../hooks/useApi';
-import { IDocument, IDocumentParcel } from '../../interfaces/documents/IDocument';
+import { IDocument } from '../../interfaces/documents/IDocument';
 import { IauthToken, authToken } from '../../hooks/useAuth';
 import { IState } from '../../store/modules';
 import { parcelsColumns } from './components/parcelsColumns';

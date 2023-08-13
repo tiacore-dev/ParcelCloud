@@ -7,7 +7,6 @@ import dayjs from 'dayjs';
 import { dateFormat } from '../../../utils/dateConverter';
 import Search from 'antd/es/input/Search';
 
-
 export const Filters = () => {
 
     const filters = useSelector((state: IState) => state.settings.documentsSettings.filters)
@@ -35,6 +34,7 @@ export const Filters = () => {
                 placeholder='Дата начала'
                 onChange={dateFromChangeHandler}
                 format={dateFormat}
+            
             />
             <DatePicker
                 value={dayjs(filters.dateTo)}
@@ -45,7 +45,7 @@ export const Filters = () => {
             <Search
                 placeholder='Поиск по номеру'
                 onSearch={numberChangeHandler}
-            />         
+            />
 
         </Space>
 

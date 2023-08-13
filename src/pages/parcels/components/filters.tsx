@@ -74,7 +74,7 @@ export const Filters = () => {
                 onChange={recCityChangeHandler}
                 options={citySelectOptions}
             />
-            
+
 
         </Space>
 
