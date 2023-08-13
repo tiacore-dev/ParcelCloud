@@ -38,7 +38,7 @@ export const Templates = () => {
         <Button
           type="primary"
           onClick={() => { pushPath(`/templates/create`) }}
-          style={{ marginBottom: 24 }}
+          style={{ marginBottom: 12 }}
         >
           Создать шаблон
         </Button>

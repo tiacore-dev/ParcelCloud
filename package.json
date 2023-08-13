@@ -45,6 +45,7 @@
     "@types/react-router-dom": "^5.3.3",
     "antd": "^5.1.2",
     "axios": "^1.2.2",
+    "buffer": "^6.0.3",
     "css-loader": "^6.7.3",
     "dayjs": "^1.11.8",
     "history": "4.9.0",

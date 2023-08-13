@@ -33,8 +33,9 @@ export const Document = () => {
 
   const dispatch = useDispatch();
 
+  const token = authToken();
   const params: GetDocumentDto = {
-    authToken: authToken(),
+    authToken: token,
     documentId: routeParams.documentId
   }
 
@@ -50,15 +51,29 @@ export const Document = () => {
   }, [])
 
   const documentData = useSelector((state: IState) => state.pages.document.data)
-  const isLoading = useSelector((state: IState) => state.pages.document.loading)
   const isLoaded = useSelector((state: IState) => state.pages.document.loaded)
 
-  const getOrder = () => {
+  const getOrder = React.useCallback(() => {
     if (!documentData.number) {
       return
     }
-    useGettingFile('order', documentData.number, `Счёт ${documentData.number}`)
-  }
+    useGettingFile(token, 'order', documentData.id, `Счёт ${documentData.number} (${documentData.performer})`)
+  }, [token, documentData])
+
+  const getAct = React.useCallback(() => {
+    if (!documentData.number) {
+      return
+    }
+    useGettingFile(token, 'act', documentData.id, `Акт ${documentData.number} (${documentData.performer})`)
+  }, [token, documentData])
+
+  const getCf = React.useCallback(() => {
+    if (!documentData.number) {
+      return
+    }
+    useGettingFile(token, 'cf', documentData.id, `Счёт-фактура ${documentData.number} (${documentData.performer})`)
+  }, [token, documentData])
+
 
   const convertedParcelData = convertDocumentParcelsData(documentData?.parcels)
   const vat = !!documentData ? !!documentData.parcels?.length ?
@@ -143,9 +158,31 @@ export const Document = () => {
 
           <Button
             onClick={getOrder}
+            size='small'
           >
-            Скачать Счет
+            Скачать Счёт
           </Button>
+
+          <Button
+            onClick={getAct}
+            style={{ marginLeft: 12 }}
+            size='small'
+          >
+            Скачать Акт
+          </Button>
+
+          {!!documentData.vat &&
+            <Button
+              onClick={getCf}
+              style={{ marginLeft: 12 }}
+              size='small'
+            >
+              Скачать Счёт-фактуру
+            </Button>
+          }
+
+
+
 
         </Card>
       </Content> : <></>}

@@ -1,5 +1,8 @@
 import axios from "axios";
-import { IauthToken, authToken } from "./useAuth";
+import { IauthToken } from "./useAuth";
+import { Buffer } from "buffer";
+
+type fileType = "order" | "act" | "cf"
 
 interface IApiResponce<R> {
     error: boolean;
@@ -9,8 +12,8 @@ interface IApiResponce<R> {
 
 interface GetFileDto {
     authToken: IauthToken;
-    fileType: string;
-    fileNum: string;
+    fileType: fileType;
+    id: string;
     fileName: string;
 }
 
@@ -29,21 +32,17 @@ export const useApi = async <R, D = any>(templateName: string, methodName: strin
     return responce.data.responceData
 }
 
-export const useGettingFile = (fileType: string, fileNum: string, fileName: string) => {
+export const useGettingFile = (authToken: IauthToken, fileType: fileType, id: string, fileName: string) => {
 
     const params: GetFileDto = {
-        authToken: authToken(),
+        authToken,
+        id,
         fileType,
-        fileNum,
         fileName
     }
 
     useApi<string, GetFileDto>('getfile', 'get', params).then((fileData) => {
-        console.log(fileData)
-
-        const i = fileData.indexOf('base64,')
-        const buffer = Buffer.from(fileData.slice(i + 7), 'base64');
-
+        const buffer = Buffer.from(fileData, 'base64');
         const file = new File([buffer as BlobPart], fileName, {
             type: "application/pdf",
         });
