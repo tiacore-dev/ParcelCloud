@@ -22,7 +22,7 @@ const parcelsSlice = createSlice({
     reducers: {
         getParcelsRequest: (state: IParcelsState) => {
             state.loading = true;
-            state.loaded =  false
+            state.loaded = false
         },
         getParcelsFailure: (state: IParcelsState, action: {payload: string}) => {
             state.loading = false;
@@ -35,10 +35,10 @@ const parcelsSlice = createSlice({
             state.data = action.payload;
         },
         clearParcelsState: (state: IParcelsState) => {
-            state.data = [];
-            state.loaded = false;
-            state.loading = false;
-            state.errMsg = ""
+            state.data = initialState.data;
+            state.loaded = initialState.loaded;
+            state.loading = initialState.loading;
+            state.errMsg = initialState.errMsg
         },
     },
 });
