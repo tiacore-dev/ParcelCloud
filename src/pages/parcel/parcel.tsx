@@ -154,7 +154,11 @@ export const Parcel = () => {
           >
             {<Table
               pagination={false}
-              dataSource={parcelData.history.map((el: IParcelHistory, index: number) => ({ ...el, date: dateToLocalString(el.date), key: index }))}
+              dataSource={[...parcelData.history]
+                .sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
+                .map((el: IParcelHistory, index: number) => ({ ...el, date: dateToLocalString(el.date), key: index }))
+              }
+
               columns={historyColumns}
             />}
           </Card>
