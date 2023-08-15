@@ -23,10 +23,10 @@ export const parcelsDesktopColumns = [
         key: 'items',
         width: '16%',
     },
-    {
-        title: 'Статус',
-        dataIndex: 'status',
-        key: 'status',
-        width: '15%',
-    },
+    // {
+    //     title: 'Статус',
+    //     dataIndex: 'status',
+    //     key: 'status',
+    //     width: '15%',
+    // },
 ];

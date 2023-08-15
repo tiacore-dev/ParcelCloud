@@ -107,7 +107,31 @@ export const Document = () => {
         }}
       >
         <Title level={3}>{`Реализация ${documentData.number}`}</Title>
+       
+        <Button
+            onClick={getOrder}
+            size='small'
+          >
+            Скачать Счёт
+          </Button>
 
+          <Button
+            onClick={getAct}
+            style={{ marginLeft: 12 }}
+            size='small'
+          >
+            Скачать Акт
+          </Button>
+
+          {!!documentData.vat &&
+            <Button
+              onClick={getCf}
+              style={{ marginLeft: 12 }}
+              size='small'
+            >
+              Скачать Счёт-фактуру
+            </Button>
+          }
 
         <Card
           title="Заказчик:"
@@ -154,35 +178,6 @@ export const Document = () => {
             <p>в том числе НДС {vat.toFixed(2)} руб.</p>
             : <p>НДС не облагается.</p>
           }
-
-          <Button
-            onClick={getOrder}
-            size='small'
-          >
-            Скачать Счёт
-          </Button>
-
-          <Button
-            onClick={getAct}
-            style={{ marginLeft: 12 }}
-            size='small'
-          >
-            Скачать Акт
-          </Button>
-
-          {!!documentData.vat &&
-            <Button
-              onClick={getCf}
-              style={{ marginLeft: 12 }}
-              size='small'
-            >
-              Скачать Счёт-фактуру
-            </Button>
-          }
-
-
-
-
         </Card>
       </Content> : <></>}
   </>
