@@ -10,5 +10,5 @@ export const AppFooter = <Footer
         textAlign: 'center',
     }}
 >
-    Parcel Cloud ©2023 Created by Ilia Timofeev
+    Parcel Cloud ©2023 Created by <a href='https://www.linkedin.com/in/ilia-timofeev-b56830261/'>Ilia Timofeev</a>
 </Footer>
