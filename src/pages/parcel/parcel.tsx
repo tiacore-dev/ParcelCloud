@@ -67,7 +67,6 @@ export const Parcel = () => {
   }, [])
 
   const parcelData = useSelector((state: IState) => state.pages.parcel.data)
-  const isLoading = useSelector((state: IState) => state.pages.parcel.loading)
   const isLoaded = useSelector((state: IState) => state.pages.parcel.loaded)
 
   // { (parcelData && (parcelData.tMax !== 0 || parcelData.tMin !== 0)) && <p>Температурный режим: {parcelData.tMin > 0 && "+"}{parcelData.tMin} {parcelData.tMax > 0 && "+"}{parcelData.tMax}</p> }
@@ -78,9 +77,7 @@ export const Parcel = () => {
     temperature = `${parcelData.tMin > 0 && "+"}${parcelData.tMin} ${parcelData.tMax > 0 && "+"}${parcelData.tMax}`
   }
 
-  const itemsData: IConvertedParcelItem[] = isMobile() 
-  ? convertItemsDataMobile(parcelData?.items) 
-  : parcelData?.items.map((el: IParcelItem, index: number) => ({ ...el, size: `${el.h}x${el.l}x${el.w}`, key: index }))
+  // const itemsData: IConvertedParcelItem[] = 
 
   return <>
 
@@ -154,7 +151,9 @@ export const Parcel = () => {
           >
             {<Table
               pagination={false}
-              dataSource={itemsData}
+              dataSource={isMobile() 
+                ? convertItemsDataMobile(parcelData?.items) 
+                : parcelData?.items.map((el: IParcelItem, index: number) => ({ ...el, size: `${el.h}x${el.l}x${el.w}`, key: index }))}
               columns={isMobile() ?  itemsColumnsMobile : itemsColumns}
             />}
           </Card>
