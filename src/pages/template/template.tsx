@@ -24,6 +24,7 @@ import { ITemplate } from '../../interfaces/templates/ITemplate';
 import { clearTemplateState, editTemplate, setTemplatStateData } from '../../store/modules/pages/template';
 import { pushPath } from '../../core/history';
 import { getTemplatesFailure, getTemplatesRequest, getTemplatesSuccess } from '../../store/modules/pages/templates';
+import { minPageHeight } from '../../utils/pageSettings';
 
 
 interface EditeTemplateDto extends ITemplate {
@@ -108,7 +109,7 @@ export const Template = () => {
       style={{
         padding: "24px",
         margin: 0,
-        minHeight: 280,
+        minHeight: minPageHeight(),
         background: '#FFF',
       }}
     >

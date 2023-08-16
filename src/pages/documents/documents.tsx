@@ -12,6 +12,10 @@ import { Filters } from './components/filters';
 import './documents.less'
 import { IDocumentsList } from '../../interfaces/documents/IDocumentsList';
 import { pushPath } from '../../core/history';
+import { isMobile } from '../../utils/isMobile';
+import { documentsMobileColumns } from './components/mobile.columns';
+import { convertDocumentsDataMobile } from './convertDocumentsDataMobile';
+import { minPageHeight } from '../../utils/pageSettings';
 
 
 interface GetDocumentsDto extends IDocumentsSettingsState {
@@ -20,11 +24,13 @@ interface GetDocumentsDto extends IDocumentsSettingsState {
 
 export interface IDocumentsCovertedData {
   key: string,
-  number: JSX.Element,
-  customer: JSX.Element,
-  performer: JSX.Element,
-  summ: JSX.Element,
+  number?: JSX.Element,
+  customer?: JSX.Element,
+  performer?: JSX.Element,
+  summ?: JSX.Element,
+  mobileData?: JSX.Element,
 }
+
 
 export const Documents = () => {
 
@@ -48,7 +54,7 @@ export const Documents = () => {
   }, [filters])
 
   const documentsData = useSelector((state: IState) => state.pages.documents.data)
-  const convertedDocumentsData = convertDocumentsData(documentsData)
+  const convertedDocumentsData = isMobile() ? convertDocumentsDataMobile(documentsData) : convertDocumentsData(documentsData)
   const isLoading = useSelector((state: IState) => state.pages.documents.loading)
 
   return (
@@ -68,7 +74,7 @@ export const Documents = () => {
         style={{
           padding: 24,
           margin: 0,
-          minHeight: "calc(100vh - 185px)",
+          minHeight: minPageHeight(),
           background: '#FFF',
         }}
       >
@@ -76,7 +82,7 @@ export const Documents = () => {
         {isLoading ? <></> :
           <Table
             dataSource={convertedDocumentsData}
-            columns={documentsDesktopColumns}
+            columns={isMobile() ? documentsMobileColumns : documentsDesktopColumns}
             onRow={(record) => {
               return {
                 onClick: () => {

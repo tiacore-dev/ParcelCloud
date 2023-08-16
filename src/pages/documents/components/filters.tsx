@@ -6,6 +6,7 @@ import { setDocumentsFiltersDateFrom, setDocumentsFiltersDateTo, setDocumentsFil
 import dayjs from 'dayjs';
 import { dateFormat } from '../../../utils/dateConverter';
 import Search from 'antd/es/input/Search';
+import { isMobile } from '../../../utils/isMobile';
 
 export const Filters = () => {
 
@@ -26,7 +27,7 @@ export const Filters = () => {
 
     return (
         <Space
-            direction="horizontal"
+            direction={isMobile() ? 'vertical' : 'horizontal'}
             className='documents_filters'
         >
             <DatePicker

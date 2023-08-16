@@ -19,6 +19,7 @@ import { clearParcelState } from '../../store/modules/pages/parcel';
 import { clearCreateParcelState } from '../../store/modules/editableEntities/editableParcel';
 import { clearPricesState } from '../../store/modules/pages/prices';
 import { clearDocumentsState } from '../../store/modules/pages/documents';
+import { isMobile } from '../../utils/isMobile';
 
 interface useloadSourseDto {
   authToken: IauthToken
@@ -67,7 +68,7 @@ export const App = () => {
 
   const authData = useSelector((state: IState) => state.auth)
   const isAuth = authData.isAuth;
-
+  const mobile = isMobile()
   if (!isAuth) {
     pushPath('/auth')
   }
@@ -80,7 +81,7 @@ export const App = () => {
         <Layout>
           <AppHeader />
           <Layout>
-            <LeftMenu />
+            { !mobile && <LeftMenu />} 
             <Layout
               style={{
                 padding: '0 24px',

@@ -32,6 +32,7 @@ import { CalculateDto } from './dto/calculate.dto';
 import dayjs from 'dayjs';
 import { dateFormat } from '../../utils/dateConverter';
 import { clearTemplatesSettingsState } from '../../store/modules/settings/templates';
+import { minPageHeight } from '../../utils/pageSettings';
 
 
 export const CreateParcel = () => {
@@ -181,7 +182,7 @@ export const CreateParcel = () => {
         style={{
           padding: "0 24px",
           margin: 0,
-          minHeight: 280,
+          minHeight: minPageHeight(),
           background: '#FFF',
         }}
       >

@@ -6,6 +6,7 @@ import { setParcelsFiltersDateFrom, setParcelsFiltersDateTo, setParcelsFiltersNu
 import dayjs from 'dayjs';
 import { dateFormat } from '../../../utils/dateConverter';
 import Search from 'antd/es/input/Search';
+import { isMobile } from '../../../utils/isMobile';
 
 
 export const Filters = () => {
@@ -37,9 +38,12 @@ export const Filters = () => {
 
     return (
         <Space
-            direction="horizontal"
+            direction={isMobile() ? 'vertical' : 'horizontal'}
             className='parcels_filters'
         >
+            <Space 
+                direction='horizontal'
+            >
             <DatePicker
                 value={dayjs(filters.dateFrom)}
                 placeholder='Дата начала'
@@ -52,6 +56,8 @@ export const Filters = () => {
                 onChange={dateToChangeHandler}
                 format={dateFormat}
             />
+            </Space>
+           
             <Search
                 placeholder='Поиск по номеру'
                 onSearch={numberChangeHandler}

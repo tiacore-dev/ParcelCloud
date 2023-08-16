@@ -12,6 +12,9 @@ import { clearCreateParcelState, editParcel } from '../../store/modules/editable
 import { delTypeEnum } from '../../enumerations/delTypeEnum';
 import { pushPath } from '../../core/history';
 import { temperatureSelectOptions, temperatureValues } from '../../enumerations/temperatires';
+import { minPageHeight } from '../../utils/pageSettings';
+import './prices.less'
+import { isMobile } from '../../utils/isMobile';
 
 interface GetPricesDto {
   authToken: IauthToken;
@@ -26,9 +29,9 @@ export interface GetParcelResponce {
   bonusModify: number;
 
   // Ответ.Вставить("prices", Тарифы);
-	// 	Ответ.Вставить("temperatureModify", КофэТермо);
-	// 	Ответ.Вставить("vatExtra", НДССверху);
-	// 	Ответ.Вставить("bonusModify", Наценка);
+  // 	Ответ.Вставить("temperatureModify", КофэТермо);
+  // 	Ответ.Вставить("vatExtra", НДССверху);
+  // 	Ответ.Вставить("bonusModify", Наценка);
 
 }
 
@@ -45,7 +48,7 @@ export const Prices = () => {
     sendCity: data.sendCity,
     recCity: data.recCity
   }
-  const handleCreate = (delType:  keyof typeof delTypeEnum) => {
+  const handleCreate = (delType: keyof typeof delTypeEnum) => {
     dispatch(clearCreateParcelState())
 
     dispatch(editParcel.setSendCity(data.sendCity))
@@ -70,17 +73,17 @@ export const Prices = () => {
 
   }
 
-  const useTemperatureModify = (data.tMax !== 0 || data.tMin !== 0) 
-  
+  const useTemperatureModify = (data.tMax !== 0 || data.tMin !== 0)
+
   const temperatureModify = !!data.temperatureModify ? data.temperatureModify : data.tMax < 0 ? 1.5 : 1.3
 
   const priceCollumns = pricesColumns(
-    Math.max(data.weight, data.volume), 
+    Math.max(data.weight, data.volume),
     useTemperatureModify ? temperatureModify : 0,
     data.vatExtra,
     data.bonusModify,
     handleCreate
-    )
+  )
   React.useEffect(() => {
     dispatch(clearPricesState())
   }, [])
@@ -112,18 +115,17 @@ export const Prices = () => {
         style={{
           padding: 24,
           margin: 0,
-          minHeight: "calc(100vh - 185px)",
+          minHeight: minPageHeight(),
           background: '#FFF',
         }}
       >
 
         <Form
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 14 }}
-          layout="horizontal"
+          labelCol={{ span: isMobile() ? 8 : 4 }}
+          layout={isMobile() ? 'vertical' : 'horizontal'}
         >
 
-          <Form.Item label="Город отправителя">
+          <Form.Item label="Город отправителя" className='prices__form_item'>
             <Select
               value={data.sendCity}
               showSearch
@@ -136,7 +138,7 @@ export const Prices = () => {
             />
           </Form.Item>
 
-          <Form.Item label="Город получателя">
+          <Form.Item label="Город получателя" className='prices__form_item'>
             <Select
               value={data.recCity}
               showSearch
@@ -148,8 +150,8 @@ export const Prices = () => {
               options={citySelectOptions}
             />
           </Form.Item>
-          
-          <Form.Item label="Температурный режим">
+
+          <Form.Item label="Температурный режим" className='prices__form_item'>
             <Select
               value={data.tMin.toString() + data.tMax.toString()}
               optionFilterProp="children"
@@ -158,27 +160,34 @@ export const Prices = () => {
             />
           </Form.Item>
 
-          <Form.Item label="Грузы">
-            <ItemsTable
-              data={data}
-            />
-          </Form.Item>
+        </Form>
+        <div style={{marginTop: 16, marginBottom: 6}}>
+          Грузы:
+        </div>
 
-          <Form.Item label="Общее количество мест">
+        <ItemsTable
+          data={data}
+        />
+
+        <Form
+          labelCol={{ span: isMobile() ? 8 : 4 }}
+          layout={isMobile() ? 'vertical' : 'horizontal'}
+        >
+          <Form.Item label="Общее количество мест" className='prices__form_item'>
             <InputNumber
               value={data.qt}
               readOnly
             />
           </Form.Item>
 
-          <Form.Item label="Общий вес">
+          <Form.Item label="Общий вес" className='prices__form_item'>
             <InputNumber
               value={data.weight}
               readOnly
             />
           </Form.Item>
 
-          <Form.Item label="Общий объемный вес">
+          <Form.Item label="Общий объемный вес" className='prices__form_item'>
             <InputNumber
               value={data.volume}
               readOnly
@@ -198,10 +207,10 @@ export const Prices = () => {
             </Form.Item> :
 
             (!!data.recCity && !!data.sendCity) &&
-              <Form.Item label="Доступные тарифы">
-                {!!data.loading ? "Загрузка..." :
+            <Form.Item label="Доступные тарифы">
+              {!!data.loading ? "Загрузка..." :
                 "Нет доступных тарифов по заданному направлению"}
-              </Form.Item>
+            </Form.Item>
 
           }
         </Form>

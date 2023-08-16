@@ -4,6 +4,7 @@ import { authData } from '../../hooks/useAuth';
 import { Login } from './component/login';
 import { Account } from './component/account';
 import './auth.less'
+import { minPageHeight } from '../../utils/pageSettings';
 
 export const Auth = () => {
 
@@ -25,7 +26,7 @@ export const Auth = () => {
                 style={{
                     padding: 24,
                     margin: 0,
-                    minHeight: "calc(100vh - 185px)",
+                    minHeight: minPageHeight(),
                     minWidth: 380,
                     background: '#FFF',
                 }}

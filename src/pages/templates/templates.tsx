@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Breadcrumb, Layout, Button } from 'antd';
 import { pushPath } from '../../core/history';
 import { TemplatesTable } from './components/table';
+import { minPageHeight } from '../../utils/pageSettings';
 
 
 export const Templates = () => {
@@ -31,7 +32,7 @@ export const Templates = () => {
         style={{
           padding: 24,
           margin: 0,
-          minHeight: 280,
+          minHeight: minPageHeight(),
           background: '#FFF',
         }}
       >

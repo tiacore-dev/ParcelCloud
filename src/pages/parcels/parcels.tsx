@@ -12,6 +12,10 @@ import { Filters } from './components/filters';
 import './parcels.less'
 import { IParcelsList } from '../../interfaces/parcels/IParcelsList';
 import { pushPath } from '../../core/history';
+import { parcelsMobileColumns } from './components/mobile.columns';
+import { isMobile } from '../../utils/isMobile';
+import { convertParcelsDataMobile } from './convertParcelsDataMobile';
+import { minPageHeight } from '../../utils/pageSettings';
 
 
 interface GetParcelsDto extends IParcelsSettingsState {
@@ -20,11 +24,12 @@ interface GetParcelsDto extends IParcelsSettingsState {
 
 export interface IParcelsCovertedData {
   key: string,
-  number: JSX.Element,
-  rec: JSX.Element,
-  send: JSX.Element,
-  items: JSX.Element,
-  status: JSX.Element,
+  number?: JSX.Element,
+  rec?: JSX.Element,
+  send?: JSX.Element,
+  items?: JSX.Element,
+  status?: JSX.Element,
+  mobileData?: JSX.Element,
 }
 
 export const Parcels = () => {
@@ -49,7 +54,7 @@ export const Parcels = () => {
   }, [filters])
 
   const parcelsData = useSelector((state: IState) => state.pages.parcels.data)
-  const convertedParcelsData = convertParcelsData(parcelsData)
+  const convertedParcelsData = isMobile() ? convertParcelsDataMobile(parcelsData) : convertParcelsData(parcelsData)
   const isLoading = useSelector((state: IState) => state.pages.parcels.loading)
 
   return (
@@ -69,7 +74,7 @@ export const Parcels = () => {
         style={{
           padding: 24,
           margin: 0,
-          minHeight: 280,
+          minHeight: minPageHeight(),
           background: '#FFF',
         }}
       >
@@ -77,7 +82,7 @@ export const Parcels = () => {
         {isLoading ? <></> :
           <Table
             dataSource={convertedParcelsData}
-            columns={parcelsDesktopColumns}
+            columns={isMobile() ? parcelsMobileColumns : parcelsDesktopColumns}
             onRow={(record) => {
               return {
                 onClick: () => {

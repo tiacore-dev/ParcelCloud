@@ -2,6 +2,10 @@ const path = require('path');
 const webpack = require('webpack')
 const dotenv = require('dotenv');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
+
 module.exports = () => {
     const env = dotenv.config().parsed;
 
@@ -47,16 +51,16 @@ module.exports = () => {
                 {
                     test: /\.less$/i,
                     use: [
-                      // compiles Less to CSS
-                      "style-loader",
-                      "css-loader",
-                      "less-loader",
+                        // compiles Less to CSS
+                        "style-loader",
+                        "css-loader",
+                        "less-loader",
                     ],
-                  }, {
+                }, {
                     test: /\.(png|jpe?g|gif|jp2|webp)$/,
                     loader: 'file-loader',
                     options: {
-                      name: 'images/[name].[ext]'
+                        name: 'images/[name].[ext]'
                     }
                 }
             ]
@@ -68,7 +72,19 @@ module.exports = () => {
             new HtmlWebpackPlugin({
                 template: './index.html'
             }),
-            new webpack.DefinePlugin({process: {env: envKeys}})
+            new CopyPlugin({
+                patterns: [
+                    { from: "./src/favicon.ico", to: "" },
+                    { from: "./src/manifest.json", to: "" },
+                    { from: "./src/logo192.png", to: "" },
+                    { from: "./src/logo512.png", to: "" },
+                ],
+            }),
+            // new WorkboxWebpackPlugin.InjectManifest({
+            //     swSrc: "./src/src-sw.js",
+            //     swDest: "sw.js",
+            // }),
+            new webpack.DefinePlugin({ process: { env: envKeys } })
         ]
     }
 }

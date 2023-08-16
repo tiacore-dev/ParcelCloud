@@ -1,40 +1,13 @@
 import * as React from 'react'
 import { Layout, Menu } from 'antd'
-import { AppstoreOutlined, PlusCircleOutlined, UnorderedListOutlined } from '@ant-design/icons';
-import { pushPath } from '../../core/history';
+import { parcelMenuItems } from './parcelMenuItems';
 
 const { Sider } = Layout;
 
 
 export const ParcelsLeftMenu = () => {
 
-    const items = []
-
-    items.push({
-        key: "parcels.create",
-        icon: <PlusCircleOutlined />,
-        label: 'Создать накладную',
-        onClick: () => { pushPath('/parcels/create') }
-    })
-
-    items.push({
-        key: "parcels.all",
-        icon: <UnorderedListOutlined />,
-        label: 'Мои накладные',
-        onClick: () => { pushPath('/parcels') }
-    })
-
-    items.push({
-        key: "parcels.template",
-        icon: <AppstoreOutlined />,
-        label: 'Шаблоны',
-        onClick: () => { pushPath('/templates') }
-    })
-
-
-
-
-
+    
     return <Sider
         width={200}
         style={{
@@ -50,7 +23,7 @@ export const ParcelsLeftMenu = () => {
                 height: '100%',
                 borderRight: 0,
             }}
-            items={items}
+            items={parcelMenuItems()}
         />
     </Sider>
 }

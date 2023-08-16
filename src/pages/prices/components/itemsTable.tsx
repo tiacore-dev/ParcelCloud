@@ -3,6 +3,7 @@ import * as React from 'react';
 import { columns } from './itemsTableCollumns';
 import { useDispatch } from 'react-redux';
 import { IPricesState, editPrices } from '../../../store/modules/pages/prices';
+import { isMobile } from '../../../utils/isMobile';
 
 
 export const ItemsTable = ({ data }: { data: IPricesState }) => {
@@ -16,24 +17,24 @@ export const ItemsTable = ({ data }: { data: IPricesState }) => {
     return (
         <>
             <Table
-            
+                showHeader={!isMobile()}
                 columns={columns()}
                 rowClassName={() => 'editable-row'}
                 dataSource={data.items.map((item, index) => ({ ...item, key: index }))}
                 bordered
-                size="middle"
+                size="small"
                 pagination={false}
             />
-                <Button
-                    
-                    onClick={handleAddItem}
-                    type="primary"
-                    style={{
-                        marginTop: 16,
-                    }}
-                >
-                    Добавить груз
-                </Button>
+            <Button
+
+                onClick={handleAddItem}
+                type="primary"
+                style={{
+                    marginTop: 16,
+                }}
+            >
+                Добавить груз
+            </Button>
 
         </>
     )

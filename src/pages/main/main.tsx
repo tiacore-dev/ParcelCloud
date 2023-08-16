@@ -1,6 +1,7 @@
 import { Breadcrumb, Layout } from 'antd';
 import * as React from 'react';
 import { pushPath } from '../../core/history';
+import { minPageHeight } from '../../utils/pageSettings';
 
 export const Main = () => {
 
@@ -22,7 +23,7 @@ export const Main = () => {
         style={{
           padding: 24,
           margin: 0,
-          minHeight: 280,
+          minHeight: minPageHeight(),
           background: '#FFF',
         }}
       >

@@ -20,10 +20,28 @@ import { historyColumns } from './components/historyColumns';
 import { itemsColumns } from './components/itemsColumns';
 import { dateToLocalString } from '../../utils/dateConverter';
 import { PrintModal } from './components/printModal';
+import { minPageHeight } from '../../utils/pageSettings';
+import { isMobile } from '../../utils/isMobile';
+import {itemsColumnsMobile} from './components/itemsColumnsMobile';
+import { convertItemsDataMobile } from './components/convertItemsDataMobile';
 
 interface GetParcelDto {
   parcelId: string;
   authToken: IauthToken
+}
+
+export interface IConvertedParcelItem {
+    key: number
+    weight?: number;
+    h?: number;
+    l?: number;
+    w?: number;
+    volume?: number;
+    qt?: number;
+    tWeight?: number;
+    tVolume?: number;
+    comment?: string;
+    mobileData?: JSX.Element,
 }
 
 export const Parcel = () => {
@@ -60,6 +78,10 @@ export const Parcel = () => {
     temperature = `${parcelData.tMin > 0 && "+"}${parcelData.tMin} ${parcelData.tMax > 0 && "+"}${parcelData.tMax}`
   }
 
+  const itemsData: IConvertedParcelItem[] = isMobile() 
+  ? convertItemsDataMobile(parcelData.items) 
+  : parcelData.items.map((el: IParcelItem, index: number) => ({ ...el, size: `${el.h}x${el.l}x${el.w}`, key: index }))
+
   return <>
 
 
@@ -81,7 +103,7 @@ export const Parcel = () => {
         style={{
           padding: "0 24px",
           margin: 0,
-          minHeight: 280,
+          minHeight: minPageHeight(),
           background: '#FFF',
         }}
       >
@@ -132,8 +154,8 @@ export const Parcel = () => {
           >
             {<Table
               pagination={false}
-              dataSource={parcelData.items.map((el: IParcelItem, index: number) => ({ ...el, size: `${el.h}x${el.l}x${el.w}`, key: index }))}
-              columns={itemsColumns}
+              dataSource={itemsData}
+              columns={isMobile() ?  itemsColumnsMobile : itemsColumns}
             />}
           </Card>
         </>}

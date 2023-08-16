@@ -18,6 +18,7 @@ import { IState } from '../../store/modules';
 import { parcelsColumns } from './components/parcelsColumns';
 import { convertDocumentParcelsData } from './convertParcelsData';
 import { pushPath } from '../../core/history';
+import { minPageHeight } from '../../utils/pageSettings';
 
 interface GetDocumentDto {
   documentId: string;
@@ -102,7 +103,7 @@ export const Document = () => {
         style={{
           padding: "0 24px",
           margin: 0,
-          minHeight: "calc(100vh - 185px)",
+          minHeight: minPageHeight(),
           background: '#FFF',
         }}
       >
