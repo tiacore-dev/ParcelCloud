@@ -79,8 +79,8 @@ export const Parcel = () => {
   }
 
   const itemsData: IConvertedParcelItem[] = isMobile() 
-  ? convertItemsDataMobile(parcelData.items) 
-  : parcelData.items.map((el: IParcelItem, index: number) => ({ ...el, size: `${el.h}x${el.l}x${el.w}`, key: index }))
+  ? convertItemsDataMobile(parcelData?.items) 
+  : parcelData?.items.map((el: IParcelItem, index: number) => ({ ...el, size: `${el.h}x${el.l}x${el.w}`, key: index }))
 
   return <>
 
