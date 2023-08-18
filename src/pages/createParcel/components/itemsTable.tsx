@@ -3,6 +3,7 @@ import * as React from 'react';
 import { columns } from './itemsTableCollumns';
 import { IEditableParcelState, editParcel } from '../../../store/modules/editableEntities/editableParcel';
 import { useDispatch } from 'react-redux';
+import { isMobile } from '../../../utils/isMobile';
 
 
 export const ItemsTable = ({ data }: { data: IEditableParcelState }) => {
@@ -16,11 +17,11 @@ export const ItemsTable = ({ data }: { data: IEditableParcelState }) => {
     return (
         <>
             <Table
-            
+                showHeader={!isMobile()}
                 columns={columns()}
                 rowClassName={() => 'editable-row'}
                 dataSource={data.items.map((item, index) => ({ ...item, key: index }))}
-                bordered
+                bordered={!isMobile()}
                 size="middle"
                 pagination={false}
             />
@@ -32,7 +33,7 @@ export const ItemsTable = ({ data }: { data: IEditableParcelState }) => {
                         marginTop: 16,
                     }}
                 >
-                    Добавить груз
+                    Добавить место
                 </Button>
 
         </>

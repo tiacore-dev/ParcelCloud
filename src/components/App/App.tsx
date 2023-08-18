@@ -20,6 +20,7 @@ import { clearCreateParcelState } from '../../store/modules/editableEntities/edi
 import { clearPricesState } from '../../store/modules/pages/prices';
 import { clearDocumentsState } from '../../store/modules/pages/documents';
 import { isMobile } from '../../utils/isMobile';
+import './App.less'
 
 interface useloadSourseDto {
   authToken: IauthToken

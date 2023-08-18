@@ -20,6 +20,8 @@ import { getTemplatesFailure, getTemplatesSuccess } from '../../../store/modules
 import { useApi } from '../../../hooks/useApi';
 import { ITemplate } from '../../../interfaces/templates/ITemplate';
 import { IauthToken, authToken } from '../../../hooks/useAuth';
+import { isMobile } from '../../../utils/isMobile';
+import { templatesMobileColumns } from './mobile.columns';
 
 interface TemplatesTableProps {
     search?: boolean
@@ -42,7 +44,8 @@ export const TemplatesTable = (props: TemplatesTableProps) => {
     const filters = useSelector((state: IState) => state.settings.templatesSettings.filters)
     const token = authToken()
 
-    const columns = sort ? [{key: 'sort'}, ...templatesDesktopColumns] : templatesDesktopColumns
+    const templatesColumns = isMobile() ? templatesMobileColumns : templatesDesktopColumns
+    const columns = sort ? [{key: 'sort'}, ...templatesColumns] : templatesColumns
     
 
     const setTemplatesKey = React.useCallback((param: setTemplatesKeyDto) => {
@@ -173,6 +176,7 @@ export const TemplatesTable = (props: TemplatesTableProps) => {
                                 row: Row,
                             },
                         }}
+                        
                         dataSource={filtredTemplates}
                         columns={columns}
                         pagination={false}

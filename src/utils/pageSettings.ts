@@ -1,7 +1,18 @@
 import { isMobile } from "./isMobile"
 
 export const minPageHeight = () => {
-    const scrollHeight = document.documentElement.clientHeight
+    const clientHeight = document.documentElement.clientHeight
 
-    return isMobile() ? `${scrollHeight - 161}px` : `${scrollHeight - 185}px`
+    return isMobile() ? `${clientHeight - 161}px` : `${clientHeight - 185}px`
 } 
+
+export const minLeftMenuHeight = () => {
+    console.log('clientHeight', document.documentElement.clientHeight)
+    console.log('offsetHeight', document.documentElement.offsetHeight)
+    console.log('scrollHeight', document.documentElement.scrollHeight)
+
+
+    const clientHeight = document.documentElement.clientHeight
+
+    return `${clientHeight - 161}px`
+}

@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   Layout,
+  Space,
   Table
 } from 'antd';
 import Title from 'antd/es/typography/Title';
@@ -15,10 +16,11 @@ import { useApi, useGettingFile } from '../../hooks/useApi';
 import { IDocument } from '../../interfaces/documents/IDocument';
 import { IauthToken, authToken } from '../../hooks/useAuth';
 import { IState } from '../../store/modules';
-import { parcelsColumns } from './components/parcelsColumns';
-import { convertDocumentParcelsData } from './convertParcelsData';
 import { pushPath } from '../../core/history';
 import { minPageHeight } from '../../utils/pageSettings';
+import { isMobile } from '../../utils/isMobile';
+import { parcelsDesktopColumns } from './components/desktop.columns';
+import { parcelsMobileColumns } from './components/mobile.columns';
 
 interface GetDocumentDto {
   documentId: string;
@@ -75,7 +77,6 @@ export const Document = () => {
   }, [token, documentData])
 
 
-  const convertedParcelData = convertDocumentParcelsData(documentData?.parcels)
   const vat = !!documentData ? !!documentData.parcels?.length ?
     documentData.parcels.reduce((total, parcel) => {
       return total + Number((parcel.summ - parcel.summ / (1 + documentData.vat / 100)).toFixed(2))
@@ -108,8 +109,11 @@ export const Document = () => {
         }}
       >
         <Title level={3}>{`Реализация ${documentData.number}`}</Title>
-       
-        <Button
+        <Space
+          direction={isMobile() ? "vertical" : "horizontal"}
+          size="small"
+        >
+          <Button
             onClick={getOrder}
             size='small'
           >
@@ -118,7 +122,6 @@ export const Document = () => {
 
           <Button
             onClick={getAct}
-            style={{ marginLeft: 12 }}
             size='small'
           >
             Скачать Акт
@@ -127,14 +130,14 @@ export const Document = () => {
           {!!documentData.vat &&
             <Button
               onClick={getCf}
-              style={{ marginLeft: 12 }}
               size='small'
             >
               Скачать Счёт-фактуру
             </Button>
           }
-
+        </Space>
         <Card
+          headStyle={{backgroundColor: "#F8F8F8"}}
           title="Заказчик:"
           style={{ margin: "8px 0" }}
         >
@@ -147,6 +150,7 @@ export const Document = () => {
         <Card
           title="Исполнитель:"
           style={{ margin: "8px 0" }}
+          headStyle={{backgroundColor: "#F8F8F8"}}
         >
           <p>Наименование:  {documentData.performer}</p>
           <p>ИНН: {documentData.performerInn}</p>
@@ -157,13 +161,13 @@ export const Document = () => {
         {!!documentData.parcels && !!documentData.parcels.length &&
           <Table
             pagination={false}
-            dataSource={convertedParcelData}
-            columns={parcelsColumns}
+            dataSource={documentData?.parcels}
+            columns={isMobile() ? parcelsMobileColumns : parcelsDesktopColumns}
             bordered
             onRow={(record) => {
               return {
                 onClick: () => {
-                  pushPath(`/parcels/${record.key}`)
+                  pushPath(`/parcels/${record.id}`)
                 },
               };
             }}
@@ -172,6 +176,7 @@ export const Document = () => {
         <Card
           title="Итого:"
           style={{ margin: "8px 0" }}
+          headStyle={{backgroundColor: "#F8F8F8"}}
         >
           {!!documentData.info && <p>Наименование услуги: {documentData.info}</p>}
           <p>Сумма: {documentData.summ.toFixed(2)}</p>

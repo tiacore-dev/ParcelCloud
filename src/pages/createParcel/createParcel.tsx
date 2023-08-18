@@ -33,6 +33,8 @@ import dayjs from 'dayjs';
 import { dateFormat } from '../../utils/dateConverter';
 import { clearTemplatesSettingsState } from '../../store/modules/settings/templates';
 import { minPageHeight } from '../../utils/pageSettings';
+import { isMobile } from '../../utils/isMobile';
+import './createParcel.less'
 
 
 export const CreateParcel = () => {
@@ -188,18 +190,18 @@ export const CreateParcel = () => {
       >
         <Title level={3}>Создание накладной</Title>
         <Form
-          labelCol={{ span: 4 }}
+          labelCol={{ span: isMobile() ? 8 : 4 }}
           wrapperCol={{ span: 14 }}
           layout="horizontal"
           onValuesChange={onFormLayoutChange}
           disabled={componentDisabled}
         >
           <Row>
-            <Col span={12}>
+            <Col span={isMobile() ? 24: 12}>
               <Form.Item>
                 Данные отправителя
               </Form.Item>
-              <Form.Item >
+              <Form.Item>
                 <Button onClick={showSendModal}>
                   Заполнить из шаблона
                 </Button>
@@ -271,8 +273,7 @@ export const CreateParcel = () => {
 
             </Col>
             <Col
-              span={12
-              }>
+              span={isMobile() ? 24: 12}>
               <Form.Item >
                 Данные получателя
               </Form.Item>
@@ -406,7 +407,7 @@ export const CreateParcel = () => {
             data={data}
           />
 
-          <Form.Item label="Общее количество мест">
+          <Form.Item label="Итого мест">
             <InputNumber
               value={data.qt}
               readOnly

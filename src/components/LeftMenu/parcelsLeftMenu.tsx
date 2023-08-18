@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Layout, Menu } from 'antd'
 import { parcelMenuItems } from './parcelMenuItems';
+import { minLeftMenuHeight } from '../../utils/pageSettings';
 
 const { Sider } = Layout;
 
@@ -12,7 +13,6 @@ export const ParcelsLeftMenu = () => {
         width={200}
         style={{
             background: '#FFF',
-            height: "calc(100vh - 131px)"
         }}
     >
         <Menu
@@ -20,7 +20,7 @@ export const ParcelsLeftMenu = () => {
             defaultSelectedKeys={['1']}
             defaultOpenKeys={['sub1']}
             style={{
-                height: '100%',
+                height: minLeftMenuHeight(),
                 borderRight: 0,
             }}
             items={parcelMenuItems()}

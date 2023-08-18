@@ -3,6 +3,7 @@ import { Breadcrumb, Layout, Button } from 'antd';
 import { pushPath } from '../../core/history';
 import { TemplatesTable } from './components/table';
 import { minPageHeight } from '../../utils/pageSettings';
+import './templates.less'
 
 
 export const Templates = () => {

@@ -16,14 +16,15 @@ import { useApi } from '../../hooks/useApi';
 import { IParcel, IParcelHistory, IParcelItem } from '../../interfaces/parcels/IParcel';
 import { IauthToken, authToken } from '../../hooks/useAuth';
 import { IState } from '../../store/modules';
-import { historyColumns } from './components/historyColumns';
 import { itemsColumns } from './components/itemsColumns';
 import { dateToLocalString } from '../../utils/dateConverter';
 import { PrintModal } from './components/printModal';
 import { minPageHeight } from '../../utils/pageSettings';
 import { isMobile } from '../../utils/isMobile';
-import {itemsColumnsMobile} from './components/itemsColumnsMobile';
+import { itemsColumnsMobile } from './components/itemsColumnsMobile';
 import { convertItemsDataMobile } from './components/convertItemsDataMobile';
+import { historyDesktopColumns } from './components/historyDesktop.columns';
+import { historyMobileColumns } from './components/historyMobile.columns';
 
 interface GetParcelDto {
   parcelId: string;
@@ -31,17 +32,17 @@ interface GetParcelDto {
 }
 
 export interface IConvertedParcelItem {
-    key: number
-    weight?: number;
-    h?: number;
-    l?: number;
-    w?: number;
-    volume?: number;
-    qt?: number;
-    tWeight?: number;
-    tVolume?: number;
-    comment?: string;
-    mobileData?: JSX.Element,
+  key: number
+  weight?: number;
+  h?: number;
+  l?: number;
+  w?: number;
+  volume?: number;
+  qt?: number;
+  tWeight?: number;
+  tVolume?: number;
+  comment?: string;
+  mobileData?: JSX.Element,
 }
 
 export const Parcel = () => {
@@ -81,8 +82,6 @@ export const Parcel = () => {
 
   return <>
 
-
-
     <Breadcrumb
       style={{
         margin: '16px 0',
@@ -115,6 +114,7 @@ export const Parcel = () => {
         <Card
           title="Данные отправителя:"
           style={{ margin: "8px 0" }}
+          headStyle={{backgroundColor: "#F8F8F8"}}
         >
           <p>Город:  {parcelData.sendCity}</p>
           <p>Адрес: {parcelData.sendAddress}</p>
@@ -126,6 +126,7 @@ export const Parcel = () => {
 
         <Card
           title="Данные получателя:"
+          headStyle={{backgroundColor: "#F8F8F8"}}
           style={{ margin: "8px 0" }}
         >
           <p>Город:  {parcelData.recCity}</p>
@@ -137,6 +138,7 @@ export const Parcel = () => {
         </Card>
         <Card
           title="Отправление:"
+          headStyle={{backgroundColor: "#F8F8F8"}}
           style={{ margin: "8px 0" }}
         >
           <p>Температурный режим: {temperature}</p>
@@ -145,22 +147,19 @@ export const Parcel = () => {
           <p>Объемный вес: {parcelData.volume}</p>
         </Card>
         {!!parcelData.items?.length && <>
-          <Card
-            title="Грузы:"
-            style={{ margin: "8px 0" }}
-          >
             {<Table
               pagination={false}
-              dataSource={isMobile() 
-                ? convertItemsDataMobile(parcelData?.items) 
+              bordered
+              dataSource={isMobile()
+                ? convertItemsDataMobile(parcelData?.items)
                 : parcelData?.items.map((el: IParcelItem, index: number) => ({ ...el, size: `${el.h}x${el.l}x${el.w}`, key: index }))}
-              columns={isMobile() ?  itemsColumnsMobile : itemsColumns}
+              columns={isMobile() ? itemsColumnsMobile : itemsColumns}
             />}
-          </Card>
         </>}
 
         <Card
           title="Информация об оплате:"
+          headStyle={{backgroundColor: "#F8F8F8"}}
           style={{ margin: "8px 0" }}
         >
           <p>Тип доставки: {parcelData.delType}</p>
@@ -169,22 +168,20 @@ export const Parcel = () => {
         </Card>
 
         {parcelData.history?.length && <>
-          <Card
-            title="История накладной:"
-            style={{ margin: "8px 0" }}
-          >
+         
             {<Table
               pagination={false}
+              bordered
+              style={{marginBottom: 12}}
               dataSource={[...parcelData.history]
                 .sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
-                .map((el: IParcelHistory, index: number) => ({ ...el, date: dateToLocalString(el.date), key: index }))
+                .map((el: IParcelHistory, index: number) => ({ ...el, key: index }))
               }
 
-              columns={historyColumns}
+              columns={isMobile() ? historyMobileColumns : historyDesktopColumns}
             />}
-          </Card>
-        </>}
 
+        </>}
 
       </Content> : <></>}
   </>

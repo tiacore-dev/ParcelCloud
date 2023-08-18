@@ -3,6 +3,7 @@ import * as React from 'react';
 import { IParcel } from '../../../interfaces/parcels/IParcel';
 import { ParcelPrint } from '../../../utils/parcelPrint/printTemplates';
 import { useReactToPrint } from 'react-to-print';
+import { isMobile } from '../../../utils/isMobile';
 
 
 interface IPrintModalProps {
@@ -26,9 +27,9 @@ export const PrintModal = (props: IPrintModalProps) => {
     });
     return (
         <>
-            <Button type="primary" onClick={showModal}>
+            {!isMobile() && <Button type="primary" onClick={showModal}>
                 Печать накладной
-            </Button>
+            </Button>}
             <Modal
                 open={open}
                 title={data.number}
