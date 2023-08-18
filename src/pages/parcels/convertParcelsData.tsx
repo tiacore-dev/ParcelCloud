@@ -27,7 +27,7 @@ export const convertParcelsData = (data: IParcelsList[]): IParcelsCovertedData[]
             <div>
                 {parcel.recAddress}
             </div>
-            <div>
+            <div style={{fontWeight: 500}}>
                 {parcel.recCompany}
             </div>
         </>)
@@ -38,7 +38,7 @@ export const convertParcelsData = (data: IParcelsList[]): IParcelsCovertedData[]
             <div>
                 {parcel.sendAddress}
             </div>
-            <div>
+            <div style={{fontWeight: 500}}>
                 {parcel.sendCompany}
             </div>
         </>)
