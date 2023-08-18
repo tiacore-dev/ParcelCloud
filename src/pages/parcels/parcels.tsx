@@ -79,10 +79,11 @@ export const Parcels = () => {
         }}
       >
         <Filters />
-        {isLoading ? <></> :
+       
           <Table
             dataSource={convertedParcelsData}
             columns={isMobile() ? parcelsMobileColumns : parcelsDesktopColumns}
+            loading={isLoading}
             onRow={(record) => {
               return {
                 onClick: () => {
@@ -90,7 +91,7 @@ export const Parcels = () => {
                 }, 
               };
             }}
-          />}
+          />
 
 
       </Content>

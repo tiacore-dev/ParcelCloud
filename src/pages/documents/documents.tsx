@@ -57,6 +57,14 @@ export const Documents = () => {
   const convertedDocumentsData = isMobile() ? convertDocumentsDataMobile(documentsData) : convertDocumentsData(documentsData)
   const isLoading = useSelector((state: IState) => state.pages.documents.loading)
 
+  const onRowClick = (record: IDocumentsCovertedData) => {
+    return {
+      onClick: () => {
+        pushPath(`/documents/${record.key}`)
+      },
+    };
+  }
+
   return (
 
 
@@ -68,7 +76,6 @@ export const Documents = () => {
       >
         <Breadcrumb.Item>Главная</Breadcrumb.Item>
         <Breadcrumb.Item>Документы</Breadcrumb.Item>
-
       </Breadcrumb>
       <Content
         style={{
@@ -79,20 +86,12 @@ export const Documents = () => {
         }}
       >
         <Filters />
-        {isLoading ? <></> :
-          <Table
-            dataSource={convertedDocumentsData}
-            columns={isMobile() ? documentsMobileColumns : documentsDesktopColumns}
-            onRow={(record) => {
-              return {
-                onClick: () => {
-                  pushPath(`/documents/${record.key}`)
-                }, 
-              };
-            }}
-          />}
-
-
+        <Table
+          dataSource={convertedDocumentsData}
+          columns={isMobile() ? documentsMobileColumns : documentsDesktopColumns}
+          loading={isLoading}
+          onRow={onRowClick}
+        />
       </Content>
     </>
 

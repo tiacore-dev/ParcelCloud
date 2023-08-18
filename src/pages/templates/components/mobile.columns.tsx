@@ -12,28 +12,26 @@ export const templatesMobileColumns: ColumnsType<ITemplate> = [
             <Card
                 size='small'
                 title={record.name}
+                headStyle={{backgroundColor: "#F8F8F8"}}
             >
-                {/* <Form.Item label="Наименование" className='templates__form_item'> */}
-                    {record.name}
-                {/* </Form.Item> */}
-                {/* <Form.Item label="Город" className='templates__form_item'> */}
+                <div>
                     {record.city}
-                {/* </Form.Item>
-                <Form.Item label="Адрес" className='templates__form_item'> */}
+                </div>
+                <div>
                     {record.address}
-                {/* </Form.Item>
-                <Form.Item label="Конт. лицо" className='templates__form_item'> */}
+                </div>
+                <div>
                     {record.person}
-                {/* </Form.Item>
-                <Form.Item label="Компания" className='templates__form_item'> */}
+                </div>
+                <div>
                     {record.company}
-                {/* </Form.Item>
-                <Form.Item label="Телефон" className='templates__form_item'> */}
+                </div>
+                <div>
                     {record.phone}
-                {/* </Form.Item>
-                <Form.Item label="Доп. инфо" className='templates__form_item'> */}
+                </div>
+                <div>
                     {record.addInfo}
-                {/* </Form.Item> */}
+                </div>
             </Card>
         )
     }

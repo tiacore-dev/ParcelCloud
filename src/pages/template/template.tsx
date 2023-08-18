@@ -101,7 +101,7 @@ export const Template = () => {
       <Breadcrumb.Item>
         <Link to="/templates">Шаблоны</Link>
       </Breadcrumb.Item>
-      <Breadcrumb.Item>{templateData?.name || "Создать шаблон"}</Breadcrumb.Item>
+      <Breadcrumb.Item>{routeParams.templateId !== "create" ? "Создать шаблон" : templateData?.name }</Breadcrumb.Item>
 
     </Breadcrumb>
 

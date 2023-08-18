@@ -155,7 +155,7 @@ export const TemplatesTable = (props: TemplatesTableProps) => {
 
 
     return <>
-        {(!isLoading) && search && (
+        { search && (
             <Input
                 style={{ marginBottom: 12 }}
                 value={filters.name}
@@ -163,8 +163,6 @@ export const TemplatesTable = (props: TemplatesTableProps) => {
                 onChange={(e) => dispatch(setTemplatesFilterName(e.target.value))}
             />
         )}
-        {!isLoading && (
-
             <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
                 <SortableContext
                     items={filtredTemplates.map((i) => i.key)}
@@ -176,11 +174,12 @@ export const TemplatesTable = (props: TemplatesTableProps) => {
                                 row: Row,
                             },
                         }}
-                        
+                        showHeader={!isMobile()}
                         dataSource={filtredTemplates}
                         columns={columns}
                         pagination={false}
                         rowKey="key"
+                        loading={isLoading}
                         onRow={(record) => {
                             return {
                                 onClick: () => { onRowClick(record.id) }
@@ -189,9 +188,6 @@ export const TemplatesTable = (props: TemplatesTableProps) => {
                     />
                 </SortableContext>
             </DndContext>
-
-
-        )}
     </>
 
 }

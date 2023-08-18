@@ -26,7 +26,7 @@ export const Templates = () => {
         }}
       >
         <Breadcrumb.Item>Главная</Breadcrumb.Item>
-        <Breadcrumb.Item>Накладные</Breadcrumb.Item>
+        <Breadcrumb.Item>Шаблоны</Breadcrumb.Item>
 
       </Breadcrumb>
       <Content
