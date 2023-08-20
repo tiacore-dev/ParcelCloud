@@ -7,7 +7,6 @@ interface ICitiesState {
     errMsg: string
 }
 
-
 const initialState: ICitiesState = {
     data: [],
     loading: false,
@@ -21,22 +20,22 @@ const citiesSlice = createSlice({
     reducers: {
         getCitiesRequest: (state: ICitiesState) => {
             state.loading = true;
-            state.loaded =  false
+            state.loaded = false
         },
-        getCitiesFailure: (state: ICitiesState, action: {payload: string}) => {
+        getCitiesFailure: (state: ICitiesState, action: { payload: string }) => {
             state.loading = false;
-            state.loaded =  false
+            state.loaded = false
             state.errMsg = action.payload;
         },
-        getCitiesSuccess: (state: ICitiesState, action: {payload: string[]}) => {
+        getCitiesSuccess: (state: ICitiesState, action: { payload: string[] }) => {
             state.loading = false;
-            state.loaded =  true
+            state.loaded = true
             state.data = action.payload;
         },
         clearCitiesState: (state: ICitiesState) => {
             state.data = [],
-            state.loading = true;
-            state.loaded =  false
+                state.loading = true;
+            state.loaded = false
             state.errMsg = "";
         },
     },
