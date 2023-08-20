@@ -25,6 +25,7 @@ import { clearTemplateState, editTemplate, setTemplatStateData } from '../../sto
 import { pushPath } from '../../core/history';
 import { getTemplatesFailure, getTemplatesRequest, getTemplatesSuccess } from '../../store/modules/pages/templates';
 import { minPageHeight } from '../../utils/pageSettings';
+import { getCities } from '../../store/modules/dictionaries/selectors/cities.selector';
 
 
 interface EditeTemplateDto extends ITemplate {
@@ -41,7 +42,7 @@ export const Template = () => {
 
   const templatesData = useSelector((state: IState) => state.pages.templates.data)
   const templateData = useSelector((state: IState) => state.pages.template)
-  const cities = useSelector((state: IState) => state.dictionaries.cities.data)
+  const cities = useSelector(getCities)
   const citySelectOptions = cities.map(city => ({ label: city, value: city }))
   const params: EditeTemplateDto = {
     ...templateData,
@@ -75,10 +76,6 @@ export const Template = () => {
     })
   }
 
-
-
-
-
   React.useEffect(() => {
     setComponentDisabled(false)
     if (routeParams.templateId !== "create") {
@@ -87,9 +84,6 @@ export const Template = () => {
       dispatch(clearTemplateState())
     }
   }, [])
-
-
-
 
   return <>
     <Breadcrumb

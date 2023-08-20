@@ -13,7 +13,6 @@ export const Filters = () => {
     const filters = useSelector((state: IState) => state.settings.documentsSettings.filters)
     const dispatch = useDispatch();
 
-    const cities = useSelector((state: IState) => state.dictionaries.cities.data)
     const dateFromChangeHandler = (date: dayjs.Dayjs) => {
         dispatch(setDocumentsFiltersDateFrom(date.valueOf()))
     }

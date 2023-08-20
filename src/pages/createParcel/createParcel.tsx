@@ -35,6 +35,7 @@ import { clearTemplatesSettingsState } from '../../store/modules/settings/templa
 import { minPageHeight } from '../../utils/pageSettings';
 import { isMobile } from '../../utils/isMobile';
 import './createParcel.less'
+import { getCities } from '../../store/modules/dictionaries/selectors/cities.selector';
 
 
 export const CreateParcel = () => {
@@ -42,7 +43,7 @@ export const CreateParcel = () => {
   const dispatch = useDispatch();
   const { TextArea } = Input;
   const data = useSelector((state: IState) => state.editableEntities.editableParcel)
-  const cities = useSelector((state: IState) => state.dictionaries.cities.data)
+  const cities = useSelector(getCities)
   const { Content } = Layout;
   const citySelectOptions = cities.map(city => ({ label: city, value: city }))
   const [componentDisabled, setComponentDisabled] = React.useState<boolean>(false);

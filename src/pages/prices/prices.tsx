@@ -15,6 +15,7 @@ import { temperatureSelectOptions, temperatureValues } from '../../enumerations/
 import { minPageHeight } from '../../utils/pageSettings';
 import './prices.less'
 import { isMobile } from '../../utils/isMobile';
+import { getCities } from '../../store/modules/dictionaries/selectors/cities.selector';
 
 interface GetPricesDto {
   authToken: IauthToken;
@@ -27,18 +28,12 @@ export interface GetParcelResponce {
   temperatureModify: number;
   vatExtra: boolean;
   bonusModify: number;
-
-  // Ответ.Вставить("prices", Тарифы);
-  // 	Ответ.Вставить("temperatureModify", КофэТермо);
-  // 	Ответ.Вставить("vatExtra", НДССверху);
-  // 	Ответ.Вставить("bonusModify", Наценка);
-
 }
 
 export const Prices = () => {
 
   const dispatch = useDispatch();
-  const cities = useSelector((state: IState) => state.dictionaries.cities.data)
+  const cities = useSelector(getCities)
   const { Content } = Layout;
   const citySelectOptions = cities.map(city => ({ label: city, value: city }))
   const data = useSelector((state: IState) => state.pages.prices)

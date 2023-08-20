@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import { dateFormat } from '../../../utils/dateConverter';
 import Search from 'antd/es/input/Search';
 import { isMobile } from '../../../utils/isMobile';
+import { getCities } from '../../../store/modules/dictionaries/selectors/cities.selector';
 
 
 export const Filters = () => {
@@ -14,7 +15,7 @@ export const Filters = () => {
     const filters = useSelector((state: IState) => state.settings.parcelsSettings.filters)
     const dispatch = useDispatch();
 
-    const cities = useSelector((state: IState) => state.dictionaries.cities.data)
+    const cities = useSelector(getCities)
     const dateFromChangeHandler = (date: dayjs.Dayjs) => {
         dispatch(setParcelsFiltersDateFrom(date.valueOf()))
     }
