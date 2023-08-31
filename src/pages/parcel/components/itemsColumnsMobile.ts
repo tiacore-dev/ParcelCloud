@@ -1,8 +1,8 @@
 export const itemsColumnsMobile = [
-    {
-        title: "Грузы:",
-        dataIndex: 'mobileData',
-        key: 'mobileData',
-        with: "100%"
-    }
+  {
+    title: "Грузы:",
+    dataIndex: "mobileData",
+    key: "mobileData",
+    with: "100%",
+  },
 ];

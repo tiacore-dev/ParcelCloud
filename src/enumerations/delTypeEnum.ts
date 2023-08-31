@@ -1,11 +1,12 @@
 export const delTypeEnum = {
-    "Стандарт":  "Стандарт",
-    "СуперЭкспресс": "Супер Экспресс",
-    "ЭкономНаземныйТранспорт": "Эконом (Наземный транспорт)"
+  Стандарт: "Стандарт",
+  СуперЭкспресс: "Супер Экспресс",
+  ЭкономНаземныйТранспорт: "Эконом (Наземный транспорт)",
+};
 
-}
-
-export const delTypeSelectOptions = Object.keys(delTypeEnum).map((el: keyof typeof delTypeEnum) => ({
+export const delTypeSelectOptions = Object.keys(delTypeEnum).map(
+  (el: keyof typeof delTypeEnum) => ({
     value: el,
-    label: delTypeEnum[el]
-}))
+    label: delTypeEnum[el],
+  }),
+);
