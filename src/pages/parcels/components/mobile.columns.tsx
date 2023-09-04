@@ -1,7 +1,7 @@
 export const parcelsMobileColumns = [
-    {
-        dataIndex: 'mobileData',
-        key: 'mobileData',
-        width: '100%',
-    }
-]
+  {
+    dataIndex: "mobileData",
+    key: "mobileData",
+    width: "100%",
+  },
+];

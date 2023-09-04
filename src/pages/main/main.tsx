@@ -1,20 +1,21 @@
-import { Breadcrumb, Layout } from 'antd';
-import * as React from 'react';
-import { pushPath } from '../../core/history';
-import { minPageHeight } from '../../utils/pageSettings';
+import { Breadcrumb, Layout } from "antd";
+import * as React from "react";
+import { pushPath } from "../../core/history";
+import { minPageHeight } from "../../utils/pageSettings";
 
 export const Main = () => {
-
   const { Content } = Layout;
 
-  {React.useEffect(()=>{
-    pushPath("/parcels")
-  },[])}
+  {
+    React.useEffect(() => {
+      pushPath("/parcels");
+    }, []);
+  }
   return (
     <>
       <Breadcrumb
         style={{
-          margin: '16px 0',
+          margin: "16px 0",
         }}
       >
         <Breadcrumb.Item>Главная</Breadcrumb.Item>
@@ -24,11 +25,11 @@ export const Main = () => {
           padding: 24,
           margin: 0,
           minHeight: minPageHeight(),
-          background: '#FFF',
+          background: "#FFF",
         }}
       >
         Main
       </Content>
     </>
-  )
-}
+  );
+};

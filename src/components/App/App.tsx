@@ -1,101 +1,114 @@
-import * as React from 'react'
-import { Layout } from 'antd'
-import { AppHeader } from '../AppHeader/AppHeader';
-import { AppFooter } from '../AppFooter/AppFooter';
-import { LeftMenu } from '../LeftMenu/LeftMenu';
-import { AppRouter } from '../../core/router';
-import { pushPath } from '../../core/history';
-import { Auth } from '../../pages/auth/auth';
-import { useDispatch, useSelector } from 'react-redux';
-import { IState } from '../../store/modules';
-import { clearCitiesState, getCitiesFailure, getCitiesRequest, getCitiesSuccess } from '../../store/modules/dictionaries/cities';
-import { useApi } from '../../hooks/useApi';
-import { IauthToken } from '../../hooks/useAuth';
-import { clearTemplatesState, getTemplatesFailure, getTemplatesRequest, getTemplatesSuccess } from '../../store/modules/pages/templates';
-import { clearParcelsSettingsState } from '../../store/modules/settings/parcels';
-import { clearParcelsState } from '../../store/modules/pages/parcels';
-import { ITemplate } from '../../interfaces/templates/ITemplate';
-import { clearParcelState } from '../../store/modules/pages/parcel';
-import { clearCreateParcelState } from '../../store/modules/editableEntities/editableParcel';
-import { clearPricesState } from '../../store/modules/pages/prices';
-import { clearDocumentsState } from '../../store/modules/pages/documents';
-import { isMobile } from '../../utils/isMobile';
-import './App.less'
+import * as React from "react";
+import { Layout } from "antd";
+import { AppHeader } from "../AppHeader/AppHeader";
+import { AppFooter } from "../AppFooter/AppFooter";
+import { LeftMenu } from "../LeftMenu/LeftMenu";
+import { AppRouter } from "../../core/router";
+import { pushPath } from "../../core/history";
+import { Auth } from "../../pages/auth/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { IState } from "../../store/modules";
+import {
+  clearCitiesState,
+  getCitiesFailure,
+  getCitiesRequest,
+  getCitiesSuccess,
+} from "../../store/modules/dictionaries/cities";
+import { useApi } from "../../hooks/useApi";
+import { IauthToken } from "../../hooks/useAuth";
+import {
+  clearTemplatesState,
+  getTemplatesFailure,
+  getTemplatesRequest,
+  getTemplatesSuccess,
+} from "../../store/modules/pages/templates";
+import { clearParcelsSettingsState } from "../../store/modules/settings/parcels";
+import { clearParcelsState } from "../../store/modules/pages/parcels";
+import { ITemplate } from "../../interfaces/templates/ITemplate";
+import { clearParcelState } from "../../store/modules/pages/parcel";
+import { clearCreateParcelState } from "../../store/modules/editableEntities/editableParcel";
+import { clearPricesState } from "../../store/modules/pages/prices";
+import { clearDocumentsState } from "../../store/modules/pages/documents";
+import { isMobile } from "../../utils/isMobile";
+import "./App.less";
 
 interface useloadSourseDto {
-  authToken: IauthToken
+  authToken: IauthToken;
 }
 
-export const useloadSourse = ():[(authData:IauthToken)=>void, ()=>void ] => {
-
+export const useloadSourse = (): [
+  (authData: IauthToken) => void,
+  () => void,
+] => {
   const dispatch = useDispatch();
 
   const clearStates = React.useCallback(() => {
-    dispatch(clearParcelsSettingsState())
-    dispatch(clearParcelsState())
-    dispatch(clearCitiesState())
-    dispatch(clearCitiesState())
-    dispatch(clearTemplatesState())
-    dispatch(clearParcelState())
-    dispatch(clearCreateParcelState())   
-    dispatch(clearPricesState())
-    dispatch(clearDocumentsState())
-  }, [])
+    dispatch(clearParcelsSettingsState());
+    dispatch(clearParcelsState());
+    dispatch(clearCitiesState());
+    dispatch(clearCitiesState());
+    dispatch(clearTemplatesState());
+    dispatch(clearParcelState());
+    dispatch(clearCreateParcelState());
+    dispatch(clearPricesState());
+    dispatch(clearDocumentsState());
+  }, []);
 
   const load = React.useCallback((authData: IauthToken) => {
     // Загрузка справочника городов
-    dispatch(getCitiesRequest())
-    useApi<string[], {}>('cities', 'get', {}).then((response) => {
-      dispatch(getCitiesSuccess(response))
-    }).catch(err => {
-      dispatch(getCitiesFailure(err))
-    })
+    dispatch(getCitiesRequest());
+    useApi<string[], Record<string, never>>("cities", "get", {})
+      .then((response) => {
+        dispatch(getCitiesSuccess(response));
+      })
+      .catch((err) => {
+        dispatch(getCitiesFailure(err));
+      });
 
     // Загрузка шаблонов
-    dispatch(getTemplatesRequest())
-    useApi<ITemplate[], useloadSourseDto>('templates', 'get', {authToken: authData}).then((response) => {
-      dispatch(getTemplatesSuccess(response))
-    }).catch(err => {
-      dispatch(getTemplatesFailure(err))
+    dispatch(getTemplatesRequest());
+    useApi<ITemplate[], useloadSourseDto>("templates", "get", {
+      authToken: authData,
     })
+      .then((response) => {
+        dispatch(getTemplatesSuccess(response));
+      })
+      .catch((err) => {
+        dispatch(getTemplatesFailure(err));
+      });
+  }, []);
 
-
-  }, [])
-
-  return [load, clearStates]
-}
+  return [load, clearStates];
+};
 
 export const App = () => {
-
-  const authData = useSelector((state: IState) => state.auth)
+  const authData = useSelector((state: IState) => state.auth);
   const isAuth = authData.isAuth;
-  const mobile = isMobile()
+  const mobile = isMobile();
   if (!isAuth) {
-    pushPath('/auth')
+    pushPath("/auth");
   }
-
-
 
   return (
     <>
-      {isAuth ?
+      {isAuth ? (
         <Layout>
           <AppHeader />
           <Layout>
-            { !mobile && <LeftMenu />} 
+            {!mobile && <LeftMenu />}
             <Layout
               style={{
-                padding: '0 24px',
+                padding: "0 24px",
               }}
             >
               <AppRouter />
             </Layout>
           </Layout>
           {AppFooter}
-        </Layout> :
-        <Auth />}
+        </Layout>
+      ) : (
+        <Auth />
+      )}
     </>
   );
 };
-
-
