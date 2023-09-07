@@ -7,9 +7,7 @@ export const LeftMenu = () => {
     <>
       <Switch>
         <Route path="/parcels" component={ParcelsLeftMenu} key="parcels" />
-
         <Route path="/templates" component={ParcelsLeftMenu} key="templates" />
-
         <Route path="/docs" component={ParcelsLeftMenu} key="docs" />
       </Switch>
     </>
