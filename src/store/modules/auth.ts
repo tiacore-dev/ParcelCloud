@@ -1,12 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { IUser } from "../../interfaces/users/IUser";
+import { IState } from ".";
 
-export interface IAuthState {
+export interface IAuthState extends IUser {
   isAuth: boolean;
-  email: string | null;
-  fullName: string | null;
-  userKey: string | null;
-  token: string | null;
-  permissions: string[];
 }
 
 export interface IAuthLoginPayload extends Omit<IAuthState, "isAuth"> {}
@@ -17,7 +14,9 @@ const initialState: IAuthState = {
   fullName: null,
   userKey: null,
   token: null,
-  permissions: null,
+  company: null,
+  permissions: [],
+  availableCustomers: [],
 };
 
 const authSlice = createSlice({
@@ -30,7 +29,9 @@ const authSlice = createSlice({
       state.fullName = action.payload.fullName;
       state.userKey = action.payload.userKey;
       state.token = action.payload.token;
+      state.company = action.payload.company;
       state.permissions = action.payload.permissions;
+      state.availableCustomers = action.payload.availableCustomers;
     },
     authlogout: (state) => {
       state.isAuth = false;
@@ -46,3 +47,8 @@ const authSlice = createSlice({
 export const { authlogin, authlogout } = authSlice.actions;
 
 export const auth = authSlice.reducer;
+
+export const getCustomers = createSelector(
+  [(state: IState) => state.auth.availableCustomers],
+  (availableCustomers) => availableCustomers,
+);

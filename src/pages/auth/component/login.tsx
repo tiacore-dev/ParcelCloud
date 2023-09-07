@@ -7,14 +7,7 @@ import { ILoginData } from "../../../hooks/useAuth";
 import { authlogin } from "../../../store/modules/auth";
 import Title from "antd/es/typography/Title";
 import { useloadSourse } from "../../../components/App/App";
-
-export interface ILoginResponce {
-  fullName: string;
-  email: string;
-  userKey: string;
-  token: string;
-  permissions: string[];
-}
+import { IUser } from "../../../interfaces/users/IUser";
 
 export const Login = () => {
   const dispatch = useDispatch();
@@ -22,7 +15,7 @@ export const Login = () => {
 
   const [messageApi, contextHolder] = message.useMessage();
   const login = React.useCallback(async (loginData: ILoginData) => {
-    useApi<ILoginResponce, ILoginData>("auth", "login", loginData)
+    useApi<IUser, ILoginData>("auth", "login", loginData)
       .then((data) => {
         dispatch(authlogin(data));
         load(data);

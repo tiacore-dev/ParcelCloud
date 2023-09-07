@@ -23,16 +23,6 @@ export interface GetParcelsDto extends IParcelsSettingsState {
   authToken: IauthToken;
 }
 
-export interface IParcelsCovertedData {
-  key: string;
-  number?: JSX.Element;
-  rec?: JSX.Element;
-  send?: JSX.Element;
-  items?: JSX.Element;
-  status?: JSX.Element;
-  mobileData?: JSX.Element;
-}
-
 export const Parcels = () => {
   const { Content } = Layout;
 

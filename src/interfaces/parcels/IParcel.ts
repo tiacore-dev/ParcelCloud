@@ -1,3 +1,6 @@
+import { delTypeEnum } from "../../enumerations/delTypeEnum";
+import { payTypeEnum } from "../../enumerations/payTypeEnum";
+
 export interface IParcelItem {
   weight: number;
   h: number;
@@ -20,7 +23,7 @@ export interface IParcelHistory {
 
 export interface IParcel {
   id: string;
-  date: string;
+  date: number;
   number: string;
   customer: string;
   sendCity: string;
@@ -42,8 +45,8 @@ export interface IParcel {
   cost: number;
   insureValue: number;
   COD: number;
-  payType: string;
-  delType: string;
+  payType: keyof typeof payTypeEnum;
+  delType: keyof typeof delTypeEnum;
   tMax: number;
   tMin: number;
   fragile: boolean;

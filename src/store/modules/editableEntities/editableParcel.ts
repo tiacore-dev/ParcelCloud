@@ -1,40 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IParcelItem } from "../../../interfaces/parcels/IParcel";
+import { IParcel, IParcelItem } from "../../../interfaces/parcels/IParcel";
 import { payTypeEnum } from "../../../enumerations/payTypeEnum";
 import { delTypeEnum } from "../../../enumerations/delTypeEnum";
 
-export interface IEditableParcelState {
+export interface IEditableParcelState extends Omit<IParcel, "history"> {
   sent: boolean;
-  id?: string;
-  number: string;
-  sendCity: string;
-  sendPerson: string;
-  sendAddress: string;
-  sendCompany: string;
-  sendAddInfo: string;
-  sendPhone: string;
-  recCity: string;
-  recPerson: string;
-  recAddress: string;
-  recCompany: string;
-  recAddInfo: string;
-  recPhone: string;
-  qt: number;
-  weight: number;
-  volume: number;
-  priceId?: string;
-  cost: number;
-  insureValue: number;
-  COD: number;
-  payType: keyof typeof payTypeEnum;
-  delType: keyof typeof delTypeEnum;
-  tMax: number;
-  tMin: number;
-  fragile: boolean;
-  containerRent: boolean;
-  notification: boolean;
-  date: number;
-  items: IParcelItem[];
 }
 
 const initialItem: IParcelItem = {
@@ -53,6 +23,7 @@ const initialState: IEditableParcelState = {
   sent: false,
   id: undefined,
   number: "",
+  customer: "",
   sendCity: "",
   sendPerson: "",
   sendAddress: "",
@@ -78,7 +49,6 @@ const initialState: IEditableParcelState = {
   tMin: 0,
   fragile: false,
   containerRent: false,
-  notification: false,
   date: Date.now(),
   items: [initialItem],
 };
@@ -150,6 +120,9 @@ const editableParcelSlice = createSlice({
     setCost: (state: IEditableParcelState, action: { payload: number }) => {
       state.cost = action.payload;
     },
+    setCustomer: (state: IEditableParcelState, action: { payload: string }) => {
+      state.customer = action.payload;
+    },
     setRecPhone: (state: IEditableParcelState, action: { payload: string }) => {
       state.recPhone = action.payload;
     },
@@ -191,9 +164,6 @@ const editableParcelSlice = createSlice({
     },
     toggleContainerRent: (state: IEditableParcelState) => {
       state.containerRent = !state.containerRent;
-    },
-    toggleNotification: (state: IEditableParcelState) => {
-      state.notification = !state.notification;
     },
     setItems: (
       state: IEditableParcelState,
@@ -357,6 +327,7 @@ const editableParcelSlice = createSlice({
     clearCreateParcelState: (state: IEditableParcelState) => {
       state.sent = initialState.sent;
       state.id = initialState.id;
+      state.customer = initialState.customer;
       state.number = initialState.number;
       state.sendCity = initialState.sendCity;
       state.sendPerson = initialState.sendPerson;
@@ -383,7 +354,6 @@ const editableParcelSlice = createSlice({
       state.tMin = initialState.tMin;
       state.fragile = initialState.fragile;
       state.containerRent = initialState.containerRent;
-      state.notification = initialState.notification;
       state.items = initialState.items;
     },
   },

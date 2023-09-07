@@ -28,7 +28,7 @@ import { ItemsTable } from "./components/itemsTable";
 import { useApi } from "../../hooks/useApi";
 import { CreateParcelDto } from "./dto/createParcel.dto";
 import { pushPath } from "../../core/history";
-import { authToken } from "../../hooks/useAuth";
+import { authToken, checkPermission } from "../../hooks/useAuth";
 import { TemplatesTable } from "../templates/components/table";
 import {
   temperatureSelectOptions,
@@ -42,6 +42,7 @@ import { minPageHeight } from "../../utils/pageSettings";
 import { isMobile } from "../../utils/isMobile";
 import "./createParcel.less";
 import { getCities } from "../../store/modules/dictionaries/selectors/cities.selector";
+import { getCustomers } from "../../store/modules/auth";
 
 export const CreateParcel = () => {
   const dispatch = useDispatch();
@@ -50,11 +51,34 @@ export const CreateParcel = () => {
     (state: IState) => state.editableEntities.editableParcel,
   );
   const cities = useSelector(getCities);
+  const company = useSelector((s: IState) => s.auth.company);
+  const customers = useSelector(getCustomers);
   const { Content } = Layout;
   const citySelectOptions = cities.map((city) => ({
     label: city,
     value: city,
   }));
+
+  const customerSelectOptions = [
+    {
+      label: company.name,
+      value: company.id,
+    },
+  ];
+
+  customers.forEach((customer) =>
+    customerSelectOptions.push({
+      label: customer.name,
+      value: customer.id,
+    }),
+  );
+
+  React.useEffect(() => {
+    if (!data.customer) {
+      dispatch(editParcel.setCustomer(company.id));
+    }
+  }, []);
+
   const [componentDisabled, setComponentDisabled] =
     React.useState<boolean>(false);
   const onFormLayoutChange = ({ disabled }: { disabled: boolean }) => {
@@ -369,6 +393,27 @@ export const CreateParcel = () => {
               </Form.Item>
             </Col>
           </Row>
+
+          {customerSelectOptions.length > 1 &&
+            checkPermission("parcel-customer-set") && (
+              <Form.Item label="Заказчик">
+                <Select
+                  value={data.customer}
+                  showSearch
+                  optionFilterProp="children"
+                  onChange={(value: string) =>
+                    dispatch(editParcel.setCustomer(value))
+                  }
+                  filterOption={(input, option) =>
+                    (option?.label ?? "")
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                  options={customerSelectOptions}
+                />
+              </Form.Item>
+            )}
+
           <Form.Item label="Дата вызова курьера">
             <DatePicker
               value={dayjs(data.date)}

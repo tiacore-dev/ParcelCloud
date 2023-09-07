@@ -10,6 +10,7 @@ import { Template } from "../pages/template/template";
 import { Prices } from "../pages/prices/prices";
 import { Documents } from "../pages/documents/documents";
 import { Document } from "../pages/document/document";
+import { ParcelsAsigned } from "../pages/parcelsAsigned/parcelsAsigned";
 
 export interface IParcelsRouteParams {
   parcelId: string;
@@ -31,6 +32,7 @@ export const AppRouter = () => {
         <Route path="/parcels/create" component={CreateParcel} key="parcel" />
         <Route path="/parcels/:parcelId" component={Parcel} key="parcel" />
         <Route path="/parcels" component={Parcels} key="parcels" />
+        <Route path="/tasks" component={ParcelsAsigned} key="tasks" />
         <Route
           path="/templates/:templateId"
           component={Template}

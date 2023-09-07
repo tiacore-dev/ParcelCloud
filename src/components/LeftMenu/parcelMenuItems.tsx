@@ -10,7 +10,7 @@ export const parcelMenuItems = () => {
   const items = [];
 
   items.push({
-    key: "parcels.create",
+    key: "createParcels",
     icon: <PlusCircleOutlined />,
     label: "Создать накладную",
     onClick: () => {
@@ -19,7 +19,7 @@ export const parcelMenuItems = () => {
   });
 
   items.push({
-    key: "parcels.all",
+    key: "parcels",
     icon: <UnorderedListOutlined />,
     label: "Мои накладные",
     onClick: () => {
@@ -28,7 +28,7 @@ export const parcelMenuItems = () => {
   });
 
   items.push({
-    key: "parcels.template",
+    key: "templates",
     icon: <AppstoreOutlined />,
     label: "Шаблоны",
     onClick: () => {
