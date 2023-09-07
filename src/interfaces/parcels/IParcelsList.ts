@@ -1,6 +1,7 @@
 export interface IParcelsList {
   id: string;
   date: string;
+  customer: string;
   number: string;
   recCity: string;
   recAddress: string;

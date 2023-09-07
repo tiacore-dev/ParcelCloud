@@ -11,14 +11,18 @@ export interface IParcelItem {
 }
 
 export interface IParcelHistory {
+  id?: string;
   date: string;
   type?: string;
   comment?: string;
+  editable?: boolean;
 }
 
 export interface IParcel {
   id: string;
+  date: string;
   number: string;
+  customer: string;
   sendCity: string;
   sendPerson: string;
   sendAddress: string;
