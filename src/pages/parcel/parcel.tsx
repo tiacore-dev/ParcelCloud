@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Breadcrumb, Card, Layout, Table } from "antd";
+import { Alert, Breadcrumb, Card, Layout, Spin, Table } from "antd";
 import Title from "antd/es/typography/Title";
 import { Link, useParams } from "react-router-dom";
 import { IParcelsRouteParams } from "../../core/router";
@@ -70,6 +70,8 @@ export const Parcel = () => {
 
   const parcelData = useSelector((state: IState) => state.pages.parcel.data);
   const isLoaded = useSelector((state: IState) => state.pages.parcel.loaded);
+  const isLoading = useSelector((state: IState) => state.pages.parcel.loading);
+  const errMsg = useSelector((state: IState) => state.pages.parcel.errMsg);
 
   let temperature: string = "Отсутствует";
 
@@ -194,8 +196,15 @@ export const Parcel = () => {
             </>
           )}
         </Content>
+      ) : isLoading ? (
+        <Spin size="large" />
       ) : (
-        <></>
+        <Alert
+          message="Ошибка получения данных по накладной"
+          description={errMsg}
+          type="error"
+          closable
+        />
       )}
     </>
   );

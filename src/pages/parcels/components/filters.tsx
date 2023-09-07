@@ -1,4 +1,4 @@
-import { DatePicker, Select, Space } from "antd";
+import { Button, DatePicker, Select, Space } from "antd";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "../../../store/modules";
@@ -14,31 +14,54 @@ import { dateFormat } from "../../../utils/dateConverter";
 import Search from "antd/es/input/Search";
 import { isMobile } from "../../../utils/isMobile";
 import { getCities } from "../../../store/modules/dictionaries/selectors/cities.selector";
+import { ReloadOutlined } from "@ant-design/icons";
+import { GetParcelsDto } from "../parcels";
+import { authToken } from "../../../hooks/useAuth";
 
-export const Filters = () => {
+interface IFiltersProps {
+  onChange: (param: GetParcelsDto) => void;
+}
+
+export const Filters = (props: IFiltersProps) => {
+  const { onChange } = props;
+
   const filters = useSelector(
     (state: IState) => state.settings.parcelsSettings.filters,
   );
+
+  const token = authToken();
+  const param: GetParcelsDto = {
+    authToken: token,
+    filters,
+  };
+
   const dispatch = useDispatch();
 
   const cities = useSelector(getCities);
-  const dateFromChangeHandler = (date: dayjs.Dayjs) => {
-    dispatch(setParcelsFiltersDateFrom(date.valueOf()));
+  const dateFromChangeHandler = async (date: dayjs.Dayjs) => {
+    const value = date.valueOf();
+    await dispatch(setParcelsFiltersDateFrom(value));
+    onChange({ ...param, filters: { ...param.filters, dateFrom: value } });
   };
-  const dateToChangeHandler = (date: dayjs.Dayjs) => {
-    dispatch(setParcelsFiltersDateTo(date.valueOf()));
-  };
-
-  const numberChangeHandler = (number: string) => {
-    dispatch(setParcelsFiltersNumber(number));
-  };
-
-  const sendCityChangeHandler = (cities: string[]) => {
-    dispatch(setParcelsFiltersSendCities(cities));
+  const dateToChangeHandler = async (date: dayjs.Dayjs) => {
+    const value = date.valueOf();
+    await dispatch(setParcelsFiltersDateTo(date.valueOf()));
+    onChange({ ...param, filters: { ...param.filters, dateTo: value } });
   };
 
-  const recCityChangeHandler = (cities: string[]) => {
-    dispatch(setParcelsFiltersRecCities(cities));
+  const numberChangeHandler = async (number: string) => {
+    await dispatch(setParcelsFiltersNumber(number));
+    onChange({ ...param, filters: { ...param.filters, number: number } });
+  };
+
+  const sendCityChangeHandler = async (cities: string[]) => {
+    await dispatch(setParcelsFiltersSendCities(cities));
+    onChange({ ...param, filters: { ...param.filters, sendCities: cities } });
+  };
+
+  const recCityChangeHandler = async (cities: string[]) => {
+    await dispatch(setParcelsFiltersRecCities(cities));
+    onChange({ ...param, filters: { ...param.filters, recCities: cities } });
   };
 
   const citySelectOptions = cities.map((city) => ({
@@ -52,6 +75,7 @@ export const Filters = () => {
       className="parcels_filters"
     >
       <Space direction="horizontal">
+        <Button icon={<ReloadOutlined />} onClick={() => onChange(param)} />
         <DatePicker
           value={dayjs(filters.dateFrom)}
           placeholder="Дата начала"

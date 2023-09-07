@@ -17,3 +17,7 @@ export interface IParcelsList {
   statusValue: string;
   statusDate: string;
 }
+
+export interface IParcelsListColumn extends IParcelsList {
+  key: string;
+}

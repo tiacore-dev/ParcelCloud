@@ -3,7 +3,6 @@ import * as React from "react";
 import { useApi } from "../../hooks/useApi";
 import { parcelsDesktopColumns } from "./components/desktop.columns";
 import { IauthToken, authToken } from "../../hooks/useAuth";
-import { convertParcelsData } from "./convertParcelsData";
 import {
   getParcelsFailure,
   getParcelsRequest,
@@ -18,10 +17,9 @@ import { IParcelsList } from "../../interfaces/parcels/IParcelsList";
 import { pushPath } from "../../core/history";
 import { parcelsMobileColumns } from "./components/mobile.columns";
 import { isMobile } from "../../utils/isMobile";
-import { convertParcelsDataMobile } from "./convertParcelsDataMobile";
 import { minPageHeight } from "../../utils/pageSettings";
 
-interface GetParcelsDto extends IParcelsSettingsState {
+export interface GetParcelsDto extends IParcelsSettingsState {
   authToken: IauthToken;
 }
 
@@ -41,29 +39,34 @@ export const Parcels = () => {
   const filters = useSelector(
     (state: IState) => state.settings.parcelsSettings.filters,
   );
+
+  const token = authToken();
   const param: GetParcelsDto = {
-    authToken: authToken(),
+    authToken: token,
     filters,
   };
 
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  const getParcels = React.useCallback((getParcelsParam: GetParcelsDto) => {
     dispatch(getParcelsRequest());
-    useApi<IParcelsList[], GetParcelsDto>("parcels", "get", param)
+    useApi<IParcelsList[], GetParcelsDto>("parcels", "get", getParcelsParam)
       .then((parcelsData) => {
         dispatch(getParcelsSuccess(parcelsData));
       })
       .catch((err) => {
         dispatch(getParcelsFailure(err));
       });
-  }, [filters]);
+  }, []);
 
   const parcelsData = useSelector((state: IState) => state.pages.parcels.data);
-  const convertedParcelsData = isMobile()
-    ? convertParcelsDataMobile(parcelsData)
-    : convertParcelsData(parcelsData);
   const isLoading = useSelector((state: IState) => state.pages.parcels.loading);
+
+  React.useEffect(() => {
+    if (!parcelsData.length) {
+      getParcels(param);
+    }
+  }, []);
 
   return (
     <>
@@ -83,11 +86,13 @@ export const Parcels = () => {
           background: "#FFF",
         }}
       >
-        <Filters />
+        <Filters onChange={getParcels} />
 
         <Table
-          dataSource={convertedParcelsData}
-          columns={isMobile() ? parcelsMobileColumns : parcelsDesktopColumns}
+          dataSource={parcelsData.map((el) => ({ ...el, key: el.id }))}
+          columns={
+            isMobile() ? parcelsMobileColumns() : parcelsDesktopColumns()
+          }
           loading={isLoading}
           onRow={(record) => {
             return {
