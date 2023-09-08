@@ -1,61 +1,70 @@
 import * as React from "react";
 import { ColumnsType } from "antd/es/table";
 import { dateToLocalString } from "../../../utils/dateConverter";
-import { IParcelsListColumn } from "../../../interfaces/parcels/IParcelsList";
-import { checkPermission } from "../../../hooks/useAuth";
+import { IParcelsAsignedListColumn } from "../../../interfaces/parcels/IParcelsList";
 
 export const parcelsAsignedDesktopColumns =
-  (): ColumnsType<IParcelsListColumn> => {
-    const customerView: boolean =
-      checkPermission("parcel-view-all") ||
-      checkPermission("parcel-view-assigned");
-
+  (): ColumnsType<IParcelsAsignedListColumn> => {
     return [
       {
-        title: "Номер",
-        key: "number",
-        width: customerView ? "20%" : "15%",
-        render: (text: string, record: IParcelsListColumn) => (
+        title: "Задача",
+        key: "task",
+        width: "30%",
+        render: (text: string, record: IParcelsAsignedListColumn) => (
           <>
-            {customerView && <div>{record.customer}</div>}
-            <div>{record.number}</div>
-            <div>от {dateToLocalString(record.date)}</div>
+            <div>
+              {record.taskType === "deliver"
+                ? "Доставить получателю"
+                : "Забрать у отправителя"}{" "}
+            </div>
+            <div>
+              Дата:{" "}
+              {record.taskType === "deliver"
+                ? dateToLocalString(record.delDate)
+                : dateToLocalString(record.date)}
+            </div>
+            <div>
+              Время:{" "}
+              {record.taskType === "deliver" ? record.recTime : record.sendTime}
+            </div>
           </>
         ),
       },
       {
-        title: "Отправитель",
+        title: "Адрес:",
         key: "send",
-        width: "27%",
-        render: (text: string, record: IParcelsListColumn) => (
+        width: "40%",
+        render: (text: string, record: IParcelsAsignedListColumn) => (
           <>
-            <div>{record.recCity}</div>
-            <div>{record.recAddress}</div>
-            <div>{record.recCompany}</div>
+            <div>
+              {record.taskType === "deliver" ? record.recCity : record.sendCity}
+            </div>
+            <div>
+              {record.taskType === "deliver"
+                ? record.recAddress
+                : record.sendAddress}
+            </div>
+            <div>
+              {record.taskType === "deliver"
+                ? record.recCompany
+                : record.sendCompany}
+            </div>
           </>
         ),
       },
       {
-        title: "Получатель",
+        title: "Накладная",
         key: "rec",
-        width: "27%",
-        render: (text: string, record: IParcelsListColumn) => (
+        width: "37%",
+        render: (text: string, record: IParcelsAsignedListColumn) => (
           <>
-            <div>{record.sendCity}</div>
-            <div>{record.sendAddress}</div>
-            <div>{record.sendCompany}</div>
-          </>
-        ),
-      },
-      {
-        title: "Грузы",
-        key: "items",
-        width: "16%",
-        render: (text: string, record: IParcelsListColumn) => (
-          <>
-            <div>Мест: {record.qt}</div>
-            <div>Вес: {record.weight}</div>
-            <div>Об. вес: {record.volume}</div>
+            <div>{record.customer}</div>
+            <div>
+              {record.number} от {dateToLocalString(record.date)}
+            </div>
+            <div>
+              Мест: {record.qt}, Вес: {record.weight}
+            </div>
           </>
         ),
       },

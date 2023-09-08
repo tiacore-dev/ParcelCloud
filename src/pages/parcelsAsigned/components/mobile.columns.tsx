@@ -1,11 +1,11 @@
 import * as React from "react";
 import { ColumnsType } from "antd/es/table";
 import { dateToLocalString } from "../../../utils/dateConverter";
-import { IParcelsListColumn } from "../../../interfaces/parcels/IParcelsList";
+import { IParcelsAsignedListColumn } from "../../../interfaces/parcels/IParcelsList";
 import { checkPermission } from "../../../hooks/useAuth";
 
 export const parcelsAsignedMobileColumns =
-  (): ColumnsType<IParcelsListColumn> => {
+  (): ColumnsType<IParcelsAsignedListColumn> => {
     const customerView: boolean =
       checkPermission("parcel-view-all") ||
       checkPermission("parcel-view-assigned");
@@ -14,7 +14,7 @@ export const parcelsAsignedMobileColumns =
       {
         title: "Накладные:",
         key: "mobileData",
-        render: (text: string, record: IParcelsListColumn) => (
+        render: (text: string, record: IParcelsAsignedListColumn) => (
           <>
             {customerView && (
               <div>

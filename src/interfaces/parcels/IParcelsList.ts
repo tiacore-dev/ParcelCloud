@@ -28,6 +28,7 @@ export interface IParcelsAsignedList extends IParcelsList {
   taskType: ITaskType;
   recTime: string;
   sendTime: string;
+  delDate: string;
 }
 
 export interface IParcelsAsignedListColumn extends IParcelsAsignedList {
