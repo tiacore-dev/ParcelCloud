@@ -11,6 +11,7 @@ import { Prices } from "../pages/prices/prices";
 import { Documents } from "../pages/documents/documents";
 import { Document } from "../pages/document/document";
 import { ParcelsAsigned } from "../pages/parcelsAsigned/parcelsAsigned";
+import { Manifests } from "../pages/manifests/manifests";
 
 export interface IParcelsRouteParams {
   parcelId: string;
@@ -39,6 +40,7 @@ export const AppRouter = () => {
           key="template"
         />
         <Route path="/templates" component={Templates} key="templates" />
+        <Route path="/manifests" component={Manifests} key="manifests" />
         <Route
           path="/documents/:documentId"
           component={Document}

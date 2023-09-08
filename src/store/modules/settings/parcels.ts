@@ -6,6 +6,7 @@ interface IParcelsFilter {
   number: string;
   sendCities: string[];
   recCities: string[];
+  parcelIDS?: string[];
 }
 
 export interface IParcelsSettingsState {

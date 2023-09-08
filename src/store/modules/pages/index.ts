@@ -7,6 +7,8 @@ import { template } from "./template";
 import { prices } from "./prices";
 import { document } from "./document";
 import { documents } from "./documents";
+import { manifest } from "./manifest";
+import { manifests } from "./manifests";
 
 export const pages = combineReducers({
   parcels,
@@ -17,4 +19,6 @@ export const pages = combineReducers({
   prices,
   document,
   documents,
+  manifest,
+  manifests,
 });

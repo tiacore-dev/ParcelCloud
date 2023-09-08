@@ -20,73 +20,24 @@ export const AppHeader = () => {
     });
   }
 
-  const parcels_children: ItemType[] = [];
-
-  parcels_children.push({
-    key: "allParcels",
-    label:
-      checkPermission("parcel-view-all") ||
-      checkPermission("parcel-view-assigned")
-        ? "Все накладные"
-        : "Мои накладные",
+  desktopItems.push({
+    key: "parcels",
+    label: "Накладные",
     onClick: () => {
       pushPath("/parcels");
     },
   });
 
-  if (checkPermission("parcel-create")) {
-    parcels_children.push({
-      key: "createParcels",
-      label: "Создать накладную",
-      onClick: () => {
-        pushPath("/parcels/create");
-      },
-    });
-  }
-
-  if (checkPermission("template-view")) {
-    parcels_children.push({
-      key: "templates",
-      label: "Шаблоны",
-      onClick: () => {
-        pushPath("/templates");
-      },
-    });
-  }
-
-  desktopItems.push({
-    key: "parcels",
-    label: "Накладные",
-    children: parcels_children,
-  });
-
-  const storage_children: ItemType[] = [];
-
-  if (checkPermission("manifest-incoming-view")) {
-    storage_children.push({
-      key: "manifestsIncoming",
-      label: "Манифесты входящие",
-      onClick: () => {
-        pushPath("/manifestsIncoming");
-      },
-    });
-  }
-
-  if (checkPermission("manifest-outgoing-view")) {
-    storage_children.push({
-      key: "manifestsOutgoing",
-      label: "Манифесты исходящие",
-      onClick: () => {
-        pushPath("/manifestsOutgoing");
-      },
-    });
-  }
-
-  if (storage_children.length) {
+  if (
+    checkPermission("manifest-incoming-view") ||
+    checkPermission("manifest-outgoing-view")
+  ) {
     desktopItems.push({
-      key: "storage",
-      label: "Склад",
-      children: storage_children,
+      key: "manifests",
+      label: "Манифесты",
+      onClick: () => {
+        pushPath("/manifests");
+      },
     });
   }
 

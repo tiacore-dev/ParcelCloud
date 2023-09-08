@@ -1,27 +1,16 @@
 import { Breadcrumb, Layout, Table } from "antd";
 import * as React from "react";
-import { useApi } from "../../hooks/useApi";
 import { parcelsDesktopColumns } from "./components/desktop.columns";
-import { IauthToken, authToken } from "../../hooks/useAuth";
-import {
-  getParcelsFailure,
-  getParcelsRequest,
-  getParcelsSuccess,
-} from "../../store/modules/pages/parcels";
+import { authToken } from "../../hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "../../store/modules";
-import { IParcelsSettingsState } from "../../store/modules/settings/parcels";
 import { Filters } from "./components/filters";
 import "./parcels.less";
-import { IParcelsList } from "../../interfaces/parcels/IParcelsList";
 import { pushPath } from "../../core/history";
 import { parcelsMobileColumns } from "./components/mobile.columns";
 import { isMobile } from "../../utils/isMobile";
 import { minPageHeight } from "../../utils/pageSettings";
-
-export interface GetParcelsDto extends IParcelsSettingsState {
-  authToken: IauthToken;
-}
+import { GetParcelsDto, getParcels } from "../../hooks/ApiActions/parcel";
 
 export const Parcels = () => {
   const { Content } = Layout;
@@ -38,25 +27,12 @@ export const Parcels = () => {
 
   const dispatch = useDispatch();
 
-  const getParcels = React.useCallback((getParcelsParam: GetParcelsDto) => {
-    dispatch(getParcelsRequest());
-    useApi<IParcelsList[], GetParcelsDto>("parcels", "get", getParcelsParam)
-      .then((parcelsData) => {
-        dispatch(getParcelsSuccess(parcelsData));
-      })
-      .catch((err) => {
-        dispatch(getParcelsFailure(err));
-      });
-  }, []);
-
   const parcelsData = useSelector((state: IState) => state.pages.parcels.data);
   const isLoading = useSelector((state: IState) => state.pages.parcels.loading);
 
   React.useEffect(() => {
-    if (!parcelsData.length) {
-      getParcels(param);
-    }
-  }, []);
+    getParcels(dispatch, param);
+  }, [filters]);
 
   return (
     <>
@@ -76,7 +52,7 @@ export const Parcels = () => {
           background: "#FFF",
         }}
       >
-        <Filters onChange={getParcels} />
+        <Filters onChange={(data) => getParcels(dispatch, data)} />
 
         <Table
           dataSource={parcelsData.map((el) => ({ ...el, key: el.id }))}

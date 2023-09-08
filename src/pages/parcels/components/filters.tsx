@@ -15,8 +15,8 @@ import Search from "antd/es/input/Search";
 import { isMobile } from "../../../utils/isMobile";
 import { getCities } from "../../../store/modules/dictionaries/selectors/cities.selector";
 import { ReloadOutlined } from "@ant-design/icons";
-import { GetParcelsDto } from "../parcels";
 import { authToken } from "../../../hooks/useAuth";
+import { GetParcelsDto } from "../../../hooks/ApiActions/parcel";
 
 interface IFiltersProps {
   onChange: (param: GetParcelsDto) => void;
@@ -41,27 +41,27 @@ export const Filters = (props: IFiltersProps) => {
   const dateFromChangeHandler = async (date: dayjs.Dayjs) => {
     const value = date.valueOf();
     await dispatch(setParcelsFiltersDateFrom(value));
-    onChange({ ...param, filters: { ...param.filters, dateFrom: value } });
+    // onChange({ ...param, filters: { ...param.filters, dateFrom: value } });
   };
   const dateToChangeHandler = async (date: dayjs.Dayjs) => {
     const value = date.valueOf();
-    await dispatch(setParcelsFiltersDateTo(date.valueOf()));
-    onChange({ ...param, filters: { ...param.filters, dateTo: value } });
+    await dispatch(setParcelsFiltersDateTo(value));
+    // onChange({ ...param, filters: { ...param.filters, dateTo: value } });
   };
 
   const numberChangeHandler = async (number: string) => {
     await dispatch(setParcelsFiltersNumber(number));
-    onChange({ ...param, filters: { ...param.filters, number: number } });
+    // onChange({ ...param, filters: { ...param.filters, number: number } });
   };
 
   const sendCityChangeHandler = async (cities: string[]) => {
     await dispatch(setParcelsFiltersSendCities(cities));
-    onChange({ ...param, filters: { ...param.filters, sendCities: cities } });
+    // onChange({ ...param, filters: { ...param.filters, sendCities: cities } });
   };
 
   const recCityChangeHandler = async (cities: string[]) => {
     await dispatch(setParcelsFiltersRecCities(cities));
-    onChange({ ...param, filters: { ...param.filters, recCities: cities } });
+    // onChange({ ...param, filters: { ...param.filters, recCities: cities } });
   };
 
   const citySelectOptions = cities.map((city) => ({
