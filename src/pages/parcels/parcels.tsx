@@ -1,7 +1,7 @@
 import { Breadcrumb, Layout, Table } from "antd";
 import * as React from "react";
 import { parcelsDesktopColumns } from "./components/desktop.columns";
-import { authToken } from "../../hooks/useAuth";
+import { authToken, checkPermission } from "../../hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "../../store/modules";
 import { Filters } from "./components/filters";
@@ -29,6 +29,9 @@ export const Parcels = () => {
 
   const parcelsData = useSelector((state: IState) => state.pages.parcels.data);
   const isLoading = useSelector((state: IState) => state.pages.parcels.loading);
+  const customerView =
+    checkPermission("parcel-view-all") ||
+    checkPermission("parcel-view-assigned");
 
   React.useEffect(() => {
     getParcels(dispatch, param);
@@ -57,7 +60,9 @@ export const Parcels = () => {
         <Table
           dataSource={parcelsData.map((el) => ({ ...el, key: el.id }))}
           columns={
-            isMobile() ? parcelsMobileColumns() : parcelsDesktopColumns()
+            isMobile()
+              ? parcelsMobileColumns(customerView)
+              : parcelsDesktopColumns(customerView)
           }
           loading={isLoading}
           onRow={(record) => {

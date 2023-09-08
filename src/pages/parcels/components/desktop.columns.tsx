@@ -2,13 +2,10 @@ import * as React from "react";
 import { ColumnsType } from "antd/es/table";
 import { dateToLocalString } from "../../../utils/dateConverter";
 import { IParcelsListColumn } from "../../../interfaces/parcels/IParcelsList";
-import { checkPermission } from "../../../hooks/useAuth";
 
-export const parcelsDesktopColumns = (): ColumnsType<IParcelsListColumn> => {
-  const customerView: boolean =
-    checkPermission("parcel-view-all") ||
-    checkPermission("parcel-view-assigned");
-
+export const parcelsDesktopColumns = (
+  customerView: boolean,
+): ColumnsType<IParcelsListColumn> => {
   return [
     {
       title: "Номер",
@@ -28,9 +25,9 @@ export const parcelsDesktopColumns = (): ColumnsType<IParcelsListColumn> => {
       width: "27%",
       render: (text: string, record: IParcelsListColumn) => (
         <>
-          <div>{record.recCity}</div>
-          <div>{record.recAddress}</div>
-          <div>{record.recCompany}</div>
+          <div>{record.sendCity}</div>
+          <div>{record.sendAddress}</div>
+          <div>{record.sendCompany}</div>
         </>
       ),
     },
@@ -40,9 +37,9 @@ export const parcelsDesktopColumns = (): ColumnsType<IParcelsListColumn> => {
       width: "27%",
       render: (text: string, record: IParcelsListColumn) => (
         <>
-          <div>{record.sendCity}</div>
-          <div>{record.sendAddress}</div>
-          <div>{record.sendCompany}</div>
+          <div>{record.recCity}</div>
+          <div>{record.recAddress}</div>
+          <div>{record.recCompany}</div>
         </>
       ),
     },

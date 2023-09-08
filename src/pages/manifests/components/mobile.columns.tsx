@@ -11,9 +11,9 @@ export const manifestsMobileColumns = (): ColumnsType<IManifestsListColumn> => {
       render: (text: string, record: IManifestsListColumn) => (
         <>
           <div>
-            Перевозчик: <b>{record.transferCompany}</b>
+            Перевозчик: <b>{record.manifestCompany}</b>
           </div>
-          <div>Накладная: {record.transferNumber}</div>
+          <div>Накладная: {record.manifestNumber}</div>
 
           <div>
             Манифест: {record.number} от {dateToLocalString(record.date)}

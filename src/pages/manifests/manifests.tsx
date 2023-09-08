@@ -10,6 +10,7 @@ import { manifestsMobileColumns } from "./components/mobile.columns";
 import { isMobile } from "../../utils/isMobile";
 import { minPageHeight } from "../../utils/pageSettings";
 import { GetManifestsDto, getManifests } from "../../hooks/ApiActions/manifest";
+import { pushPath } from "../../core/history";
 
 export const Manifests = () => {
   const { Content } = Layout;
@@ -63,13 +64,13 @@ export const Manifests = () => {
             isMobile() ? manifestsMobileColumns() : manifestsDesktopColumns()
           }
           loading={isLoading}
-          // onRow={(record) => {
-          //   return {
-          //     onClick: () => {
-          //       pushPath(`/manifests/${record.key}`);
-          //     },
-          //   };
-          // }}
+          onRow={(record) => {
+            return {
+              onClick: () => {
+                pushPath(`/manifests/${record.key}`);
+              },
+            };
+          }}
         />
       </Content>
     </>

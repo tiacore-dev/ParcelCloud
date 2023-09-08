@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { IauthToken } from "./useAuth";
 import { Buffer } from "buffer";
 
@@ -23,11 +23,14 @@ export const useApi = async <R, D = any>(
   data?: D,
 ): Promise<R> => {
   const url = `${process.env.REACT_APP_API_URL}/${templateName}/${methodName}`;
-  const responce: { data: IApiResponce<R> } = await axios.post(
-    url,
-    JSON.stringify(data),
-    { withCredentials: false },
-  );
+  const responce: { data: IApiResponce<R> } = await axios
+    .post(url, JSON.stringify(data), { withCredentials: false })
+    .catch((err: AxiosError) => {
+      return {
+        data: { error: true, errorMessage: err.message },
+      };
+    });
+
   if (responce.data.error) {
     console.log(responce.data.errorMessage);
     throw responce.data.errorMessage;

@@ -14,10 +14,10 @@ export interface IParcelsList {
   qt: number;
   weight: number;
   volume: number;
-  price: number;
-  statusType: string;
-  statusValue: string;
-  statusDate: string;
+  price?: number;
+  statusType?: string;
+  statusValue?: string;
+  statusDate?: string;
 }
 
 export interface IParcelsListColumn extends IParcelsList {

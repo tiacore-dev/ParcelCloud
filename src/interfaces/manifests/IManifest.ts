@@ -8,8 +8,8 @@ export interface IManifest {
   sendCity: string;
   recCompany: string;
   recCity: string;
-  transferNumber: string;
-  transferCompany: string;
+  manifestNumber: string;
+  manifestCompany: string;
   delDate: string;
   qtParcels: number;
   qtItems: number;

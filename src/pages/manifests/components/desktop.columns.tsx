@@ -1,20 +1,21 @@
 import * as React from "react";
 import { ColumnsType } from "antd/es/table";
 import { dateToLocalString } from "../../../utils/dateConverter";
-import { IManifestsListColumn } from "../../../interfaces/manifests/IManifestList";
+
 import { CheckCircleTwoTone, ClockCircleTwoTone } from "@ant-design/icons";
+import { IManifestsListColumn } from "../../../interfaces/manifests/IManifestList";
 
 export const manifestsDesktopColumns =
   (): ColumnsType<IManifestsListColumn> => {
     return [
       {
         title: "Перевозка",
-        key: "transfer",
+        key: "manifest",
         width: "30%",
         render: (text: string, record: IManifestsListColumn) => (
           <>
-            <div>Перевозчик: {record.transferCompany}</div>
-            <div>Накладная: {record.transferNumber}</div>
+            <div>Перевозчик: {record.manifestCompany}</div>
+            <div>Накладная: {record.manifestNumber}</div>
             <div>
               Манифест: {record.number} от {dateToLocalString(record.date)}
             </div>

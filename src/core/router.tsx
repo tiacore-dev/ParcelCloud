@@ -12,9 +12,14 @@ import { Documents } from "../pages/documents/documents";
 import { Document } from "../pages/document/document";
 import { ParcelsAsigned } from "../pages/parcelsAsigned/parcelsAsigned";
 import { Manifests } from "../pages/manifests/manifests";
+import { Manifest } from "../pages/manifest/manifest";
 
 export interface IParcelsRouteParams {
   parcelId: string;
+}
+
+export interface IManifestsRouteParams {
+  manifestId: string;
 }
 
 export interface IDocumentsRouteParams {
@@ -40,6 +45,12 @@ export const AppRouter = () => {
           key="template"
         />
         <Route path="/templates" component={Templates} key="templates" />
+
+        <Route
+          path="/manifests/:manifestId"
+          component={Manifest}
+          key="manifest"
+        />
         <Route path="/manifests" component={Manifests} key="manifests" />
         <Route
           path="/documents/:documentId"

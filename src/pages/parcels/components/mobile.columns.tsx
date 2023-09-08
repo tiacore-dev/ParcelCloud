@@ -2,13 +2,10 @@ import * as React from "react";
 import { ColumnsType } from "antd/es/table";
 import { dateToLocalString } from "../../../utils/dateConverter";
 import { IParcelsListColumn } from "../../../interfaces/parcels/IParcelsList";
-import { checkPermission } from "../../../hooks/useAuth";
 
-export const parcelsMobileColumns = (): ColumnsType<IParcelsListColumn> => {
-  const customerView: boolean =
-    checkPermission("parcel-view-all") ||
-    checkPermission("parcel-view-assigned");
-
+export const parcelsMobileColumns = (
+  customerView: boolean,
+): ColumnsType<IParcelsListColumn> => {
   return [
     {
       title: "Накладные:",
