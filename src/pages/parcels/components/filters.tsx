@@ -22,6 +22,7 @@ import {
 import { authToken } from "../../../hooks/useAuth";
 import { GetParcelsDto } from "../../../hooks/ApiActions/parcel";
 import { useNavigate } from "react-router-dom";
+import { clearCreateParcelState } from "../../../store/modules/editableEntities/editableParcel";
 
 interface IFiltersProps {
   onChange: (param: GetParcelsDto) => void;
@@ -74,7 +75,10 @@ export const Filters = (props: IFiltersProps) => {
       <Space direction="horizontal">
         <Button
           icon={<PlusCircleTwoTone />}
-          onClick={() => navigate("/parcels/create")}
+          onClick={() => {
+            dispatch(clearCreateParcelState());
+            navigate("/parcels/create");
+          }}
           type="primary"
         >
           Создать
