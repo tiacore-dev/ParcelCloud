@@ -123,7 +123,6 @@ export const columns = () => {
         <Form size="small" labelCol={{ span: 8 }} layout="horizontal">
           <Form.Item label="Вес" className="prices__items__form_item">
             <InputNumber
-              // bordered={false}
               className="prices__items__input_number"
               value={record?.weight || 0}
               min={0}

@@ -46,27 +46,22 @@ export const Filters = (props: IFiltersProps) => {
   const dateFromChangeHandler = async (date: dayjs.Dayjs) => {
     const value = date.valueOf();
     await dispatch(setParcelsFiltersDateFrom(value));
-    // onChange({ ...param, filters: { ...param.filters, dateFrom: value } });
   };
   const dateToChangeHandler = async (date: dayjs.Dayjs) => {
     const value = date.valueOf();
     await dispatch(setParcelsFiltersDateTo(value));
-    // onChange({ ...param, filters: { ...param.filters, dateTo: value } });
   };
 
   const numberChangeHandler = async (number: string) => {
     await dispatch(setParcelsFiltersNumber(number));
-    // onChange({ ...param, filters: { ...param.filters, number: number } });
   };
 
   const sendCityChangeHandler = async (cities: string[]) => {
     await dispatch(setParcelsFiltersSendCities(cities));
-    // onChange({ ...param, filters: { ...param.filters, sendCities: cities } });
   };
 
   const recCityChangeHandler = async (cities: string[]) => {
     await dispatch(setParcelsFiltersRecCities(cities));
-    // onChange({ ...param, filters: { ...param.filters, recCities: cities } });
   };
 
   const citySelectOptions = cities.map((city) => ({
@@ -75,10 +70,7 @@ export const Filters = (props: IFiltersProps) => {
   }));
 
   return (
-    <div
-      // direction={isMobile() ? "vertical" : "horizontal"}
-      className="parcels_filters"
-    >
+    <div className="parcels_filters">
       <Space direction="horizontal">
         <Button
           icon={<PlusCircleTwoTone />}

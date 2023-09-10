@@ -82,7 +82,6 @@ export const App = () => {
   const navigate = useNavigate();
   const authData = useSelector((state: IState) => state.auth);
   const isAuth = authData.isAuth;
-  // const mobile = isMobile();
   if (!isAuth) {
     navigate("/auth");
   }

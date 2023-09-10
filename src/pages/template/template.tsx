@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Breadcrumb, Button, Form, Input, Layout, Select, Space } from "antd";
 import { Link, useParams } from "react-router-dom";
-// import { ITemplatesRouteParams } from "../../core/router";
 import { useDispatch, useSelector } from "react-redux";
 import { useApi } from "../../hooks/useApi";
 import { IauthToken, authToken } from "../../hooks/useAuth";

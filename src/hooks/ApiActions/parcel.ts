@@ -53,23 +53,6 @@ export const getParcel = (
     });
 };
 
-// export const setGeneralParcelStatus = (
-//   dispatch: Dispatch<AnyAction>,
-//   getParcelsParam: GetParcelDto,
-// ) => {
-//   // dispatch(getParcelsRequest());
-//   useApi<boolean, GetParcelDto>("parcels", "get", getParcelsParam)
-//     .then((response) => {
-//       console.log(response);
-//       // dispatch(getParcelsSuccess(parcelData));
-//     })
-//     .catch((err) => {
-//       console.log(err);
-
-//       // dispatch(getParcelsFailure(err));
-//     });
-// };
-
 export const acceptReceiveTask = async (
   dispatch: Dispatch<AnyAction>,
   getParcelParam: GetParcelDto,
