@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IState } from "../../store/modules";
 import "./parcelsAsigned.less";
 import { IParcelsAsignedList } from "../../interfaces/parcels/IParcelsList";
-import { pushPath } from "../../core/history";
+import { useNavigate } from "react-router-dom";
 import { parcelsAsignedMobileColumns } from "./components/mobile.columns";
 import { isMobile } from "../../utils/isMobile";
 import { minPageHeight } from "../../utils/pageSettings";
@@ -30,7 +30,7 @@ export const ParcelsAsigned = () => {
   };
 
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const getParcelsAsigned = React.useCallback(
     (getParcelsParam: GetParcelsAsignedDto) => {
       dispatch(getParcelsAsignedRequest());
@@ -96,7 +96,7 @@ export const ParcelsAsigned = () => {
           onRow={(record) => {
             return {
               onClick: () => {
-                pushPath(`/parcels/${record.key}`);
+                navigate(`/parcels/${record.key}`);
               },
             };
           }}

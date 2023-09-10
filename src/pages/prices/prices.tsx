@@ -19,7 +19,7 @@ import {
   editParcel,
 } from "../../store/modules/editableEntities/editableParcel";
 import { delTypeEnum } from "../../enumerations/delTypeEnum";
-import { pushPath } from "../../core/history";
+import { useNavigate } from "react-router-dom";
 import {
   temperatureSelectOptions,
   temperatureValues,
@@ -44,6 +44,7 @@ export interface GetParcelResponce {
 
 export const Prices = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cities = useSelector(getCities);
   const { Content } = Layout;
   const citySelectOptions = cities.map((city) => ({
@@ -68,7 +69,7 @@ export const Prices = () => {
     dispatch(editParcel.setDelType(delType));
     dispatch(editParcel.setItems(data.items));
 
-    pushPath("/parcels/create");
+    navigate("/parcels/create");
   };
 
   const onTemperatureSelect = (value: string) => {

@@ -2,7 +2,6 @@ import * as React from "react";
 import { Breadcrumb, Button, Card, Layout, Space, Table } from "antd";
 import Title from "antd/es/typography/Title";
 import { Link, useParams } from "react-router-dom";
-import { IDocumentsRouteParams } from "../../core/router";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getDocumentFailure,
@@ -13,7 +12,7 @@ import { useApi, useGettingFile } from "../../hooks/useApi";
 import { IDocument } from "../../interfaces/documents/IDocument";
 import { IauthToken, authToken } from "../../hooks/useAuth";
 import { IState } from "../../store/modules";
-import { pushPath } from "../../core/history";
+import { useNavigate } from "react-router-dom";
 import { minPageHeight } from "../../utils/pageSettings";
 import { isMobile } from "../../utils/isMobile";
 import { parcelsDesktopColumns } from "./components/desktop.columns";
@@ -27,8 +26,8 @@ interface GetDocumentDto {
 export const Document = () => {
   const { Content } = Layout;
 
-  const routeParams: IDocumentsRouteParams = useParams();
-
+  const routeParams = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const token = authToken();
@@ -182,7 +181,7 @@ export const Document = () => {
               onRow={(record) => {
                 return {
                   onClick: () => {
-                    pushPath(`/parcels/${record.id}`);
+                    navigate(`/parcels/${record.id}`);
                   },
                 };
               }}

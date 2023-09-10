@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IState } from "../../store/modules";
 import { Filters } from "./components/filters";
 import "./parcels.less";
-import { pushPath } from "../../core/history";
+import { useNavigate } from "react-router-dom";
 import { parcelsMobileColumns } from "./components/mobile.columns";
 import { isMobile } from "../../utils/isMobile";
 import { minPageHeight } from "../../utils/pageSettings";
@@ -26,7 +26,7 @@ export const Parcels = () => {
   };
 
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const parcelsData = useSelector((state: IState) => state.pages.parcels.data);
   const isLoading = useSelector((state: IState) => state.pages.parcels.loading);
   const customerView =
@@ -69,7 +69,7 @@ export const Parcels = () => {
           onRow={(record) => {
             return {
               onClick: () => {
-                pushPath(`/parcels/${record.key}`);
+                navigate(`/parcels/${record.key}`);
               },
             };
           }}

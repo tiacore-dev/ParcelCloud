@@ -10,7 +10,7 @@ import { manifestsMobileColumns } from "./components/mobile.columns";
 import { isMobile } from "../../utils/isMobile";
 import { minPageHeight } from "../../utils/pageSettings";
 import { GetManifestsDto, getManifests } from "../../hooks/ApiActions/manifest";
-import { pushPath } from "../../core/history";
+import { useNavigate } from "react-router-dom";
 
 export const Manifests = () => {
   const { Content } = Layout;
@@ -26,7 +26,7 @@ export const Manifests = () => {
   };
 
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const manifestsData = useSelector(
     (state: IState) => state.pages.manifests.data,
   );
@@ -68,7 +68,7 @@ export const Manifests = () => {
           onRow={(record) => {
             return {
               onClick: () => {
-                pushPath(`/manifests/${record.key}`);
+                navigate(`/manifests/${record.key}`);
               },
             };
           }}

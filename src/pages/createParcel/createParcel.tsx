@@ -27,7 +27,7 @@ import { PayTypeSelectOptions } from "../../enumerations/payTypeEnum";
 import { ItemsTable } from "./components/itemsTable";
 import { useApi } from "../../hooks/useApi";
 import { CreateParcelDto } from "./dto/createParcel.dto";
-import { pushPath } from "../../core/history";
+import { useNavigate } from "react-router-dom";
 import { authToken, checkPermission } from "../../hooks/useAuth";
 import { TemplatesTable } from "../templates/components/table";
 import {
@@ -46,6 +46,7 @@ import { getCustomers } from "../../store/modules/auth";
 
 export const CreateParcel = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { TextArea } = Input;
   const data = useSelector(
     (state: IState) => state.editableEntities.editableParcel,
@@ -118,7 +119,7 @@ export const CreateParcel = () => {
     )
       .then((parcelData) => {
         dispatch(editParcel.savedParcel(parcelData));
-        pushPath(`/parcels/${parcelData.id}`);
+        navigate(`/parcels/${parcelData.id}`);
         dispatch(clearCreateParcelState());
       })
       .catch(() => {

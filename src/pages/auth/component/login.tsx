@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Button, Form, Input, message } from "antd";
 import { useDispatch } from "react-redux";
-import { pushPath } from "../../../core/history";
+import { useNavigate } from "react-router-dom";
 import { useApi } from "../../../hooks/useApi";
 import { ILoginData } from "../../../hooks/useAuth";
 import { authlogin } from "../../../store/modules/auth";
@@ -12,14 +12,14 @@ import { IUser } from "../../../interfaces/users/IUser";
 export const Login = () => {
   const dispatch = useDispatch();
   const [load] = useloadSourse();
-
+  const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
   const login = React.useCallback(async (loginData: ILoginData) => {
     useApi<IUser, ILoginData>("auth", "login", loginData)
       .then((data) => {
         dispatch(authlogin(data));
         load(data);
-        pushPath("/");
+        navigate("/");
       })
       .catch((err) => {
         messageApi.open({

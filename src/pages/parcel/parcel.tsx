@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Alert, Breadcrumb, Card, Layout, Spin, Table } from "antd";
 import { Link, useParams } from "react-router-dom";
-import { IParcelsRouteParams } from "../../core/router";
 import { useDispatch, useSelector } from "react-redux";
 import { IParcelHistory, IParcelItem } from "../../interfaces/parcels/IParcel";
 import { authToken } from "../../hooks/useAuth";
@@ -35,7 +34,7 @@ export interface IConvertedParcelItem {
 export const Parcel = () => {
   const { Content } = Layout;
 
-  const routeParams: IParcelsRouteParams = useParams();
+  const routeParams = useParams();
 
   const dispatch = useDispatch();
 

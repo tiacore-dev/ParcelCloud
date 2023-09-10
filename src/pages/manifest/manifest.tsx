@@ -9,13 +9,12 @@ import { IState } from "../../store/modules";
 
 import { minPageHeight } from "../../utils/pageSettings";
 import { isMobile } from "../../utils/isMobile";
-import { IManifestsRouteParams } from "../../core/router";
 import { dateToLocalString } from "../../utils/dateConverter";
 import { parcelsDesktopColumns } from "../parcels/components/desktop.columns";
 import { parcelsMobileColumns } from "../parcels/components/mobile.columns";
 import { IParcelsListColumn } from "../../interfaces/parcels/IParcelsList";
 import { GetManifestDto, getManifest } from "../../hooks/ApiActions/manifest";
-import { pushPath } from "../../core/history";
+import { useNavigate } from "react-router-dom";
 
 export interface IConvertedManifestItem {
   key: number;
@@ -34,8 +33,8 @@ export interface IConvertedManifestItem {
 export const Manifest = () => {
   const { Content } = Layout;
 
-  const routeParams: IManifestsRouteParams = useParams();
-
+  const routeParams = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = authToken();
 
@@ -153,7 +152,7 @@ export const Manifest = () => {
                   onRow={(record) => {
                     return {
                       onClick: () => {
-                        pushPath(`/parcels/${record.key}`);
+                        navigate(`/parcels/${record.key}`);
                       },
                     };
                   }}

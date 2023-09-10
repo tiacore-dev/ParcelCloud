@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { Auth } from "../pages/auth/auth";
 import { Main } from "../pages/main/main";
 import { CreateParcel } from "../pages/createParcel/createParcel";
@@ -14,53 +14,41 @@ import { ParcelsAsigned } from "../pages/parcelsAsigned/parcelsAsigned";
 import { Manifests } from "../pages/manifests/manifests";
 import { Manifest } from "../pages/manifest/manifest";
 
-export interface IParcelsRouteParams {
-  parcelId: string;
-}
-
-export interface IManifestsRouteParams {
-  manifestId: string;
-}
-
-export interface IDocumentsRouteParams {
-  documentId: string;
-}
-
-export interface ITemplatesRouteParams {
-  templateId: string;
-}
-
 export const AppRouter = () => {
   return (
     <>
-      <Switch>
-        <Route path="/auth" component={Auth} key="auth" />
-        <Route path="/parcels/create" component={CreateParcel} key="parcel" />
-        <Route path="/parcels/:parcelId" component={Parcel} key="parcel" />
-        <Route path="/parcels" component={Parcels} key="parcels" />
-        <Route path="/tasks" component={ParcelsAsigned} key="tasks" />
-        <Route
-          path="/templates/:templateId"
-          component={Template}
-          key="template"
-        />
-        <Route path="/templates" component={Templates} key="templates" />
+      <Routes>
+        <Route path="/">
+          <Route index={true} element={<Main />} />
 
-        <Route
-          path="/manifests/:manifestId"
-          component={Manifest}
-          key="manifest"
-        />
-        <Route path="/manifests" component={Manifests} key="manifests" />
-        <Route
-          path="/documents/:documentId"
-          component={Document}
-          key="document"
-        />
-        <Route path="/documents" component={Documents} key="documents" />
-        <Route path="/prices" component={Prices} key="templates" />
-        <Route path="/" component={Main} key="main" />
-      </Switch>
+          <Route path="auth" element={<Auth />} />
+
+          <Route path="parcels">
+            <Route index={true} element={<Parcels />} />
+            <Route path="create" element={<CreateParcel />} />
+            <Route path=":parcelId" element={<Parcel />} />
+          </Route>
+
+          <Route path="templates">
+            <Route index={true} element={<Templates />} />
+            <Route path=":templateId" element={<Template />} />
+          </Route>
+
+          <Route path="manifests">
+            <Route index={true} element={<Manifests />} />
+            <Route path=":manifestId" element={<Manifest />} />
+          </Route>
+
+          <Route path="documents">
+            <Route index={true} element={<Documents />} />
+            <Route path=":documentId" element={<Document />} />
+          </Route>
+
+          <Route path="tasks" element={<ParcelsAsigned />} />
+
+          <Route path="prices" element={<Prices />} />
+        </Route>
+      </Routes>
     </>
   );
 };

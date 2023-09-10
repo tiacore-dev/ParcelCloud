@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Layout, Menu } from "antd";
 import { ItemType } from "antd/es/menu/hooks/useItems";
-import { pushPath } from "../../core/history";
+import { useNavigate } from "react-router-dom";
 import { isMobile } from "../../utils/isMobile";
 import { checkPermission } from "../../hooks/useAuth";
 
@@ -9,13 +9,13 @@ const { Header } = Layout;
 
 export const AppHeader = () => {
   const desktopItems: ItemType[] = [];
-
+  const navigate = useNavigate();
   if (checkPermission("parcel-view-in-work")) {
     desktopItems.push({
       key: "tasks",
       label: "Мои задачи",
       onClick: () => {
-        pushPath("/tasks");
+        navigate("/tasks");
       },
     });
   }
@@ -24,7 +24,7 @@ export const AppHeader = () => {
     key: "parcels",
     label: "Накладные",
     onClick: () => {
-      pushPath("/parcels");
+      navigate("/parcels");
     },
   });
 
@@ -36,7 +36,7 @@ export const AppHeader = () => {
       key: "manifests",
       label: "Манифесты",
       onClick: () => {
-        pushPath("/manifests");
+        navigate("/manifests");
       },
     });
   }
@@ -46,7 +46,7 @@ export const AppHeader = () => {
       key: "prices",
       label: "Расчет тарифа",
       onClick: () => {
-        pushPath("/prices");
+        navigate("/prices");
       },
     });
   }
@@ -56,7 +56,7 @@ export const AppHeader = () => {
       key: "documents",
       label: "Документы",
       onClick: () => {
-        pushPath("/documents");
+        navigate("/documents");
       },
     });
   }
@@ -65,7 +65,7 @@ export const AppHeader = () => {
     key: "auth",
     label: "Аккаунт",
     onClick: () => {
-      pushPath("/auth");
+      navigate("/auth");
     },
   });
 
@@ -74,42 +74,42 @@ export const AppHeader = () => {
       key: "parcelsApp",
       label: "Накладные",
       onClick: () => {
-        pushPath("/parcels");
+        navigate("/parcels");
       },
     },
     {
       key: "createParcel",
       label: "Создать",
       onClick: () => {
-        pushPath("/parcels/create");
+        navigate("/parcels/create");
       },
     },
     {
       key: "templates",
       label: "Шаблоны",
       onClick: () => {
-        pushPath("/templates");
+        navigate("/templates");
       },
     },
     {
       key: "prices",
       label: "Расчет тарифа",
       onClick: () => {
-        pushPath("/prices");
+        navigate("/prices");
       },
     },
     {
       key: "documents",
       label: "Документы",
       onClick: () => {
-        pushPath("/documents");
+        navigate("/documents");
       },
     },
     {
       key: "auth",
       label: "Аккаунт",
       onClick: () => {
-        pushPath("/auth");
+        navigate("/auth");
       },
     },
   ];

@@ -1,15 +1,15 @@
 import * as React from "react";
 import { Breadcrumb, Layout, Button } from "antd";
-import { pushPath } from "../../core/history";
+import { useNavigate } from "react-router-dom";
 import { TemplatesTable } from "./components/table";
 import { minPageHeight } from "../../utils/pageSettings";
 import "./templates.less";
 
 export const Templates = () => {
   const { Content } = Layout;
-
+  const navigate = useNavigate();
   const onRowClick = (id: string) => {
-    pushPath(`/templates/${id}`);
+    navigate(`/templates/${id}`);
   };
 
   return (
@@ -34,7 +34,7 @@ export const Templates = () => {
         <Button
           type="primary"
           onClick={() => {
-            pushPath(`/templates/create`);
+            navigate(`/templates/create`);
           }}
           style={{ marginBottom: 12 }}
         >

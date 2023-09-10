@@ -2,9 +2,8 @@ import * as React from "react";
 import { Layout } from "antd";
 import { AppHeader } from "../AppHeader/AppHeader";
 import { AppFooter } from "../AppFooter/AppFooter";
-import { LeftMenu } from "../LeftMenu/LeftMenu";
 import { AppRouter } from "../../core/router";
-import { pushPath } from "../../core/history";
+import { useNavigate } from "react-router-dom";
 import { Auth } from "../../pages/auth/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "../../store/modules";
@@ -29,7 +28,6 @@ import { clearParcelState } from "../../store/modules/pages/parcel";
 import { clearCreateParcelState } from "../../store/modules/editableEntities/editableParcel";
 import { clearPricesState } from "../../store/modules/pages/prices";
 import { clearDocumentsState } from "../../store/modules/pages/documents";
-import { isMobile } from "../../utils/isMobile";
 import "./App.less";
 
 interface useloadSourseDto {
@@ -41,7 +39,6 @@ export const useloadSourse = (): [
   () => void,
 ] => {
   const dispatch = useDispatch();
-
   const clearStates = React.useCallback(() => {
     dispatch(clearParcelsSettingsState());
     dispatch(clearParcelsState());
@@ -82,11 +79,12 @@ export const useloadSourse = (): [
 };
 
 export const App = () => {
+  const navigate = useNavigate();
   const authData = useSelector((state: IState) => state.auth);
   const isAuth = authData.isAuth;
-  const mobile = isMobile();
+  // const mobile = isMobile();
   if (!isAuth) {
-    pushPath("/auth");
+    navigate("/auth");
   }
 
   return (
@@ -95,7 +93,7 @@ export const App = () => {
         <Layout>
           <AppHeader />
           <Layout>
-            {!mobile && <LeftMenu />}
+            {/* {!mobile && <LeftMenu />} */}
             <Layout
               style={{
                 padding: "0 24px",

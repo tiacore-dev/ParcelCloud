@@ -15,7 +15,7 @@ import { IDocumentsSettingsState } from "../../store/modules/settings/documents"
 import { Filters } from "./components/filters";
 import "./documents.less";
 import { IDocumentsList } from "../../interfaces/documents/IDocumentsList";
-import { pushPath } from "../../core/history";
+import { useNavigate } from "react-router-dom";
 import { isMobile } from "../../utils/isMobile";
 import { documentsMobileColumns } from "./components/mobile.columns";
 import { convertDocumentsDataMobile } from "./convertDocumentsDataMobile";
@@ -36,7 +36,7 @@ export interface IDocumentsCovertedData {
 
 export const Documents = () => {
   const { Content } = Layout;
-
+  const navigate = useNavigate();
   const filters = useSelector(
     (state: IState) => state.settings.documentsSettings.filters,
   );
@@ -71,7 +71,7 @@ export const Documents = () => {
   const onRowClick = (record: IDocumentsCovertedData) => {
     return {
       onClick: () => {
-        pushPath(`/documents/${record.key}`);
+        navigate(`/documents/${record.key}`);
       },
     };
   };

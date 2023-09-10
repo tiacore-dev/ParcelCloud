@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Breadcrumb, Button, Form, Input, Layout, Select, Space } from "antd";
 import { Link, useParams } from "react-router-dom";
-import { ITemplatesRouteParams } from "../../core/router";
+// import { ITemplatesRouteParams } from "../../core/router";
 import { useDispatch, useSelector } from "react-redux";
 import { useApi } from "../../hooks/useApi";
 import { IauthToken, authToken } from "../../hooks/useAuth";
@@ -12,7 +12,7 @@ import {
   editTemplate,
   setTemplatStateData,
 } from "../../store/modules/pages/template";
-import { pushPath } from "../../core/history";
+import { useNavigate } from "react-router-dom";
 import {
   getTemplatesFailure,
   getTemplatesRequest,
@@ -28,10 +28,10 @@ interface EditeTemplateDto extends ITemplate {
 export const Template = () => {
   const { Content } = Layout;
 
-  const routeParams: ITemplatesRouteParams = useParams();
+  const routeParams = useParams();
 
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const templatesData = useSelector(
     (state: IState) => state.pages.templates.data,
   );
@@ -55,11 +55,11 @@ export const Template = () => {
     useApi<ITemplate[], EditeTemplateDto>("templateedit", "edit", params)
       .then((templatesData) => {
         dispatch(getTemplatesSuccess(templatesData));
-        pushPath(`/templates`);
+        navigate(`/templates`);
       })
       .catch((err) => {
         dispatch(getTemplatesFailure(err));
-        pushPath(`/templates`);
+        navigate(`/templates`);
       });
   };
 
@@ -69,11 +69,11 @@ export const Template = () => {
     useApi<ITemplate[], EditeTemplateDto>("templatedelete", "delete", params)
       .then((templatesData) => {
         dispatch(getTemplatesSuccess(templatesData));
-        pushPath(`/templates`);
+        navigate(`/templates`);
       })
       .catch((err) => {
         dispatch(getTemplatesFailure(err));
-        pushPath(`/templates`);
+        navigate(`/templates`);
       });
   };
 
@@ -210,7 +210,7 @@ export const Template = () => {
               </Button>
               <Button
                 onClick={() => {
-                  pushPath(`/templates`);
+                  navigate(`/templates`);
                 }}
               >
                 Закрыть

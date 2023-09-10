@@ -14,9 +14,14 @@ import { dateFormat } from "../../../utils/dateConverter";
 import Search from "antd/es/input/Search";
 import { isMobile } from "../../../utils/isMobile";
 import { getCities } from "../../../store/modules/dictionaries/selectors/cities.selector";
-import { ReloadOutlined } from "@ant-design/icons";
+import {
+  AppstoreTwoTone,
+  PlusCircleTwoTone,
+  ReloadOutlined,
+} from "@ant-design/icons";
 import { authToken } from "../../../hooks/useAuth";
 import { GetParcelsDto } from "../../../hooks/ApiActions/parcel";
+import { useNavigate } from "react-router-dom";
 
 interface IFiltersProps {
   onChange: (param: GetParcelsDto) => void;
@@ -24,7 +29,7 @@ interface IFiltersProps {
 
 export const Filters = (props: IFiltersProps) => {
   const { onChange } = props;
-
+  const navigate = useNavigate();
   const filters = useSelector(
     (state: IState) => state.settings.parcelsSettings.filters,
   );
@@ -70,11 +75,18 @@ export const Filters = (props: IFiltersProps) => {
   }));
 
   return (
-    <Space
-      direction={isMobile() ? "vertical" : "horizontal"}
+    <div
+      // direction={isMobile() ? "vertical" : "horizontal"}
       className="parcels_filters"
     >
       <Space direction="horizontal">
+        <Button
+          icon={<PlusCircleTwoTone />}
+          onClick={() => navigate("/parcels/create")}
+          type="primary"
+        >
+          Создать
+        </Button>
         <Button icon={<ReloadOutlined />} onClick={() => onChange(param)} />
         <DatePicker
           value={dayjs(filters.dateFrom)}
@@ -89,26 +101,38 @@ export const Filters = (props: IFiltersProps) => {
           format={dateFormat}
         />
       </Space>
-
-      <Search placeholder="Поиск по номеру" onSearch={numberChangeHandler} />
-      <Select
-        mode="multiple"
-        value={filters.sendCities}
-        allowClear
-        className="parcels_filters_select"
-        placeholder="Город отправителя"
-        onChange={sendCityChangeHandler}
-        options={citySelectOptions}
-      />
-      <Select
-        mode="multiple"
-        value={filters.recCities}
-        allowClear
-        className="parcels_filters_select"
-        placeholder="Город получателя"
-        onChange={recCityChangeHandler}
-        options={citySelectOptions}
-      />
-    </Space>
+      <Space direction={isMobile() ? "vertical" : "horizontal"}>
+        <Search
+          placeholder="Поиск по номеру"
+          onSearch={numberChangeHandler}
+          style={{ maxWidth: "200px" }}
+        />
+        <Select
+          mode="multiple"
+          value={filters.sendCities}
+          allowClear
+          className="parcels_filters_select"
+          placeholder="Город отправителя"
+          onChange={sendCityChangeHandler}
+          options={citySelectOptions}
+        />
+        <Select
+          mode="multiple"
+          value={filters.recCities}
+          allowClear
+          className="parcels_filters_select"
+          placeholder="Город получателя"
+          onChange={recCityChangeHandler}
+          options={citySelectOptions}
+        />
+      </Space>
+      <Button
+        className="parcels_filters_right-button"
+        icon={<AppstoreTwoTone />}
+        onClick={() => navigate("/templates")}
+      >
+        Шаблоны
+      </Button>
+    </div>
   );
 };

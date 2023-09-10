@@ -1,14 +1,15 @@
 import { Layout } from "antd";
 import * as React from "react";
-import { pushPath } from "../../core/history";
+import { useNavigate } from "react-router-dom";
 import { minPageHeight } from "../../utils/pageSettings";
 
 export const Main = () => {
+  const navigate = useNavigate();
   const { Content } = Layout;
 
   {
     React.useEffect(() => {
-      pushPath("/parcels");
+      navigate("/parcels");
     }, []);
   }
   return (
