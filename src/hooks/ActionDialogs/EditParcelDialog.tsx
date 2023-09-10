@@ -97,7 +97,6 @@ export const EditParcelDialog = (props: IReceiveParcelDialogProps) => {
     }
   }, [editableParcelData]);
 
-  console.log(params);
   const receiveParcel = () => {
     editParcel(dispatch, params);
   };
