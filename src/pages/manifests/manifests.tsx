@@ -44,10 +44,11 @@ export const Manifests = () => {
         style={{
           margin: "16px 0",
         }}
-      >
-        <Breadcrumb.Item>Главная</Breadcrumb.Item>
-        <Breadcrumb.Item>Манифесты</Breadcrumb.Item>
-      </Breadcrumb>
+        items={[
+          <Breadcrumb.Item>Главная</Breadcrumb.Item>,
+          <Breadcrumb.Item>Манифесты</Breadcrumb.Item>,
+        ]}
+      />
       <Content
         style={{
           padding: 24,

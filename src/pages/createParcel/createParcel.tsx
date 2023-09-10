@@ -206,13 +206,14 @@ export const CreateParcel = () => {
         style={{
           margin: "16px 0",
         }}
-      >
-        <Breadcrumb.Item>Главная</Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <Link to="/parcels">Накладные</Link>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>Создать накладную</Breadcrumb.Item>
-      </Breadcrumb>
+        items={[
+          <Breadcrumb.Item>Главная</Breadcrumb.Item>,
+          <Breadcrumb.Item>
+            <Link to="/parcels">Накладные</Link>
+          </Breadcrumb.Item>,
+          <Breadcrumb.Item>Создать накладную</Breadcrumb.Item>,
+        ]}
+      />
       <Content
         style={{
           padding: "0 24px",

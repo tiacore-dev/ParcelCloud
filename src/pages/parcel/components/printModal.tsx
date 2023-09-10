@@ -4,6 +4,7 @@ import { IParcel } from "../../../interfaces/parcels/IParcel";
 import { ParcelPrint } from "../../../utils/parcelPrint/printTemplates";
 import { useReactToPrint } from "react-to-print";
 import { isMobile } from "../../../utils/isMobile";
+import { PrinterTwoTone } from "@ant-design/icons";
 
 interface IPrintModalProps {
   data: IParcel;
@@ -26,9 +27,11 @@ export const PrintModal = (props: IPrintModalProps) => {
   return (
     <>
       {!isMobile() && (
-        <Button type="primary" onClick={showModal}>
-          Печать накладной
-        </Button>
+        <Button
+          className="parcel__actions__button"
+          icon={<PrinterTwoTone />}
+          onClick={showModal}
+        ></Button>
       )}
       <Modal
         open={open}

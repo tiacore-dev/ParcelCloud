@@ -17,10 +17,11 @@ export const Auth = () => {
           style={{
             margin: "16px 0",
           }}
-        >
-          <Breadcrumb.Item>Главная</Breadcrumb.Item>
-          <Breadcrumb.Item>Аккаунт</Breadcrumb.Item>
-        </Breadcrumb>
+          items={[
+            <Breadcrumb.Item>Главная</Breadcrumb.Item>,
+            <Breadcrumb.Item>Аккаунт</Breadcrumb.Item>,
+          ]}
+        ></Breadcrumb>
       )}
       <Content
         style={{

@@ -111,13 +111,14 @@ export const Document = () => {
         style={{
           margin: "16px 0",
         }}
-      >
-        <Breadcrumb.Item>Главная</Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <Link to="/documents">Документы</Link>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>{documentData?.number}</Breadcrumb.Item>
-      </Breadcrumb>
+        items={[
+          <Breadcrumb.Item>Главная</Breadcrumb.Item>,
+          <Breadcrumb.Item>
+            ,<Link to="/documents">Документы</Link>
+          </Breadcrumb.Item>,
+          <Breadcrumb.Item>{documentData?.number}</Breadcrumb.Item>,
+        ]}
+      />
       {isLoaded &&
       documentData &&
       routeParams.documentId === documentData.id ? (

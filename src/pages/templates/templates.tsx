@@ -18,10 +18,11 @@ export const Templates = () => {
         style={{
           margin: "16px 0",
         }}
-      >
-        <Breadcrumb.Item>Главная</Breadcrumb.Item>
-        <Breadcrumb.Item>Шаблоны</Breadcrumb.Item>
-      </Breadcrumb>
+        items={[
+          <Breadcrumb.Item>Главная</Breadcrumb.Item>,
+          <Breadcrumb.Item>Шаблоны</Breadcrumb.Item>,
+        ]}
+      />
       <Content
         style={{
           padding: 24,

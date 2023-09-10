@@ -1,0 +1,58 @@
+.parcel {
+
+    &__title{
+        display: flex;
+        flex-direction: row;
+        margin: 12px 0;
+        position: relative
+    }
+
+    &__number {
+        font-size: 24px;
+        font-weight: 600;
+    }
+    &__task {
+
+        margin: auto 20px;
+
+        &__delivery {
+        
+            background-color: #f6ffed;
+
+            &_icon{
+                color: #52c41a;
+                margin-right: 6px;
+            }
+
+        } 
+
+        &__receive {
+        
+            background-color: #e6f4ff;
+
+            &_icon{
+                color: #1677ff;
+                margin-right: 6px;
+            }
+
+        }
+
+        &_unconfirmed{
+            color: rgb(115, 28, 28);
+            background-color: lightpink;
+            border: rgb(115, 28, 28);
+            position: relative;
+            border-radius: 5px;
+            margin-left: 8px;
+            padding: 5px 15px 7px 15px;
+        }
+    }
+    &__actions {
+        position: absolute; 
+        right:0px;
+
+        &__button {
+            margin-left: 6px;
+        }
+    }
+}

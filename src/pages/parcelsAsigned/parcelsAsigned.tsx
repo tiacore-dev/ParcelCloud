@@ -68,10 +68,11 @@ export const ParcelsAsigned = () => {
         style={{
           margin: "16px 0",
         }}
-      >
-        <Breadcrumb.Item>Главная</Breadcrumb.Item>
-        <Breadcrumb.Item>Назначенные накладные</Breadcrumb.Item>
-      </Breadcrumb>
+        items={[
+          <Breadcrumb.Item>Главная</Breadcrumb.Item>,
+          <Breadcrumb.Item>Назначенные накладные</Breadcrumb.Item>,
+        ]}
+      />
       <Content
         style={{
           padding: 24,

@@ -98,17 +98,18 @@ export const Template = () => {
         style={{
           margin: "16px 0",
         }}
-      >
-        <Breadcrumb.Item>Главная</Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <Link to="/templates">Шаблоны</Link>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>
-          {routeParams.templateId !== "create"
-            ? "Создать шаблон"
-            : templateData?.name}
-        </Breadcrumb.Item>
-      </Breadcrumb>
+        items={[
+          <Breadcrumb.Item>Главная</Breadcrumb.Item>,
+          <Breadcrumb.Item>
+            <Link to="/templates">Шаблоны</Link>
+          </Breadcrumb.Item>,
+          <Breadcrumb.Item>
+            {routeParams.templateId !== "create"
+              ? "Создать шаблон"
+              : templateData?.name}
+          </Breadcrumb.Item>,
+        ]}
+      />
 
       <Content
         style={{

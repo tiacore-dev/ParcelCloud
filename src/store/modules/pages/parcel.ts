@@ -33,6 +33,11 @@ const parcelSlice = createSlice({
       state.loaded = true;
       state.data = action.payload;
     },
+    setToReceiveСonfirmed: (state: IParcelState) => {
+      state.loading = false;
+      state.loaded = true;
+      state.data.toReceiveСonfirmed = true;
+    },
     clearParcelState: (state: IParcelState) => {
       state.data = undefined;
       state.loaded = false;
@@ -46,6 +51,7 @@ export const {
   getParcelRequest,
   getParcelFailure,
   getParcelSuccess,
+  setToReceiveСonfirmed,
   clearParcelState,
 } = parcelSlice.actions;
 

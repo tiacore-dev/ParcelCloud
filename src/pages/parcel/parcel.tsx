@@ -1,35 +1,22 @@
 import * as React from "react";
 import { Alert, Breadcrumb, Card, Layout, Spin, Table } from "antd";
-import Title from "antd/es/typography/Title";
 import { Link, useParams } from "react-router-dom";
 import { IParcelsRouteParams } from "../../core/router";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getParcelFailure,
-  getParcelRequest,
-  getParcelSuccess,
-} from "../../store/modules/pages/parcel";
-import { useApi } from "../../hooks/useApi";
-import {
-  IParcel,
-  IParcelHistory,
-  IParcelItem,
-} from "../../interfaces/parcels/IParcel";
-import { IauthToken, authToken } from "../../hooks/useAuth";
+import { IParcelHistory, IParcelItem } from "../../interfaces/parcels/IParcel";
+import { authToken } from "../../hooks/useAuth";
 import { IState } from "../../store/modules";
 import { itemsColumns } from "./components/itemsColumns";
-import { PrintModal } from "./components/printModal";
 import { minPageHeight } from "../../utils/pageSettings";
 import { isMobile } from "../../utils/isMobile";
 import { itemsColumnsMobile } from "./components/itemsColumnsMobile";
 import { convertItemsDataMobile } from "./components/convertItemsDataMobile";
 import { historyDesktopColumns } from "./components/historyDesktop.columns";
 import { historyMobileColumns } from "./components/historyMobile.columns";
-
-interface GetParcelDto {
-  parcelId: string;
-  authToken: IauthToken;
-}
+import { GetParcelDto, getParcel } from "../../hooks/ApiActions/parcel";
+import { LoginOutlined, LogoutOutlined } from "@ant-design/icons";
+import "./parcel.less";
+import { ParcelActions } from "./components/actions";
 
 export interface IConvertedParcelItem {
   key: number;
@@ -58,14 +45,7 @@ export const Parcel = () => {
   };
 
   React.useEffect(() => {
-    dispatch(getParcelRequest());
-    useApi<IParcel, GetParcelDto>("parcel", "get", params)
-      .then((parcelData) => {
-        dispatch(getParcelSuccess(parcelData));
-      })
-      .catch((err) => {
-        dispatch(getParcelFailure(err));
-      });
+    getParcel(dispatch, params);
   }, []);
 
   const parcelData = useSelector((state: IState) => state.pages.parcel.data);
@@ -87,13 +67,14 @@ export const Parcel = () => {
         style={{
           margin: "16px 0",
         }}
-      >
-        <Breadcrumb.Item>Главная</Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <Link to="/parcels">Накладные</Link>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>{parcelData?.number}</Breadcrumb.Item>
-      </Breadcrumb>
+        items={[
+          <Breadcrumb.Item>Главная</Breadcrumb.Item>,
+          <Breadcrumb.Item>
+            <Link to="/parcels">Накладные</Link>
+          </Breadcrumb.Item>,
+          <Breadcrumb.Item>{parcelData?.number}</Breadcrumb.Item>,
+        ]}
+      />
       {isLoaded && parcelData && routeParams.parcelId === parcelData.id ? (
         <Content
           style={{
@@ -103,9 +84,27 @@ export const Parcel = () => {
             background: "#FFF",
           }}
         >
-          <Title level={3}>{`Накладная ${parcelData.number}`}</Title>
+          <div className="parcel__title">
+            <div className="parcel__number">{`${parcelData.number}`}</div>
 
-          {parcelData && <PrintModal data={parcelData} />}
+            <div className="parcel__task">
+              {parcelData.toDelivery ? (
+                <LogoutOutlined className="parcel__task__delivery_icon" />
+              ) : (
+                <LoginOutlined className="parcel__task__receive_icon" />
+              )}
+              {parcelData.toDelivery
+                ? "Доставить получателю"
+                : "Забрать у отправителя"}
+            </div>
+            {parcelData.toReceiveСonfirmed === false && (
+              <div className="parcel__task_unconfirmed">
+                Не принято в работу
+              </div>
+            )}
+
+            <ParcelActions parcelData={parcelData} params={params} />
+          </div>
 
           <Card
             title="Данные отправителя:"
@@ -201,7 +200,7 @@ export const Parcel = () => {
       ) : (
         <Alert
           message="Ошибка получения данных по накладной"
-          description={errMsg}
+          description={`${errMsg}`}
           type="error"
           closable
         />

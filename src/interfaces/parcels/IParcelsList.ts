@@ -1,5 +1,3 @@
-export type ITaskType = "deliver" | "receive";
-
 export interface IParcelsList {
   id: string;
   date: string;
@@ -25,7 +23,8 @@ export interface IParcelsListColumn extends IParcelsList {
 }
 
 export interface IParcelsAsignedList extends IParcelsList {
-  taskType: ITaskType;
+  toDelivery: boolean;
+  toReceive: boolean;
   recTime: string;
   sendTime: string;
   delDate: string;

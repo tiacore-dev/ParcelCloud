@@ -82,10 +82,11 @@ export const Documents = () => {
         style={{
           margin: "16px 0",
         }}
-      >
-        <Breadcrumb.Item>Главная</Breadcrumb.Item>
-        <Breadcrumb.Item>Документы</Breadcrumb.Item>
-      </Breadcrumb>
+        items={[
+          <Breadcrumb.Item>Главная</Breadcrumb.Item>,
+          <Breadcrumb.Item>Документы</Breadcrumb.Item>,
+        ]}
+      />
       <Content
         style={{
           padding: 24,

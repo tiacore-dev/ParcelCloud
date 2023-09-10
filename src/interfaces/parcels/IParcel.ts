@@ -1,6 +1,13 @@
 import { delTypeEnum } from "../../enumerations/delTypeEnum";
 import { payTypeEnum } from "../../enumerations/payTypeEnum";
 
+export type ParcelStatus =
+  | "expected"
+  | "general"
+  | "delivered"
+  | "canceled"
+  | "in-progress";
+
 export interface IParcelItem {
   weight: number;
   h: number;
@@ -53,4 +60,8 @@ export interface IParcel {
   containerRent: boolean;
   items: IParcelItem[];
   history: IParcelHistory[];
+  status: ParcelStatus;
+  toDelivery?: boolean;
+  toReceive?: boolean;
+  toReceiveСonfirmed?: boolean;
 }

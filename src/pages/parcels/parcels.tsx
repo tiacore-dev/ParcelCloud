@@ -43,10 +43,11 @@ export const Parcels = () => {
         style={{
           margin: "16px 0",
         }}
-      >
-        <Breadcrumb.Item>Главная</Breadcrumb.Item>
-        <Breadcrumb.Item>Накладные</Breadcrumb.Item>
-      </Breadcrumb>
+        items={[
+          <Breadcrumb.Item>Главная</Breadcrumb.Item>,
+          <Breadcrumb.Item>Накладные</Breadcrumb.Item>,
+        ]}
+      />
       <Content
         style={{
           padding: 24,

@@ -3,7 +3,8 @@ import { IParcel, IParcelItem } from "../../../interfaces/parcels/IParcel";
 import { payTypeEnum } from "../../../enumerations/payTypeEnum";
 import { delTypeEnum } from "../../../enumerations/delTypeEnum";
 
-export interface IEditableParcelState extends Omit<IParcel, "history"> {
+export interface IEditableParcelState
+  extends Omit<IParcel, "history" | "status" | "toDelivery" | "toReceive"> {
   sent: boolean;
 }
 

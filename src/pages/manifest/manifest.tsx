@@ -80,13 +80,14 @@ export const Manifest = () => {
         style={{
           margin: "16px 0",
         }}
-      >
-        <Breadcrumb.Item>Главная</Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <Link to="/manifests">Манифесты</Link>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>{manifestData?.number}</Breadcrumb.Item>
-      </Breadcrumb>
+        items={[
+          <Breadcrumb.Item>Главная</Breadcrumb.Item>,
+          <Breadcrumb.Item>
+            <Link to="/manifests">Манифесты</Link>
+          </Breadcrumb.Item>,
+          <Breadcrumb.Item>{manifestData?.number}</Breadcrumb.Item>,
+        ]}
+      />
       {isLoaded &&
       manifestData &&
       routeParams.manifestId === manifestData.id ? (
@@ -135,6 +136,7 @@ export const Manifest = () => {
             headStyle={{ backgroundColor: "#F8F8F8" }}
             style={{ margin: "8px 0" }}
           >
+            <p>Итого накладных: {manifestData.qtParcels}</p>
             <p>Итого мест: {manifestData.qtItems}</p>
             <p>Вес: {manifestData.weight}</p>
             <p>Объемный вес: {manifestData.volume}</p>
@@ -174,7 +176,7 @@ export const Manifest = () => {
             <>
               <Alert
                 message="Ошибка получения данных по манифесту"
-                description={errMsg}
+                description={`${errMsg}`}
                 type="error"
                 closable
               />
