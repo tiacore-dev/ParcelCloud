@@ -13,7 +13,11 @@ import { convertItemsDataMobile } from "./components/convertItemsDataMobile";
 import { historyDesktopColumns } from "./components/historyDesktop.columns";
 import { historyMobileColumns } from "./components/historyMobile.columns";
 import { GetParcelDto, getParcel } from "../../hooks/ApiActions/parcel";
-import { LoginOutlined, LogoutOutlined } from "@ant-design/icons";
+import {
+  CheckCircleTwoTone,
+  LoginOutlined,
+  LogoutOutlined,
+} from "@ant-design/icons";
 import "./parcel.less";
 import { ParcelActions } from "./components/actions";
 
@@ -87,14 +91,22 @@ export const Parcel = () => {
             <div className="parcel__number">{`${parcelData.number}`}</div>
 
             <div className="parcel__task">
-              {parcelData.toDelivery ? (
+              {parcelData.toDelivery && (
                 <LogoutOutlined className="parcel__task__delivery_icon" />
-              ) : (
+              )}
+              {parcelData.toReceive && (
                 <LoginOutlined className="parcel__task__receive_icon" />
               )}
-              {parcelData.toDelivery
-                ? "Доставить получателю"
-                : "Забрать у отправителя"}
+              {parcelData.status === "delivered" && (
+                <CheckCircleTwoTone
+                  twoToneColor="#52c41a"
+                  className="parcel__task__delivery_icon"
+                />
+              )}
+
+              {parcelData.toDelivery && "Доставить получателю"}
+              {parcelData.toReceive && "Забрать у отправителя"}
+              {parcelData.status === "delivered" && "Доставлено"}
             </div>
             {parcelData.toReceiveСonfirmed === false && (
               <div className="parcel__task_unconfirmed">

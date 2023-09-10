@@ -13,8 +13,16 @@ import {
   getParcelRequest,
   getParcelSuccess,
   setToReceiveСonfirmed,
+  setParcelStatus,
 } from "../../store/modules/pages/parcel";
-import { IParcel } from "../../interfaces/parcels/IParcel";
+import {
+  IParcel,
+  IParcelHistory,
+  IParcelItem,
+  ParcelStatus,
+} from "../../interfaces/parcels/IParcel";
+import { payTypeEnum } from "../../enumerations/payTypeEnum";
+import { delTypeEnum } from "../../enumerations/delTypeEnum";
 
 export interface GetParcelsDto extends IParcelsSettingsState {
   authToken: IauthToken;
@@ -23,6 +31,52 @@ export interface GetParcelsDto extends IParcelsSettingsState {
 export interface GetParcelDto {
   parcelId: string;
   authToken: IauthToken;
+}
+
+export interface EditParcelDto {
+  id: string;
+  customer?: string;
+  sendCity?: string;
+  sendPerson?: string;
+  sendAddress?: string;
+  sendCompany?: string;
+  sendAddInfo?: string;
+  sendPhone?: string;
+  recCity?: string;
+  recPerson?: string;
+  recAddress?: string;
+  recCompany?: string;
+  recAddInfo?: string;
+  recPhone?: string;
+  qt?: number;
+  weight?: number;
+  volume?: number;
+  priceId?: string;
+  cost?: number;
+  insureValue?: number;
+  COD?: number;
+  payType?: keyof typeof payTypeEnum;
+  delType?: keyof typeof delTypeEnum;
+  tMax?: number;
+  tMin?: number;
+  fragile?: boolean;
+  containerRent?: boolean;
+  items?: IParcelItem[];
+  authToken: IauthToken;
+}
+
+export interface DeliveryParcelDto {
+  parcelId: string;
+  recName: string;
+  recDate: string;
+  authToken: IauthToken;
+}
+
+export interface ParcelStatusData {
+  status: ParcelStatus;
+  toDelivery?: boolean;
+  toReceive?: boolean;
+  history?: IParcelHistory[];
 }
 
 export const getParcels = (
@@ -53,6 +107,40 @@ export const getParcel = (
     });
 };
 
+export const setGeneralParcelStatus = (
+  dispatch: Dispatch<AnyAction>,
+  setGeneralParcelStatusParam: GetParcelDto,
+) => {
+  useApi<ParcelStatusData, GetParcelDto>(
+    "generalstatus",
+    "set",
+    setGeneralParcelStatusParam,
+  )
+    .then((response) => {
+      dispatch(setParcelStatus(response));
+    })
+    .catch((err) => {
+      dispatch(getParcelsFailure(err));
+    });
+};
+
+export const deliveryParcel = (
+  dispatch: Dispatch<AnyAction>,
+  deliveryParcelParam: DeliveryParcelDto,
+) => {
+  useApi<ParcelStatusData, GetParcelDto>(
+    "deliveryparcel",
+    "set",
+    deliveryParcelParam,
+  )
+    .then((response) => {
+      dispatch(setParcelStatus(response));
+    })
+    .catch((err) => {
+      dispatch(getParcelsFailure(err));
+    });
+};
+
 export const acceptReceiveTask = async (
   dispatch: Dispatch<AnyAction>,
   getParcelParam: GetParcelDto,
@@ -67,5 +155,18 @@ export const acceptReceiveTask = async (
     .catch((err) => {
       dispatch(getParcelFailure(err));
       return false;
+    });
+};
+
+export const editParcel = (
+  dispatch: Dispatch<AnyAction>,
+  deliveryParcelParam: EditParcelDto,
+) => {
+  useApi<IParcel, EditParcelDto>("parceledit", "edit", deliveryParcelParam)
+    .then((response) => {
+      dispatch(getParcelSuccess(response));
+    })
+    .catch((err) => {
+      dispatch(getParcelFailure(err));
     });
 };

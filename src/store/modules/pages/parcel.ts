@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IParcel } from "../../../interfaces/parcels/IParcel";
+import { ParcelStatusData } from "../../../hooks/ApiActions/parcel";
 
 interface IParcelState {
   data: IParcel | undefined;
@@ -38,6 +39,18 @@ const parcelSlice = createSlice({
       state.loaded = true;
       state.data.toReceiveСonfirmed = true;
     },
+
+    setParcelStatus: (
+      state: IParcelState,
+      action: { payload: ParcelStatusData },
+    ) => {
+      state.loading = false;
+      state.loaded = true;
+      state.data.status = action.payload.status;
+      state.data.toReceive = action.payload.toReceive;
+      state.data.toDelivery = action.payload.toDelivery;
+    },
+
     clearParcelState: (state: IParcelState) => {
       state.data = undefined;
       state.loaded = false;
@@ -52,6 +65,7 @@ export const {
   getParcelFailure,
   getParcelSuccess,
   setToReceiveСonfirmed,
+  setParcelStatus,
   clearParcelState,
 } = parcelSlice.actions;
 

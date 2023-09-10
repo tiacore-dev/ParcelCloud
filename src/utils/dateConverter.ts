@@ -1,4 +1,5 @@
 export const dateFormat = "DD.MM.YYYY";
+export const dateTimeFormat = "DD.MM.YYYY HH:mm";
 
 export const dateToLocalString = (string: string) => {
   const timestamp = Date.parse(string);

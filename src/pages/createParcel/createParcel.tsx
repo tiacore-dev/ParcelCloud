@@ -43,8 +43,17 @@ import { isMobile } from "../../utils/isMobile";
 import "./createParcel.less";
 import { getCities } from "../../store/modules/dictionaries/selectors/cities.selector";
 import { getCustomers } from "../../store/modules/auth";
+import { IParcel } from "../../interfaces/parcels/IParcel";
 
-export const CreateParcel = () => {
+interface ICreateParcelProps {
+  parcel?: IParcel;
+  hideTemplates?: boolean;
+  hideSaveButton?: boolean;
+  showItemsOnly?: boolean;
+}
+
+export const CreateParcel = (props: ICreateParcelProps) => {
+  const { parcel, hideTemplates, hideSaveButton, showItemsOnly } = props;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { TextArea } = Input;
@@ -77,6 +86,9 @@ export const CreateParcel = () => {
   React.useEffect(() => {
     if (!data.customer) {
       dispatch(editParcel.setCustomer(company.id));
+    }
+    if (parcel) {
+      dispatch(editParcel.setParcelData(parcel));
     }
   }, []);
 
@@ -223,7 +235,11 @@ export const CreateParcel = () => {
           background: "#FFF",
         }}
       >
-        <Title level={3}>Создание накладной</Title>
+        <Title level={3}>
+          {data.id
+            ? "Редактирование накладной " + data.number
+            : "Создание накладной"}
+        </Title>
         <Form
           labelCol={{ span: isMobile() ? 8 : 4 }}
           wrapperCol={{ span: 14 }}
@@ -231,249 +247,273 @@ export const CreateParcel = () => {
           onValuesChange={onFormLayoutChange}
           disabled={componentDisabled}
         >
-          <Row>
-            <Col span={isMobile() ? 24 : 12}>
-              <Form.Item>Данные отправителя</Form.Item>
-              <Form.Item>
-                <Button onClick={showSendModal}>Заполнить из шаблона</Button>
+          {!showItemsOnly && (
+            <>
+              <Row>
+                <Col span={isMobile() ? 24 : 12}>
+                  <Form.Item>Данные отправителя</Form.Item>
 
-                <Modal
-                  title="Данные отправителя: выберите шаблон"
-                  open={isSendModalOpen}
-                  width={1000}
-                  footer={false}
-                  onCancel={() => {
-                    setIsSendModalOpen(false);
-                  }}
-                >
-                  <TemplatesTable onRowClick={onSendTemplateRowClick} search />
-                </Modal>
+                  {!hideTemplates && (
+                    <Form.Item>
+                      <Button onClick={showSendModal}>
+                        Заполнить из шаблона
+                      </Button>
+
+                      {isSendModalOpen && (
+                        <Modal
+                          title="Данные отправителя: выберите шаблон"
+                          open={isSendModalOpen}
+                          width={1000}
+                          footer={false}
+                          onCancel={() => {
+                            setIsSendModalOpen(false);
+                          }}
+                        >
+                          <TemplatesTable
+                            onRowClick={onSendTemplateRowClick}
+                            search
+                          />
+                        </Modal>
+                      )}
+                    </Form.Item>
+                  )}
+
+                  <Form.Item label="Город">
+                    <Select
+                      value={data.sendCity}
+                      showSearch
+                      optionFilterProp="children"
+                      onChange={(value: string) =>
+                        dispatch(editParcel.setSendCity(value))
+                      }
+                      filterOption={(input, option) =>
+                        (option?.label ?? "")
+                          .toLowerCase()
+                          .includes(input.toLowerCase())
+                      }
+                      options={citySelectOptions}
+                    />
+                  </Form.Item>
+
+                  <Form.Item label="Адрес">
+                    <Input
+                      value={data.sendAddress}
+                      onChange={(event) =>
+                        dispatch(editParcel.setSendAddress(event.target.value))
+                      }
+                    />
+                  </Form.Item>
+
+                  <Form.Item label="Компания">
+                    <Input
+                      value={data.sendCompany}
+                      onChange={(event) =>
+                        dispatch(editParcel.setSendCompany(event.target.value))
+                      }
+                    />
+                  </Form.Item>
+
+                  <Form.Item label="Контактное лицо">
+                    <Input
+                      value={data.sendPerson}
+                      onChange={(event) =>
+                        dispatch(editParcel.setSendPerson(event.target.value))
+                      }
+                    />
+                  </Form.Item>
+
+                  <Form.Item label="Контактный телефон">
+                    <Input
+                      value={data.sendPhone}
+                      onChange={(event) =>
+                        dispatch(editParcel.setSendPhone(event.target.value))
+                      }
+                    />
+                  </Form.Item>
+
+                  <Form.Item label="Доп. информация">
+                    <TextArea
+                      value={data.sendAddInfo}
+                      onChange={(event) =>
+                        dispatch(editParcel.setSendAddInfo(event.target.value))
+                      }
+                      rows={4}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={isMobile() ? 24 : 12}>
+                  <Form.Item>Данные получателя</Form.Item>
+                  {!hideTemplates && (
+                    <Form.Item>
+                      <Button onClick={showRecModal}>
+                        Заполнить из шаблона
+                      </Button>
+
+                      {isRecModalOpen && (
+                        <Modal
+                          title="Данные получателя: выберите шаблон"
+                          open={isRecModalOpen}
+                          width={1000}
+                          footer={false}
+                          onCancel={() => {
+                            setIsRecModalOpen(false);
+                          }}
+                        >
+                          <TemplatesTable
+                            onRowClick={onRecTemplateRowClick}
+                            search
+                          />
+                        </Modal>
+                      )}
+                    </Form.Item>
+                  )}
+
+                  <Form.Item label="Город">
+                    <Select
+                      value={data.recCity}
+                      showSearch
+                      optionFilterProp="children"
+                      onChange={(value: string) =>
+                        dispatch(editParcel.setRecCity(value))
+                      }
+                      filterOption={(input, option) =>
+                        (option?.label ?? "")
+                          .toLowerCase()
+                          .includes(input.toLowerCase())
+                      }
+                      options={citySelectOptions}
+                    />
+                  </Form.Item>
+
+                  <Form.Item label="Адрес">
+                    <Input
+                      value={data.recAddress}
+                      onChange={(event) =>
+                        dispatch(editParcel.setRecAddress(event.target.value))
+                      }
+                    />
+                  </Form.Item>
+
+                  <Form.Item label="Компания">
+                    <Input
+                      value={data.recCompany}
+                      onChange={(event) =>
+                        dispatch(editParcel.setRecCompany(event.target.value))
+                      }
+                    />
+                  </Form.Item>
+
+                  <Form.Item label="Контактное лицо">
+                    <Input
+                      value={data.recPerson}
+                      onChange={(event) =>
+                        dispatch(editParcel.setRecPerson(event.target.value))
+                      }
+                    />
+                  </Form.Item>
+
+                  <Form.Item label="Контактный телефон">
+                    <Input
+                      value={data.recPhone}
+                      onChange={(event) =>
+                        dispatch(editParcel.setRecPhone(event.target.value))
+                      }
+                    />
+                  </Form.Item>
+
+                  <Form.Item label="Доп. информация">
+                    <TextArea
+                      value={data.recAddInfo}
+                      onChange={(event) =>
+                        dispatch(editParcel.setRecAddInfo(event.target.value))
+                      }
+                      rows={4}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+
+              {customerSelectOptions.length > 1 &&
+                checkPermission("parcel-customer-set") && (
+                  <Form.Item label="Заказчик">
+                    <Select
+                      value={data.customer}
+                      showSearch
+                      optionFilterProp="children"
+                      onChange={(value: string) =>
+                        dispatch(editParcel.setCustomer(value))
+                      }
+                      filterOption={(input, option) =>
+                        (option?.label ?? "")
+                          .toLowerCase()
+                          .includes(input.toLowerCase())
+                      }
+                      options={customerSelectOptions}
+                    />
+                  </Form.Item>
+                )}
+
+              <Form.Item label="Дата вызова курьера">
+                <DatePicker
+                  value={dayjs(data.date)}
+                  placeholder="Дата начала"
+                  onChange={(value) =>
+                    dispatch(editParcel.setDate(value.valueOf()))
+                  }
+                  format={dateFormat}
+                />
               </Form.Item>
 
-              <Form.Item label="Город">
+              <Form.Item label="Тип доставки">
                 <Select
-                  value={data.sendCity}
-                  showSearch
-                  optionFilterProp="children"
-                  onChange={(value: string) =>
-                    dispatch(editParcel.setSendCity(value))
-                  }
-                  filterOption={(input, option) =>
-                    (option?.label ?? "")
-                      .toLowerCase()
-                      .includes(input.toLowerCase())
-                  }
-                  options={citySelectOptions}
+                  value={data.delType}
+                  options={delTypeSelectOptions}
+                  onChange={(value) => dispatch(editParcel.setDelType(value))}
                 />
               </Form.Item>
 
-              <Form.Item label="Адрес">
-                <Input
-                  value={data.sendAddress}
-                  onChange={(event) =>
-                    dispatch(editParcel.setSendAddress(event.target.value))
-                  }
-                />
-              </Form.Item>
-
-              <Form.Item label="Компания">
-                <Input
-                  value={data.sendCompany}
-                  onChange={(event) =>
-                    dispatch(editParcel.setSendCompany(event.target.value))
-                  }
-                />
-              </Form.Item>
-
-              <Form.Item label="Контактное лицо">
-                <Input
-                  value={data.sendPerson}
-                  onChange={(event) =>
-                    dispatch(editParcel.setSendPerson(event.target.value))
-                  }
-                />
-              </Form.Item>
-
-              <Form.Item label="Контактный телефон">
-                <Input
-                  value={data.sendPhone}
-                  onChange={(event) =>
-                    dispatch(editParcel.setSendPhone(event.target.value))
-                  }
-                />
-              </Form.Item>
-
-              <Form.Item label="Доп. информация">
-                <TextArea
-                  value={data.sendAddInfo}
-                  onChange={(event) =>
-                    dispatch(editParcel.setSendAddInfo(event.target.value))
-                  }
-                  rows={4}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={isMobile() ? 24 : 12}>
-              <Form.Item>Данные получателя</Form.Item>
-              <Form.Item>
-                <Button onClick={showRecModal}>Заполнить из шаблона</Button>
-
-                <Modal
-                  title="Данные получателя: выберите шаблон"
-                  open={isRecModalOpen}
-                  width={1000}
-                  footer={false}
-                  onCancel={() => {
-                    setIsRecModalOpen(false);
-                  }}
-                >
-                  <TemplatesTable onRowClick={onRecTemplateRowClick} search />
-                </Modal>
-              </Form.Item>
-
-              <Form.Item label="Город">
+              <Form.Item label="Тип оплаты">
                 <Select
-                  value={data.recCity}
-                  showSearch
-                  optionFilterProp="children"
-                  onChange={(value: string) =>
-                    dispatch(editParcel.setRecCity(value))
-                  }
-                  filterOption={(input, option) =>
-                    (option?.label ?? "")
-                      .toLowerCase()
-                      .includes(input.toLowerCase())
-                  }
-                  options={citySelectOptions}
+                  value={data.payType}
+                  options={PayTypeSelectOptions}
+                  onChange={(value) => dispatch(editParcel.setPayType(value))}
                 />
               </Form.Item>
 
-              <Form.Item label="Адрес">
-                <Input
-                  value={data.recAddress}
-                  onChange={(event) =>
-                    dispatch(editParcel.setRecAddress(event.target.value))
+              <Form.Item label="Страховая стоимость">
+                <InputNumber
+                  value={data.insureValue}
+                  min={0}
+                  onChange={(value) =>
+                    dispatch(editParcel.setInsureValue(value))
                   }
                 />
               </Form.Item>
 
-              <Form.Item label="Компания">
-                <Input
-                  value={data.recCompany}
-                  onChange={(event) =>
-                    dispatch(editParcel.setRecCompany(event.target.value))
-                  }
+              <Form.Item label="Хрупкий груз" valuePropName="checked">
+                <Switch
+                  checked={data.fragile}
+                  onChange={() => dispatch(editParcel.toggleFragile())}
                 />
               </Form.Item>
 
-              <Form.Item label="Контактное лицо">
-                <Input
-                  value={data.recPerson}
-                  onChange={(event) =>
-                    dispatch(editParcel.setRecPerson(event.target.value))
-                  }
+              <Form.Item label="Аренда термоконтейнера" valuePropName="checked">
+                <Switch
+                  checked={data.containerRent}
+                  onChange={() => dispatch(editParcel.toggleContainerRent())}
                 />
               </Form.Item>
 
-              <Form.Item label="Контактный телефон">
-                <Input
-                  value={data.recPhone}
-                  onChange={(event) =>
-                    dispatch(editParcel.setRecPhone(event.target.value))
-                  }
-                />
-              </Form.Item>
-
-              <Form.Item label="Доп. информация">
-                <TextArea
-                  value={data.recAddInfo}
-                  onChange={(event) =>
-                    dispatch(editParcel.setRecAddInfo(event.target.value))
-                  }
-                  rows={4}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-
-          {customerSelectOptions.length > 1 &&
-            checkPermission("parcel-customer-set") && (
-              <Form.Item label="Заказчик">
+              <Form.Item label="Температурный режим">
                 <Select
-                  value={data.customer}
-                  showSearch
+                  value={data.tMin.toString() + data.tMax.toString()}
                   optionFilterProp="children"
-                  onChange={(value: string) =>
-                    dispatch(editParcel.setCustomer(value))
-                  }
-                  filterOption={(input, option) =>
-                    (option?.label ?? "")
-                      .toLowerCase()
-                      .includes(input.toLowerCase())
-                  }
-                  options={customerSelectOptions}
+                  onChange={onTemperatureSelect}
+                  options={temperatureSelectOptions}
                 />
               </Form.Item>
-            )}
-
-          <Form.Item label="Дата вызова курьера">
-            <DatePicker
-              value={dayjs(data.date)}
-              placeholder="Дата начала"
-              onChange={(value) =>
-                dispatch(editParcel.setDate(value.valueOf()))
-              }
-              format={dateFormat}
-            />
-          </Form.Item>
-
-          <Form.Item label="Тип доставки">
-            <Select
-              value={data.delType}
-              options={delTypeSelectOptions}
-              onChange={(value) => dispatch(editParcel.setDelType(value))}
-            />
-          </Form.Item>
-
-          <Form.Item label="Тип оплаты">
-            <Select
-              value={data.payType}
-              options={PayTypeSelectOptions}
-              onChange={(value) => dispatch(editParcel.setPayType(value))}
-            />
-          </Form.Item>
-
-          <Form.Item label="Страховая стоимость">
-            <InputNumber
-              value={data.insureValue}
-              min={0}
-              onChange={(value) => dispatch(editParcel.setInsureValue(value))}
-            />
-          </Form.Item>
-
-          <Form.Item label="Хрупкий груз" valuePropName="checked">
-            <Switch
-              checked={data.fragile}
-              onChange={() => dispatch(editParcel.toggleFragile())}
-            />
-          </Form.Item>
-
-          <Form.Item label="Аренда термоконтейнера" valuePropName="checked">
-            <Switch
-              checked={data.containerRent}
-              onChange={() => dispatch(editParcel.toggleContainerRent())}
-            />
-          </Form.Item>
-
-          <Form.Item label="Температурный режим">
-            <Select
-              value={data.tMin.toString() + data.tMax.toString()}
-              optionFilterProp="children"
-              onChange={onTemperatureSelect}
-              options={temperatureSelectOptions}
-            />
-          </Form.Item>
-
+            </>
+          )}
           <ItemsTable data={data} />
 
           <Form.Item label="Итого мест">
@@ -495,9 +535,11 @@ export const CreateParcel = () => {
           {!!data.cost && (
             <Form.Item label="Стоимость доставвки">{data.cost} руб.</Form.Item>
           )}
-          <Form.Item>
-            <Button onClick={handleSave}>Сохранить накладную</Button>
-          </Form.Item>
+          {!hideSaveButton && (
+            <Form.Item>
+              <Button onClick={handleSave}>Сохранить накладную</Button>
+            </Form.Item>
+          )}
         </Form>
       </Content>
     </>
