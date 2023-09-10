@@ -1,7 +1,7 @@
 import * as React from "react";
 import { IParcel } from "../../../interfaces/parcels/IParcel";
 import { PrintModal } from "./printModal";
-import { App, Button } from "antd";
+import { notification, Button } from "antd";
 import {
   CheckCircleTwoTone,
   EditTwoTone,
@@ -21,20 +21,22 @@ interface IParcelActionsProps {
 export const ParcelActions = (props: IParcelActionsProps) => {
   const { parcelData, params } = props;
 
-  const { notification } = App.useApp();
+  const [api, contextHolder] = notification.useNotification();
 
   const dispatch = useDispatch();
   const onAcceptReceiveTask = async () => {
     const result = await acceptReceiveTask(dispatch, params);
     if (result) {
-      notification.info({
-        message: `Выполнено`,
-        description: "Принято в Работу!!",
+      api.success({
+        message: `Успешно`,
+        description: "Принято в Работу!",
+        placement: "bottomRight",
       });
     } else {
-      notification.error({
+      api.error({
         message: `Ошибка`,
         description: "Что-то пошло не так",
+        placement: "bottomRight",
       });
     }
   };
@@ -81,6 +83,8 @@ export const ParcelActions = (props: IParcelActionsProps) => {
       ></Button>
 
       {parcelData && <PrintModal data={parcelData} />}
+
+      {contextHolder}
     </div>
   );
 };
