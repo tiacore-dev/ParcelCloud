@@ -12,11 +12,16 @@ export default function registerServiceWorker() {
        * only on the updated
        */
       if (event.isUpdate) {
-        if (confirm(`New app update is available!. Click OK to refresh`)) {
+        if (
+          confirm(
+            `Доступно новое обновление!. Нажмите OK для перезагрузки страницы`,
+          )
+        ) {
           window.location.reload();
         }
       }
     });
+
     wb.register();
   }
 }

@@ -78,10 +78,10 @@ module.exports = () => {
           { from: "./src/logo512.png", to: "" },
         ],
       }),
-      // new WorkboxWebpackPlugin.InjectManifest({
-      //     swSrc: "./src/src-sw.js",
-      //     swDest: "sw.js",
-      // }),
+      new WorkboxWebpackPlugin.InjectManifest({
+        swSrc: "./src/src-sw.js",
+        swDest: "sw.js",
+      }),
       new webpack.DefinePlugin({ process: { env: envKeys } }),
     ],
   };
