@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Breadcrumb, Button, Card, Layout, Space, Table } from "antd";
 import Title from "antd/es/typography/Title";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getDocumentFailure,
@@ -111,11 +111,12 @@ export const Document = () => {
           margin: "16px 0",
         }}
         items={[
-          <Breadcrumb.Item>Главная</Breadcrumb.Item>,
-          <Breadcrumb.Item>
-            ,<Link to="/documents">Документы</Link>
-          </Breadcrumb.Item>,
-          <Breadcrumb.Item>{documentData?.number}</Breadcrumb.Item>,
+          { title: "Главная" },
+          {
+            title: "Документы",
+            // ,<Link to="/documents">Документы</Link>
+          },
+          { title: documentData?.number },
         ]}
       />
       {isLoaded &&

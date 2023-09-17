@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Breadcrumb, Button, Form, Input, Layout, Select, Space } from "antd";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useApi } from "../../hooks/useApi";
 import { IauthToken, authToken } from "../../hooks/useAuth";
@@ -98,15 +98,17 @@ export const Template = () => {
           margin: "16px 0",
         }}
         items={[
-          <Breadcrumb.Item>Главная</Breadcrumb.Item>,
-          <Breadcrumb.Item>
-            <Link to="/templates">Шаблоны</Link>
-          </Breadcrumb.Item>,
-          <Breadcrumb.Item>
-            {routeParams.templateId !== "create"
-              ? "Создать шаблон"
-              : templateData?.name}
-          </Breadcrumb.Item>,
+          { title: "Главная" },
+          {
+            title: "Шаблоны",
+            // <Link to="/templates">Шаблоны</Link>
+          },
+          {
+            title:
+              routeParams.templateId !== "create"
+                ? "Создать шаблон"
+                : templateData?.name,
+          },
         ]}
       />
 

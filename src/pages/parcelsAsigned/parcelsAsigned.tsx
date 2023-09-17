@@ -68,10 +68,7 @@ export const ParcelsAsigned = () => {
         style={{
           margin: "16px 0",
         }}
-        items={[
-          <Breadcrumb.Item>Главная</Breadcrumb.Item>,
-          <Breadcrumb.Item>Назначенные накладные</Breadcrumb.Item>,
-        ]}
+        items={[{ title: "Главная" }, { title: "Назначенные накладные" }]}
       />
       <Content
         style={{

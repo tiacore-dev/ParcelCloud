@@ -17,10 +17,7 @@ export const Auth = () => {
           style={{
             margin: "16px 0",
           }}
-          items={[
-            <Breadcrumb.Item>Главная</Breadcrumb.Item>,
-            <Breadcrumb.Item>Аккаунт</Breadcrumb.Item>,
-          ]}
+          items={[{ title: "Главная" }, { title: "Аккаунт" }]}
         ></Breadcrumb>
       )}
       <Content

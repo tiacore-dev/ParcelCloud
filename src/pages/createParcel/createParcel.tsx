@@ -15,7 +15,6 @@ import {
   DatePicker,
 } from "antd";
 import Title from "antd/es/typography/Title";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "../../store/modules";
 import {
@@ -220,11 +219,12 @@ export const CreateParcel = (props: ICreateParcelProps) => {
           margin: "16px 0",
         }}
         items={[
-          <Breadcrumb.Item>Главная</Breadcrumb.Item>,
-          <Breadcrumb.Item>
-            <Link to="/parcels">Накладные</Link>
-          </Breadcrumb.Item>,
-          <Breadcrumb.Item>Создать накладную</Breadcrumb.Item>,
+          { title: "Главная" },
+          {
+            title: "Накладные",
+            // <Link to="/parcels">Накладные</Link>
+          },
+          { title: "Создать накладную" },
         ]}
       />
       <Content

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Alert, Breadcrumb, Button, Card, Layout, Spin, Table } from "antd";
 import Title from "antd/es/typography/Title";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { authToken } from "../../hooks/useAuth";
@@ -80,11 +80,12 @@ export const Manifest = () => {
           margin: "16px 0",
         }}
         items={[
-          <Breadcrumb.Item>Главная</Breadcrumb.Item>,
-          <Breadcrumb.Item>
-            <Link to="/manifests">Манифесты</Link>
-          </Breadcrumb.Item>,
-          <Breadcrumb.Item>{manifestData?.number}</Breadcrumb.Item>,
+          { title: "Главная" },
+          {
+            title: "Манифесты",
+            // <Link to="/manifests">Манифесты</Link>
+          },
+          { title: manifestData?.number },
         ]}
       />
       {isLoaded &&

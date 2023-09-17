@@ -118,10 +118,7 @@ export const Prices = () => {
         style={{
           margin: "16px 0",
         }}
-        items={[
-          <Breadcrumb.Item>Главная</Breadcrumb.Item>,
-          <Breadcrumb.Item>Расчет тарифа</Breadcrumb.Item>,
-        ]}
+        items={[{ title: "Главная" }, { title: "Расчет тарифа" }]}
       />
       <Content
         style={{

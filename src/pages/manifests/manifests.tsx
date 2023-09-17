@@ -44,10 +44,7 @@ export const Manifests = () => {
         style={{
           margin: "16px 0",
         }}
-        items={[
-          <Breadcrumb.Item>Главная</Breadcrumb.Item>,
-          <Breadcrumb.Item>Манифесты</Breadcrumb.Item>,
-        ]}
+        items={[{ title: "Главная" }, { title: "Манифесты" }]}
       />
       <Content
         style={{

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Alert, Breadcrumb, Card, Layout, Spin, Table } from "antd";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { IParcelHistory, IParcelItem } from "../../interfaces/parcels/IParcel";
 import { authToken } from "../../hooks/useAuth";
@@ -71,11 +71,12 @@ export const Parcel = () => {
           margin: "16px 0",
         }}
         items={[
-          <Breadcrumb.Item>Главная</Breadcrumb.Item>,
-          <Breadcrumb.Item>
-            <Link to="/parcels">Накладные</Link>
-          </Breadcrumb.Item>,
-          <Breadcrumb.Item>{parcelData?.number}</Breadcrumb.Item>,
+          { title: "Главная" },
+          {
+            title: "Накладные",
+            // <Link to="/parcels">Накладные</Link>
+          },
+          { title: parcelData?.number },
         ]}
       />
       {isLoaded && parcelData && routeParams.parcelId === parcelData.id ? (
