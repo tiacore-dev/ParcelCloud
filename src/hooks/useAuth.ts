@@ -25,5 +25,8 @@ export const authToken = (): IauthToken => {
 
 export const checkPermission = (permission: string): boolean => {
   const { permissions } = authData();
+  if (!permissions) {
+    return false;
+  }
   return Object.values(permissions).some((value) => value === permission);
 };

@@ -2,8 +2,7 @@ import * as React from "react";
 import { Layout } from "antd";
 import { AppHeader } from "../AppHeader/AppHeader";
 import { AppFooter } from "../AppFooter/AppFooter";
-import { AppRouter } from "../../core/router";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Auth } from "../../pages/auth/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "../../store/modules";
@@ -29,6 +28,19 @@ import { clearCreateParcelState } from "../../store/modules/editableEntities/edi
 import { clearPricesState } from "../../store/modules/pages/prices";
 import { clearDocumentsState } from "../../store/modules/pages/documents";
 import "./App.less";
+import { Route, Routes } from "react-router-dom";
+import { Main } from "../../pages/main/main";
+import { CreateParcel } from "../../pages/createParcel/createParcel";
+import { Parcels } from "../../pages/parcels/parcels";
+import { Parcel } from "../../pages/parcel/parcel";
+import { Templates } from "../../pages/templates/templates";
+import { Template } from "../../pages/template/template";
+import { Prices } from "../../pages/prices/prices";
+import { Documents } from "../../pages/documents/documents";
+import { Document } from "../../pages/document/document";
+import { ParcelsAsigned } from "../../pages/parcelsAsigned/parcelsAsigned";
+import { Manifests } from "../../pages/manifests/manifests";
+import { Manifest } from "../../pages/manifest/manifest";
 
 interface useloadSourseDto {
   authToken: IauthToken;
@@ -80,32 +92,61 @@ export const useloadSourse = (): [
 
 export const App = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const authData = useSelector((state: IState) => state.auth);
   const isAuth = authData.isAuth;
-  if (!isAuth) {
+  if (!isAuth && location.pathname !== "/auth") {
     navigate("/auth");
   }
 
   return (
     <>
-      {isAuth ? (
+      <Layout>
+        {isAuth && <AppHeader />}
+
         <Layout>
-          <AppHeader />
-          <Layout>
-            {/* {!mobile && <LeftMenu />} */}
-            <Layout
-              style={{
-                padding: "0 24px",
-              }}
-            >
-              <AppRouter />
-            </Layout>
+          {/* {!mobile && <LeftMenu />} */}
+          <Layout
+            style={{
+              padding: "0 24px",
+            }}
+          >
+            <Routes>
+              <Route path="/">
+                <Route index={true} element={<Main />} />
+
+                <Route path="auth" element={<Auth />} />
+
+                <Route path="parcels">
+                  <Route index={true} element={<Parcels />} />
+                  <Route path="create" element={<CreateParcel />} />
+                  <Route path=":parcelId" element={<Parcel />} />
+                </Route>
+
+                <Route path="templates">
+                  <Route index={true} element={<Templates />} />
+                  <Route path=":templateId" element={<Template />} />
+                </Route>
+
+                <Route path="manifests">
+                  <Route index={true} element={<Manifests />} />
+                  <Route path=":manifestId" element={<Manifest />} />
+                </Route>
+
+                <Route path="documents">
+                  <Route index={true} element={<Documents />} />
+                  <Route path=":documentId" element={<Document />} />
+                </Route>
+
+                <Route path="tasks" element={<ParcelsAsigned />} />
+
+                <Route path="prices" element={<Prices />} />
+              </Route>
+            </Routes>
           </Layout>
-          {AppFooter}
         </Layout>
-      ) : (
-        <Auth />
-      )}
+        {isAuth && AppFooter}
+      </Layout>
     </>
   );
 };
