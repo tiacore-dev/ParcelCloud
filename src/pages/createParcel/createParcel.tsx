@@ -535,7 +535,9 @@ export const CreateParcel = (props: ICreateParcelProps) => {
           )}
           {!hideSaveButton && (
             <Form.Item>
-              <Button onClick={handleSave}>Сохранить накладную</Button>
+              <Button loading={data.sent} onClick={handleSave}>
+                Сохранить накладную
+              </Button>
             </Form.Item>
           )}
         </Form>
