@@ -15,9 +15,9 @@ export const parcelsAsignedDesktopColumns =
           <div>
             <div>
               {record.toDelivery ? (
-                <LogoutOutlined className="parcelsAsigned__table__delivery_icon" />
+                <LogoutOutlined className="parcels-asigned__table__delivery_icon" />
               ) : (
-                <LoginOutlined className="parcelsAsigned__table__receive_icon" />
+                <LoginOutlined className="parcels-asigned__table__receive_icon" />
               )}
               {record.toDelivery
                 ? "Доставить получателю"

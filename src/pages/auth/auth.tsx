@@ -9,16 +9,16 @@ import { minPageHeight } from "../../utils/pageSettings";
 export const Auth = () => {
   const { Content } = Layout;
 
+  const breadcrumbItems = React.useMemo(
+    () => [{ title: "Главная" }, { title: "Аккаунт" }],
+    [],
+  );
+
   return (
     <>
       {" "}
       {authData().isAuth && (
-        <Breadcrumb
-          style={{
-            margin: "16px 0",
-          }}
-          items={[{ title: "Главная" }, { title: "Аккаунт" }]}
-        ></Breadcrumb>
+        <Breadcrumb className="breadcrumb" items={breadcrumbItems}></Breadcrumb>
       )}
       <Content
         style={{

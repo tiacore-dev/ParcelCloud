@@ -94,9 +94,7 @@ export const Template = () => {
   return (
     <>
       <Breadcrumb
-        style={{
-          margin: "16px 0",
-        }}
+        className="breadcrumb"
         items={[
           { title: "Главная" },
           {

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IManifest } from "../../../interfaces/manifests/IManifest";
+import { ParcelsStatusData } from "../../../hooks/ApiActions/parcel";
 
 interface IManifestState {
   data: IManifest | undefined;
@@ -39,6 +40,20 @@ const manifestSlice = createSlice({
       state.loaded = true;
       state.data = action.payload;
     },
+    setManifestParcelsStatus: (
+      state: IManifestState,
+      action: { payload: ParcelsStatusData[] },
+    ) => {
+      state.loading = false;
+      state.loaded = true;
+      action.payload.forEach((payloadParcel) => {
+        state.data.parcels = state.data.parcels.map((parcel) =>
+          parcel.id === payloadParcel.id
+            ? { ...parcel, status: payloadParcel.status }
+            : parcel,
+        );
+      });
+    },
     clearManifestState: (state: IManifestState) => {
       state.data = undefined;
       state.loaded = false;
@@ -52,6 +67,7 @@ export const {
   getManifestRequest,
   getManifestFailure,
   getManifestSuccess,
+  setManifestParcelsStatus,
   clearManifestState,
 } = manifestSlice.actions;
 

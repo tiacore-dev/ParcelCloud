@@ -7,7 +7,10 @@ import {
   getParcelsSuccess,
 } from "../../store/modules/pages/parcels";
 import { useApi } from "../useApi";
-import { IParcelsList } from "../../interfaces/parcels/IParcelsList";
+import {
+  IParcelsAsignedList,
+  IParcelsList,
+} from "../../interfaces/parcels/IParcelsList";
 import {
   getParcelFailure,
   getParcelRequest,
@@ -23,6 +26,13 @@ import {
 } from "../../interfaces/parcels/IParcel";
 import { payTypeEnum } from "../../enumerations/payTypeEnum";
 import { delTypeEnum } from "../../enumerations/delTypeEnum";
+import { setManifestParcelsStatus } from "../../store/modules/pages/manifest";
+import { GetParcelsAsignedDto } from "../../pages/parcelsAsigned/parcelsAsigned";
+import {
+  getParcelsAsignedFailure,
+  getParcelsAsignedRequest,
+  getParcelsAsignedSuccess,
+} from "../../store/modules/pages/parcelsAsigned";
 
 export interface GetParcelsDto extends IParcelsSettingsState {
   authToken: IauthToken;
@@ -30,6 +40,11 @@ export interface GetParcelsDto extends IParcelsSettingsState {
 
 export interface GetParcelDto {
   parcelId: string;
+  authToken: IauthToken;
+}
+
+export interface GeneralStatusParcelsSetDto {
+  parcelIds: string[];
   authToken: IauthToken;
 }
 
@@ -79,6 +94,11 @@ export interface ParcelStatusData {
   history?: IParcelHistory[];
 }
 
+export interface ParcelsStatusData {
+  id: string;
+  status: ParcelStatus;
+}
+
 export const getParcels = (
   dispatch: Dispatch<AnyAction>,
   getParcelsParam: GetParcelsDto,
@@ -121,6 +141,37 @@ export const setGeneralParcelStatus = (
     })
     .catch((err) => {
       dispatch(getParcelsFailure(err));
+    });
+};
+
+export const setGeneralParcelsStatus = (
+  dispatch: Dispatch<AnyAction>,
+  setGeneralParcelStatusParam: GeneralStatusParcelsSetDto,
+) => {
+  useApi<ParcelsStatusData[], GeneralStatusParcelsSetDto>(
+    "generalparcelsstatus",
+    "set",
+    setGeneralParcelStatusParam,
+  ).then((response) => {
+    dispatch(setManifestParcelsStatus(response));
+  });
+};
+
+export const getParcelsAsigned = (
+  dispatch: Dispatch<AnyAction>,
+  getParcelsParam: GetParcelsAsignedDto,
+) => {
+  dispatch(getParcelsAsignedRequest());
+  useApi<IParcelsAsignedList[], GetParcelsAsignedDto>(
+    "parcelsasigned",
+    "get",
+    getParcelsParam,
+  )
+    .then((parcelsData) => {
+      dispatch(getParcelsAsignedSuccess(parcelsData));
+    })
+    .catch((err) => {
+      dispatch(getParcelsAsignedFailure(err));
     });
 };
 

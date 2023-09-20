@@ -1,3 +1,5 @@
+import { ParcelStatus } from "./IParcel";
+
 export interface IParcelsList {
   id: string;
   date: string;
@@ -13,6 +15,7 @@ export interface IParcelsList {
   weight: number;
   volume: number;
   price?: number;
+  status?: ParcelStatus;
   statusType?: string;
   statusValue?: string;
   statusDate?: string;

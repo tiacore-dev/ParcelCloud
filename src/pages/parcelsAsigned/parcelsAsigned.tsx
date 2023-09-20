@@ -1,28 +1,27 @@
-import { Breadcrumb, Button, Layout, Table } from "antd";
+import { Breadcrumb, Layout, Table } from "antd";
 import * as React from "react";
-import { useApi } from "../../hooks/useApi";
 import { parcelsAsignedDesktopColumns } from "./components/desktop.columns";
 import { IauthToken, authToken } from "../../hooks/useAuth";
-import {
-  getParcelsAsignedFailure,
-  getParcelsAsignedRequest,
-  getParcelsAsignedSuccess,
-} from "../../store/modules/pages/parcelsAsigned";
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "../../store/modules";
 import "./parcelsAsigned.less";
-import { IParcelsAsignedList } from "../../interfaces/parcels/IParcelsList";
 import { useNavigate } from "react-router-dom";
 import { parcelsAsignedMobileColumns } from "./components/mobile.columns";
 import { isMobile } from "../../utils/isMobile";
 import { minPageHeight } from "../../utils/pageSettings";
-import { ReloadOutlined } from "@ant-design/icons";
+import { getParcelsAsigned } from "../../hooks/ApiActions/parcel";
+import { Filters } from "./components/filters";
 
 export interface GetParcelsAsignedDto {
   authToken: IauthToken;
 }
 
 export const ParcelsAsigned = () => {
+  const breadcrumbItems = React.useMemo(
+    () => [{ title: "Главная" }, { title: "Назначенные накладные" }],
+    [],
+  );
+
   const { Content } = Layout;
   const token = authToken();
   const param: GetParcelsAsignedDto = {
@@ -31,22 +30,9 @@ export const ParcelsAsigned = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const getParcelsAsigned = React.useCallback(
-    (getParcelsParam: GetParcelsAsignedDto) => {
-      dispatch(getParcelsAsignedRequest());
-      useApi<IParcelsAsignedList[], GetParcelsAsignedDto>(
-        "parcelsasigned",
-        "get",
-        getParcelsParam,
-      )
-        .then((parcelsData) => {
-          dispatch(getParcelsAsignedSuccess(parcelsData));
-        })
-        .catch((err) => {
-          dispatch(getParcelsAsignedFailure(err));
-        });
-    },
-    [],
+
+  const filters = useSelector(
+    (state: IState) => state.settings.parcelsAsignedSettings.filters,
   );
 
   const parcelsData = useSelector(
@@ -56,20 +42,28 @@ export const ParcelsAsigned = () => {
     (state: IState) => state.pages.parcelsAsigned.loading,
   );
 
+  const dataSource = React.useMemo(
+    () =>
+      parcelsData
+        .map((el) => ({ ...el, key: el.id }))
+        .filter(
+          (el) =>
+            filters.taskType === "all" ||
+            (filters.taskType === "toDelivery" && el.toDelivery) ||
+            (filters.taskType === "toReceive" && el.toReceive),
+        ),
+    [parcelsData, filters],
+  );
+
   React.useEffect(() => {
     if (!parcelsData.length) {
-      getParcelsAsigned(param);
+      getParcelsAsigned(dispatch, param);
     }
   }, []);
 
   return (
     <>
-      <Breadcrumb
-        style={{
-          margin: "16px 0",
-        }}
-        items={[{ title: "Главная" }, { title: "Назначенные накладные" }]}
-      />
+      <Breadcrumb className="breadcrumb" items={breadcrumbItems} />
       <Content
         style={{
           padding: 24,
@@ -78,12 +72,9 @@ export const ParcelsAsigned = () => {
           background: "#FFF",
         }}
       >
-        <Button
-          icon={<ReloadOutlined />}
-          onClick={() => getParcelsAsigned(param)}
-        />
+        <Filters />
         <Table
-          dataSource={parcelsData.map((el) => ({ ...el, key: el.id }))}
+          dataSource={dataSource}
           columns={
             isMobile()
               ? parcelsAsignedMobileColumns()

@@ -40,9 +40,7 @@ export const Parcels = () => {
   return (
     <>
       <Breadcrumb
-        style={{
-          margin: "16px 0",
-        }}
+        className="breadcrumb"
         items={[{ title: "Главная" }, { title: "Накладные" }]}
       />
       <Content
@@ -60,16 +58,9 @@ export const Parcels = () => {
           columns={
             isMobile()
               ? parcelsMobileColumns(customerView)
-              : parcelsDesktopColumns(customerView)
+              : parcelsDesktopColumns(customerView, navigate)
           }
           loading={isLoading}
-          onRow={(record) => {
-            return {
-              onClick: () => {
-                navigate(`/parcels/${record.key}`);
-              },
-            };
-          }}
         />
       </Content>
     </>

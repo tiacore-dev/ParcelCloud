@@ -3,6 +3,7 @@ import { payTypeEnum } from "../../enumerations/payTypeEnum";
 
 export type ParcelStatus =
   | "expected"
+  | "availableToReceive"
   | "general"
   | "delivered"
   | "canceled"

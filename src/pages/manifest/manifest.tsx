@@ -1,43 +1,30 @@
 import * as React from "react";
 import { Alert, Breadcrumb, Button, Card, Layout, Spin, Table } from "antd";
 import Title from "antd/es/typography/Title";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
 import { authToken } from "../../hooks/useAuth";
 import { IState } from "../../store/modules";
-
 import { minPageHeight } from "../../utils/pageSettings";
 import { isMobile } from "../../utils/isMobile";
 import { dateToLocalString } from "../../utils/dateConverter";
 import { parcelsDesktopColumns } from "../parcels/components/desktop.columns";
 import { parcelsMobileColumns } from "../parcels/components/mobile.columns";
-import { IParcelsListColumn } from "../../interfaces/parcels/IParcelsList";
 import { GetManifestDto, getManifest } from "../../hooks/ApiActions/manifest";
-import { useNavigate } from "react-router-dom";
-
-export interface IConvertedManifestItem {
-  key: number;
-  weight?: number;
-  h?: number;
-  l?: number;
-  w?: number;
-  volume?: number;
-  qt?: number;
-  tWeight?: number;
-  tVolume?: number;
-  comment?: string;
-  mobileData?: JSX.Element;
-}
+import { TableRowSelection } from "antd/es/table/interface";
+import { IParcelsListColumn } from "../../interfaces/parcels/IParcelsList";
+import {
+  GeneralStatusParcelsSetDto,
+  setGeneralParcelsStatus,
+} from "../../hooks/ApiActions/parcel";
 
 export const Manifest = () => {
   const { Content } = Layout;
 
   const routeParams = useParams();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = authToken();
-
+  const navigate = useNavigate();
   const params: GetManifestDto = {
     authToken: token,
     manifestId: routeParams.manifestId,
@@ -67,18 +54,49 @@ export const Manifest = () => {
 
   const errMsg = useSelector((state: IState) => state.pages.manifest.errMsg);
 
+  const [selectedRows, setSelectedRows] = React.useState<string[]>([]);
+
+  const receiveParcels = React.useCallback(() => {
+    const receiveParcelsParams: GeneralStatusParcelsSetDto = {
+      authToken: token,
+      parcelIds: selectedRows,
+    };
+
+    setGeneralParcelsStatus(dispatch, receiveParcelsParams);
+  }, [selectedRows, token]);
+  // setGeneralParcelsStatus
+  const hasUnreceiver: boolean =
+    manifestData?.parcels?.filter(
+      (parcel) => parcel.status === "availableToReceive",
+    ).length > 0;
+
   const columns = React.useMemo(
     () =>
-      isMobile() ? parcelsMobileColumns(true) : parcelsDesktopColumns(true),
+      isMobile()
+        ? parcelsMobileColumns(true)
+        : parcelsDesktopColumns(true, navigate),
     [],
   );
+
+  const rowSelection: TableRowSelection<IParcelsListColumn> = hasUnreceiver
+    ? {
+        type: "checkbox",
+        onChange: (
+          selectedRowKeys: React.Key[],
+          selectedRows: IParcelsListColumn[],
+        ) => {
+          setSelectedRows(selectedRows.map((el) => el.id));
+        },
+        getCheckboxProps: (record: IParcelsListColumn) => ({
+          disabled: record.status !== "availableToReceive",
+        }),
+      }
+    : undefined;
 
   return (
     <>
       <Breadcrumb
-        style={{
-          margin: "16px 0",
-        }}
+        className="breadcrumb"
         items={[
           { title: "Главная" },
           {
@@ -150,16 +168,17 @@ export const Manifest = () => {
                   bordered
                   dataSource={parcels}
                   columns={columns}
-                  onRow={(record) => {
-                    return {
-                      onClick: () => {
-                        navigate(`/parcels/${record.key}`);
-                      },
-                    };
-                  }}
+                  rowSelection={rowSelection}
                 />
               }
             </>
+          )}
+
+          {!!selectedRows.length && !!manifestData.parcels && (
+            <Button onClick={receiveParcels} style={{ margin: "8px 0" }}>
+              Принять накладные на склад
+              {` (${selectedRows.length} из ${manifestData.parcels.length})`}
+            </Button>
           )}
         </Content>
       ) : (
