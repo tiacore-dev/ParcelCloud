@@ -22,7 +22,7 @@ export const useApi = async <R, D = any>(
   methodName: string,
   data?: D,
 ): Promise<R> => {
-  const url = `${process.env.REACT_APP_API_URL}/${templateName}/${methodName}`;
+  const url = `${process.env.REACT_APP_API_URL_SVS}/${templateName}/${methodName}`;
   const responce: { data: IApiResponce<R> } = await axios
     .post(url, JSON.stringify(data), { withCredentials: false })
     .catch((err: AxiosError) => {
