@@ -7,7 +7,7 @@ import { checkPermission } from "../../hooks/useAuth";
 
 const { Header } = Layout;
 
-export const AppHeader = () => {
+export const AppHeader = React.memo(() => {
   const desktopItems: ItemType[] = [];
   const navigate = useNavigate();
   if (checkPermission("parcel-view-in-work")) {
@@ -124,4 +124,4 @@ export const AppHeader = () => {
       />
     </Header>
   );
-};
+});
