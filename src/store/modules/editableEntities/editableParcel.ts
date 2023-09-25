@@ -256,6 +256,21 @@ const editableParcelSlice = createSlice({
         0,
       );
     },
+    copyItem: (state: IEditableParcelState, action: { payload: number }) => {
+      state.items.push({ ...state.items[action.payload] });
+      state.qt = state.items.reduce(
+        (qt: number, item: IParcelItem) => qt + item.qt || 0,
+        0,
+      );
+      state.weight = state.items.reduce(
+        (weight: number, item: IParcelItem) => weight + item.tWeight || 0,
+        0,
+      );
+      state.volume = state.items.reduce(
+        (volume: number, item: IParcelItem) => volume + item.tVolume || 0,
+        0,
+      );
+    },
     editItemWeight: (
       state: IEditableParcelState,
       action: { payload: { index: number; value: number } },

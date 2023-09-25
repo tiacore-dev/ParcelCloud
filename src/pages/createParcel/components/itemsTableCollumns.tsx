@@ -1,15 +1,20 @@
-import { Button, Card, Form, InputNumber, Popconfirm } from "antd";
+import { Button, Card, Form, InputNumber, Popconfirm, Space } from "antd";
 import * as React from "react";
 import { IParcelItem } from "../../../interfaces/parcels/IParcel";
 import { useDispatch } from "react-redux";
 import { editParcel } from "../../../store/modules/editableEntities/editableParcel";
 import { isMobile } from "../../../utils/isMobile";
+import { CopyTwoTone, DeleteTwoTone } from "@ant-design/icons";
 
 export const columns = () => {
   const dispatch = useDispatch();
 
   const handleDelete = React.useCallback((index: number) => {
     dispatch(editParcel.deleteItem(index));
+  }, []);
+
+  const handleCopy = React.useCallback((index: number) => {
+    dispatch(editParcel.copyItem(index));
   }, []);
 
   const columns = isMobile()
@@ -216,14 +221,16 @@ export const columns = () => {
         {
           dataIndex: "operation",
           render: (text: string, record: IParcelItem, index: number) => (
-            <Popconfirm
-              title="Действительно удалить?"
-              onConfirm={() => handleDelete(index)}
-              okText="Да"
-              cancelText="Нет"
-            >
-              <a>Удалить</a>
-            </Popconfirm>
+            <Space>
+              <Button
+                icon={<CopyTwoTone />}
+                onClick={() => handleCopy(index)}
+              />
+              <Button
+                icon={<DeleteTwoTone />}
+                onClick={() => handleDelete(index)}
+              />
+            </Space>
           ),
         },
       ];
