@@ -110,7 +110,7 @@ export const EditParcelDialog = (props: IReceiveParcelDialogProps) => {
     <ActionDialog
       onConfirm={receiveParcel}
       buttonText={iconOnly ? "" : "Редактировать"}
-      buttonIcon={<EditTwoTone />}
+      buttonIcon={<EditTwoTone twoToneColor="#ff1616" />}
       modalText={
         <CreateParcel
           parcel={parcel}

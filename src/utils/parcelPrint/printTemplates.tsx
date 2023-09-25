@@ -307,6 +307,12 @@ export const ParcelPrint = React.forwardRef(
       <>
         <div className="parcel_wrapper" ref={ref}>
           {table}
+          <p className="parcel_data">
+            {" "}
+            Я подтверждаю, что отправления не содержат предметы, запрещенные к
+            пересылке. С условиями пересылки согласен. С регламентом компании
+            ознакомлен. Подпись отправителя:
+          </p>
           {table}
           <p className="parcel_data">
             {" "}

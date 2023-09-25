@@ -74,7 +74,7 @@ export const Filters = (props: IFiltersProps) => {
     <div className="parcels_filters">
       <Space direction="horizontal">
         <Button
-          icon={<PlusCircleTwoTone />}
+          icon={<PlusCircleTwoTone twoToneColor="#ff1616" />}
           onClick={() => {
             dispatch(clearCreateParcelState());
             navigate("/parcels/create");
@@ -124,7 +124,7 @@ export const Filters = (props: IFiltersProps) => {
       </Space>
       <Button
         className="parcels_filters_right-button"
-        icon={<AppstoreTwoTone />}
+        icon={<AppstoreTwoTone twoToneColor="#ff1616" />}
         onClick={() => navigate("/templates")}
       >
         Шаблоны

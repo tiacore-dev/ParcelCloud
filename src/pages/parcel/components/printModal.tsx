@@ -29,7 +29,7 @@ export const PrintModal = (props: IPrintModalProps) => {
       {!isMobile() && (
         <Button
           className="parcel__actions__button"
-          icon={<PrinterTwoTone />}
+          icon={<PrinterTwoTone twoToneColor="#ff1616" />}
           onClick={showModal}
         ></Button>
       )}

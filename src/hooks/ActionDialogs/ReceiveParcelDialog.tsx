@@ -18,7 +18,7 @@ export const ReceiveParcelDialog = (props: IReceiveParcelDialogProps) => {
       onConfirm={onReceive}
       buttonText={iconOnly ? "" : "Получено"}
       buttonType="primary"
-      buttonIcon={<CheckCircleTwoTone />}
+      buttonIcon={<CheckCircleTwoTone twoToneColor="#ff1616" />}
       modalTitle={`Подтверждение получения ${parcelNumber}`}
       modalText={
         <p>

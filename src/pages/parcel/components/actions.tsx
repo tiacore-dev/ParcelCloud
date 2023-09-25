@@ -79,7 +79,7 @@ export const ParcelActions = (props: IParcelActionsProps) => {
         <Button
           type="primary"
           className="parcel__actions__button"
-          icon={<PlusCircleTwoTone />}
+          icon={<PlusCircleTwoTone twoToneColor="#ff1616" />}
           style={{}}
           onClick={onAcceptReceiveTask}
         >

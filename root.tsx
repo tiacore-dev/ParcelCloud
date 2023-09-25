@@ -23,7 +23,18 @@ export function Root({ store, persistor }: IRootProps) {
   return (
     <React.StrictMode>
       <PersistGate loading={null} persistor={persistor}>
-        <ConfigProvider locale={locale}>
+        <ConfigProvider
+          locale={locale}
+          theme={{
+            token: {
+              // Seed Token
+              colorPrimary: "#e40808",
+              borderRadius: 5,
+              // Alias Token
+              // colorBgContainer: "#f6ffed",
+            },
+          }}
+        >
           <Provider store={store}>
             <App />
           </Provider>

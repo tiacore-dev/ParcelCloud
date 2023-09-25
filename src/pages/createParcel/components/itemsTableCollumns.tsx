@@ -4,7 +4,12 @@ import { IParcelItem } from "../../../interfaces/parcels/IParcel";
 import { useDispatch } from "react-redux";
 import { editParcel } from "../../../store/modules/editableEntities/editableParcel";
 import { isMobile } from "../../../utils/isMobile";
-import { CopyTwoTone, DeleteTwoTone } from "@ant-design/icons";
+import {
+  CopyTwoTone,
+  DeleteTwoTone,
+  MinusCircleOutlined,
+  PlusCircleOutlined,
+} from "@ant-design/icons";
 
 export const columns = () => {
   const dispatch = useDispatch();
@@ -195,14 +200,32 @@ export const columns = () => {
           title: "Количество",
           dataIndex: "qt",
           render: (text: string, record: IParcelItem, index: number) => (
-            <InputNumber
-              value={record?.qt || 0}
-              bordered={false}
-              min={1}
-              onChange={(value) =>
-                dispatch(editParcel.editItemQt({ index, value }))
-              }
-            />
+            <>
+              <InputNumber
+                value={record?.qt || 0}
+                bordered={false}
+                min={1}
+                onChange={(value) =>
+                  dispatch(editParcel.editItemQt({ index, value }))
+                }
+              />
+              <Space>
+                <Button
+                  onClick={() => {
+                    const value = (record?.qt || 0) - 1;
+                    dispatch(editParcel.editItemQt({ index, value }));
+                  }}
+                  icon={<MinusCircleOutlined />}
+                />
+                <Button
+                  onClick={() => {
+                    const value = (record?.qt || 0) + 1;
+                    dispatch(editParcel.editItemQt({ index, value }));
+                  }}
+                  icon={<PlusCircleOutlined />}
+                />
+              </Space>
+            </>
           ),
         },
 
@@ -223,11 +246,11 @@ export const columns = () => {
           render: (text: string, record: IParcelItem, index: number) => (
             <Space>
               <Button
-                icon={<CopyTwoTone />}
+                icon={<CopyTwoTone twoToneColor="#ff1616" />}
                 onClick={() => handleCopy(index)}
               />
               <Button
-                icon={<DeleteTwoTone />}
+                icon={<DeleteTwoTone twoToneColor="#ff1616" />}
                 onClick={() => handleDelete(index)}
               />
             </Space>

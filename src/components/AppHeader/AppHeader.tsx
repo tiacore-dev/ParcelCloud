@@ -4,12 +4,21 @@ import { ItemType } from "antd/es/menu/hooks/useItems";
 import { useNavigate } from "react-router-dom";
 import { isMobile } from "../../utils/isMobile";
 import { checkPermission } from "../../hooks/useAuth";
+import { useDispatch } from "react-redux";
+import { clearCreateParcelState } from "../../store/modules/editableEntities/editableParcel";
+import logo from "./logo.png";
 
 const { Header } = Layout;
 
 export const AppHeader = React.memo(() => {
   const desktopItems: ItemType[] = [];
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const parcelsLabel = checkPermission("parcel-view-in-work")
+    ? "Накладные"
+    : "Мои Накладные";
+
   if (checkPermission("parcel-view-in-work")) {
     desktopItems.push({
       key: "tasks",
@@ -22,11 +31,30 @@ export const AppHeader = React.memo(() => {
 
   desktopItems.push({
     key: "parcels",
-    label: "Накладные",
+    label: parcelsLabel,
     onClick: () => {
       navigate("/parcels");
     },
   });
+
+  desktopItems.push({
+    key: "create",
+    label: "Создать",
+    onClick: () => {
+      dispatch(clearCreateParcelState());
+      navigate("/parcels/create");
+    },
+  });
+
+  if (checkPermission("template-view")) {
+    desktopItems.push({
+      key: "templates",
+      label: "Шаблоны",
+      onClick: () => {
+        navigate("/templates");
+      },
+    });
+  }
 
   if (
     checkPermission("manifest-incoming-view") ||
@@ -115,9 +143,11 @@ export const AppHeader = React.memo(() => {
   ];
 
   return (
-    <Header className="header">
+    <Header className={"header"} style={{ backgroundColor: "white" }}>
+      <img className="header__logo" src={logo} />
       <Menu
-        theme="dark"
+        className={"header__menu"}
+        theme="light"
         mode="horizontal"
         defaultSelectedKeys={["2"]}
         items={isMobile() ? mobileItems : desktopItems}

@@ -40,7 +40,7 @@ export const DeliveryParcelDialog = (props: IReceiveParcelDialogProps) => {
       onConfirm={receiveParcel}
       buttonText={iconOnly ? "" : "Доставлено"}
       buttonType="primary"
-      buttonIcon={<CheckCircleTwoTone />}
+      buttonIcon={<CheckCircleTwoTone twoToneColor="#ff1616" />}
       modalTitle={`Подтверждение доставки ${parcelNumber}`}
       modalText={
         <div>

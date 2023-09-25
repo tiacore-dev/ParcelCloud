@@ -48,13 +48,16 @@ export const parcelsDesktopColumns = (
       title: "Номер",
       key: "number",
 
-      // width: customerView ? "20%" : "15%",
+      width: customerView ? "20%" : "15%",
       render: (text: string, record: IParcelsListColumn) => (
         <>
           <div>{statusLabel(record.status)}</div>
           {customerView && <div>{record.customer}</div>}
           <div>
-            <a onClick={() => navigate && navigate(`/parcels/${record.key}`)}>
+            <a
+              className="parcels__table__number"
+              onClick={() => navigate && navigate(`/parcels/${record.key}`)}
+            >
               {record.number}
             </a>{" "}
             от {dateToLocalString(record.date)}
@@ -65,36 +68,52 @@ export const parcelsDesktopColumns = (
     {
       title: "Отправитель",
       key: "send",
-      // width: "27%",
+      width: "27%",
       render: (text: string, record: IParcelsListColumn) => (
         <>
           <div>{record.sendCity}</div>
           <div>{record.sendAddress}</div>
-          <div>{record.sendCompany}</div>
+          <div className="parcels__table__company-name">
+            {record.sendCompany}
+          </div>
         </>
       ),
     },
     {
       title: "Получатель",
       key: "rec",
-      // width: "27%",
+      width: "27%",
       render: (text: string, record: IParcelsListColumn) => (
         <>
           <div>{record.recCity}</div>
           <div>{record.recAddress}</div>
-          <div>{record.recCompany}</div>
+          <div className="parcels__table__company-name">
+            {record.recCompany}
+          </div>
         </>
       ),
     },
     {
       title: "Грузы",
       key: "items",
-      // width: "16%",
+      width: "16%",
       render: (text: string, record: IParcelsListColumn) => (
         <>
           <div>Мест: {record.qt}</div>
           <div>Вес: {record.weight}</div>
           <div>Об. вес: {record.volume}</div>
+        </>
+      ),
+    },
+    {
+      title: "Статус",
+      key: "status",
+      width: "16%",
+      render: (text: string, record: IParcelsListColumn) => (
+        <>
+          <div>{record.statusType}</div>
+          <div>{record.statusValue}</div>
+          <div>{dateToLocalString(record.statusDate)}</div>
         </>
       ),
     },
