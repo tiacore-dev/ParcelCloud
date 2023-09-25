@@ -210,6 +210,11 @@ export const CreateParcel = (props: ICreateParcelProps) => {
     setIsRecModalOpen(false);
   };
 
+  const errors = {
+    sendCity: !cities.includes(data.sendCity),
+    recCity: !cities.includes(data.recCity),
+  };
+
   return (
     <>
       {contextHolder}
@@ -280,6 +285,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     <Select
                       value={data.sendCity}
                       showSearch
+                      status={errors.sendCity && "error"}
                       optionFilterProp="children"
                       onChange={(value: string) =>
                         dispatch(editParcel.setSendCity(value))
@@ -369,6 +375,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                   <Form.Item label="Город">
                     <Select
                       value={data.recCity}
+                      status={errors.recCity && "error"}
                       showSearch
                       optionFilterProp="children"
                       onChange={(value: string) =>
@@ -535,7 +542,11 @@ export const CreateParcel = (props: ICreateParcelProps) => {
           )}
           {!hideSaveButton && (
             <Form.Item>
-              <Button loading={data.sent} onClick={handleSave}>
+              <Button
+                loading={data.sent}
+                onClick={handleSave}
+                disabled={errors.recCity || errors.sendCity}
+              >
                 Сохранить накладную
               </Button>
             </Form.Item>
