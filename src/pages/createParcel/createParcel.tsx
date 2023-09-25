@@ -546,6 +546,14 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                   options={temperatureSelectOptions}
                 />
               </Form.Item>
+              <Form.Item label="Описание вложения">
+                <TextArea
+                  value={data.description}
+                  onChange={(e) =>
+                    dispatch(editParcel.setDescription(e.target.value))
+                  }
+                />
+              </Form.Item>
             </>
           )}
           <ItemsTable data={data} />

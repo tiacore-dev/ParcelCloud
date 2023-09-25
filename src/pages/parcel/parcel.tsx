@@ -150,6 +150,9 @@ export const Parcel = () => {
             <p>Итого мест: {parcelData.qt}</p>
             <p>Вес: {parcelData.weight}</p>
             <p>Объемный вес: {parcelData.volume}</p>
+            {!!parcelData.description && (
+              <p>Описание вложения: {parcelData.description}</p>
+            )}
           </Card>
           {!!parcelData.items?.length && (
             <>

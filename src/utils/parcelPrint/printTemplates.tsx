@@ -211,29 +211,40 @@ export const ParcelPrint = React.forwardRef(
             Подпись Сотрудника
           </td>
         </tr>
-        <tr>
-          {/* <% if(data.parcelInfo == "") {%> */}
-          <td className="parceltd">Общее описание</td>
-          <td className="parceltd">Кол-во мест</td>
-          <td className="parceltd">Вес (кг)</td>
-          <td className="parceltd">Габариты (см)</td>
-          {/* <%} else {%>
+        {!data.description ? (
+          <tr>
+            {/* <% if(data.parcelInfo == "") {%> */}
+            <td className="parceltd">Общее описание</td>
+            <td className="parceltd">Кол-во мест</td>
+            <td className="parceltd">Вес (кг)</td>
+            <td className="parceltd">Габариты (см)</td>
+            {/* <%} else {%>
         <td className="parceltd" colSpan={4} rowSpan={5}>{data.parcelInfo}</td>
         <%}%>
         <!-- <td className="parceltd">Общее описание</td>
         <td className="parceltd">Кол-во мест</td>
         <td className="parceltd">Вес (кг)</td>
         <td className="parceltd">Габариты (см)</td> --> */}
-          <td className="parcelth" colSpan={4}>
-            10. ИНФОРМАЦИЯ О ВРУЧЕНИИ ОТПРАВЛЕНИЯ
-          </td>
-        </tr>
+            <td className="parcelth" colSpan={4}>
+              10. ИНФОРМАЦИЯ О ВРУЧЕНИИ ОТПРАВЛЕНИЯ
+            </td>
+          </tr>
+        ) : (
+          <tr>
+            <td className="parceltd" colSpan={4} rowSpan={5}>
+              {data.description}
+            </td>
+            <td className="parcelth" colSpan={4}>
+              10. ИНФОРМАЦИЯ О ВРУЧЕНИИ ОТПРАВЛЕНИЯ
+            </td>
+          </tr>
+        )}
         <tr>
           {/* <% if(data.parcelInfo == "") {%> */}
-          <td className="parceltd"></td>
-          <td className="parceltd"></td>
-          <td className="parceltd"></td>
-          <td className="parceltd"></td>
+          {!data.description && <td className="parceltd"></td>}
+          {!data.description && <td className="parceltd"></td>}
+          {!data.description && <td className="parceltd"></td>}
+          {!data.description && <td className="parceltd"></td>}
           {/* <%}%> */}
           <td className="parceltd" colSpan={2}>
             Дата _____._____ 20_____г.
@@ -244,10 +255,10 @@ export const ParcelPrint = React.forwardRef(
         </tr>
         <tr>
           {/* <% if(data.parcelInfo == "") {%> */}
-          <td className="parceltd"></td>
-          <td className="parceltd"></td>
-          <td className="parceltd"></td>
-          <td className="parceltd"></td>
+          {!data.description && <td className="parceltd"></td>}
+          {!data.description && <td className="parceltd"></td>}
+          {!data.description && <td className="parceltd"></td>}
+          {!data.description && <td className="parceltd"></td>}
           {/* <%}%> */}
           <td
             className="parceltd"
@@ -260,18 +271,18 @@ export const ParcelPrint = React.forwardRef(
         </tr>
         <tr>
           {/* <% if(data.parcelInfo == "") {%> */}
-          <td className="parceltd"></td>
-          <td className="parceltd"></td>
-          <td className="parceltd"></td>
-          <td className="parceltd"></td>
+          {!data.description && <td className="parceltd"></td>}
+          {!data.description && <td className="parceltd"></td>}
+          {!data.description && <td className="parceltd"></td>}
+          {!data.description && <td className="parceltd"></td>}
           {/* <%}%> */}
         </tr>
         <tr>
           {/* <% if(data.parcelInfo == "") {%> */}
-          <td className="parceltd"></td>
-          <td className="parceltd"></td>
-          <td className="parceltd"></td>
-          <td className="parceltd"></td>
+          {!data.description && <td className="parceltd"></td>}
+          {!data.description && <td className="parceltd"></td>}
+          {!data.description && <td className="parceltd"></td>}
+          {!data.description && <td className="parceltd"></td>}
           {/* <%}%> */}
           <td className="parceltd" colSpan={2}>
             Подпись Получателя

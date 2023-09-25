@@ -38,6 +38,7 @@ const initialState: IEditableParcelState = {
   recCompany: "",
   recAddInfo: "",
   recPhone: "",
+  description: "",
   qt: 1,
   weight: 1,
   volume: 0.2,
@@ -78,6 +79,7 @@ const editableParcelSlice = createSlice({
       state.recCompany = action.payload.recCompany;
       state.recAddInfo = action.payload.recAddInfo;
       state.recPhone = action.payload.recPhone;
+      state.description = action.payload.description;
       state.qt = action.payload.qt;
       state.weight = action.payload.weight;
       state.volume = action.payload.volume;
@@ -166,6 +168,12 @@ const editableParcelSlice = createSlice({
     },
     setRecPhone: (state: IEditableParcelState, action: { payload: string }) => {
       state.recPhone = action.payload;
+    },
+    setDescription: (
+      state: IEditableParcelState,
+      action: { payload: string },
+    ) => {
+      state.description = action.payload;
     },
     setQt: (state: IEditableParcelState, action: { payload: number }) => {
       state.qt = action.payload;
@@ -397,6 +405,7 @@ const editableParcelSlice = createSlice({
       state.recCompany = initialState.recCompany;
       state.recAddInfo = initialState.recAddInfo;
       state.recPhone = initialState.recPhone;
+      state.description = initialState.description;
       state.qt = initialState.qt;
       state.weight = initialState.weight;
       state.volume = initialState.volume;

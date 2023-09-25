@@ -47,6 +47,7 @@ export interface IParcel {
   recCompany: string;
   recAddInfo: string;
   recPhone: string;
+  description: string;
   qt: number;
   weight: number;
   volume: number;
