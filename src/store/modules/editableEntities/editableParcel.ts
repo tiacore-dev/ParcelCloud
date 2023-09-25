@@ -32,12 +32,14 @@ const initialState: IEditableParcelState = {
   sendCompany: "",
   sendAddInfo: "",
   sendPhone: "",
+  sendTime: "",
   recCity: "",
   recPerson: "",
   recAddress: "",
   recCompany: "",
   recAddInfo: "",
   recPhone: "",
+  recTime: "",
   description: "",
   qt: 1,
   weight: 1,
@@ -73,12 +75,14 @@ const editableParcelSlice = createSlice({
       state.sendCompany = action.payload.sendCompany;
       state.sendAddInfo = action.payload.sendAddInfo;
       state.sendPhone = action.payload.sendPhone;
+      state.sendTime = action.payload.sendTime;
       state.recCity = action.payload.recCity;
       state.recPerson = action.payload.recPerson;
       state.recAddress = action.payload.recAddress;
       state.recCompany = action.payload.recCompany;
       state.recAddInfo = action.payload.recAddInfo;
       state.recPhone = action.payload.recPhone;
+      state.recTime = action.payload.recTime;
       state.description = action.payload.description;
       state.qt = action.payload.qt;
       state.weight = action.payload.weight;
@@ -130,6 +134,9 @@ const editableParcelSlice = createSlice({
     ) => {
       state.sendPhone = action.payload;
     },
+    setSendTime: (state: IEditableParcelState, action: { payload: string }) => {
+      state.sendTime = action.payload;
+    },
     setRecCity: (state: IEditableParcelState, action: { payload: string }) => {
       state.recCity = action.payload;
     },
@@ -168,6 +175,9 @@ const editableParcelSlice = createSlice({
     },
     setRecPhone: (state: IEditableParcelState, action: { payload: string }) => {
       state.recPhone = action.payload;
+    },
+    setRecTime: (state: IEditableParcelState, action: { payload: string }) => {
+      state.recTime = action.payload;
     },
     setDescription: (
       state: IEditableParcelState,

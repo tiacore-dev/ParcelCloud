@@ -41,12 +41,14 @@ export interface IParcel {
   sendCompany: string;
   sendAddInfo: string;
   sendPhone: string;
+  sendTime: string;
   recCity: string;
   recPerson: string;
   recAddress: string;
   recCompany: string;
   recAddInfo: string;
   recPhone: string;
+  recTime: string;
   description: string;
   qt: number;
   weight: number;

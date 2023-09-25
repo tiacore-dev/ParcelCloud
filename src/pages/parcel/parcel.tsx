@@ -127,6 +127,9 @@ export const Parcel = () => {
             <p>ФИО: {parcelData.sendPerson}</p>
             <p>Телефон: {parcelData.sendPhone}</p>
             <p>Дополнительная информация: {parcelData.sendAddInfo}</p>
+            {!!parcelData.sendTime && (
+              <p>Время забора: {parcelData.sendTime}</p>
+            )}
           </Card>
 
           <Card
