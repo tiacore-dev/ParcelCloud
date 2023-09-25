@@ -143,8 +143,12 @@ export const CreateParcel = (props: ICreateParcelProps) => {
         navigate(`/parcels/${parcelData.id}`);
         dispatch(clearCreateParcelState());
       })
-      .catch(() => {
-        // dispatch(getParcelFailure(err))
+      .catch((err) => {
+        messageApi.open({
+          type: "error",
+          content: String(err),
+        });
+        dispatch(editParcel.saveError(err));
       });
   };
 
@@ -268,7 +272,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
 
                   {!hideTemplates && (
                     <Form.Item>
-                      <Button onClick={showSendModal}>
+                      <Button type="primary" onClick={showSendModal}>
                         Заполнить из шаблона
                       </Button>
 
@@ -276,7 +280,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                         <Modal
                           title="Данные отправителя: выберите шаблон"
                           open={isSendModalOpen}
-                          width={1000}
+                          width={"95%"}
                           footer={false}
                           onCancel={() => {
                             setIsSendModalOpen(false);
@@ -359,7 +363,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                   <Form.Item>Данные получателя</Form.Item>
                   {!hideTemplates && (
                     <Form.Item>
-                      <Button onClick={showRecModal}>
+                      <Button type="primary" onClick={showRecModal}>
                         Заполнить из шаблона
                       </Button>
 
@@ -367,7 +371,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                         <Modal
                           title="Данные получателя: выберите шаблон"
                           open={isRecModalOpen}
-                          width={1000}
+                          width={"95%"}
                           footer={false}
                           onCancel={() => {
                             setIsRecModalOpen(false);
@@ -498,7 +502,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                 />
               </Form.Item>
 
-              <Form.Item label="Время вызова курьера">
+              <Form.Item label="Время приезда курьера">
                 <Input
                   value={data.sendTime}
                   onChange={(e) =>

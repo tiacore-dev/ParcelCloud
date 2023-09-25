@@ -395,7 +395,12 @@ const editableParcelSlice = createSlice({
       state: IEditableParcelState,
       action: { payload: { number: string; id: string } },
     ) => {
-      (state.id = action.payload.id), (state.number = action.payload.number);
+      state.id = action.payload.id;
+      state.number = action.payload.number;
+      state.sent = false;
+    },
+    saveError: (state: IEditableParcelState) => {
+      state.sent = false;
     },
 
     clearCreateParcelState: (state: IEditableParcelState) => {
