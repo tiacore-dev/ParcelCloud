@@ -25,6 +25,7 @@ const initialState: IEditableParcelState = {
   id: undefined,
   number: "",
   customer: "",
+  payer: undefined,
   sendCity: "",
   sendPerson: "",
   sendAddress: "",
@@ -159,6 +160,9 @@ const editableParcelSlice = createSlice({
     },
     setCustomer: (state: IEditableParcelState, action: { payload: string }) => {
       state.customer = action.payload;
+    },
+    setPayer: (state: IEditableParcelState, action: { payload: string }) => {
+      state.payer = action.payload;
     },
     setRecPhone: (state: IEditableParcelState, action: { payload: string }) => {
       state.recPhone = action.payload;
@@ -392,6 +396,7 @@ const editableParcelSlice = createSlice({
       state.fragile = initialState.fragile;
       state.containerRent = initialState.containerRent;
       state.items = initialState.items;
+      state.payer = initialState.payer;
     },
   },
 });

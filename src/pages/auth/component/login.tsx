@@ -53,9 +53,9 @@ export const Login = () => {
         }}
       >
         <Form.Item
-          label="e-mail"
+          label="Login"
           name="email"
-          rules={[{ required: true, message: "Please input your e-mail!" }]}
+          rules={[{ required: true, message: "Please input your login!" }]}
         >
           <Input />
         </Form.Item>

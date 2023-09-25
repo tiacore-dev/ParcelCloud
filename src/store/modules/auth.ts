@@ -17,6 +17,7 @@ const initialState: IAuthState = {
   company: null,
   permissions: [],
   availableCustomers: [],
+  availablePayers: [],
 };
 
 const authSlice = createSlice({
@@ -32,6 +33,7 @@ const authSlice = createSlice({
       state.company = action.payload.company;
       state.permissions = action.payload.permissions;
       state.availableCustomers = action.payload.availableCustomers;
+      state.availablePayers = action.payload.availablePayers;
     },
     authlogout: (state) => {
       state.isAuth = false;
@@ -40,6 +42,8 @@ const authSlice = createSlice({
       state.userKey = null;
       state.token = null;
       state.permissions = null;
+      state.availableCustomers = [];
+      state.availablePayers = [];
     },
   },
 });
@@ -51,4 +55,9 @@ export const auth = authSlice.reducer;
 export const getCustomers = createSelector(
   [(state: IState) => state.auth.availableCustomers],
   (availableCustomers) => availableCustomers,
+);
+
+export const getPayers = createSelector(
+  [(state: IState) => state.auth.availablePayers],
+  (availablePayers) => availablePayers ?? [],
 );

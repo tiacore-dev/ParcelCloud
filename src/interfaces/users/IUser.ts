@@ -11,4 +11,5 @@ export interface IUser {
   company: ICompany;
   permissions: string[];
   availableCustomers: ICompany[];
+  availablePayers?: ICompany[];
 }

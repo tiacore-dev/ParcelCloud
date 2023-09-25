@@ -41,7 +41,7 @@ import { minPageHeight } from "../../utils/pageSettings";
 import { isMobile } from "../../utils/isMobile";
 import "./createParcel.less";
 import { getCities } from "../../store/modules/dictionaries/selectors/cities.selector";
-import { getCustomers } from "../../store/modules/auth";
+import { getCustomers, getPayers } from "../../store/modules/auth";
 import { IParcel } from "../../interfaces/parcels/IParcel";
 
 interface ICreateParcelProps {
@@ -62,6 +62,8 @@ export const CreateParcel = (props: ICreateParcelProps) => {
   const cities = useSelector(getCities);
   const company = useSelector((s: IState) => s.auth.company);
   const customers = useSelector(getCustomers);
+  const payers = useSelector(getPayers);
+
   const { Content } = Layout;
   const citySelectOptions = cities.map((city) => ({
     label: city,
@@ -82,9 +84,17 @@ export const CreateParcel = (props: ICreateParcelProps) => {
     }),
   );
 
+  const payerSelectOptions = payers.map((payer) => ({
+    label: payer.name,
+    value: payer.id,
+  }));
+
   React.useEffect(() => {
     if (!data.customer) {
       dispatch(editParcel.setCustomer(company.id));
+    }
+    if (!data.payer && !!payers.length) {
+      dispatch(editParcel.setPayer(payers[0].id));
     }
     if (parcel) {
       dispatch(editParcel.setParcelData(parcel));
@@ -457,6 +467,25 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     />
                   </Form.Item>
                 )}
+
+              {payerSelectOptions.length > 1 && (
+                <Form.Item label="Плательщик">
+                  <Select
+                    value={data.payer}
+                    showSearch
+                    optionFilterProp="children"
+                    onChange={(value: string) =>
+                      dispatch(editParcel.setPayer(value))
+                    }
+                    filterOption={(input, option) =>
+                      (option?.label ?? "")
+                        .toLowerCase()
+                        .includes(input.toLowerCase())
+                    }
+                    options={payerSelectOptions}
+                  />
+                </Form.Item>
+              )}
 
               <Form.Item label="Дата вызова курьера">
                 <DatePicker

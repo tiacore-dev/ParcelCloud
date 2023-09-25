@@ -34,6 +34,7 @@ export interface IParcel {
   date: number;
   number: string;
   customer: string;
+  payer?: string;
   sendCity: string;
   sendPerson: string;
   sendAddress: string;
