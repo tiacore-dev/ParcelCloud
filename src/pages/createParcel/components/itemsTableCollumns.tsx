@@ -211,6 +211,7 @@ export const columns = () => {
               />
               <Space>
                 <Button
+                  disabled={!record || record.qt <= 1}
                   onClick={() => {
                     const value = (record?.qt || 0) - 1;
                     dispatch(editParcel.editItemQt({ index, value }));

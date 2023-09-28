@@ -414,12 +414,14 @@ const editableParcelSlice = createSlice({
       state.sendCompany = initialState.sendCompany;
       state.sendAddInfo = initialState.sendAddInfo;
       state.sendPhone = initialState.sendPhone;
+      state.sendTime = initialState.sendTime;
       state.recCity = initialState.recCity;
       state.recPerson = initialState.recPerson;
       state.recAddress = initialState.recAddress;
       state.recCompany = initialState.recCompany;
       state.recAddInfo = initialState.recAddInfo;
       state.recPhone = initialState.recPhone;
+      state.recTime = initialState.recTime;
       state.description = initialState.description;
       state.qt = initialState.qt;
       state.weight = initialState.weight;
@@ -436,6 +438,7 @@ const editableParcelSlice = createSlice({
       state.containerRent = initialState.containerRent;
       state.items = initialState.items;
       state.payer = initialState.payer;
+      state.date = initialState.date;
     },
   },
 });
