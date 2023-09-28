@@ -313,6 +313,8 @@ export const ParcelPrint = React.forwardRef(
             пересылке. С условиями пересылки согласен. С регламентом компании
             ознакомлен. Подпись отправителя:
           </p>
+          <p> </p>
+          <p> </p>
           {table}
           <p className="parcel_data">
             {" "}
