@@ -13,6 +13,7 @@ import { ReceiveParcelDialog } from "../../../hooks/ActionDialogs/ReceiveParcelD
 import { DeliveryParcelDialog } from "../../../hooks/ActionDialogs/DeliveryParcelDialog";
 import { authToken, checkPermission } from "../../../hooks/useAuth";
 import { EditParcelDialog } from "../../../hooks/ActionDialogs/EditParcelDialog";
+import { CopyParcelDialog } from "../../../hooks/ActionDialogs";
 
 interface IParcelActionsProps {
   parcelData: IParcel;
@@ -80,7 +81,6 @@ export const ParcelActions = (props: IParcelActionsProps) => {
           type="primary"
           className="parcel__actions__button"
           icon={<PlusCircleTwoTone twoToneColor="#ff1616" />}
-          style={{}}
           onClick={onAcceptReceiveTask}
         >
           Принять в работу
@@ -109,6 +109,8 @@ export const ParcelActions = (props: IParcelActionsProps) => {
           iconOnly
         />
       )}
+
+      <CopyParcelDialog parcel={parcelData} iconOnly />
 
       {parcelData && <PrintModal data={parcelData} />}
 

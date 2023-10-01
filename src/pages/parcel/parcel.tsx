@@ -49,7 +49,7 @@ export const Parcel = () => {
 
   React.useEffect(() => {
     getParcel(dispatch, params);
-  }, []);
+  }, [routeParams.parcelId]);
 
   const parcelData = useSelector((state: IState) => state.pages.parcel.data);
   const isLoaded = useSelector((state: IState) => state.pages.parcel.loaded);
@@ -150,9 +150,14 @@ export const Parcel = () => {
             style={{ margin: "8px 0" }}
           >
             <p>Температурный режим: {temperature}</p>
+            {parcelData.containerRent && <p>Аренда термоконтейнера</p>}
+
             <p>Итого мест: {parcelData.qt}</p>
             <p>Вес: {parcelData.weight}</p>
             <p>Объемный вес: {parcelData.volume}</p>
+            {!!parcelData.insureValue && (
+              <p>Страховая стоимость: {parcelData.insureValue}</p>
+            )}
             {!!parcelData.description && (
               <p>Описание вложения: {parcelData.description}</p>
             )}

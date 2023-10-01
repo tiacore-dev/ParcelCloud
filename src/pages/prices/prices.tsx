@@ -16,7 +16,7 @@ import { IPrice } from "../../interfaces/prices/IPrice";
 import { pricesColumns } from "./components/pricesCollumns";
 import {
   clearCreateParcelState,
-  editParcel,
+  editParcelAction,
 } from "../../store/modules/editableEntities/editableParcel";
 import { delTypeEnum } from "../../enumerations/delTypeEnum";
 import { useNavigate } from "react-router-dom";
@@ -61,13 +61,13 @@ export const Prices = () => {
   const handleCreate = (delType: keyof typeof delTypeEnum) => {
     dispatch(clearCreateParcelState());
 
-    dispatch(editParcel.setSendCity(data.sendCity));
-    dispatch(editParcel.setRecCity(data.recCity));
-    dispatch(editParcel.settMax(data.tMax));
-    dispatch(editParcel.settMin(data.tMin));
+    dispatch(editParcelAction.setSendCity(data.sendCity));
+    dispatch(editParcelAction.setRecCity(data.recCity));
+    dispatch(editParcelAction.settMax(data.tMax));
+    dispatch(editParcelAction.settMin(data.tMin));
 
-    dispatch(editParcel.setDelType(delType));
-    dispatch(editParcel.setItems(data.items));
+    dispatch(editParcelAction.setDelType(delType));
+    dispatch(editParcelAction.setItems(data.items));
 
     navigate("/parcels/create");
   };

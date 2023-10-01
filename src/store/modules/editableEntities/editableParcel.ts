@@ -58,6 +58,45 @@ const initialState: IEditableParcelState = {
   items: [initialItem],
 };
 
+const setParcelData = (
+  state: IEditableParcelState,
+  parcelData: Partial<IParcel>,
+) => {
+  state.id = parcelData.id;
+  state.date = parcelData.date;
+  state.number = parcelData.number;
+  state.customer = parcelData.customer;
+  state.sendCity = parcelData.sendCity;
+  state.sendPerson = parcelData.sendPerson;
+  state.sendAddress = parcelData.sendAddress;
+  state.sendCompany = parcelData.sendCompany;
+  state.sendAddInfo = parcelData.sendAddInfo;
+  state.sendPhone = parcelData.sendPhone;
+  state.sendTime = parcelData.sendTime;
+  state.recCity = parcelData.recCity;
+  state.recPerson = parcelData.recPerson;
+  state.recAddress = parcelData.recAddress;
+  state.recCompany = parcelData.recCompany;
+  state.recAddInfo = parcelData.recAddInfo;
+  state.recPhone = parcelData.recPhone;
+  state.recTime = parcelData.recTime;
+  state.description = parcelData.description;
+  state.qt = parcelData.qt;
+  state.weight = parcelData.weight;
+  state.volume = parcelData.volume;
+  state.priceId = parcelData.priceId;
+  state.cost = parcelData.cost;
+  state.insureValue = parcelData.insureValue;
+  state.COD = parcelData.COD;
+  state.payType = parcelData.payType;
+  state.delType = parcelData.delType;
+  state.tMax = parcelData.tMax;
+  state.tMin = parcelData.tMin;
+  state.fragile = parcelData.fragile;
+  state.containerRent = parcelData.containerRent;
+  state.items = parcelData.items;
+};
+
 const editableParcelSlice = createSlice({
   name: "parcel",
   initialState,
@@ -66,39 +105,18 @@ const editableParcelSlice = createSlice({
       state: IEditableParcelState,
       action: { payload: IParcel },
     ) => {
-      state.id = action.payload.id;
-      state.number = action.payload.number;
-      state.customer = action.payload.customer;
-      state.sendCity = action.payload.sendCity;
-      state.sendPerson = action.payload.sendPerson;
-      state.sendAddress = action.payload.sendAddress;
-      state.sendCompany = action.payload.sendCompany;
-      state.sendAddInfo = action.payload.sendAddInfo;
-      state.sendPhone = action.payload.sendPhone;
-      state.sendTime = action.payload.sendTime;
-      state.recCity = action.payload.recCity;
-      state.recPerson = action.payload.recPerson;
-      state.recAddress = action.payload.recAddress;
-      state.recCompany = action.payload.recCompany;
-      state.recAddInfo = action.payload.recAddInfo;
-      state.recPhone = action.payload.recPhone;
-      state.recTime = action.payload.recTime;
-      state.description = action.payload.description;
-      state.qt = action.payload.qt;
-      state.weight = action.payload.weight;
-      state.volume = action.payload.volume;
-      state.priceId = action.payload.priceId;
-      state.cost = action.payload.cost;
-      state.insureValue = action.payload.insureValue;
-      state.COD = action.payload.COD;
-      state.payType = action.payload.payType;
-      state.delType = action.payload.delType;
-      state.tMax = action.payload.tMax;
-      state.tMin = action.payload.tMin;
-      state.fragile = action.payload.fragile;
-      state.containerRent = action.payload.containerRent;
-      state.date = action.payload.date;
-      state.items = action.payload.items;
+      setParcelData(state, action.payload);
+    },
+
+    setCopyParcelData: (
+      state: IEditableParcelState,
+      action: { payload: IParcel },
+    ) => {
+      setParcelData(state, {
+        ...action.payload,
+        id: initialState.id,
+        date: initialState.date,
+      });
     },
 
     setSendCity: (state: IEditableParcelState, action: { payload: string }) => {
@@ -404,46 +422,12 @@ const editableParcelSlice = createSlice({
     },
 
     clearCreateParcelState: (state: IEditableParcelState) => {
-      state.sent = initialState.sent;
-      state.id = initialState.id;
-      state.customer = initialState.customer;
-      state.number = initialState.number;
-      state.sendCity = initialState.sendCity;
-      state.sendPerson = initialState.sendPerson;
-      state.sendAddress = initialState.sendAddress;
-      state.sendCompany = initialState.sendCompany;
-      state.sendAddInfo = initialState.sendAddInfo;
-      state.sendPhone = initialState.sendPhone;
-      state.sendTime = initialState.sendTime;
-      state.recCity = initialState.recCity;
-      state.recPerson = initialState.recPerson;
-      state.recAddress = initialState.recAddress;
-      state.recCompany = initialState.recCompany;
-      state.recAddInfo = initialState.recAddInfo;
-      state.recPhone = initialState.recPhone;
-      state.recTime = initialState.recTime;
-      state.description = initialState.description;
-      state.qt = initialState.qt;
-      state.weight = initialState.weight;
-      state.volume = initialState.volume;
-      state.priceId = initialState.priceId;
-      state.cost = initialState.cost;
-      state.insureValue = initialState.insureValue;
-      state.COD = initialState.COD;
-      state.payType = initialState.payType;
-      state.delType = initialState.delType;
-      state.tMax = initialState.tMax;
-      state.tMin = initialState.tMin;
-      state.fragile = initialState.fragile;
-      state.containerRent = initialState.containerRent;
-      state.items = initialState.items;
-      state.payer = initialState.payer;
-      state.date = initialState.date;
+      setParcelData(state, initialState);
     },
   },
 });
 
-export const { clearCreateParcelState, ...editParcel } =
+export const { clearCreateParcelState, ...editParcelAction } =
   editableParcelSlice.actions;
 
 export const editableParcel = editableParcelSlice.reducer;

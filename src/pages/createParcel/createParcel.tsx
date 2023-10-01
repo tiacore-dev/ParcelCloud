@@ -17,10 +17,7 @@ import {
 import Title from "antd/es/typography/Title";
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "../../store/modules";
-import {
-  clearCreateParcelState,
-  editParcel,
-} from "../../store/modules/editableEntities/editableParcel";
+import { editParcelAction } from "../../store/modules/editableEntities/editableParcel";
 import { delTypeSelectOptions } from "../../enumerations/delTypeEnum";
 import { PayTypeSelectOptions } from "../../enumerations/payTypeEnum";
 import { ItemsTable } from "./components/itemsTable";
@@ -43,16 +40,18 @@ import "./createParcel.less";
 import { getCities } from "../../store/modules/dictionaries/selectors/cities.selector";
 import { getCustomers, getPayers } from "../../store/modules/auth";
 import { IParcel } from "../../interfaces/parcels/IParcel";
+import { createParcel } from "../../hooks/ApiActions/parcel";
 
 interface ICreateParcelProps {
   parcel?: IParcel;
+  copy?: boolean;
   hideTemplates?: boolean;
   hideSaveButton?: boolean;
   showItemsOnly?: boolean;
 }
 
 export const CreateParcel = (props: ICreateParcelProps) => {
-  const { parcel, hideTemplates, hideSaveButton, showItemsOnly } = props;
+  const { parcel, hideTemplates, hideSaveButton, showItemsOnly, copy } = props;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { TextArea } = Input;
@@ -91,13 +90,17 @@ export const CreateParcel = (props: ICreateParcelProps) => {
 
   React.useEffect(() => {
     if (!data.customer) {
-      dispatch(editParcel.setCustomer(company.id));
+      dispatch(editParcelAction.setCustomer(company.id));
     }
     if (!data.payer && !!payers.length) {
-      dispatch(editParcel.setPayer(payers[0].id));
+      dispatch(editParcelAction.setPayer(payers[0].id));
     }
     if (parcel) {
-      dispatch(editParcel.setParcelData(parcel));
+      if (copy) {
+        dispatch(editParcelAction.setCopyParcelData(parcel));
+      } else {
+        dispatch(editParcelAction.setParcelData(parcel));
+      }
     }
   }, []);
 
@@ -130,26 +133,15 @@ export const CreateParcel = (props: ICreateParcelProps) => {
     authToken: authToken(),
   };
 
-  const handleSave = () => {
-    dispatch(editParcel.sendParcel());
+  const onError = (err: string) => {
+    messageApi.open({
+      type: "error",
+      content: err,
+    });
+  };
 
-    useApi<{ id: string; number: string }, CreateParcelDto>(
-      "parcelcreate",
-      "create",
-      createParcelParams,
-    )
-      .then((parcelData) => {
-        dispatch(editParcel.savedParcel(parcelData));
-        navigate(`/parcels/${parcelData.id}`);
-        dispatch(clearCreateParcelState());
-      })
-      .catch((err) => {
-        messageApi.open({
-          type: "error",
-          content: String(err),
-        });
-        dispatch(editParcel.saveError(err));
-      });
+  const handleSave = () => {
+    createParcel(dispatch, navigate, createParcelParams, onError);
   };
 
   const calculateParams: CalculateDto = {
@@ -185,7 +177,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
           });
         }
 
-        dispatch(editParcel.setCost(result.cost));
+        dispatch(editParcelAction.setCost(result.cost));
       })
       .catch(() => {});
   };
@@ -193,20 +185,20 @@ export const CreateParcel = (props: ICreateParcelProps) => {
   const onTemperatureSelect = (value: string) => {
     const temperature = temperatureValues[value];
     if (temperature) {
-      dispatch(editParcel.settMin(temperature.min));
-      dispatch(editParcel.settMax(temperature.max));
+      dispatch(editParcelAction.settMin(temperature.min));
+      dispatch(editParcelAction.settMax(temperature.max));
     }
   };
 
   const onSendTemplateRowClick = (id: string) => {
     const templateData = templatesData.find((template) => template.id === id);
 
-    dispatch(editParcel.setSendCity(templateData.city));
-    dispatch(editParcel.setSendAddInfo(templateData.addInfo));
-    dispatch(editParcel.setSendAddress(templateData.address));
-    dispatch(editParcel.setSendCompany(templateData.company));
-    dispatch(editParcel.setSendPerson(templateData.person));
-    dispatch(editParcel.setSendPhone(templateData.phone));
+    dispatch(editParcelAction.setSendCity(templateData.city));
+    dispatch(editParcelAction.setSendAddInfo(templateData.addInfo));
+    dispatch(editParcelAction.setSendAddress(templateData.address));
+    dispatch(editParcelAction.setSendCompany(templateData.company));
+    dispatch(editParcelAction.setSendPerson(templateData.person));
+    dispatch(editParcelAction.setSendPhone(templateData.phone));
 
     setIsSendModalOpen(false);
   };
@@ -214,12 +206,12 @@ export const CreateParcel = (props: ICreateParcelProps) => {
   const onRecTemplateRowClick = (id: string) => {
     const templateData = templatesData.find((template) => template.id === id);
 
-    dispatch(editParcel.setRecCity(templateData.city));
-    dispatch(editParcel.setRecAddInfo(templateData.addInfo));
-    dispatch(editParcel.setRecAddress(templateData.address));
-    dispatch(editParcel.setRecCompany(templateData.company));
-    dispatch(editParcel.setRecPerson(templateData.person));
-    dispatch(editParcel.setRecPhone(templateData.phone));
+    dispatch(editParcelAction.setRecCity(templateData.city));
+    dispatch(editParcelAction.setRecAddInfo(templateData.addInfo));
+    dispatch(editParcelAction.setRecAddress(templateData.address));
+    dispatch(editParcelAction.setRecCompany(templateData.company));
+    dispatch(editParcelAction.setRecPerson(templateData.person));
+    dispatch(editParcelAction.setRecPhone(templateData.phone));
 
     setIsRecModalOpen(false);
   };
@@ -302,7 +294,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                       status={errors.sendCity && "error"}
                       optionFilterProp="children"
                       onChange={(value: string) =>
-                        dispatch(editParcel.setSendCity(value))
+                        dispatch(editParcelAction.setSendCity(value))
                       }
                       filterOption={(input, option) =>
                         (option?.label ?? "")
@@ -317,7 +309,9 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     <Input
                       value={data.sendAddress}
                       onChange={(event) =>
-                        dispatch(editParcel.setSendAddress(event.target.value))
+                        dispatch(
+                          editParcelAction.setSendAddress(event.target.value),
+                        )
                       }
                     />
                   </Form.Item>
@@ -326,7 +320,9 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     <Input
                       value={data.sendCompany}
                       onChange={(event) =>
-                        dispatch(editParcel.setSendCompany(event.target.value))
+                        dispatch(
+                          editParcelAction.setSendCompany(event.target.value),
+                        )
                       }
                     />
                   </Form.Item>
@@ -335,7 +331,9 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     <Input
                       value={data.sendPerson}
                       onChange={(event) =>
-                        dispatch(editParcel.setSendPerson(event.target.value))
+                        dispatch(
+                          editParcelAction.setSendPerson(event.target.value),
+                        )
                       }
                     />
                   </Form.Item>
@@ -344,7 +342,9 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     <Input
                       value={data.sendPhone}
                       onChange={(event) =>
-                        dispatch(editParcel.setSendPhone(event.target.value))
+                        dispatch(
+                          editParcelAction.setSendPhone(event.target.value),
+                        )
                       }
                     />
                   </Form.Item>
@@ -353,7 +353,9 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     <TextArea
                       value={data.sendAddInfo}
                       onChange={(event) =>
-                        dispatch(editParcel.setSendAddInfo(event.target.value))
+                        dispatch(
+                          editParcelAction.setSendAddInfo(event.target.value),
+                        )
                       }
                       rows={4}
                     />
@@ -393,7 +395,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                       showSearch
                       optionFilterProp="children"
                       onChange={(value: string) =>
-                        dispatch(editParcel.setRecCity(value))
+                        dispatch(editParcelAction.setRecCity(value))
                       }
                       filterOption={(input, option) =>
                         (option?.label ?? "")
@@ -408,7 +410,9 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     <Input
                       value={data.recAddress}
                       onChange={(event) =>
-                        dispatch(editParcel.setRecAddress(event.target.value))
+                        dispatch(
+                          editParcelAction.setRecAddress(event.target.value),
+                        )
                       }
                     />
                   </Form.Item>
@@ -417,7 +421,9 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     <Input
                       value={data.recCompany}
                       onChange={(event) =>
-                        dispatch(editParcel.setRecCompany(event.target.value))
+                        dispatch(
+                          editParcelAction.setRecCompany(event.target.value),
+                        )
                       }
                     />
                   </Form.Item>
@@ -426,7 +432,9 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     <Input
                       value={data.recPerson}
                       onChange={(event) =>
-                        dispatch(editParcel.setRecPerson(event.target.value))
+                        dispatch(
+                          editParcelAction.setRecPerson(event.target.value),
+                        )
                       }
                     />
                   </Form.Item>
@@ -435,7 +443,9 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     <Input
                       value={data.recPhone}
                       onChange={(event) =>
-                        dispatch(editParcel.setRecPhone(event.target.value))
+                        dispatch(
+                          editParcelAction.setRecPhone(event.target.value),
+                        )
                       }
                     />
                   </Form.Item>
@@ -444,7 +454,9 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     <TextArea
                       value={data.recAddInfo}
                       onChange={(event) =>
-                        dispatch(editParcel.setRecAddInfo(event.target.value))
+                        dispatch(
+                          editParcelAction.setRecAddInfo(event.target.value),
+                        )
                       }
                       rows={4}
                     />
@@ -460,7 +472,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                       showSearch
                       optionFilterProp="children"
                       onChange={(value: string) =>
-                        dispatch(editParcel.setCustomer(value))
+                        dispatch(editParcelAction.setCustomer(value))
                       }
                       filterOption={(input, option) =>
                         (option?.label ?? "")
@@ -479,7 +491,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     showSearch
                     optionFilterProp="children"
                     onChange={(value: string) =>
-                      dispatch(editParcel.setPayer(value))
+                      dispatch(editParcelAction.setPayer(value))
                     }
                     filterOption={(input, option) =>
                       (option?.label ?? "")
@@ -496,7 +508,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                   value={dayjs(data.date)}
                   placeholder="Дата начала"
                   onChange={(value) =>
-                    dispatch(editParcel.setDate(value.valueOf()))
+                    dispatch(editParcelAction.setDate(value.valueOf()))
                   }
                   format={dateFormat}
                 />
@@ -506,7 +518,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                 <Input
                   value={data.sendTime}
                   onChange={(e) =>
-                    dispatch(editParcel.setSendTime(e.target.value))
+                    dispatch(editParcelAction.setSendTime(e.target.value))
                   }
                 />
               </Form.Item>
@@ -515,7 +527,9 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                 <Select
                   value={data.delType}
                   options={delTypeSelectOptions}
-                  onChange={(value) => dispatch(editParcel.setDelType(value))}
+                  onChange={(value) =>
+                    dispatch(editParcelAction.setDelType(value))
+                  }
                 />
               </Form.Item>
 
@@ -523,7 +537,9 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                 <Select
                   value={data.payType}
                   options={PayTypeSelectOptions}
-                  onChange={(value) => dispatch(editParcel.setPayType(value))}
+                  onChange={(value) =>
+                    dispatch(editParcelAction.setPayType(value))
+                  }
                 />
               </Form.Item>
 
@@ -532,7 +548,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                   value={data.insureValue}
                   min={0}
                   onChange={(value) =>
-                    dispatch(editParcel.setInsureValue(value))
+                    dispatch(editParcelAction.setInsureValue(value))
                   }
                 />
               </Form.Item>
@@ -540,14 +556,16 @@ export const CreateParcel = (props: ICreateParcelProps) => {
               <Form.Item label="Хрупкий груз" valuePropName="checked">
                 <Switch
                   checked={data.fragile}
-                  onChange={() => dispatch(editParcel.toggleFragile())}
+                  onChange={() => dispatch(editParcelAction.toggleFragile())}
                 />
               </Form.Item>
 
               <Form.Item label="Аренда термоконтейнера" valuePropName="checked">
                 <Switch
                   checked={data.containerRent}
-                  onChange={() => dispatch(editParcel.toggleContainerRent())}
+                  onChange={() =>
+                    dispatch(editParcelAction.toggleContainerRent())
+                  }
                 />
               </Form.Item>
 
@@ -563,7 +581,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                 <TextArea
                   value={data.description}
                   onChange={(e) =>
-                    dispatch(editParcel.setDescription(e.target.value))
+                    dispatch(editParcelAction.setDescription(e.target.value))
                   }
                 />
               </Form.Item>
@@ -595,6 +613,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
               <Button
                 loading={data.sent}
                 onClick={handleSave}
+                type="primary"
                 disabled={errors.recCity || errors.sendCity}
               >
                 Сохранить накладную

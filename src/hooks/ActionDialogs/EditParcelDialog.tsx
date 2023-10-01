@@ -42,6 +42,7 @@ export const EditParcelDialog = (props: IReceiveParcelDialogProps) => {
     | "recCompany"
     | "recAddInfo"
     | "recPhone"
+    | "recTime"
     | "description"
     | "qt"
     | "payer"
@@ -72,6 +73,7 @@ export const EditParcelDialog = (props: IReceiveParcelDialogProps) => {
     "recCompany",
     "recAddInfo",
     "recPhone",
+    "recTime",
     "description",
     "qt",
     "payer",

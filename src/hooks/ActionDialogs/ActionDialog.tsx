@@ -9,6 +9,8 @@ interface IActionDialogProps {
 
   modalTitle?: string;
   modalText?: React.JSX.Element;
+  modalOkText?: string;
+  modalOkLoading?: boolean;
 
   width?: string;
 
@@ -23,6 +25,8 @@ export const ActionDialog = (props: IActionDialogProps) => {
     buttonClassName,
     modalTitle,
     modalText,
+    modalOkLoading,
+    modalOkText,
     width,
     onConfirm,
   } = props;
@@ -57,6 +61,20 @@ export const ActionDialog = (props: IActionDialogProps) => {
     </Button>
   );
 
+  const footer = [
+    <Button key="back" onClick={handleCancel}>
+      Отмена
+    </Button>,
+    <Button
+      key="submit"
+      type="primary"
+      loading={modalOkLoading}
+      onClick={handleOk}
+    >
+      {modalOkText ?? "Ок"}
+    </Button>,
+  ];
+
   return (
     <>
       {button}
@@ -67,6 +85,7 @@ export const ActionDialog = (props: IActionDialogProps) => {
         onOk={handleOk}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
+        footer={footer}
       >
         {modalText}
       </Modal>

@@ -33,6 +33,12 @@ import {
   getParcelsAsignedRequest,
   getParcelsAsignedSuccess,
 } from "../../store/modules/pages/parcelsAsigned";
+import { CreateParcelDto } from "../../pages/createParcel/dto/createParcel.dto";
+import {
+  clearCreateParcelState,
+  editParcelAction,
+} from "../../store/modules/editableEntities/editableParcel";
+import { NavigateFunction } from "react-router-dom";
 
 export interface GetParcelsDto extends IParcelsSettingsState {
   authToken: IauthToken;
@@ -211,13 +217,45 @@ export const acceptReceiveTask = async (
 
 export const editParcel = (
   dispatch: Dispatch<AnyAction>,
-  deliveryParcelParam: EditParcelDto,
+  editParcelParam: EditParcelDto,
 ) => {
-  useApi<IParcel, EditParcelDto>("parceledit", "edit", deliveryParcelParam)
+  console.log("editParcel", editParcelParam);
+
+  useApi<IParcel, EditParcelDto>("parceledit", "edit", editParcelParam)
     .then((response) => {
       dispatch(getParcelSuccess(response));
     })
     .catch((err) => {
       dispatch(getParcelFailure(err));
+    });
+};
+
+export const createParcel = (
+  dispatch: Dispatch<AnyAction>,
+  navigate: NavigateFunction,
+  createParcelParams: CreateParcelDto,
+  onError?: (err: string) => void,
+) => {
+  dispatch(editParcelAction.sendParcel());
+  console.log("createParcelParams", createParcelParams);
+
+  useApi<{ id: string; number: string }, CreateParcelDto>(
+    "parcelcreate",
+    "create",
+    createParcelParams,
+  )
+    .then((parcelData) => {
+      console.log("parcelData", parcelData);
+      dispatch(editParcelAction.savedParcel(parcelData));
+      navigate(`/parcels/${parcelData.id}`);
+      dispatch(clearCreateParcelState());
+    })
+    .catch((err) => {
+      console.log("err", err);
+
+      if (onError) {
+        onError(String(err));
+      }
+      dispatch(editParcelAction.saveError(err));
     });
 };

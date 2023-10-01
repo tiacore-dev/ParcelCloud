@@ -2,7 +2,7 @@ import { Button, Card, Form, InputNumber, Popconfirm, Space } from "antd";
 import * as React from "react";
 import { IParcelItem } from "../../../interfaces/parcels/IParcel";
 import { useDispatch } from "react-redux";
-import { editParcel } from "../../../store/modules/editableEntities/editableParcel";
+import { editParcelAction } from "../../../store/modules/editableEntities/editableParcel";
 import { isMobile } from "../../../utils/isMobile";
 import {
   CopyTwoTone,
@@ -15,11 +15,11 @@ export const columns = () => {
   const dispatch = useDispatch();
 
   const handleDelete = React.useCallback((index: number) => {
-    dispatch(editParcel.deleteItem(index));
+    dispatch(editParcelAction.deleteItem(index));
   }, []);
 
   const handleCopy = React.useCallback((index: number) => {
-    dispatch(editParcel.copyItem(index));
+    dispatch(editParcelAction.copyItem(index));
   }, []);
 
   const columns = isMobile()
@@ -39,7 +39,7 @@ export const columns = () => {
                   precision={3}
                   decimalSeparator=","
                   onChange={(value) =>
-                    dispatch(editParcel.editItemWeight({ index, value }))
+                    dispatch(editParcelAction.editItemWeight({ index, value }))
                   }
                 />
               </Form.Item>
@@ -52,7 +52,7 @@ export const columns = () => {
                   value={record?.h || 0}
                   min={0}
                   onChange={(value) =>
-                    dispatch(editParcel.editItemH({ index, value }))
+                    dispatch(editParcelAction.editItemH({ index, value }))
                   }
                 />
               </Form.Item>
@@ -65,7 +65,7 @@ export const columns = () => {
                   value={record?.h || 0}
                   min={0}
                   onChange={(value) =>
-                    dispatch(editParcel.editItemH({ index, value }))
+                    dispatch(editParcelAction.editItemH({ index, value }))
                   }
                 />
               </Form.Item>
@@ -78,7 +78,7 @@ export const columns = () => {
                   value={record?.w || 0}
                   min={0}
                   onChange={(value) =>
-                    dispatch(editParcel.editItemW({ index, value }))
+                    dispatch(editParcelAction.editItemW({ index, value }))
                   }
                 />
               </Form.Item>
@@ -97,7 +97,7 @@ export const columns = () => {
                   value={record?.qt || 0}
                   min={1}
                   onChange={(value) =>
-                    dispatch(editParcel.editItemQt({ index, value }))
+                    dispatch(editParcelAction.editItemQt({ index, value }))
                   }
                 />
               </Form.Item>
@@ -139,7 +139,7 @@ export const columns = () => {
               precision={3}
               decimalSeparator=","
               onChange={(value) =>
-                dispatch(editParcel.editItemWeight({ index, value }))
+                dispatch(editParcelAction.editItemWeight({ index, value }))
               }
             />
           ),
@@ -154,7 +154,7 @@ export const columns = () => {
               bordered={false}
               min={0}
               onChange={(value) =>
-                dispatch(editParcel.editItemH({ index, value }))
+                dispatch(editParcelAction.editItemH({ index, value }))
               }
             />
           ),
@@ -169,7 +169,7 @@ export const columns = () => {
               bordered={false}
               min={0}
               onChange={(value) =>
-                dispatch(editParcel.editItemL({ index, value }))
+                dispatch(editParcelAction.editItemL({ index, value }))
               }
             />
           ),
@@ -184,7 +184,7 @@ export const columns = () => {
               bordered={false}
               min={0}
               onChange={(value) =>
-                dispatch(editParcel.editItemW({ index, value }))
+                dispatch(editParcelAction.editItemW({ index, value }))
               }
             />
           ),
@@ -206,7 +206,7 @@ export const columns = () => {
                 bordered={false}
                 min={1}
                 onChange={(value) =>
-                  dispatch(editParcel.editItemQt({ index, value }))
+                  dispatch(editParcelAction.editItemQt({ index, value }))
                 }
               />
               <Space>
@@ -214,14 +214,14 @@ export const columns = () => {
                   disabled={!record || record.qt <= 1}
                   onClick={() => {
                     const value = (record?.qt || 0) - 1;
-                    dispatch(editParcel.editItemQt({ index, value }));
+                    dispatch(editParcelAction.editItemQt({ index, value }));
                   }}
                   icon={<MinusCircleOutlined />}
                 />
                 <Button
                   onClick={() => {
                     const value = (record?.qt || 0) + 1;
-                    dispatch(editParcel.editItemQt({ index, value }));
+                    dispatch(editParcelAction.editItemQt({ index, value }));
                   }}
                   icon={<PlusCircleOutlined />}
                 />
