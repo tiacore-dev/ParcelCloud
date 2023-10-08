@@ -27,7 +27,7 @@ const templateSlice = createSlice({
       action: { payload: ITemplate },
     ) => {
       state.id = action.payload.id;
-      state.name = action.payload.name;
+      state.name = action.payload.name ?? "";
       state.city = action.payload.city;
       state.address = action.payload.address;
       state.person = action.payload.person;
