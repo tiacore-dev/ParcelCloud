@@ -4,6 +4,14 @@ import { useDispatch } from "react-redux";
 import { authData } from "../../../hooks/useAuth";
 import { authlogout } from "../../../store/modules/auth";
 import { useloadSourse } from "../../../components/App/App";
+import { clearParcelsSettingsState } from "../../../store/modules/settings/parcels";
+import { clearParcelsState } from "../../../store/modules/pages/parcels";
+import { clearCitiesState } from "../../../store/modules/dictionaries/cities";
+import { clearTemplatesState } from "../../../store/modules/pages/templates";
+import { clearParcelState } from "../../../store/modules/pages/parcel";
+import { clearCreateParcelState } from "../../../store/modules/editableEntities/editableParcel";
+import { clearPricesState } from "../../../store/modules/pages/prices";
+import { clearDocumentsState } from "../../../store/modules/pages/documents";
 
 export const Account = () => {
   const data = authData();
@@ -30,7 +38,21 @@ export const Account = () => {
       <Space direction="vertical">
         <Button onClick={refresh}>Обновить данные</Button>
 
-        <Button onClick={() => dispatch(authlogout())}>Выход</Button>
+        <Button
+          onClick={() => {
+            dispatch(clearParcelsSettingsState());
+            dispatch(clearParcelsState());
+            dispatch(clearCitiesState());
+            dispatch(clearTemplatesState());
+            dispatch(clearParcelState());
+            dispatch(clearCreateParcelState());
+            dispatch(clearPricesState());
+            dispatch(clearDocumentsState());
+            dispatch(authlogout());
+          }}
+        >
+          Выход
+        </Button>
       </Space>
     </>
   );
