@@ -41,6 +41,7 @@ import { Document } from "../../pages/document/document";
 import { ParcelsAsigned } from "../../pages/parcelsAsigned/parcelsAsigned";
 import { Manifests } from "../../pages/manifests/manifests";
 import { Manifest } from "../../pages/manifest/manifest";
+import { HistoryPage } from "../../pages/history/history";
 
 interface useloadSourseDto {
   authToken: IauthToken;
@@ -114,32 +115,26 @@ export const App = () => {
             <Routes>
               <Route path="/">
                 <Route index={true} element={<Main />} />
-
                 <Route path="auth" element={<Auth />} />
-
                 <Route path="parcels">
                   <Route index={true} element={<Parcels />} />
                   <Route path="create" element={<CreateParcel />} />
                   <Route path=":parcelId" element={<Parcel />} />
                 </Route>
-
                 <Route path="templates">
                   <Route index={true} element={<Templates />} />
                   <Route path=":templateId" element={<Template />} />
                 </Route>
-
                 <Route path="manifests">
                   <Route index={true} element={<Manifests />} />
                   <Route path=":manifestId" element={<Manifest />} />
                 </Route>
-
                 <Route path="documents">
                   <Route index={true} element={<Documents />} />
                   <Route path=":documentId" element={<Document />} />
                 </Route>
-
                 <Route path="tasks" element={<ParcelsAsigned />} />
-
+                <Route path="history" element={<HistoryPage />} />
                 <Route path="prices" element={<Prices />} />
               </Route>
             </Routes>

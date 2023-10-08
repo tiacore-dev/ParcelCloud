@@ -39,6 +39,11 @@ import {
   editParcelAction,
 } from "../../store/modules/editableEntities/editableParcel";
 import { NavigateFunction } from "react-router-dom";
+import {
+  getHistoryFailure,
+  getHistoryRequest,
+  getHistorySuccess,
+} from "../../store/modules/pages/history";
 
 export interface GetParcelsDto extends IParcelsSettingsState {
   authToken: IauthToken;
@@ -46,6 +51,11 @@ export interface GetParcelsDto extends IParcelsSettingsState {
 
 export interface GetParcelDto {
   parcelId: string;
+  authToken: IauthToken;
+}
+
+export interface GetHistoryDto {
+  parcelNumber: string;
   authToken: IauthToken;
 }
 
@@ -219,8 +229,6 @@ export const editParcel = (
   dispatch: Dispatch<AnyAction>,
   editParcelParam: EditParcelDto,
 ) => {
-  console.log("editParcel", editParcelParam);
-
   useApi<IParcel, EditParcelDto>("parceledit", "edit", editParcelParam)
     .then((response) => {
       dispatch(getParcelSuccess(response));
@@ -237,7 +245,6 @@ export const createParcel = (
   onError?: (err: string) => void,
 ) => {
   dispatch(editParcelAction.sendParcel());
-  console.log("createParcelParams", createParcelParams);
 
   useApi<{ id: string; number: string }, CreateParcelDto>(
     "parcelcreate",
@@ -245,7 +252,6 @@ export const createParcel = (
     createParcelParams,
   )
     .then((parcelData) => {
-      console.log("parcelData", parcelData);
       dispatch(editParcelAction.savedParcel(parcelData));
       navigate(`/parcels/${parcelData.id}`);
       dispatch(clearCreateParcelState());
@@ -257,5 +263,19 @@ export const createParcel = (
         onError(String(err));
       }
       dispatch(editParcelAction.saveError(err));
+    });
+};
+
+export const getHistory = (
+  dispatch: Dispatch<AnyAction>,
+  getHistoryParam: GetHistoryDto,
+) => {
+  dispatch(getHistoryRequest());
+  useApi<IParcelHistory[], GetHistoryDto>("history", "get", getHistoryParam)
+    .then((response) => {
+      dispatch(getHistorySuccess(response));
+    })
+    .catch((err) => {
+      dispatch(getHistoryFailure(err));
     });
 };

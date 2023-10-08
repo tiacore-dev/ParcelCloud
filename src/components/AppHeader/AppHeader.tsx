@@ -7,6 +7,7 @@ import { checkPermission } from "../../hooks/useAuth";
 import { useDispatch } from "react-redux";
 import { clearCreateParcelState } from "../../store/modules/editableEntities/editableParcel";
 import logo from "./logo.png";
+import { clearHistoryState } from "../../store/modules/pages/history";
 
 const { Header } = Layout;
 
@@ -43,6 +44,15 @@ export const AppHeader = React.memo(() => {
     onClick: () => {
       dispatch(clearCreateParcelState());
       navigate("/parcels/create");
+    },
+  });
+
+  desktopItems.push({
+    key: "history",
+    label: "Отслеживание",
+    onClick: () => {
+      dispatch(clearHistoryState());
+      navigate("/history");
     },
   });
 

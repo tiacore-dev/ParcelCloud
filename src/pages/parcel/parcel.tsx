@@ -2,7 +2,7 @@ import * as React from "react";
 import { Alert, Breadcrumb, Card, Layout, Spin, Table } from "antd";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { IParcelHistory, IParcelItem } from "../../interfaces/parcels/IParcel";
+import { IParcelItem } from "../../interfaces/parcels/IParcel";
 import { authToken } from "../../hooks/useAuth";
 import { IState } from "../../store/modules";
 import { itemsColumns } from "./components/itemsColumns";
@@ -10,8 +10,6 @@ import { minPageHeight } from "../../utils/pageSettings";
 import { isMobile } from "../../utils/isMobile";
 import { itemsColumnsMobile } from "./components/itemsColumnsMobile";
 import { convertItemsDataMobile } from "./components/convertItemsDataMobile";
-import { historyDesktopColumns } from "./components/historyDesktop.columns";
-import { historyMobileColumns } from "./components/historyMobile.columns";
 import { GetParcelDto, getParcel } from "../../hooks/ApiActions/parcel";
 import {
   CheckCircleTwoTone,
@@ -20,6 +18,7 @@ import {
 } from "@ant-design/icons";
 import "./parcel.less";
 import { ParcelActions } from "./components/actions";
+import { History } from "../../components/history/history";
 
 export interface IConvertedParcelItem {
   key: number;
@@ -196,24 +195,7 @@ export const Parcel = () => {
           </Card>
 
           {parcelData.history?.length && (
-            <>
-              {
-                <Table
-                  pagination={false}
-                  bordered
-                  style={{ marginBottom: 12 }}
-                  dataSource={[...parcelData.history]
-                    .sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
-                    .map((el: IParcelHistory, index: number) => ({
-                      ...el,
-                      key: index,
-                    }))}
-                  columns={
-                    isMobile() ? historyMobileColumns : historyDesktopColumns
-                  }
-                />
-              }
-            </>
+            <History historyData={parcelData.history} bordered />
           )}
         </Content>
       ) : isLoading ? (
