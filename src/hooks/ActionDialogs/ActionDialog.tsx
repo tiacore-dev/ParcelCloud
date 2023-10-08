@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Modal } from "antd";
 
 interface IActionDialogProps {
@@ -13,7 +13,7 @@ interface IActionDialogProps {
   modalOkLoading?: boolean;
 
   width?: string;
-
+  onOpen?: () => void;
   onConfirm: () => void;
 }
 
@@ -28,10 +28,17 @@ export const ActionDialog = (props: IActionDialogProps) => {
     modalOkLoading,
     modalOkText,
     width,
+    onOpen,
     onConfirm,
   } = props;
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
+
+  useEffect(() => {
+    if (open && onOpen) {
+      onOpen();
+    }
+  }, [open]);
 
   const showModal = () => {
     setOpen(true);

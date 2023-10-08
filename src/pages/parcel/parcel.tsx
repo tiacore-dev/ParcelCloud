@@ -12,6 +12,7 @@ import { itemsColumnsMobile } from "./components/itemsColumnsMobile";
 import { convertItemsDataMobile } from "./components/convertItemsDataMobile";
 import { GetParcelDto, getParcel } from "../../hooks/ApiActions/parcel";
 import {
+  AppstoreTwoTone,
   CheckCircleTwoTone,
   LoginOutlined,
   LogoutOutlined,
@@ -19,6 +20,14 @@ import {
 import "./parcel.less";
 import { ParcelActions } from "./components/actions";
 import { History } from "../../components/history/history";
+import { ActionDialog } from "../../hooks/ActionDialogs";
+import { TemplateContent } from "../template/components/content";
+import { setTemplatStateData } from "../../store/modules/pages/template";
+import { ITemplate } from "../../interfaces/templates/ITemplate";
+import {
+  EditeTemplateDto,
+  editTemplateAction,
+} from "../../hooks/ApiActions/templates";
 
 export interface IConvertedParcelItem {
   key: number;
@@ -41,8 +50,9 @@ export const Parcel = () => {
 
   const dispatch = useDispatch();
 
+  const token = authToken();
   const params: GetParcelDto = {
-    authToken: authToken(),
+    authToken: token,
     parcelId: routeParams.parcelId,
   };
 
@@ -62,6 +72,57 @@ export const Parcel = () => {
       parcelData.tMax > 0 && "+"
     }${parcelData.tMax}`;
   }
+  const templateData = useSelector((state: IState) => state.pages.template);
+
+  const templateParams: EditeTemplateDto = {
+    ...templateData,
+    authToken: token,
+    id: "create",
+  };
+
+  const senderToTemplate = (
+    <ActionDialog
+      buttonText="Сохранить в шаблон"
+      buttonIcon={<AppstoreTwoTone twoToneColor="#ff1616" />}
+      modalTitle={"Сохранить шаблон"}
+      modalText={<TemplateContent />}
+      onOpen={() => {
+        const templateData: ITemplate = {
+          city: parcelData.sendCity,
+          address: parcelData.sendAddress,
+          company: parcelData.sendCompany,
+          person: parcelData.sendPerson,
+          phone: parcelData.sendPhone,
+          addInfo: parcelData.sendAddInfo,
+        };
+
+        dispatch(setTemplatStateData(templateData));
+      }}
+      onConfirm={() => editTemplateAction(dispatch, templateParams)}
+    />
+  );
+
+  const recipientToTemplate = (
+    <ActionDialog
+      buttonText="Сохранить в шаблон"
+      buttonIcon={<AppstoreTwoTone twoToneColor="#ff1616" />}
+      modalTitle={"Сохранить шаблон"}
+      modalText={<TemplateContent />}
+      onOpen={() => {
+        const templateData: ITemplate = {
+          city: parcelData.recCity,
+          address: parcelData.recAddress,
+          company: parcelData.recCompany,
+          person: parcelData.recPerson,
+          phone: parcelData.recPhone,
+          addInfo: parcelData.recAddInfo,
+        };
+
+        dispatch(setTemplatStateData(templateData));
+      }}
+      onConfirm={() => editTemplateAction(dispatch, templateParams)}
+    />
+  );
 
   return (
     <>
@@ -116,7 +177,12 @@ export const Parcel = () => {
           </div>
 
           <Card
-            title="Данные отправителя:"
+            title={
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <>Данные отправителя:</>
+                {senderToTemplate}
+              </div>
+            }
             style={{ margin: "8px 0" }}
             headStyle={{ backgroundColor: "#F8F8F8" }}
           >
@@ -132,7 +198,12 @@ export const Parcel = () => {
           </Card>
 
           <Card
-            title="Данные получателя:"
+            title={
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <>Данные получателя:</>
+                {recipientToTemplate}
+              </div>
+            }
             headStyle={{ backgroundColor: "#F8F8F8" }}
             style={{ margin: "8px 0" }}
           >

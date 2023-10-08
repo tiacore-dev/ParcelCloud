@@ -1,9 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ITemplate } from "../../../interfaces/templates/ITemplate";
 
-interface ITemplateState extends ITemplate {}
+interface ITemplateState extends ITemplate {
+  disabled: boolean;
+}
 
 const initialState: ITemplateState = {
+  disabled: false,
   id: undefined,
   key: 0,
   name: "",
@@ -31,6 +34,7 @@ const templateSlice = createSlice({
       state.phone = action.payload.phone;
       state.company = action.payload.company;
       state.addInfo = action.payload.addInfo;
+      state.disabled = false;
     },
 
     setTemplatStateName: (
@@ -82,6 +86,13 @@ const templateSlice = createSlice({
       state.addInfo = action.payload;
     },
 
+    setTemplateDisabled: (
+      state: ITemplateState,
+      action: { payload: boolean },
+    ) => {
+      state.disabled = action.payload;
+    },
+
     clearTemplateState: (state: ITemplateState) => {
       state.id = undefined;
       state.name = "";
@@ -91,6 +102,7 @@ const templateSlice = createSlice({
       state.person = "";
       state.company = "";
       state.addInfo = "";
+      state.disabled = false;
     },
   },
 });

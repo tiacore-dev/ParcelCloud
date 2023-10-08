@@ -13,6 +13,7 @@ import {
   Modal,
   message,
   DatePicker,
+  Space,
 } from "antd";
 import Title from "antd/es/typography/Title";
 import { useDispatch, useSelector } from "react-redux";
@@ -41,6 +42,15 @@ import { getCities } from "../../store/modules/dictionaries/selectors/cities.sel
 import { getCustomers, getPayers } from "../../store/modules/auth";
 import { IParcel } from "../../interfaces/parcels/IParcel";
 import { createParcel } from "../../hooks/ApiActions/parcel";
+import { ActionDialog } from "../../hooks/ActionDialogs";
+import { AppstoreTwoTone } from "@ant-design/icons";
+import { TemplateContent } from "../template/components/content";
+import { ITemplate } from "../../interfaces/templates/ITemplate";
+import { setTemplatStateData } from "../../store/modules/pages/template";
+import {
+  EditeTemplateDto,
+  editTemplateAction,
+} from "../../hooks/ApiActions/templates";
 
 interface ICreateParcelProps {
   parcel?: IParcel;
@@ -128,9 +138,11 @@ export const CreateParcel = (props: ICreateParcelProps) => {
     (state: IState) => state.pages.templates.data,
   );
 
+  const token = authToken();
+
   const createParcelParams: CreateParcelDto = {
     ...data,
-    authToken: authToken(),
+    authToken: token,
   };
 
   const onError = (err: string) => {
@@ -228,6 +240,59 @@ export const CreateParcel = (props: ICreateParcelProps) => {
         : "Создание накладной",
     [data.id],
   );
+
+  const templateData = useSelector((state: IState) => state.pages.template);
+
+  const templateParams: EditeTemplateDto = {
+    ...templateData,
+    authToken: token,
+    id: "create",
+  };
+
+  const senderToTemplate = (
+    <ActionDialog
+      buttonText="Сохранить в шаблон"
+      buttonIcon={<AppstoreTwoTone twoToneColor="#ff1616" />}
+      modalTitle={"Сохранить шаблон"}
+      modalText={<TemplateContent />}
+      onOpen={() => {
+        const templateData: ITemplate = {
+          city: data.sendCity,
+          address: data.sendAddress,
+          company: data.sendCompany,
+          person: data.sendPerson,
+          phone: data.sendPhone,
+          addInfo: data.sendAddInfo,
+        };
+
+        dispatch(setTemplatStateData(templateData));
+      }}
+      onConfirm={() => editTemplateAction(dispatch, templateParams)}
+    />
+  );
+
+  const recipientToTemplate = (
+    <ActionDialog
+      buttonText="Сохранить в шаблон"
+      buttonIcon={<AppstoreTwoTone twoToneColor="#ff1616" />}
+      modalTitle={"Сохранить шаблон"}
+      modalText={<TemplateContent />}
+      onOpen={() => {
+        const templateData: ITemplate = {
+          city: data.recCity,
+          address: data.recAddress,
+          company: data.recCompany,
+          person: data.recPerson,
+          phone: data.recPhone,
+          addInfo: data.recAddInfo,
+        };
+
+        dispatch(setTemplatStateData(templateData));
+      }}
+      onConfirm={() => editTemplateAction(dispatch, templateParams)}
+    />
+  );
+
   return (
     <>
       {contextHolder}
@@ -265,27 +330,36 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                 <Form.Item>Данные отправителя</Form.Item>
 
                 {!hideTemplates && (
-                  <Form.Item>
-                    <Button type="primary" onClick={showSendModal}>
-                      Заполнить из шаблона
-                    </Button>
-
-                    {isSendModalOpen && (
-                      <Modal
-                        title="Данные отправителя: выберите шаблон"
-                        open={isSendModalOpen}
-                        width={"95%"}
-                        footer={false}
-                        onCancel={() => {
-                          setIsSendModalOpen(false);
-                        }}
-                      >
-                        <TemplatesTable
-                          onRowClick={onSendTemplateRowClick}
-                          search
-                        />
-                      </Modal>
-                    )}
+                  <Form.Item noStyle>
+                    <Space
+                      style={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        marginRight: "25%",
+                        marginBottom: "24px",
+                      }}
+                    >
+                      <Button type="primary" onClick={showSendModal}>
+                        Заполнить из шаблона
+                      </Button>
+                      {isSendModalOpen && (
+                        <Modal
+                          title="Данные отправителя: выберите шаблон"
+                          open={isSendModalOpen}
+                          width={"95%"}
+                          footer={false}
+                          onCancel={() => {
+                            setIsSendModalOpen(false);
+                          }}
+                        >
+                          <TemplatesTable
+                            onRowClick={onSendTemplateRowClick}
+                            search
+                          />
+                        </Modal>
+                      )}
+                      {senderToTemplate}
+                    </Space>
                   </Form.Item>
                 )}
 
@@ -366,27 +440,38 @@ export const CreateParcel = (props: ICreateParcelProps) => {
               <Col span={isMobile() ? 24 : 12}>
                 <Form.Item>Данные получателя</Form.Item>
                 {!hideTemplates && (
-                  <Form.Item>
-                    <Button type="primary" onClick={showRecModal}>
-                      Заполнить из шаблона
-                    </Button>
+                  <Form.Item noStyle>
+                    <Space
+                      style={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        marginRight: "25%",
+                        marginBottom: "24px",
+                      }}
+                    >
+                      <Button type="primary" onClick={showRecModal}>
+                        Заполнить из шаблона
+                      </Button>
 
-                    {isRecModalOpen && (
-                      <Modal
-                        title="Данные получателя: выберите шаблон"
-                        open={isRecModalOpen}
-                        width={"95%"}
-                        footer={false}
-                        onCancel={() => {
-                          setIsRecModalOpen(false);
-                        }}
-                      >
-                        <TemplatesTable
-                          onRowClick={onRecTemplateRowClick}
-                          search
-                        />
-                      </Modal>
-                    )}
+                      {isRecModalOpen && (
+                        <Modal
+                          title="Данные получателя: выберите шаблон"
+                          open={isRecModalOpen}
+                          width={"95%"}
+                          footer={false}
+                          onCancel={() => {
+                            setIsRecModalOpen(false);
+                          }}
+                        >
+                          <TemplatesTable
+                            onRowClick={onRecTemplateRowClick}
+                            search
+                          />
+                        </Modal>
+                      )}
+
+                      {recipientToTemplate}
+                    </Space>
                   </Form.Item>
                 )}
 

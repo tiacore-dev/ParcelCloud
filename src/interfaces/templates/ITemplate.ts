@@ -1,6 +1,6 @@
 export interface ITemplate {
   id?: string;
-  key: number;
+  key?: number;
   name?: string;
   city?: string;
   address?: string;
