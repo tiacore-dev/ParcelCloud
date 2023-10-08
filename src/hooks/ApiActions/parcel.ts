@@ -66,6 +66,7 @@ export interface GeneralStatusParcelsSetDto {
 
 export interface EditParcelDto {
   id: string;
+  number?: string;
   customer?: string;
   sendCity?: string;
   sendPerson?: string;

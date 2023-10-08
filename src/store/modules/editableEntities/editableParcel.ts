@@ -119,6 +119,10 @@ const editableParcelSlice = createSlice({
       });
     },
 
+    setNumber: (state: IEditableParcelState, action: { payload: string }) => {
+      state.number = action.payload;
+    },
+
     setSendCity: (state: IEditableParcelState, action: { payload: string }) => {
       state.sendCity = action.payload;
     },

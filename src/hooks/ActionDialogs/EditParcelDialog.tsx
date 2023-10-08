@@ -29,6 +29,7 @@ export const EditParcelDialog = (props: IReceiveParcelDialogProps) => {
 
   type editableField =
     | "customer"
+    | "number"
     | "sendCity"
     | "sendPerson"
     | "sendAddress"
@@ -60,6 +61,7 @@ export const EditParcelDialog = (props: IReceiveParcelDialogProps) => {
 
   const fields: editableField[] = [
     "customer",
+    "number",
     "sendCity",
     "sendPerson",
     "sendAddress",
