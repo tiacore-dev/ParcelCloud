@@ -66,6 +66,7 @@ const setParcelData = (
   state.date = parcelData.date;
   state.number = parcelData.number;
   state.customer = parcelData.customer;
+  state.payer = undefined;
   state.sendCity = parcelData.sendCity;
   state.sendPerson = parcelData.sendPerson;
   state.sendAddress = parcelData.sendAddress;
