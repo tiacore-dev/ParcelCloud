@@ -47,6 +47,16 @@ export const AppHeader = React.memo(() => {
     },
   });
 
+  if (checkPermission("parcel-view-in-work")) {
+    desktopItems.push({
+      key: "storage",
+      label: "Склад",
+      onClick: () => {
+        navigate("/storage");
+      },
+    });
+  }
+
   desktopItems.push({
     key: "history",
     label: "Отслеживание",

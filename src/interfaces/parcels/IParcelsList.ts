@@ -36,3 +36,13 @@ export interface IParcelsAsignedList extends IParcelsList {
 export interface IParcelsAsignedListColumn extends IParcelsAsignedList {
   key: string;
 }
+
+export interface IParcelsInStorageList extends IParcelsList {
+  toDelivery: boolean;
+  toReceive: boolean;
+  myOwn: boolean;
+}
+
+export interface IParcelsInStorageListColumn extends IParcelsInStorageList {
+  key: string;
+}

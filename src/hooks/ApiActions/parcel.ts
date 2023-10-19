@@ -9,6 +9,7 @@ import {
 import { useApi } from "../useApi";
 import {
   IParcelsAsignedList,
+  IParcelsInStorageList,
   IParcelsList,
 } from "../../interfaces/parcels/IParcelsList";
 import {
@@ -44,6 +45,12 @@ import {
   getHistoryRequest,
   getHistorySuccess,
 } from "../../store/modules/pages/history";
+import {
+  getParcelsInStorageFailure,
+  getParcelsInStorageRequest,
+  getParcelsInStorageSuccess,
+} from "../../store/modules/pages/parcelsInStorage";
+import { GetParcelsInStorageDto } from "../../pages/parcelsInStorage/parcelsInStorage";
 
 export interface GetParcelsDto extends IParcelsSettingsState {
   authToken: IauthToken;
@@ -278,5 +285,23 @@ export const getHistory = (
     })
     .catch((err) => {
       dispatch(getHistoryFailure(err));
+    });
+};
+
+export const getParcelsInStorage = (
+  dispatch: Dispatch<AnyAction>,
+  getParcelsParam: GetParcelsInStorageDto,
+) => {
+  dispatch(getParcelsInStorageRequest());
+  useApi<IParcelsInStorageList[], GetParcelsInStorageDto>(
+    "parcelsinstorage",
+    "get",
+    getParcelsParam,
+  )
+    .then((parcelsData) => {
+      dispatch(getParcelsInStorageSuccess(parcelsData));
+    })
+    .catch((err) => {
+      dispatch(getParcelsInStorageFailure(err));
     });
 };

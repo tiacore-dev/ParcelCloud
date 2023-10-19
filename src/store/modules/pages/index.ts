@@ -10,6 +10,7 @@ import { documents } from "./documents";
 import { manifest } from "./manifest";
 import { manifests } from "./manifests";
 import { history } from "./history";
+import { parcelsInStorage } from "./parcelsInStorage";
 
 export const pages = combineReducers({
   parcels,
@@ -23,4 +24,5 @@ export const pages = combineReducers({
   manifest,
   manifests,
   history,
+  parcelsInStorage,
 });

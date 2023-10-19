@@ -24,17 +24,18 @@ const parcelsAsignedSettingsSlice = createSlice({
       state: IParcelsAsignedSettingsState,
       action: { payload: taskType },
     ) => {
-      console.log(action.payload);
       state.filters.taskType = action.payload;
     },
 
-    clearDocumentsSettingsState: (state: IParcelsAsignedSettingsState) => {
+    clearParcelsAsignedSettingsState: (state: IParcelsAsignedSettingsState) => {
       state.filters = initialState.filters;
     },
   },
 });
 
-export const { setIParcelsAsignedFilterTaskType, clearDocumentsSettingsState } =
-  parcelsAsignedSettingsSlice.actions;
+export const {
+  setIParcelsAsignedFilterTaskType,
+  clearParcelsAsignedSettingsState,
+} = parcelsAsignedSettingsSlice.actions;
 
 export const parcelsAsignedSettings = parcelsAsignedSettingsSlice.reducer;

@@ -42,6 +42,11 @@ import { ParcelsAsigned } from "../../pages/parcelsAsigned/parcelsAsigned";
 import { Manifests } from "../../pages/manifests/manifests";
 import { Manifest } from "../../pages/manifest/manifest";
 import { HistoryPage } from "../../pages/history/history";
+import { ParcelsInStorage } from "../../pages/parcelsInStorage/parcelsInStorage";
+import { clearParcelsInStorageState } from "../../store/modules/pages/parcelsInStorage";
+import { clearParcelsAsignedState } from "../../store/modules/pages/parcelsAsigned";
+import { clearParcelsAsignedSettingsState } from "../../store/modules/settings/parcelsAsigned";
+import { clearParcelsInStorageSettingsState } from "../../store/modules/settings/parcelsInStorage";
 
 interface useloadSourseDto {
   authToken: IauthToken;
@@ -55,6 +60,10 @@ export const useloadSourse = (): [
   const clearStates = React.useCallback(() => {
     dispatch(clearParcelsSettingsState());
     dispatch(clearParcelsState());
+    dispatch(clearParcelsAsignedState());
+    dispatch(clearParcelsAsignedSettingsState());
+    dispatch(clearParcelsInStorageSettingsState());
+    dispatch(clearParcelsInStorageState());
     dispatch(clearCitiesState());
     dispatch(clearCitiesState());
     dispatch(clearTemplatesState());
@@ -134,6 +143,7 @@ export const App = () => {
                   <Route path=":documentId" element={<Document />} />
                 </Route>
                 <Route path="tasks" element={<ParcelsAsigned />} />
+                <Route path="storage" element={<ParcelsInStorage />} />
                 <Route path="history" element={<HistoryPage />} />
                 <Route path="prices" element={<Prices />} />
               </Route>
