@@ -39,6 +39,15 @@ const documentsSlice = createSlice({
       state.loaded = true;
       state.data = action.payload;
     },
+    setViewDocument: (state: IDocumentsState, action: { payload: string }) => {
+      state.loading = false;
+      state.loaded = true;
+      state.data = state.data.map((document) =>
+        document.id === action.payload
+          ? { ...document, viewed: true }
+          : document,
+      );
+    },
     clearDocumentsState: (state: IDocumentsState) => {
       state.data = [];
       state.loaded = false;
@@ -52,6 +61,7 @@ export const {
   getDocumentsRequest,
   getDocumentsFailure,
   getDocumentsSuccess,
+  setViewDocument,
   clearDocumentsState,
 } = documentsSlice.actions;
 

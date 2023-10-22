@@ -1,29 +1,21 @@
 import { Breadcrumb, Layout, Table } from "antd";
 import * as React from "react";
-import { useApi } from "../../hooks/useApi";
 import { documentsDesktopColumns } from "./components/desktop.columns";
-import { IauthToken, authToken } from "../../hooks/useAuth";
-import { convertDocumentsData } from "./convertDocumentsData";
-import {
-  getDocumentsFailure,
-  getDocumentsRequest,
-  getDocumentsSuccess,
-} from "../../store/modules/pages/documents";
+import { authToken } from "../../hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "../../store/modules";
-import { IDocumentsSettingsState } from "../../store/modules/settings/documents";
 import { Filters } from "./components/filters";
 import "./documents.less";
-import { IDocumentsList } from "../../interfaces/documents/IDocumentsList";
 import { useNavigate } from "react-router-dom";
 import { isMobile } from "../../utils/isMobile";
 import { documentsMobileColumns } from "./components/mobile.columns";
-import { convertDocumentsDataMobile } from "./convertDocumentsDataMobile";
 import { minPageHeight } from "../../utils/pageSettings";
-
-interface GetDocumentsDto extends IDocumentsSettingsState {
-  authToken: IauthToken;
-}
+import {
+  GetDocumentsDto,
+  getDocuments,
+  viewDocument,
+} from "../../hooks/ApiActions/document";
+import { IDocumentsListColumn } from "../../interfaces/documents/IDocumentsList";
 
 export interface IDocumentsCovertedData {
   key: string;
@@ -40,41 +32,34 @@ export const Documents = () => {
   const filters = useSelector(
     (state: IState) => state.settings.documentsSettings.filters,
   );
+
+  const token = authToken();
+
   const param: GetDocumentsDto = {
-    authToken: authToken(),
+    authToken: token,
     filters,
   };
 
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    dispatch(getDocumentsRequest());
-    useApi<IDocumentsList[], GetDocumentsDto>("documents", "get", param)
-      .then((documentsData) => {
-        dispatch(getDocumentsSuccess(documentsData));
-      })
-      .catch((err) => {
-        dispatch(getDocumentsFailure(err));
-      });
+    getDocuments(dispatch, param);
   }, [filters]);
 
-  const documentsData = useSelector(
+  const documentsData: IDocumentsListColumn[] = useSelector(
     (state: IState) => state.pages.documents.data,
-  );
-  const convertedDocumentsData = isMobile()
-    ? convertDocumentsDataMobile(documentsData)
-    : convertDocumentsData(documentsData);
+  ).map((doc) => ({ ...doc, key: doc.id }));
+
   const isLoading = useSelector(
     (state: IState) => state.pages.documents.loading,
   );
 
-  const onRowClick = (record: IDocumentsCovertedData) => {
-    return {
-      onClick: () => {
-        navigate(`/documents/${record.key}`);
-      },
-    };
-  };
+  const onView = React.useCallback((id: string) => {
+    viewDocument(dispatch, {
+      authToken: token,
+      documentId: id,
+    });
+  }, []);
 
   return (
     <>
@@ -92,12 +77,13 @@ export const Documents = () => {
       >
         <Filters />
         <Table
-          dataSource={convertedDocumentsData}
+          dataSource={documentsData}
           columns={
-            isMobile() ? documentsMobileColumns : documentsDesktopColumns
+            isMobile()
+              ? documentsMobileColumns
+              : documentsDesktopColumns(onView, navigate)
           }
           loading={isLoading}
-          onRow={onRowClick}
         />
       </Content>
     </>

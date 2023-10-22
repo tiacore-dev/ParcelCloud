@@ -3,25 +3,15 @@ import { Breadcrumb, Button, Card, Layout, Space, Table } from "antd";
 import Title from "antd/es/typography/Title";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getDocumentFailure,
-  getDocumentRequest,
-  getDocumentSuccess,
-} from "../../store/modules/pages/document";
-import { useApi, useGettingFile } from "../../hooks/useApi";
-import { IDocument } from "../../interfaces/documents/IDocument";
-import { IauthToken, authToken } from "../../hooks/useAuth";
+import { useGettingFile } from "../../hooks/useApi";
 import { IState } from "../../store/modules";
 import { useNavigate } from "react-router-dom";
 import { minPageHeight } from "../../utils/pageSettings";
 import { isMobile } from "../../utils/isMobile";
 import { parcelsDesktopColumns } from "./components/desktop.columns";
 import { parcelsMobileColumns } from "./components/mobile.columns";
-
-interface GetDocumentDto {
-  documentId: string;
-  authToken: IauthToken;
-}
+import { GetDocumentDto, getDocument } from "../../hooks/ApiActions/document";
+import { authToken } from "../../hooks/useAuth";
 
 export const Document = () => {
   const { Content } = Layout;
@@ -37,14 +27,7 @@ export const Document = () => {
   };
 
   React.useEffect(() => {
-    dispatch(getDocumentRequest());
-    useApi<IDocument, GetDocumentDto>("document", "get", params)
-      .then((documentData) => {
-        dispatch(getDocumentSuccess(documentData));
-      })
-      .catch((err) => {
-        dispatch(getDocumentFailure(err));
-      });
+    getDocument(dispatch, params);
   }, []);
 
   const documentData = useSelector(
@@ -172,7 +155,10 @@ export const Document = () => {
           {!!documentData.parcels && !!documentData.parcels.length && (
             <Table
               pagination={false}
-              dataSource={documentData?.parcels}
+              dataSource={documentData?.parcels.map((parcel) => ({
+                ...parcel,
+                key: parcel.id,
+              }))}
               columns={
                 isMobile() ? parcelsMobileColumns : parcelsDesktopColumns
               }
