@@ -12,6 +12,11 @@ import { clearParcelState } from "../../../store/modules/pages/parcel";
 import { clearCreateParcelState } from "../../../store/modules/editableEntities/editableParcel";
 import { clearPricesState } from "../../../store/modules/pages/prices";
 import { clearDocumentsState } from "../../../store/modules/pages/documents";
+import { clearParcelsAsignedState } from "../../../store/modules/pages/parcelsAsigned";
+import { clearParcelsAsignedSettingsState } from "../../../store/modules/settings/parcelsAsigned";
+import { clearParcelsInStorageSettingsState } from "../../../store/modules/settings/parcelsInStorage";
+import { clearParcelsInStorageState } from "../../../store/modules/pages/parcelsInStorage";
+import { clearCreateManifestState } from "../../../store/modules/editableEntities/editableManifest";
 
 export const Account = () => {
   const data = authData();
@@ -42,10 +47,16 @@ export const Account = () => {
           onClick={() => {
             dispatch(clearParcelsSettingsState());
             dispatch(clearParcelsState());
+            dispatch(clearParcelsAsignedState());
+            dispatch(clearParcelsAsignedSettingsState());
+            dispatch(clearParcelsInStorageSettingsState());
+            dispatch(clearParcelsInStorageState());
+            dispatch(clearCitiesState());
             dispatch(clearCitiesState());
             dispatch(clearTemplatesState());
             dispatch(clearParcelState());
             dispatch(clearCreateParcelState());
+            dispatch(clearCreateManifestState());
             dispatch(clearPricesState());
             dispatch(clearDocumentsState());
             dispatch(authlogout());

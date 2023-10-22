@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+type ManifestFilterType = "incoming" | "outgoing" | "all";
+
 interface IManifestsFilter {
   dateFrom: number;
   dateTo: number;
   number: string;
-  incoming: boolean;
-  outgoing: boolean;
+  manifestType: ManifestFilterType;
 }
 
 export interface IManifestsSettingsState {
@@ -20,8 +21,7 @@ const initialState: IManifestsSettingsState = {
     dateFrom: new Date().valueOf() - 86400 * 1000 * 7,
     dateTo: new Date().valueOf(),
     number: "",
-    incoming: true,
-    outgoing: true,
+    manifestType: "incoming",
   },
   sort: { createdAt: 1 },
   limit: 1000,
@@ -44,11 +44,11 @@ const manifestsSettingsSlice = createSlice({
     ) => {
       state.filters.dateTo = action.payload;
     },
-    toggleManifestsFiltersIncoming: (state: IManifestsSettingsState) => {
-      state.filters.incoming = !state.filters.incoming;
-    },
-    toggleManifestsFiltersOutgoing: (state: IManifestsSettingsState) => {
-      state.filters.outgoing = !state.filters.outgoing;
+    setManifestsFiltersType: (
+      state: IManifestsSettingsState,
+      action: { payload: ManifestFilterType },
+    ) => {
+      state.filters.manifestType = action.payload;
     },
     setManifestsFiltersNumber: (
       state: IManifestsSettingsState,
@@ -66,8 +66,7 @@ export const {
   setManifestsFiltersDateFrom,
   setManifestsFiltersDateTo,
   setManifestsFiltersNumber,
-  toggleManifestsFiltersIncoming,
-  toggleManifestsFiltersOutgoing,
+  setManifestsFiltersType,
   clearManifestsSettingsState,
 } = manifestsSettingsSlice.actions;
 

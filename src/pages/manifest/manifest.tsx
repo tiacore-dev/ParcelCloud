@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Alert, Breadcrumb, Button, Card, Layout, Spin, Table } from "antd";
-import Title from "antd/es/typography/Title";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authToken } from "../../hooks/useAuth";
@@ -17,6 +16,8 @@ import {
   GeneralStatusParcelsSetDto,
   setGeneralParcelsStatus,
 } from "../../hooks/ApiActions/parcel";
+import { ManifestActions } from "./components/actions";
+import "./manifest.less";
 
 export const Manifest = () => {
   const { Content } = Layout;
@@ -117,10 +118,14 @@ export const Manifest = () => {
             background: "#FFF",
           }}
         >
-          <Title level={3}>
-            {`Манифест ${manifestData.number} 
-            от ${dateToLocalString(manifestData.date)} `}
-          </Title>
+          <div className="manifest__title">
+            <div className="manifest__number">{`Манифест ${manifestData.number} 
+            от ${dateToLocalString(manifestData.date)} `}</div>
+
+            {manifestData.type === "outgoing" && (
+              <ManifestActions manifestData={manifestData} />
+            )}
+          </div>
 
           <Card
             title="Перевозка:"
@@ -128,7 +133,7 @@ export const Manifest = () => {
             headStyle={{ backgroundColor: "#F8F8F8" }}
           >
             <p>Перевозчик: {manifestData.manifestCompany}</p>
-            <p>Номер накладной: {manifestData.manifestNumber}</p>
+            <p>Номер накладной: {manifestData.transferNumber}</p>
           </Card>
 
           <Card

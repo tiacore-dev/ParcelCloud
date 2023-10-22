@@ -13,7 +13,14 @@ import {
   getManifestFailure,
   getManifestRequest,
   getManifestSuccess,
+  sendManifestSuccess,
 } from "../../store/modules/pages/manifest";
+import { CreateManifestDto } from "../../pages/createManifest/dto/createManifest.dto";
+import {
+  clearCreateManifestState,
+  editManifestAction,
+} from "../../store/modules/editableEntities/editableManifest";
+import { NavigateFunction } from "react-router-dom";
 
 export interface GetManifestsDto extends IManifestsSettingsState {
   authToken: IauthToken;
@@ -53,5 +60,77 @@ export const getManifest = (
     })
     .catch((err) => {
       dispatch(getManifestFailure(err));
+    });
+};
+
+export const createManifest = (
+  dispatch: Dispatch<AnyAction>,
+  navigate: NavigateFunction,
+  getManifestParam: CreateManifestDto,
+  onError?: (err: string) => void,
+) => {
+  dispatch(getManifestRequest());
+  useApi<{ id: string }, CreateManifestDto>(
+    "manifestcreate",
+    "create",
+    getManifestParam,
+  )
+    .then((manifestData) => {
+      dispatch(editManifestAction.savedManifest(manifestData));
+      navigate(`/manifests/${manifestData.id}`);
+      dispatch(clearCreateManifestState());
+    })
+    .catch((err) => {
+      if (onError) {
+        onError(String(err));
+      }
+      dispatch(editManifestAction.saveError(err));
+    });
+};
+
+export const sendManifest = (
+  dispatch: Dispatch<AnyAction>,
+  getManifestParam: GetManifestDto,
+  onError?: (err: string) => void,
+) => {
+  dispatch(getManifestRequest());
+  useApi<{ id: string }, GetManifestDto>(
+    "manifestsend",
+    "send",
+    getManifestParam,
+  )
+    .then(() => {
+      dispatch(sendManifestSuccess());
+    })
+    .catch((err) => {
+      if (onError) {
+        onError(String(err));
+      }
+      dispatch(editManifestAction.saveError(err));
+    });
+};
+
+export const deleteManifest = (
+  dispatch: Dispatch<AnyAction>,
+  navigate: NavigateFunction,
+  getManifestParam: GetManifestDto,
+  onError?: (err: string) => void,
+) => {
+  dispatch(getManifestRequest());
+  useApi<{ id: string }, GetManifestDto>(
+    "manifestdelete",
+    "delete",
+    getManifestParam,
+  )
+    .then((manifestData) => {
+      dispatch(editManifestAction.savedManifest(manifestData));
+      navigate(`/manifests`);
+      dispatch(clearCreateManifestState());
+    })
+    .catch((err) => {
+      if (onError) {
+        onError(String(err));
+      }
+      dispatch(editManifestAction.saveError(err));
     });
 };

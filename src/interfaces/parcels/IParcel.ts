@@ -7,7 +7,9 @@ export type ParcelStatus =
   | "general"
   | "delivered"
   | "canceled"
-  | "in-progress";
+  | "in-progress"
+  | "availableToSend"
+  | "sent";
 
 export interface IParcelItem {
   weight: number;

@@ -11,6 +11,7 @@ import { isMobile } from "../../utils/isMobile";
 import { minPageHeight } from "../../utils/pageSettings";
 import { GetManifestsDto, getManifests } from "../../hooks/ApiActions/manifest";
 import { useNavigate } from "react-router-dom";
+import { IManifestList } from "../../interfaces/manifests/IManifestList";
 
 export const Manifests = () => {
   const { Content } = Layout;
@@ -20,10 +21,13 @@ export const Manifests = () => {
   );
 
   const token = authToken();
-  const param: GetManifestsDto = {
-    authToken: token,
-    filters,
-  };
+  const param: GetManifestsDto = React.useMemo(
+    () => ({
+      authToken: token,
+      filters,
+    }),
+    [filters.dateFrom, filters.dateTo],
+  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,9 +38,16 @@ export const Manifests = () => {
     (state: IState) => state.pages.manifests.loading,
   );
 
+  const filtredManifestData: IManifestList[] = manifestsData.filter(
+    (manifest) =>
+      (filters.number === "" || manifest.number.indexOf(filters.number) > -1) &&
+      (filters.manifestType === "all" ||
+        filters.manifestType === manifest.type),
+  );
+
   React.useEffect(() => {
     getManifests(dispatch, param);
-  }, [filters]);
+  }, [filters.dateFrom, filters.dateTo]);
 
   return (
     <>
@@ -55,7 +66,7 @@ export const Manifests = () => {
         <Filters onChange={(data) => getManifests(dispatch, data)} />
 
         <Table
-          dataSource={manifestsData.map((el) => ({ ...el, key: el.id }))}
+          dataSource={filtredManifestData.map((el) => ({ ...el, key: el.id }))}
           columns={
             isMobile() ? manifestsMobileColumns() : manifestsDesktopColumns()
           }

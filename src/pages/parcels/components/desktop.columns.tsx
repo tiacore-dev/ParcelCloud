@@ -41,6 +41,23 @@ export const parcelsDesktopColumns = (
         </div>
       );
     }
+
+    if (status === "availableToSend") {
+      return (
+        <div>
+          <RightCircleTwoTone twoToneColor={"#c4be1a"} /> Доступно к отправке
+        </div>
+      );
+    }
+
+    if (status === "sent") {
+      return (
+        <div>
+          <DownCircleTwoTone twoToneColor={"#1677ff"} /> Отправлено
+        </div>
+      );
+    }
+
     return null;
   };
   return [

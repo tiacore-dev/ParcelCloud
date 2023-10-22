@@ -15,25 +15,27 @@ export const manifestsDesktopColumns =
         render: (text: string, record: IManifestsListColumn) => (
           <>
             <div>Перевозчик: {record.manifestCompany}</div>
-            <div>Накладная: {record.manifestNumber}</div>
+            <div>Накладная: {record.transferNumber}</div>
             <div>
               Манифест: {record.number} от {dateToLocalString(record.date)}
             </div>
 
-            <div>
-              {record.delivered ? (
-                <CheckCircleTwoTone
-                  twoToneColor="#52c41a"
-                  className="status-icon"
-                />
-              ) : (
-                <ClockCircleTwoTone
-                  twoToneColor="#1677ff"
-                  className="status-icon"
-                />
-              )}
-              Статус: {record.delivered ? "Завершено" : "В работе"}
-            </div>
+            {record.type === "incoming" && (
+              <div>
+                {record.delivered ? (
+                  <CheckCircleTwoTone
+                    twoToneColor="#52c41a"
+                    className="status-icon"
+                  />
+                ) : (
+                  <ClockCircleTwoTone
+                    twoToneColor="#1677ff"
+                    className="status-icon"
+                  />
+                )}
+                Статус: {record.delivered ? "Завершено" : "В работе"}
+              </div>
+            )}
           </>
         ),
       },

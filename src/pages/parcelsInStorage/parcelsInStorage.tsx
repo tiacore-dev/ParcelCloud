@@ -11,6 +11,11 @@ import { isMobile } from "../../utils/isMobile";
 import { minPageHeight } from "../../utils/pageSettings";
 import { getParcelsInStorage } from "../../hooks/ApiActions/parcel";
 import { Filters } from "./components/filters";
+import { TableRowSelection } from "antd/es/table/interface";
+import {
+  IParcelsInStorageListColumn,
+  IParcelsList,
+} from "../../interfaces/parcels/IParcelsList";
 
 export interface GetParcelsInStorageDto {
   authToken: IauthToken;
@@ -30,6 +35,7 @@ export const ParcelsInStorage = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [selectedRows, setSelectedRows] = React.useState<IParcelsList[]>([]);
 
   const filters = useSelector(
     (state: IState) => state.settings.parcelsInStorageSettings?.filters,
@@ -38,11 +44,12 @@ export const ParcelsInStorage = () => {
   const parcelsData = useSelector(
     (state: IState) => state.pages.parcelsInStorage.data,
   );
+
   const isLoading = useSelector(
     (state: IState) => state.pages.parcelsInStorage.loading,
   );
 
-  const dataSource = React.useMemo(
+  const dataSource: IParcelsInStorageListColumn[] = React.useMemo(
     () =>
       parcelsData
         .map((el) => ({ ...el, key: el.id }))
@@ -53,7 +60,7 @@ export const ParcelsInStorage = () => {
             (filters?.parcelInStorageType === "myOwn" && el.myOwn) ||
             (filters?.parcelInStorageType === "toReceive" && el.toReceive),
         ),
-    [parcelsData, filters],
+    [parcelsData, filters.parcelInStorageType],
   );
 
   React.useEffect(() => {
@@ -61,6 +68,16 @@ export const ParcelsInStorage = () => {
       getParcelsInStorage(dispatch, param);
     }
   }, []);
+
+  const rowSelection: TableRowSelection<IParcelsInStorageListColumn> = {
+    type: "checkbox",
+    onChange: (
+      selectedRowKeys: React.Key[],
+      selectedRows: IParcelsInStorageListColumn[],
+    ) => {
+      setSelectedRows(selectedRows);
+    },
+  };
 
   return (
     <>
@@ -73,7 +90,7 @@ export const ParcelsInStorage = () => {
           background: "#FFF",
         }}
       >
-        <Filters />
+        <Filters selectedRows={selectedRows} />
         <Table
           dataSource={dataSource}
           columns={
@@ -82,13 +99,7 @@ export const ParcelsInStorage = () => {
               : parcelsInStorageDesktopColumns(navigate)
           }
           loading={isLoading}
-          onRow={(record) => {
-            return {
-              onClick: () => {
-                navigate(`/parcels/${record.key}`);
-              },
-            };
-          }}
+          rowSelection={rowSelection}
         />
       </Content>
     </>

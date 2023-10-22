@@ -1,4 +1,4 @@
-import { Button, DatePicker, Space } from "antd";
+import { Button, DatePicker, Radio, Space } from "antd";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "../../../store/modules";
@@ -6,14 +6,17 @@ import {
   setManifestsFiltersDateFrom,
   setManifestsFiltersDateTo,
   setManifestsFiltersNumber,
+  setManifestsFiltersType,
 } from "../../../store/modules/settings/manifests";
 import dayjs from "dayjs";
 import { dateFormat } from "../../../utils/dateConverter";
 import Search from "antd/es/input/Search";
 import { isMobile } from "../../../utils/isMobile";
-import { ReloadOutlined } from "@ant-design/icons";
+import { PlusCircleTwoTone, ReloadOutlined } from "@ant-design/icons";
 import { authToken } from "../../../hooks/useAuth";
 import { GetManifestsDto } from "../../../hooks/ApiActions/manifest";
+import { clearCreateManifestState } from "../../../store/modules/editableEntities/editableManifest";
+import { useNavigate } from "react-router-dom";
 
 interface IFiltersProps {
   onChange: (param: GetManifestsDto) => void;
@@ -21,6 +24,7 @@ interface IFiltersProps {
 
 export const Filters = (props: IFiltersProps) => {
   const { onChange } = props;
+  const navigate = useNavigate();
 
   const filters = useSelector(
     (state: IState) => state.settings.manifestsSettings.filters,
@@ -53,7 +57,28 @@ export const Filters = (props: IFiltersProps) => {
       className="manifests_filters"
     >
       <Space direction="horizontal">
+        <Button
+          icon={<PlusCircleTwoTone twoToneColor="#ff1616" />}
+          onClick={() => {
+            dispatch(clearCreateManifestState());
+            navigate("/manifests/create");
+          }}
+          type="primary"
+        >
+          Создать
+        </Button>
         <Button icon={<ReloadOutlined />} onClick={() => onChange(param)} />
+        <Radio.Group
+          value={filters.manifestType}
+          buttonStyle="solid"
+          onChange={(e) => {
+            dispatch(setManifestsFiltersType(e.target.value));
+          }}
+        >
+          <Radio.Button value="incoming">Входящие</Radio.Button>
+          <Radio.Button value="outgoing">Исходящие</Radio.Button>
+          <Radio.Button value="all">Все</Radio.Button>
+        </Radio.Group>
         <DatePicker
           value={dayjs(filters.dateFrom)}
           placeholder="Дата начала"

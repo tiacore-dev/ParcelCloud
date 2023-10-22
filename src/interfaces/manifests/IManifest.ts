@@ -1,5 +1,7 @@
 import { IParcelsList } from "../parcels/IParcelsList";
 
+type ManifestType = "incoming" | "outgoing";
+
 export interface IManifest {
   id: string;
   number: string;
@@ -8,7 +10,7 @@ export interface IManifest {
   sendCity: string;
   recCompany: string;
   recCity: string;
-  manifestNumber: string;
+  transferNumber: string;
   manifestCompany: string;
   delDate: string;
   qtParcels: number;
@@ -18,4 +20,6 @@ export interface IManifest {
   parcels: IParcelsList[];
   colmplited: boolean;
   delivered: boolean;
+  sent: boolean;
+  type: ManifestType;
 }

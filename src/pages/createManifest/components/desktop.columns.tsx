@@ -3,10 +3,19 @@ import { ColumnsType } from "antd/es/table";
 import { dateToLocalString } from "../../../utils/dateConverter";
 import { IParcelsInStorageListColumn } from "../../../interfaces/parcels/IParcelsList";
 import { NavigateFunction } from "react-router-dom";
+import { Button, Space } from "antd";
+import { DeleteTwoTone } from "@ant-design/icons";
+import { editManifestAction } from "../../../store/modules/editableEntities/editableManifest";
+import { Dispatch } from "redux";
 
-export const parcelsInStorageDesktopColumns = (
+export const parcelsInEditableManifestDesktopColumns = (
   navigate: NavigateFunction,
+  dispatch: Dispatch,
 ): ColumnsType<IParcelsInStorageListColumn> => {
+  const handleDelete = React.useCallback((id: string) => {
+    dispatch(editManifestAction.deleteParcel(id));
+  }, []);
+
   return [
     {
       title: "Номер",
@@ -66,6 +75,17 @@ export const parcelsInStorageDesktopColumns = (
           <div>Вес: {record.weight}</div>
           <div>Об. вес: {record.volume}</div>
         </>
+      ),
+    },
+    {
+      dataIndex: "operation",
+      render: (text: string, record: IParcelsInStorageListColumn) => (
+        <Space>
+          <Button
+            icon={<DeleteTwoTone twoToneColor="#ff1616" />}
+            onClick={() => handleDelete(record.id)}
+          />
+        </Space>
       ),
     },
   ];

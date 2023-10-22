@@ -47,6 +47,8 @@ import { clearParcelsInStorageState } from "../../store/modules/pages/parcelsInS
 import { clearParcelsAsignedState } from "../../store/modules/pages/parcelsAsigned";
 import { clearParcelsAsignedSettingsState } from "../../store/modules/settings/parcelsAsigned";
 import { clearParcelsInStorageSettingsState } from "../../store/modules/settings/parcelsInStorage";
+import { clearCreateManifestState } from "../../store/modules/editableEntities/editableManifest";
+import { CreateManifest } from "../../pages/createManifest/createManifest";
 
 interface useloadSourseDto {
   authToken: IauthToken;
@@ -69,6 +71,7 @@ export const useloadSourse = (): [
     dispatch(clearTemplatesState());
     dispatch(clearParcelState());
     dispatch(clearCreateParcelState());
+    dispatch(clearCreateManifestState());
     dispatch(clearPricesState());
     dispatch(clearDocumentsState());
   }, []);
@@ -136,6 +139,7 @@ export const App = () => {
                 </Route>
                 <Route path="manifests">
                   <Route index={true} element={<Manifests />} />
+                  <Route path="create" element={<CreateManifest />} />
                   <Route path=":manifestId" element={<Manifest />} />
                 </Route>
                 <Route path="documents">

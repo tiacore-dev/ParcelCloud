@@ -291,6 +291,7 @@ export const getHistory = (
 export const getParcelsInStorage = (
   dispatch: Dispatch<AnyAction>,
   getParcelsParam: GetParcelsInStorageDto,
+  onSuccess?: (parcelsData: IParcelsInStorageList[]) => void,
 ) => {
   dispatch(getParcelsInStorageRequest());
   useApi<IParcelsInStorageList[], GetParcelsInStorageDto>(
@@ -300,6 +301,9 @@ export const getParcelsInStorage = (
   )
     .then((parcelsData) => {
       dispatch(getParcelsInStorageSuccess(parcelsData));
+      if (onSuccess) {
+        onSuccess(parcelsData);
+      }
     })
     .catch((err) => {
       dispatch(getParcelsInStorageFailure(err));

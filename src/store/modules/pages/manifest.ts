@@ -54,6 +54,12 @@ const manifestSlice = createSlice({
         );
       });
     },
+    sendManifestSuccess: (state: IManifestState) => {
+      state.loading = false;
+      state.loaded = true;
+      state.data = { ...state.data, sent: true };
+    },
+
     clearManifestState: (state: IManifestState) => {
       state.data = undefined;
       state.loaded = false;
@@ -68,6 +74,7 @@ export const {
   getManifestFailure,
   getManifestSuccess,
   setManifestParcelsStatus,
+  sendManifestSuccess,
   clearManifestState,
 } = manifestSlice.actions;
 
