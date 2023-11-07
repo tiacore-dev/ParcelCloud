@@ -7,6 +7,7 @@ interface IParcelsFilter {
   sendCities: string[];
   recCities: string[];
   parcelIDS?: string[];
+  statuses: string[];
 }
 
 export interface IParcelsSettingsState {
@@ -23,6 +24,7 @@ const initialState: IParcelsSettingsState = {
     number: "",
     sendCities: [],
     recCities: [],
+    statuses: [],
   },
   sort: { createdAt: 1 },
   limit: 1000,
@@ -63,6 +65,12 @@ const parcelsSettingsSlice = createSlice({
     ) => {
       state.filters.recCities = action.payload;
     },
+    setParcelsFiltersStatuses: (
+      state: IParcelsSettingsState,
+      action: { payload: string[] },
+    ) => {
+      state.filters.statuses = action.payload;
+    },
     clearParcelsSettingsState: (state: IParcelsSettingsState) => {
       state.filters = initialState.filters;
     },
@@ -75,6 +83,7 @@ export const {
   setParcelsFiltersNumber,
   setParcelsFiltersSendCities,
   setParcelsFiltersRecCities,
+  setParcelsFiltersStatuses,
   clearParcelsSettingsState,
 } = parcelsSettingsSlice.actions;
 

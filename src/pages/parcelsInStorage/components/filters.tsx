@@ -1,12 +1,15 @@
 import * as React from "react";
-import { Button, Radio, Space } from "antd";
+import { Button, Input, Radio, Space } from "antd";
 import { PlusCircleTwoTone, ReloadOutlined } from "@ant-design/icons";
 import { getParcelsInStorage } from "../../../hooks/ApiActions/parcel";
 import { useDispatch, useSelector } from "react-redux";
 import { authToken } from "../../../hooks/useAuth";
 import { GetParcelsInStorageDto } from "../parcelsInStorage";
 import { IState } from "../../../store/modules";
-import { setIParcelsInStorageFilterTaskType } from "../../../store/modules/settings/parcelsInStorage";
+import {
+  setIParcelsInStorageFilterNumber,
+  setIParcelsInStorageFilterTaskType,
+} from "../../../store/modules/settings/parcelsInStorage";
 import { useNavigate } from "react-router-dom";
 import { editManifestAction } from "../../../store/modules/editableEntities/editableManifest";
 import { IParcelsList } from "../../../interfaces/parcels/IParcelsList";
@@ -24,12 +27,26 @@ export const Filters = ({ selectedRows }: { selectedRows: IParcelsList[] }) => {
     (state: IState) => state.settings.parcelsInStorageSettings?.filters,
   );
 
+  const numberChangeHandler = React.useCallback(async (number: string) => {
+    await dispatch(setIParcelsInStorageFilterNumber(number));
+  }, []);
+
   return (
     <Space className="parcels-asigned_filters">
       <Button
         className="parcels-asigned_filters_button"
         icon={<ReloadOutlined />}
         onClick={() => getParcelsInStorage(dispatch, param)}
+      />
+
+      <Input
+        className="parcels_filters_search"
+        placeholder="Фильтр по номеру"
+        value={filters.number}
+        onChange={(e) => {
+          numberChangeHandler(e.target.value);
+        }}
+        style={{ maxWidth: "200px" }}
       />
 
       <Radio.Group

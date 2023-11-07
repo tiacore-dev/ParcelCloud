@@ -4,6 +4,7 @@ type parcelInStorageType = "toDelivery" | "toReceive" | "myOwn" | "all";
 
 interface IParcelsInStorageFilter {
   parcelInStorageType: parcelInStorageType;
+  number: string;
 }
 
 export interface IParcelsInStorageSettingsState {
@@ -13,6 +14,7 @@ export interface IParcelsInStorageSettingsState {
 const initialState: IParcelsInStorageSettingsState = {
   filters: {
     parcelInStorageType: "all",
+    number: "",
   },
 };
 
@@ -27,6 +29,13 @@ const parcelsInStorageSettingsSlice = createSlice({
       state.filters.parcelInStorageType = action.payload;
     },
 
+    setIParcelsInStorageFilterNumber: (
+      state: IParcelsInStorageSettingsState,
+      action: { payload: string },
+    ) => {
+      state.filters.number = action.payload;
+    },
+
     clearParcelsInStorageSettingsState: (
       state: IParcelsInStorageSettingsState,
     ) => {
@@ -37,6 +46,7 @@ const parcelsInStorageSettingsSlice = createSlice({
 
 export const {
   setIParcelsInStorageFilterTaskType,
+  setIParcelsInStorageFilterNumber,
   clearParcelsInStorageSettingsState,
 } = parcelsInStorageSettingsSlice.actions;
 

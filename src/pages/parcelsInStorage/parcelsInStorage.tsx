@@ -55,12 +55,16 @@ export const ParcelsInStorage = () => {
         .map((el) => ({ ...el, key: el.id }))
         .filter(
           (el) =>
-            filters?.parcelInStorageType === "all" ||
-            (filters?.parcelInStorageType === "toDelivery" && el.toDelivery) ||
-            (filters?.parcelInStorageType === "myOwn" && el.myOwn) ||
-            (filters?.parcelInStorageType === "toReceive" && el.toReceive),
+            (filters.number === "" ||
+              el.number.toUpperCase().indexOf(filters.number.toUpperCase()) >
+                -1) &&
+            (filters?.parcelInStorageType === "all" ||
+              (filters?.parcelInStorageType === "toDelivery" &&
+                el.toDelivery) ||
+              (filters?.parcelInStorageType === "myOwn" && el.myOwn) ||
+              (filters?.parcelInStorageType === "toReceive" && el.toReceive)),
         ),
-    [parcelsData, filters.parcelInStorageType],
+    [parcelsData, filters.parcelInStorageType, filters.number],
   );
 
   React.useEffect(() => {

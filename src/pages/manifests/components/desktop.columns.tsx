@@ -2,7 +2,11 @@ import * as React from "react";
 import { ColumnsType } from "antd/es/table";
 import { dateToLocalString } from "../../../utils/dateConverter";
 
-import { CheckCircleTwoTone, ClockCircleTwoTone } from "@ant-design/icons";
+import {
+  CheckCircleTwoTone,
+  ClockCircleTwoTone,
+  RightCircleTwoTone,
+} from "@ant-design/icons";
 import { IManifestsListColumn } from "../../../interfaces/manifests/IManifestList";
 
 export const manifestsDesktopColumns =
@@ -34,6 +38,35 @@ export const manifestsDesktopColumns =
                   />
                 )}
                 Статус: {record.delivered ? "Завершено" : "В работе"}
+              </div>
+            )}
+
+            {record.type === "outgoing" && (
+              <div>
+                {record.sent ? (
+                  record.delivered ? (
+                    <CheckCircleTwoTone
+                      twoToneColor="#52c41a"
+                      className="status-icon"
+                    />
+                  ) : (
+                    <RightCircleTwoTone
+                      twoToneColor="#1677ff"
+                      className="status-icon"
+                    />
+                  )
+                ) : (
+                  <ClockCircleTwoTone
+                    twoToneColor="#c4be1a"
+                    className="status-icon"
+                  />
+                )}
+                Статус:{" "}
+                {record.sent
+                  ? record.delivered
+                    ? "Завершено"
+                    : "В пути"
+                  : "Не отправлено"}
               </div>
             )}
           </>

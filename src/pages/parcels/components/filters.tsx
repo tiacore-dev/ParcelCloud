@@ -8,28 +8,30 @@ import {
   setParcelsFiltersNumber,
   setParcelsFiltersRecCities,
   setParcelsFiltersSendCities,
+  setParcelsFiltersStatuses,
 } from "../../../store/modules/settings/parcels";
 import dayjs from "dayjs";
 import { dateFormat } from "../../../utils/dateConverter";
 import Search from "antd/es/input/Search";
 import { isMobile } from "../../../utils/isMobile";
 import { getCities } from "../../../store/modules/dictionaries/selectors/cities.selector";
-import {
-  AppstoreTwoTone,
-  PlusCircleTwoTone,
-  ReloadOutlined,
-} from "@ant-design/icons";
+import { PlusCircleTwoTone, ReloadOutlined } from "@ant-design/icons";
 import { authToken } from "../../../hooks/useAuth";
 import { GetParcelsDto } from "../../../hooks/ApiActions/parcel";
 import { useNavigate } from "react-router-dom";
 import { clearCreateParcelState } from "../../../store/modules/editableEntities/editableParcel";
+import { IParcelsList } from "../../../interfaces/parcels/IParcelsList";
+import { exportHeaderParcels } from "./header.export";
+import { DownloadButton } from "../../../components/downloadButton";
 
 interface IFiltersProps {
+  parcelsData: IParcelsList[];
+  statuses?: Array<{ text: string; value: string }>;
   onChange: (param: GetParcelsDto) => void;
 }
 
 export const Filters = (props: IFiltersProps) => {
-  const { onChange } = props;
+  const { parcelsData, statuses, onChange } = props;
   const navigate = useNavigate();
   const filters = useSelector(
     (state: IState) => state.settings.parcelsSettings.filters,
@@ -44,31 +46,39 @@ export const Filters = (props: IFiltersProps) => {
   const dispatch = useDispatch();
 
   const cities = useSelector(getCities);
-  const dateFromChangeHandler = async (date: dayjs.Dayjs) => {
+  const dateFromChangeHandler = React.useCallback(async (date: dayjs.Dayjs) => {
     const value = date.valueOf();
     await dispatch(setParcelsFiltersDateFrom(value));
-  };
-  const dateToChangeHandler = async (date: dayjs.Dayjs) => {
+  }, []);
+  const dateToChangeHandler = React.useCallback(async (date: dayjs.Dayjs) => {
     const value = date.valueOf();
     await dispatch(setParcelsFiltersDateTo(value));
-  };
+  }, []);
 
-  const numberChangeHandler = async (number: string) => {
+  const numberChangeHandler = React.useCallback(async (number: string) => {
     await dispatch(setParcelsFiltersNumber(number));
-  };
+  }, []);
 
-  const sendCityChangeHandler = async (cities: string[]) => {
+  const sendCityChangeHandler = React.useCallback(async (cities: string[]) => {
     await dispatch(setParcelsFiltersSendCities(cities));
-  };
+  }, []);
 
-  const recCityChangeHandler = async (cities: string[]) => {
+  const recCityChangeHandler = React.useCallback(async (cities: string[]) => {
     await dispatch(setParcelsFiltersRecCities(cities));
-  };
+  }, []);
 
-  const citySelectOptions = cities.map((city) => ({
-    label: city,
-    value: city,
-  }));
+  const statusesChangeHandler = React.useCallback(async (cities: string[]) => {
+    await dispatch(setParcelsFiltersStatuses(cities));
+  }, []);
+
+  const citySelectOptions = React.useMemo(
+    () =>
+      cities.map((city) => ({
+        label: city,
+        value: city,
+      })),
+    [cities],
+  );
 
   return (
     <div className="parcels_filters">
@@ -85,12 +95,14 @@ export const Filters = (props: IFiltersProps) => {
         </Button>
         <Button icon={<ReloadOutlined />} onClick={() => onChange(param)} />
         <DatePicker
+          className="parcels_filters_date-picker"
           value={dayjs(filters.dateFrom)}
           placeholder="Дата начала"
           onChange={dateFromChangeHandler}
           format={dateFormat}
         />
         <DatePicker
+          className="parcels_filters_date-picker"
           value={dayjs(filters.dateTo)}
           placeholder="Дата окончания"
           onChange={dateToChangeHandler}
@@ -99,7 +111,9 @@ export const Filters = (props: IFiltersProps) => {
       </Space>
       <Space direction={isMobile() ? "vertical" : "horizontal"}>
         <Search
+          className="parcels_filters_search"
           placeholder="Поиск по номеру"
+          defaultValue={filters.number}
           onSearch={numberChangeHandler}
           style={{ maxWidth: "200px" }}
         />
@@ -121,14 +135,20 @@ export const Filters = (props: IFiltersProps) => {
           onChange={recCityChangeHandler}
           options={citySelectOptions}
         />
+        <Select
+          mode="multiple"
+          value={filters.statuses}
+          className="parcels_filters_select"
+          placeholder="Статус накладной"
+          onChange={statusesChangeHandler}
+          options={statuses}
+        />
       </Space>
-      <Button
-        className="parcels_filters_right-button"
-        icon={<AppstoreTwoTone twoToneColor="#ff1616" />}
-        onClick={() => navigate("/templates")}
-      >
-        Шаблоны
-      </Button>
+      <DownloadButton
+        data={parcelsData}
+        headers={exportHeaderParcels}
+        filename="Накладные СВС-Логистик.csv"
+      />
     </div>
   );
 };

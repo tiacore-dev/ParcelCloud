@@ -48,9 +48,12 @@ export const ParcelsAsigned = () => {
         .map((el) => ({ ...el, key: el.id }))
         .filter(
           (el) =>
-            filters.taskType === "all" ||
-            (filters.taskType === "toDelivery" && el.toDelivery) ||
-            (filters.taskType === "toReceive" && el.toReceive),
+            (filters.number === "" ||
+              el.number.toUpperCase().indexOf(filters.number.toUpperCase()) >
+                -1) &&
+            (filters.taskType === "all" ||
+              (filters.taskType === "toDelivery" && el.toDelivery) ||
+              (filters.taskType === "toReceive" && el.toReceive)),
         ),
     [parcelsData, filters],
   );

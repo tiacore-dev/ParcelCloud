@@ -10,6 +10,10 @@ import {
 } from "../../../hooks/ApiActions/manifest";
 import { IManifest } from "../../../interfaces/manifests/IManifest";
 import { useNavigate } from "react-router-dom";
+import { exportHeaderManifestParcels } from "./header.export";
+import { DownloadButton } from "../../../components/downloadButton";
+import dayjs from "dayjs";
+import { dateFormat } from "../../../utils/dateConverter";
 
 interface IManifestActionsProps {
   manifestData: IManifest;
@@ -66,6 +70,14 @@ export const ManifestActions = (props: IManifestActionsProps) => {
         />
       )}
 
+      <DownloadButton
+        data={manifestData.parcels.map((parcel) => ({
+          ...parcel,
+          date: dayjs(parcel.date).format(dateFormat),
+        }))}
+        headers={exportHeaderManifestParcels}
+        filename={`Манифест ${manifestData.number} СВС-Логистик`}
+      />
       {contextHolder}
     </div>
   );

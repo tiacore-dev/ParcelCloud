@@ -7,7 +7,6 @@ import { IState } from "../../store/modules";
 import { minPageHeight } from "../../utils/pageSettings";
 import { isMobile } from "../../utils/isMobile";
 import { dateToLocalString } from "../../utils/dateConverter";
-import { parcelsDesktopColumns } from "../parcels/components/desktop.columns";
 import { parcelsMobileColumns } from "../parcels/components/mobile.columns";
 import { GetManifestDto, getManifest } from "../../hooks/ApiActions/manifest";
 import { TableRowSelection } from "antd/es/table/interface";
@@ -18,6 +17,7 @@ import {
 } from "../../hooks/ApiActions/parcel";
 import { ManifestActions } from "./components/actions";
 import "./manifest.less";
+import { manifestParcelsDesktopColumns } from "./components/desktop.columns";
 
 export const Manifest = () => {
   const { Content } = Layout;
@@ -75,7 +75,7 @@ export const Manifest = () => {
     () =>
       isMobile()
         ? parcelsMobileColumns(true)
-        : parcelsDesktopColumns(true, navigate),
+        : manifestParcelsDesktopColumns(true, navigate),
     [],
   );
 
@@ -122,9 +122,7 @@ export const Manifest = () => {
             <div className="manifest__number">{`Манифест ${manifestData.number} 
             от ${dateToLocalString(manifestData.date)} `}</div>
 
-            {manifestData.type === "outgoing" && (
-              <ManifestActions manifestData={manifestData} />
-            )}
+            <ManifestActions manifestData={manifestData} />
           </div>
 
           <Card

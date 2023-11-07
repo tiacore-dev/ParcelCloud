@@ -1,11 +1,14 @@
 import * as React from "react";
-import { Button, Radio, Space } from "antd";
+import { Button, Input, Radio, Space } from "antd";
 import { ReloadOutlined } from "@ant-design/icons";
 import { getParcelsAsigned } from "../../../hooks/ApiActions/parcel";
 import { useDispatch, useSelector } from "react-redux";
 import { authToken } from "../../../hooks/useAuth";
 import { GetParcelsAsignedDto } from "../parcelsAsigned";
-import { setIParcelsAsignedFilterTaskType } from "../../../store/modules/settings/parcelsAsigned";
+import {
+  setIParcelsAsignedFilterNumber,
+  setIParcelsAsignedFilterTaskType,
+} from "../../../store/modules/settings/parcelsAsigned";
 import { IState } from "../../../store/modules";
 
 export const Filters = () => {
@@ -19,12 +22,26 @@ export const Filters = () => {
     (state: IState) => state.settings.parcelsAsignedSettings.filters,
   );
 
+  const numberChangeHandler = React.useCallback(async (number: string) => {
+    await dispatch(setIParcelsAsignedFilterNumber(number));
+  }, []);
+
   return (
     <Space className="parcels-asigned_filters">
       <Button
         className="parcels-asigned_filters_button"
         icon={<ReloadOutlined />}
         onClick={() => getParcelsAsigned(dispatch, param)}
+      />
+
+      <Input
+        className="parcels_filters_search"
+        placeholder="Фильтр по номеру"
+        value={filters.number}
+        onChange={(e) => {
+          numberChangeHandler(e.target.value);
+        }}
+        style={{ maxWidth: "200px" }}
       />
 
       <Radio.Group
