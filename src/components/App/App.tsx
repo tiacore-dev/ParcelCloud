@@ -49,6 +49,7 @@ import { clearParcelsAsignedSettingsState } from "../../store/modules/settings/p
 import { clearParcelsInStorageSettingsState } from "../../store/modules/settings/parcelsInStorage";
 import { clearCreateManifestState } from "../../store/modules/editableEntities/editableManifest";
 import { CreateManifest } from "../../pages/createManifest/createManifest";
+import { Api } from "../../pages/info";
 
 interface useloadSourseDto {
   authToken: IauthToken;
@@ -150,6 +151,7 @@ export const App = () => {
                 <Route path="storage" element={<ParcelsInStorage />} />
                 <Route path="history" element={<HistoryPage />} />
                 <Route path="prices" element={<Prices />} />
+                <Route path="api" element={<Api />} />
               </Route>
             </Routes>
           </Layout>
