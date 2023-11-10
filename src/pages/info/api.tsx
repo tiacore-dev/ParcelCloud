@@ -426,42 +426,6 @@ export const Api = () => {
     },
   ];
 
-  const columns: ColumnsType<apiMethod> = [
-    {
-      title: "Наименование",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Ссылка",
-      dataIndex: "url",
-      key: "url",
-    },
-    {
-      title: "Описание",
-      dataIndex: "descriotion",
-      key: "descriotion",
-    },
-    {
-      title: "Параметры",
-      key: "params",
-      render: (text: string, record: apiMethod) => (
-        <Table
-          bordered
-          size="small"
-          pagination={false}
-          dataSource={record.params}
-          columns={paramColumns}
-        />
-      ),
-    },
-    {
-      title: "Результат",
-      render: (text: string, record: apiMethod) => record.result || null,
-      key: "result",
-    },
-  ];
-
   return (
     <>
       <Breadcrumb
@@ -495,14 +459,36 @@ export const Api = () => {
             <li>errorMessage?: string</li>
             <li>responceData?: Возвращаемые данные</li>
           </ul>
-          Методы:
-          <Table
-            size="small"
-            pagination={false}
-            bordered
-            dataSource={data}
-            columns={columns}
-          />
+          <b>Методы:</b>
+          {data.map((record) => (
+            <Space
+              direction="vertical"
+              style={{
+                borderBottom: "solid gray 1px",
+                padding: "16px 0",
+                width: "100%",
+              }}
+            >
+              <h3>{record.name}</h3>
+              <div>
+                <b>Ссылка:</b> {record.url}
+              </div>
+              <div>
+                <b>Описание:</b> {record.descriotion}
+              </div>
+              <b>Параметры:</b>
+              <Table
+                bordered
+                size="small"
+                pagination={false}
+                dataSource={record.params}
+                columns={paramColumns}
+              />
+              <div>
+                <b>Результат:</b> {record.result}
+              </div>
+            </Space>
+          ))}
         </Space>
       </Content>
     </>
