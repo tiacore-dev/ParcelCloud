@@ -6,6 +6,7 @@ export interface IEditableManifestState {
   id?: string;
   number?: string;
   transferNumber: string;
+  manifestCompany: string;
   qtParcels: number;
   qtItems: number;
   weight: number;
@@ -18,6 +19,7 @@ export interface IEditableManifestState {
 const initialState: IEditableManifestState = {
   sent: false,
   transferNumber: "",
+  manifestCompany: "",
   id: undefined,
   qtParcels: 0,
   qtItems: 1,
@@ -33,6 +35,7 @@ const setManifestData = (
   state.id = manifestData.id;
   state.number = manifestData.number;
   state.transferNumber = manifestData.transferNumber;
+  state.manifestCompany = manifestData.manifestCompany;
   state.qtParcels = manifestData.qtParcels;
   state.qtItems = manifestData.qtItems;
   state.weight = manifestData.weight;
@@ -71,6 +74,13 @@ const editableManifestSlice = createSlice({
       action: { payload: string },
     ) => {
       state.transferNumber = action.payload;
+    },
+
+    setManifestCompany: (
+      state: IEditableManifestState,
+      action: { payload: string },
+    ) => {
+      state.manifestCompany = action.payload;
     },
 
     addParcel: (

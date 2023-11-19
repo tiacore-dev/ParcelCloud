@@ -8,15 +8,17 @@ interface IDownloadButtonProps {
   data: object[];
   headers: LabelKeyObject[];
   filename?: string;
+  className?: string;
 }
 
 export const DownloadButton = ({
   data,
   headers,
   filename,
+  className = "parcels_filters_right-button",
 }: IDownloadButtonProps) => (
   <Button
-    className="parcels_filters_right-button"
+    className={className}
     icon={<FileExcelTwoTone twoToneColor="#ff1616" />}
   >
     <CSVLink data={data} headers={headers} filename={filename}>

@@ -71,6 +71,7 @@ export const ManifestActions = (props: IManifestActionsProps) => {
       )}
 
       <DownloadButton
+        className=""
         data={manifestData.parcels.map((parcel) => ({
           ...parcel,
           date: dayjs(parcel.date).format(dateFormat),

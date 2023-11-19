@@ -178,6 +178,15 @@ export const CreateManifest = (props: ICreateManifestProps) => {
             />
           </Form.Item>
 
+          <Form.Item label="Перевозчик">
+            <Input
+              value={data.manifestCompany}
+              onChange={(e) => {
+                dispatch(editManifestAction.setManifestCompany(e.target.value));
+              }}
+            />
+          </Form.Item>
+
           <Form.Item label="Количество накладных">
             <InputNumber value={data.qtParcels} readOnly />
           </Form.Item>
