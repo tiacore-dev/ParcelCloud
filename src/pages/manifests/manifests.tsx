@@ -52,12 +52,13 @@ export const Manifests = () => {
   return (
     <>
       <Breadcrumb
+        style={isMobile() && { backgroundColor: "#F8F8F8" }}
         className="breadcrumb"
         items={[{ title: "Главная" }, { title: "Манифесты" }]}
       />
       <Content
         style={{
-          padding: 24,
+          padding: isMobile() ? 0 : 16,
           margin: 0,
           minHeight: minPageHeight(),
           background: "#FFF",

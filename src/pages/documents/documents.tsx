@@ -65,11 +65,12 @@ export const Documents = () => {
     <>
       <Breadcrumb
         className="breadcrumb"
+        style={isMobile() && { backgroundColor: "#F8F8F8" }}
         items={[{ title: "Главная" }, { title: "Документы" }]}
       />
       <Content
         style={{
-          padding: 24,
+          padding: isMobile() ? 0 : 16,
           margin: 0,
           minHeight: minPageHeight(),
           background: "#FFF",

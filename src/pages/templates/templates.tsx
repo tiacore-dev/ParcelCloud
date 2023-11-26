@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { TemplatesTable } from "./components/table";
 import { minPageHeight } from "../../utils/pageSettings";
 import "./templates.less";
+import { isMobile } from "../../utils/isMobile";
 
 export const Templates = () => {
   const { Content } = Layout;
@@ -15,12 +16,13 @@ export const Templates = () => {
   return (
     <>
       <Breadcrumb
+        style={isMobile() && { backgroundColor: "#F8F8F8" }}
         className="breadcrumb"
         items={[{ title: "Главная" }, { title: "Шаблоны" }]}
       />
       <Content
         style={{
-          padding: 24,
+          padding: isMobile() ? 0 : 16,
           margin: 0,
           minHeight: minPageHeight(),
           background: "#FFF",

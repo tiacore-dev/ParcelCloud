@@ -95,75 +95,130 @@ export const Filters = (props: IFiltersProps) => {
     [parcelsData],
   );
 
-  return (
+  const createButton = (
+    <Button
+      icon={<PlusCircleTwoTone twoToneColor="#ff1616" />}
+      onClick={() => {
+        dispatch(clearCreateParcelState());
+        navigate("/parcels/create");
+      }}
+      type="primary"
+    >
+      Создать
+    </Button>
+  );
+
+  const reloadButton = (
+    <Button icon={<ReloadOutlined />} onClick={() => onChange(param)} />
+  );
+
+  const datePickerFrom = (
+    <DatePicker
+      className="parcels_filters_date-picker"
+      value={dayjs(filters.dateFrom)}
+      placeholder="Дата начала"
+      onChange={dateFromChangeHandler}
+      format={dateFormat}
+    />
+  );
+
+  const datePickerTo = (
+    <DatePicker
+      className="parcels_filters_date-picker"
+      value={dayjs(filters.dateTo)}
+      placeholder="Дата окончания"
+      onChange={dateToChangeHandler}
+      format={dateFormat}
+    />
+  );
+
+  const numberFilter = (
+    <Search
+      className="parcels_filters_search"
+      placeholder="Поиск по номеру"
+      defaultValue={filters.number}
+      onSearch={numberChangeHandler}
+      style={{ maxWidth: "200px" }}
+    />
+  );
+
+  const sendCityFilter = (
+    <Select
+      mode="multiple"
+      value={filters.sendCities}
+      allowClear
+      className="parcels_filters_select"
+      placeholder="Город отправителя"
+      onChange={sendCityChangeHandler}
+      options={citySelectOptions}
+    />
+  );
+
+  const recCityFilter = (
+    <Select
+      mode="multiple"
+      value={filters.recCities}
+      allowClear
+      className="parcels_filters_select"
+      placeholder="Город получателя"
+      onChange={recCityChangeHandler}
+      options={citySelectOptions}
+    />
+  );
+
+  const statusFilter = (
+    <Select
+      mode="multiple"
+      value={filters.statuses}
+      className="parcels_filters_select"
+      placeholder="Статус накладной"
+      onChange={statusesChangeHandler}
+      options={statuses}
+    />
+  );
+
+  const downloadButton = (
+    <DownloadButton
+      data={downloadingData}
+      headers={exportHeaderParcels}
+      filename="Накладные СВС-Логистик.csv"
+    />
+  );
+
+  return isMobile() ? (
+    <Space direction="vertical" style={{ padding: "12px 16px" }}>
+      <Space direction="horizontal">
+        {createButton}
+        {reloadButton}
+      </Space>
+      <Space direction="horizontal">
+        {datePickerFrom}
+        {datePickerTo}
+      </Space>
+      <Space direction="horizontal">
+        {sendCityFilter}
+        {recCityFilter}
+      </Space>
+      <Space direction="horizontal">
+        {numberFilter}
+        {statusFilter}
+      </Space>
+    </Space>
+  ) : (
     <div className="parcels_filters">
       <Space direction="horizontal">
-        <Button
-          icon={<PlusCircleTwoTone twoToneColor="#ff1616" />}
-          onClick={() => {
-            dispatch(clearCreateParcelState());
-            navigate("/parcels/create");
-          }}
-          type="primary"
-        >
-          Создать
-        </Button>
-        <Button icon={<ReloadOutlined />} onClick={() => onChange(param)} />
-        <DatePicker
-          className="parcels_filters_date-picker"
-          value={dayjs(filters.dateFrom)}
-          placeholder="Дата начала"
-          onChange={dateFromChangeHandler}
-          format={dateFormat}
-        />
-        <DatePicker
-          className="parcels_filters_date-picker"
-          value={dayjs(filters.dateTo)}
-          placeholder="Дата окончания"
-          onChange={dateToChangeHandler}
-          format={dateFormat}
-        />
+        {createButton}
+        {reloadButton}
+        {datePickerFrom}
+        {datePickerTo}
       </Space>
-      <Space direction={isMobile() ? "vertical" : "horizontal"}>
-        <Search
-          className="parcels_filters_search"
-          placeholder="Поиск по номеру"
-          defaultValue={filters.number}
-          onSearch={numberChangeHandler}
-          style={{ maxWidth: "200px" }}
-        />
-        <Select
-          mode="multiple"
-          value={filters.sendCities}
-          allowClear
-          className="parcels_filters_select"
-          placeholder="Город отправителя"
-          onChange={sendCityChangeHandler}
-          options={citySelectOptions}
-        />
-        <Select
-          mode="multiple"
-          value={filters.recCities}
-          allowClear
-          className="parcels_filters_select"
-          placeholder="Город получателя"
-          onChange={recCityChangeHandler}
-          options={citySelectOptions}
-        />
-        <Select
-          mode="multiple"
-          value={filters.statuses}
-          className="parcels_filters_select"
-          placeholder="Статус накладной"
-          onChange={statusesChangeHandler}
-          options={statuses}
-        />
+      <Space direction={"horizontal"}>
+        {numberFilter}
+        {sendCityFilter}
+        {recCityFilter}
+        {statusFilter}
       </Space>
-      <DownloadButton
-        data={downloadingData}
-        headers={exportHeaderParcels}
-        filename="Накладные СВС-Логистик.csv"
-      />
+      {downloadButton}
     </div>
   );
 };

@@ -11,6 +11,10 @@ import { parcelsMobileColumns } from "./components/mobile.columns";
 import { isMobile } from "../../utils/isMobile";
 import { minPageHeight } from "../../utils/pageSettings";
 import { GetParcelsDto, getParcels } from "../../hooks/ApiActions/parcel";
+import {
+  setAppHeaderTitle,
+  setShowBackButton,
+} from "../../store/modules/settings/general";
 
 export const Parcels = () => {
   const { Content } = Layout;
@@ -34,6 +38,11 @@ export const Parcels = () => {
     checkPermission("parcel-view-assigned");
 
   React.useEffect(() => {
+    if (isMobile()) {
+      dispatch(setShowBackButton(false));
+      dispatch(setAppHeaderTitle("Накладные"));
+    }
+
     getParcels(dispatch, param);
   }, [
     filters.dateFrom,
@@ -73,14 +82,14 @@ export const Parcels = () => {
     <>
       <Breadcrumb
         className="breadcrumb"
+        style={isMobile() && { backgroundColor: "#F8F8F8" }}
         items={[{ title: "Главная" }, { title: "Накладные" }]}
       />
       <Content
         style={{
-          padding: 24,
+          padding: isMobile() ? 0 : 16,
           margin: 0,
           minHeight: minPageHeight(),
-          background: "#FFF",
         }}
       >
         <Filters
@@ -93,7 +102,7 @@ export const Parcels = () => {
           dataSource={data}
           columns={
             isMobile()
-              ? parcelsMobileColumns(customerView)
+              ? parcelsMobileColumns(customerView, navigate)
               : parcelsDesktopColumns(customerView, navigate)
           }
           loading={isLoading}

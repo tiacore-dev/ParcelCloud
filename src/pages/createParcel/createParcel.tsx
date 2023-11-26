@@ -51,6 +51,10 @@ import {
   EditeTemplateDto,
   editTemplateAction,
 } from "../../hooks/ApiActions/templates";
+import {
+  setAppHeaderTitle,
+  setShowBackButton,
+} from "../../store/modules/settings/general";
 
 interface ICreateParcelProps {
   parcel?: IParcel;
@@ -97,6 +101,18 @@ export const CreateParcel = (props: ICreateParcelProps) => {
     label: payer.name,
     value: payer.id,
   }));
+
+  const title = React.useMemo(
+    () => (data.id ? "Редактирование " + data.number : "Создание накладной"),
+    [data.id],
+  );
+
+  React.useEffect(() => {
+    if (isMobile()) {
+      dispatch(setShowBackButton(true));
+      dispatch(setAppHeaderTitle(title));
+    }
+  }, [title]);
 
   React.useEffect(() => {
     if (!data.customer) {
@@ -233,14 +249,6 @@ export const CreateParcel = (props: ICreateParcelProps) => {
     recCity: !cities.includes(data.recCity),
   };
 
-  const title = React.useMemo(
-    () =>
-      data.id
-        ? "Редактирование накладной " + data.number
-        : "Создание накладной",
-    [data.id],
-  );
-
   const templateData = useSelector((state: IState) => state.pages.template);
 
   const templateParams: EditeTemplateDto = {
@@ -299,6 +307,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
 
       <Breadcrumb
         className="breadcrumb"
+        style={isMobile() && { backgroundColor: "#F8F8F8" }}
         items={[
           { title: "Главная" },
           {
@@ -332,6 +341,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                 {!hideTemplates && (
                   <Form.Item noStyle>
                     <Space
+                      direction={isMobile() ? "vertical" : "horizontal"}
                       style={{
                         display: "flex",
                         justifyContent: "flex-end",
@@ -442,6 +452,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                 {!hideTemplates && (
                   <Form.Item noStyle>
                     <Space
+                      direction={isMobile() ? "vertical" : "horizontal"}
                       style={{
                         display: "flex",
                         justifyContent: "flex-end",

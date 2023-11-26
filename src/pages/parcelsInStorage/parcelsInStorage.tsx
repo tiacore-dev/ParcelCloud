@@ -85,10 +85,14 @@ export const ParcelsInStorage = () => {
 
   return (
     <>
-      <Breadcrumb className="breadcrumb" items={breadcrumbItems} />
+      <Breadcrumb
+        style={isMobile() && { backgroundColor: "#F8F8F8" }}
+        className="breadcrumb"
+        items={breadcrumbItems}
+      />
       <Content
         style={{
-          padding: 24,
+          padding: isMobile() ? 0 : 16,
           margin: 0,
           minHeight: minPageHeight(),
           background: "#FFF",

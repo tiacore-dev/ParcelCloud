@@ -1,7 +1,7 @@
 import { Button, Descriptions, Space } from "antd";
 import * as React from "react";
 import { useDispatch } from "react-redux";
-import { authData } from "../../../hooks/useAuth";
+import { authData, checkPermission } from "../../../hooks/useAuth";
 import { authlogout } from "../../../store/modules/auth";
 import { useloadSourse } from "../../../components/App/App";
 import { clearParcelsSettingsState } from "../../../store/modules/settings/parcels";
@@ -17,13 +17,14 @@ import { clearParcelsAsignedSettingsState } from "../../../store/modules/setting
 import { clearParcelsInStorageSettingsState } from "../../../store/modules/settings/parcelsInStorage";
 import { clearParcelsInStorageState } from "../../../store/modules/pages/parcelsInStorage";
 import { clearCreateManifestState } from "../../../store/modules/editableEntities/editableManifest";
+import { useNavigate } from "react-router-dom";
 
 export const Account = () => {
   const data = authData();
   const dispatch = useDispatch();
 
   const [load, clearStates] = useloadSourse();
-
+  const navigate = useNavigate();
   const refresh = () => {
     clearStates();
     load(data);
@@ -64,6 +65,26 @@ export const Account = () => {
         >
           Выход
         </Button>
+
+        {checkPermission("template-view") && (
+          <Button
+            onClick={() => {
+              navigate("/templates");
+            }}
+          >
+            Шаблоны
+          </Button>
+        )}
+
+        {checkPermission("document-view") && (
+          <Button
+            onClick={() => {
+              navigate("/documents");
+            }}
+          >
+            Документы
+          </Button>
+        )}
       </Space>
     </>
   );

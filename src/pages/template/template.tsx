@@ -18,6 +18,7 @@ import {
   deleteTemplateAction,
   editTemplateAction,
 } from "../../hooks/ApiActions/templates";
+import { isMobile } from "../../utils/isMobile";
 
 export const Template = () => {
   const { Content } = Layout;
@@ -68,6 +69,7 @@ export const Template = () => {
   return (
     <>
       <Breadcrumb
+        style={isMobile() && { backgroundColor: "#F8F8F8" }}
         className="breadcrumb"
         items={[
           { title: "Главная" },

@@ -11,6 +11,10 @@ import { isMobile } from "../../utils/isMobile";
 import { minPageHeight } from "../../utils/pageSettings";
 import { getParcelsAsigned } from "../../hooks/ApiActions/parcel";
 import { Filters } from "./components/filters";
+import {
+  setAppHeaderTitle,
+  setShowBackButton,
+} from "../../store/modules/settings/general";
 
 export interface GetParcelsAsignedDto {
   authToken: IauthToken;
@@ -30,6 +34,13 @@ export const ParcelsAsigned = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (isMobile()) {
+      dispatch(setShowBackButton(false));
+      dispatch(setAppHeaderTitle("Назначенные накладные"));
+    }
+  }, []);
 
   const filters = useSelector(
     (state: IState) => state.settings.parcelsAsignedSettings.filters,
@@ -66,13 +77,16 @@ export const ParcelsAsigned = () => {
 
   return (
     <>
-      <Breadcrumb className="breadcrumb" items={breadcrumbItems} />
+      <Breadcrumb
+        style={isMobile() && { backgroundColor: "#F8F8F8" }}
+        className="breadcrumb"
+        items={breadcrumbItems}
+      />
       <Content
         style={{
-          padding: 24,
+          padding: isMobile() ? 0 : 16,
           margin: 0,
           minHeight: minPageHeight(),
-          background: "#FFF",
         }}
       >
         <Filters />

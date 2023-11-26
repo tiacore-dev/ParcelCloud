@@ -3,6 +3,7 @@ import { ColumnsType } from "antd/es/table";
 import { dateToLocalString } from "../../../utils/dateConverter";
 import { IParcelsAsignedListColumn } from "../../../interfaces/parcels/IParcelsList";
 import { LoginOutlined, LogoutOutlined } from "@ant-design/icons";
+import { isMobile } from "../../../utils/isMobile";
 
 export const parcelsAsignedDesktopColumns =
   (): ColumnsType<IParcelsAsignedListColumn> => {
@@ -20,8 +21,12 @@ export const parcelsAsignedDesktopColumns =
                 <LoginOutlined className="parcels-asigned__table__receive_icon" />
               )}
               {record.toDelivery
-                ? "Доставить получателю"
-                : "Забрать у отправителя"}{" "}
+                ? isMobile()
+                  ? "Доставить"
+                  : "Доставить получателю"
+                : isMobile()
+                ? "Получить"
+                : "Получить у отправителя"}{" "}
             </div>
             <div>
               Дата:{" "}

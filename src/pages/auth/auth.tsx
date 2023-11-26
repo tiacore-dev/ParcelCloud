@@ -5,9 +5,23 @@ import { Login } from "./component/login";
 import { Account } from "./component/account";
 import "./auth.less";
 import { minPageHeight } from "../../utils/pageSettings";
+import { useDispatch } from "react-redux";
+import { isMobile } from "../../utils/isMobile";
+import {
+  setAppHeaderTitle,
+  setShowBackButton,
+} from "../../store/modules/settings/general";
 
 export const Auth = () => {
   const { Content } = Layout;
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    if (isMobile()) {
+      dispatch(setShowBackButton(false));
+      dispatch(setAppHeaderTitle("Аккаунт"));
+    }
+  }, []);
 
   const breadcrumbItems = React.useMemo(
     () => [{ title: "Главная" }, { title: "Аккаунт" }],
@@ -18,11 +32,15 @@ export const Auth = () => {
     <>
       {" "}
       {authData().isAuth && (
-        <Breadcrumb className="breadcrumb" items={breadcrumbItems}></Breadcrumb>
+        <Breadcrumb
+          style={isMobile() && { backgroundColor: "#F8F8F8" }}
+          className="breadcrumb"
+          items={breadcrumbItems}
+        ></Breadcrumb>
       )}
       <Content
         style={{
-          padding: 24,
+          padding: 16,
           margin: 0,
           minHeight: minPageHeight(),
           minWidth: 380,

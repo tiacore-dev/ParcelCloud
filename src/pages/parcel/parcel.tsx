@@ -28,6 +28,10 @@ import {
   EditeTemplateDto,
   editTemplateAction,
 } from "../../hooks/ApiActions/templates";
+import {
+  setAppHeaderTitle,
+  setShowBackButton,
+} from "../../store/modules/settings/general";
 
 export interface IConvertedParcelItem {
   key: number;
@@ -65,6 +69,18 @@ export const Parcel = () => {
   const isLoading = useSelector((state: IState) => state.pages.parcel.loading);
   const errMsg = useSelector((state: IState) => state.pages.parcel.errMsg);
 
+  const title = React.useMemo(
+    () => (parcelData ? "Накладная " + parcelData.number : "Накладная"),
+    [parcelData],
+  );
+
+  React.useEffect(() => {
+    if (isMobile()) {
+      dispatch(setShowBackButton(true));
+      dispatch(setAppHeaderTitle(title));
+    }
+  }, [title]);
+
   let temperature: string = "Отсутствует";
 
   if (parcelData && (parcelData.tMax !== 0 || parcelData.tMin !== 0)) {
@@ -80,7 +96,7 @@ export const Parcel = () => {
     id: "create",
   };
 
-  const senderToTemplate = (
+  const senderToTemplate = isMobile() ? null : (
     <ActionDialog
       buttonText="Сохранить в шаблон"
       buttonIcon={<AppstoreTwoTone twoToneColor="#ff1616" />}
@@ -102,7 +118,7 @@ export const Parcel = () => {
     />
   );
 
-  const recipientToTemplate = (
+  const recipientToTemplate = isMobile() ? null : (
     <ActionDialog
       buttonText="Сохранить в шаблон"
       buttonIcon={<AppstoreTwoTone twoToneColor="#ff1616" />}
@@ -128,6 +144,7 @@ export const Parcel = () => {
     <>
       <Breadcrumb
         className="breadcrumb"
+        style={isMobile() && { backgroundColor: "#F8F8F8" }}
         items={[
           { title: "Главная" },
           {
@@ -147,7 +164,9 @@ export const Parcel = () => {
           }}
         >
           <div className="parcel__title">
-            <div className="parcel__number">{`${parcelData.number}`}</div>
+            {!isMobile() && (
+              <div className="parcel__number">{`${parcelData.number}`}</div>
+            )}
 
             <div className="parcel__task">
               {parcelData.toDelivery && (
@@ -163,8 +182,10 @@ export const Parcel = () => {
                 />
               )}
 
-              {parcelData.toDelivery && "Доставить получателю"}
-              {parcelData.toReceive && "Забрать у отправителя"}
+              {parcelData.toDelivery &&
+                (isMobile() ? "Доставить" : "Доставить получателю")}
+              {parcelData.toReceive &&
+                (isMobile() ? "Получить" : "Получить у отправителя")}
               {parcelData.status === "delivered" && "Доставлено"}
             </div>
             {parcelData.toReceiveСonfirmed === false && (

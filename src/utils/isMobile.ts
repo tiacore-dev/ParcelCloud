@@ -1,4 +1,4 @@
 export const isMobile = (): boolean => {
   const pageWidth = document.documentElement.scrollWidth;
-  return pageWidth < 600;
+  return pageWidth < 1000;
 };

@@ -2,6 +2,7 @@ import { Layout } from "antd";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { minPageHeight } from "../../utils/pageSettings";
+import { isMobile } from "../../utils/isMobile";
 
 export const Main = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ export const Main = () => {
     <>
       <Content
         style={{
-          padding: 24,
+          padding: isMobile() ? 0 : 16,
           margin: 0,
           minHeight: minPageHeight(),
           background: "#FFF",

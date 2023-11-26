@@ -5,6 +5,7 @@ import { documentsSettings } from "./documents";
 import { manifestsSettings } from "./manifests";
 import { parcelsAsignedSettings } from "./parcelsAsigned";
 import { parcelsInStorageSettings } from "./parcelsInStorage";
+import { generalSettings } from "./general";
 
 export const settings = combineReducers({
   parcelsSettings,
@@ -13,4 +14,5 @@ export const settings = combineReducers({
   manifestsSettings,
   parcelsAsignedSettings,
   parcelsInStorageSettings,
+  generalSettings,
 });

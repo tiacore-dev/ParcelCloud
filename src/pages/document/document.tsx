@@ -91,6 +91,7 @@ export const Document = () => {
     <>
       <Breadcrumb
         className="breadcrumb"
+        style={isMobile() && { backgroundColor: "#F8F8F8" }}
         items={[
           { title: "Главная" },
           {

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IState } from "../../store/modules";
 import { setParcelNumber } from "../../store/modules/pages/history";
 import { History } from "../../components/history/history";
+import { isMobile } from "../../utils/isMobile";
 
 export const HistoryPage = () => {
   const parcelNumber = useSelector(
@@ -40,6 +41,7 @@ export const HistoryPage = () => {
     <>
       <Breadcrumb
         className="breadcrumb"
+        style={isMobile() && { backgroundColor: "#F8F8F8" }}
         items={[
           { title: "Главная" },
           {

@@ -1,21 +1,31 @@
 import * as React from "react";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Typography } from "antd";
 import { ItemType } from "antd/es/menu/hooks/useItems";
 import { useNavigate } from "react-router-dom";
-import { isMobile } from "../../utils/isMobile";
 import { checkPermission } from "../../hooks/useAuth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearCreateParcelState } from "../../store/modules/editableEntities/editableParcel";
 import logo from "./logo.png";
 import { clearHistoryState } from "../../store/modules/pages/history";
+import { IState } from "../../store/modules";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 
 const { Header } = Layout;
 
-export const AppHeader = React.memo(() => {
+export const AppHeader = React.memo(({ isMobile }: { isMobile: boolean }) => {
   const desktopItems: ItemType[] = [];
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const { Title } = Typography;
+  const showBackButton = useSelector(
+    (state: IState) => state.settings.generalSettings?.showBackButton,
+  );
+  const back = () => {
+    navigate(-1);
+  };
+  const appHeaderTitle = useSelector(
+    (state: IState) => state.settings.generalSettings?.appHeaderTitle,
+  );
   const parcelsLabel = checkPermission("parcel-view-in-work")
     ? "Накладные"
     : "Мои Накладные";
@@ -117,52 +127,64 @@ export const AppHeader = React.memo(() => {
     },
   });
 
-  const mobileItems: ItemType[] = [
-    {
-      key: "parcelsApp",
-      label: "Накладные",
-      onClick: () => {
-        navigate("/parcels");
-      },
-    },
-    {
-      key: "createParcel",
-      label: "Создать",
-      onClick: () => {
-        navigate("/parcels/create");
-      },
-    },
-    {
-      key: "templates",
-      label: "Шаблоны",
-      onClick: () => {
-        navigate("/templates");
-      },
-    },
-    {
-      key: "prices",
-      label: "Расчет тарифа",
-      onClick: () => {
-        navigate("/prices");
-      },
-    },
-    {
-      key: "documents",
-      label: "Документы",
-      onClick: () => {
-        navigate("/documents");
-      },
-    },
-    {
-      key: "auth",
-      label: "Аккаунт",
-      onClick: () => {
-        navigate("/auth");
-      },
-    },
-  ];
+  // const mobileItems: ItemType[] = [
+  //   {
+  //     key: "parcelsApp",
+  //     label: "Накладные",
+  //     onClick: () => {
+  //       navigate("/parcels");
+  //     },
+  //   },
+  //   {
+  //     key: "createParcel",
+  //     label: "Создать",
+  //     onClick: () => {
+  //       navigate("/parcels/create");
+  //     },
+  //   },
+  //   {
+  //     key: "templates",
+  //     label: "Шаблоны",
+  //     onClick: () => {
+  //       navigate("/templates");
+  //     },
+  //   },
+  //   {
+  //     key: "prices",
+  //     label: "Расчет тарифа",
+  //     onClick: () => {
+  //       navigate("/prices");
+  //     },
+  //   },
+  //   {
+  //     key: "documents",
+  //     label: "Документы",
+  //     onClick: () => {
+  //       navigate("/documents");
+  //     },
+  //   },
+  //   {
+  //     key: "auth",
+  //     label: "Аккаунт",
+  //     onClick: () => {
+  //       navigate("/auth");
+  //     },
+  //   },
+  // ];
 
-  return (
+  return isMobile ? (
+    <Header className={"header"} style={{ backgroundColor: "white" }}>
+      {showBackButton && (
+        <ArrowLeftOutlined
+          onClick={back}
+          style={{ margin: "auto 12px  auto -24px", fontSize: "24px" }}
+        />
+      )}
+      <Title level={3} style={{ margin: "auto 0" }}>
+        {appHeaderTitle}
+      </Title>
+    </Header>
+  ) : (
     <Header className={"header"} style={{ backgroundColor: "white" }}>
       <img className="header__logo" src={logo} />
       <Menu
@@ -170,7 +192,7 @@ export const AppHeader = React.memo(() => {
         theme="light"
         mode="horizontal"
         defaultSelectedKeys={["2"]}
-        items={isMobile() ? mobileItems : desktopItems}
+        items={desktopItems}
       />
     </Header>
   );

@@ -5,6 +5,7 @@ import { minPageHeight } from "../../utils/pageSettings";
 import "./api.less";
 import { ColumnsType } from "antd/es/table";
 import { CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
+import { isMobile } from "../../utils/isMobile";
 
 interface apiParam {
   name: string;
@@ -430,6 +431,7 @@ export const Api = () => {
     <>
       <Breadcrumb
         className="breadcrumb"
+        style={isMobile() && { backgroundColor: "#F8F8F8" }}
         items={[
           { title: "Главная" },
           {

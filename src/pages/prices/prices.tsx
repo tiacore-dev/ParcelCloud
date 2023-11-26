@@ -1,12 +1,4 @@
-import {
-  Breadcrumb,
-  Form,
-  Input,
-  InputNumber,
-  Layout,
-  Select,
-  Table,
-} from "antd";
+import { Breadcrumb, Form, InputNumber, Layout, Select, Table } from "antd";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "../../store/modules";
@@ -36,6 +28,10 @@ import { minPageHeight } from "../../utils/pageSettings";
 import "./prices.less";
 import { isMobile } from "../../utils/isMobile";
 import { getCities } from "../../store/modules/dictionaries/selectors/cities.selector";
+import {
+  setAppHeaderTitle,
+  setShowBackButton,
+} from "../../store/modules/settings/general";
 
 interface GetPricesDto {
   authToken: IauthToken;
@@ -106,7 +102,12 @@ export const Prices = () => {
     data.insureValue,
     handleCreate,
   );
+
   React.useEffect(() => {
+    if (isMobile()) {
+      dispatch(setShowBackButton(false));
+      dispatch(setAppHeaderTitle("Расчет тарифа"));
+    }
     dispatch(clearPricesState());
   }, []);
 
@@ -126,12 +127,13 @@ export const Prices = () => {
   return (
     <>
       <Breadcrumb
+        style={isMobile() && { backgroundColor: "#F8F8F8" }}
         className="breadcrumb"
         items={[{ title: "Главная" }, { title: "Расчет тарифа" }]}
       />
       <Content
         style={{
-          padding: 24,
+          padding: 16,
           margin: 0,
           minHeight: minPageHeight(),
           background: "#FFF",

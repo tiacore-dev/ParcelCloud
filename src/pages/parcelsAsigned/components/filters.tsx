@@ -10,6 +10,7 @@ import {
   setIParcelsAsignedFilterTaskType,
 } from "../../../store/modules/settings/parcelsAsigned";
 import { IState } from "../../../store/modules";
+import { isMobile } from "../../../utils/isMobile";
 
 export const Filters = () => {
   const dispatch = useDispatch();
@@ -27,22 +28,28 @@ export const Filters = () => {
   }, []);
 
   return (
-    <Space className="parcels-asigned_filters">
-      <Button
-        className="parcels-asigned_filters_button"
-        icon={<ReloadOutlined />}
-        onClick={() => getParcelsAsigned(dispatch, param)}
-      />
+    <Space
+      className="parcels-asigned_filters"
+      style={isMobile() && { padding: "12px 16px" }}
+      direction={isMobile() ? "vertical" : "horizontal"}
+    >
+      <Space>
+        <Button
+          className="parcels-asigned_filters_button"
+          icon={<ReloadOutlined />}
+          onClick={() => getParcelsAsigned(dispatch, param)}
+        />
 
-      <Input
-        className="parcels_filters_search"
-        placeholder="Фильтр по номеру"
-        value={filters.number}
-        onChange={(e) => {
-          numberChangeHandler(e.target.value);
-        }}
-        style={{ maxWidth: "200px" }}
-      />
+        <Input
+          className="parcels_filters_search"
+          placeholder="Фильтр по номеру"
+          value={filters.number}
+          onChange={(e) => {
+            numberChangeHandler(e.target.value);
+          }}
+          style={{ maxWidth: "200px" }}
+        />
+      </Space>
 
       <Radio.Group
         value={filters.taskType}

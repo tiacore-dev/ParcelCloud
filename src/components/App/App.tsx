@@ -50,6 +50,7 @@ import { clearParcelsInStorageSettingsState } from "../../store/modules/settings
 import { clearCreateManifestState } from "../../store/modules/editableEntities/editableManifest";
 import { CreateManifest } from "../../pages/createManifest/createManifest";
 import { Api } from "../../pages/info";
+import { isMobile } from "../../utils/isMobile";
 
 interface useloadSourseDto {
   authToken: IauthToken;
@@ -112,51 +113,55 @@ export const App = () => {
   if (!isAuth && location.pathname !== "/auth") {
     navigate("/auth");
   }
+  const mobile = isMobile();
+
+  const pageHeight = document.documentElement.scrollHeight - 134;
 
   return (
     <>
       <Layout>
-        {isAuth && <AppHeader />}
+        {isAuth && <AppHeader isMobile={mobile} />}
 
-        <Layout>
-          {/* {!mobile && <LeftMenu />} */}
-          <Layout
-            style={{
-              padding: "0 24px",
-            }}
-          >
-            <Routes>
-              <Route path="/">
-                <Route index={true} element={<Main />} />
-                <Route path="auth" element={<Auth />} />
-                <Route path="parcels">
-                  <Route index={true} element={<Parcels />} />
-                  <Route path="create" element={<CreateParcel />} />
-                  <Route path=":parcelId" element={<Parcel />} />
-                </Route>
-                <Route path="templates">
-                  <Route index={true} element={<Templates />} />
-                  <Route path=":templateId" element={<Template />} />
-                </Route>
-                <Route path="manifests">
-                  <Route index={true} element={<Manifests />} />
-                  <Route path="create" element={<CreateManifest />} />
-                  <Route path=":manifestId" element={<Manifest />} />
-                </Route>
-                <Route path="documents">
-                  <Route index={true} element={<Documents />} />
-                  <Route path=":documentId" element={<Document />} />
-                </Route>
-                <Route path="tasks" element={<ParcelsAsigned />} />
-                <Route path="storage" element={<ParcelsInStorage />} />
-                <Route path="history" element={<HistoryPage />} />
-                <Route path="prices" element={<Prices />} />
-                <Route path="api" element={<Api />} />
+        <Layout
+          style={{
+            padding: mobile ? "0" : "0 24px",
+            height: `${pageHeight}px`,
+            overflowX: "auto",
+            backgroundColor: "#FFFFFF",
+          }}
+        >
+          <Routes>
+            <Route path="/">
+              <Route index={true} element={<Main />} />
+              <Route path="auth" element={<Auth />} />
+              <Route path="parcels">
+                <Route index={true} element={<Parcels />} />
+                <Route path="create" element={<CreateParcel />} />
+                <Route path=":parcelId" element={<Parcel />} />
               </Route>
-            </Routes>
-          </Layout>
+              <Route path="templates">
+                <Route index={true} element={<Templates />} />
+                <Route path=":templateId" element={<Template />} />
+              </Route>
+              <Route path="manifests">
+                <Route index={true} element={<Manifests />} />
+                <Route path="create" element={<CreateManifest />} />
+                <Route path=":manifestId" element={<Manifest />} />
+              </Route>
+              <Route path="documents">
+                <Route index={true} element={<Documents />} />
+                <Route path=":documentId" element={<Document />} />
+              </Route>
+              <Route path="tasks" element={<ParcelsAsigned />} />
+              <Route path="storage" element={<ParcelsInStorage />} />
+              <Route path="history" element={<HistoryPage />} />
+              <Route path="prices" element={<Prices />} />
+              <Route path="api" element={<Api />} />
+            </Route>
+          </Routes>
         </Layout>
-        {isAuth && AppFooter}
+
+        {isAuth && <AppFooter />}
       </Layout>
     </>
   );
