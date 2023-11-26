@@ -96,6 +96,7 @@ const setParcelData = (
   state.fragile = parcelData.fragile;
   state.containerRent = parcelData.containerRent;
   state.items = parcelData.items;
+  state.sent = false;
 };
 
 const editableParcelSlice = createSlice({

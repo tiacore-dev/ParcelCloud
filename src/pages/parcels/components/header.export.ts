@@ -8,6 +8,7 @@ export const exportHeaderParcels = [
   { label: "Город получателя", key: "recCity" },
   { label: "Компания получателя", key: "recCompany" },
   { label: "Адрес получателя", key: "recAddress" },
+  { label: "Доп.инфо получателя", key: "recAddInfo" },
   { label: "Количество мест", key: "qt" },
   { label: "Фактический вес", key: "weight" },
   { label: "Объемный вес", key: "volume" },

@@ -49,6 +49,17 @@ export const ManifestActions = (props: IManifestActionsProps) => {
     deleteManifest(dispatch, navigate, sentManifestParams, onError);
   };
 
+  const downloadingData = React.useMemo(
+    () =>
+      manifestData.parcels.map((el) => ({
+        ...el,
+        weight: el.weight.toLocaleString("ru"),
+        volume: el.volume.toLocaleString("ru"),
+        date: dayjs(el.date).format(dateFormat),
+      })),
+    [manifestData],
+  );
+
   return (
     <div className="manifest__actions">
       {manifestData.type === "outgoing" && !manifestData.sent && (
@@ -72,10 +83,7 @@ export const ManifestActions = (props: IManifestActionsProps) => {
 
       <DownloadButton
         className=""
-        data={manifestData.parcels.map((parcel) => ({
-          ...parcel,
-          date: dayjs(parcel.date).format(dateFormat),
-        }))}
+        data={downloadingData}
         headers={exportHeaderManifestParcels}
         filename={`Манифест ${manifestData.number} СВС-Логистик`}
       />

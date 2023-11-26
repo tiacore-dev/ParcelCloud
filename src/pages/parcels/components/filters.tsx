@@ -11,7 +11,7 @@ import {
   setParcelsFiltersStatuses,
 } from "../../../store/modules/settings/parcels";
 import dayjs from "dayjs";
-import { dateFormat } from "../../../utils/dateConverter";
+import { dateFormat, dateTimeFormat } from "../../../utils/dateConverter";
 import Search from "antd/es/input/Search";
 import { isMobile } from "../../../utils/isMobile";
 import { getCities } from "../../../store/modules/dictionaries/selectors/cities.selector";
@@ -80,6 +80,21 @@ export const Filters = (props: IFiltersProps) => {
     [cities],
   );
 
+  const downloadingData = React.useMemo(
+    () =>
+      parcelsData.map((el) => ({
+        ...el,
+        weight: el.weight.toLocaleString("ru"),
+        volume: el.volume.toLocaleString("ru"),
+        date: dayjs(el.date).format(dateFormat),
+        statusDate:
+          el.statusDate === "0001-01-01T00:00:00"
+            ? ""
+            : dayjs(el.statusDate).format(dateTimeFormat),
+      })),
+    [parcelsData],
+  );
+
   return (
     <div className="parcels_filters">
       <Space direction="horizontal">
@@ -145,7 +160,7 @@ export const Filters = (props: IFiltersProps) => {
         />
       </Space>
       <DownloadButton
-        data={parcelsData}
+        data={downloadingData}
         headers={exportHeaderParcels}
         filename="Накладные СВС-Логистик.csv"
       />

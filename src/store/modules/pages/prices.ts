@@ -24,6 +24,7 @@ export interface IPricesState {
   qt: number;
   tMin: number;
   tMax: number;
+  insureValue: number;
   items: IParcelItem[];
   prices: IPrice[];
   temperatureModify: number;
@@ -41,6 +42,7 @@ const initialState: IPricesState = {
   qt: 1,
   tMin: 0,
   tMax: 0,
+  insureValue: 0,
   items: [initialItem],
   prices: [],
   temperatureModify: 0,
@@ -63,6 +65,9 @@ const pricesSlice = createSlice({
     },
     settMin: (state: IPricesState, action: { payload: number }) => {
       state.tMin = action.payload;
+    },
+    setInsureValue: (state: IPricesState, action: { payload: number }) => {
+      state.insureValue = action.payload;
     },
     addItem: (state: IPricesState) => {
       state.items = [...state.items, { ...initialItem } as IParcelItem];
@@ -213,6 +218,7 @@ const pricesSlice = createSlice({
       state.weight = 1;
       state.volume = 0.2;
       state.qt = 1;
+      state.insureValue = 0;
       state.tMax = 0;
       state.tMin = 0;
       (state.items = [initialItem]), (state.prices = []);

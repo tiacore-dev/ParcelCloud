@@ -1,4 +1,12 @@
-import { Breadcrumb, Form, InputNumber, Layout, Select, Table } from "antd";
+import {
+  Breadcrumb,
+  Form,
+  Input,
+  InputNumber,
+  Layout,
+  Select,
+  Table,
+} from "antd";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "../../store/modules";
@@ -69,6 +77,8 @@ export const Prices = () => {
     dispatch(editParcelAction.setDelType(delType));
     dispatch(editParcelAction.setItems(data.items));
 
+    dispatch(editParcelAction.setInsureValue(data.insureValue));
+
     navigate("/parcels/create");
   };
 
@@ -93,6 +103,7 @@ export const Prices = () => {
     useTemperatureModify ? temperatureModify : 0,
     data.vatExtra,
     data.bonusModify,
+    data.insureValue,
     handleCreate,
   );
   React.useEffect(() => {
@@ -170,6 +181,13 @@ export const Prices = () => {
               optionFilterProp="children"
               onChange={onTemperatureSelect}
               options={temperatureSelectOptions}
+            />
+          </Form.Item>
+          <Form.Item label="Страховая стоимость" className="prices__form_item">
+            <InputNumber
+              style={{ width: "100%" }}
+              value={data.insureValue}
+              onChange={(value) => dispatch(editPrices.setInsureValue(value))}
             />
           </Form.Item>
         </Form>

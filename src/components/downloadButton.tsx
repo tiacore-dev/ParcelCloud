@@ -21,7 +21,7 @@ export const DownloadButton = ({
     className={className}
     icon={<FileExcelTwoTone twoToneColor="#ff1616" />}
   >
-    <CSVLink data={data} headers={headers} filename={filename}>
+    <CSVLink data={data} headers={headers} filename={filename} separator=";">
       Скачать
     </CSVLink>
   </Button>

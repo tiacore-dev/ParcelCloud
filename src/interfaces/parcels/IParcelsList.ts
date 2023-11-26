@@ -11,6 +11,7 @@ export interface IParcelsList {
   sendCity: string;
   sendAddress: string;
   sendCompany: string;
+  recAddInfo?: string;
   qt: number;
   weight: number;
   volume: number;
