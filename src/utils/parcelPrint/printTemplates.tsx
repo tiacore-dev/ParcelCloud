@@ -4,6 +4,7 @@ import "./parcelPrint.less";
 import logo from "./static/logo.png";
 import QRCode from "qrcode.react";
 import Barcode from "react-barcode";
+import { dateToLocalString, timeToLocalString } from "../dateConverter";
 
 interface IParcelPrintProps {
   data: IParcel;
@@ -23,6 +24,9 @@ export const ParcelPrint = React.forwardRef(
       temperature = "Отсутствует";
     }
 
+    const pod = data.status
+      ? data.history.find((el) => el.type === "Доставлено")
+      : undefined;
     const table = (
       <table className="parceltable">
         <tr>
@@ -247,10 +251,14 @@ export const ParcelPrint = React.forwardRef(
           {!data.description && <td className="parceltd"></td>}
           {/* <%}%> */}
           <td className="parceltd" colSpan={2}>
-            Дата _____._____ 20_____г.
+            {pod
+              ? `Дата: ${dateToLocalString(pod.date)}`
+              : "Дата _____._____ 20_____г."}
           </td>
           <td className="parceltd" colSpan={2}>
-            Время _______:_______
+            {pod
+              ? `Время: ${timeToLocalString(pod.date)}`
+              : " Время _______:_______"}
           </td>
         </tr>
         <tr>
@@ -266,7 +274,7 @@ export const ParcelPrint = React.forwardRef(
             rowSpan={2}
             style={{ verticalAlign: "top" }}
           >
-            ФИО Получателя
+            {`ФИО Получателя ${pod ? `: ${pod.comment}` : ""}`}
           </td>
         </tr>
         <tr>
