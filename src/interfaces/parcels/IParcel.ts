@@ -34,6 +34,7 @@ export interface IParcelHistory {
 export interface IParcel {
   id: string;
   date: number;
+  planDate: string | undefined;
   number: string;
   customer: string;
   payer?: string;

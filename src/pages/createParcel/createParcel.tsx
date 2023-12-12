@@ -718,7 +718,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
           {!!data.cost && (
             <Form.Item label="Стоимость доставвки">{data.cost} руб.</Form.Item>
           )}
-          {!!data.cost && data.insureValue && (
+          {!!data.cost && !!data.insureValue && (
             <Form.Item label="Стоимость страховки">
               {data.insureValue * 0.03} руб.
             </Form.Item>

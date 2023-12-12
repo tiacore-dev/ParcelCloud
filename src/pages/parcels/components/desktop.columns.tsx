@@ -113,7 +113,7 @@ export const parcelsDesktopColumns = (
     {
       title: "Грузы",
       key: "items",
-      width: "16%",
+      width: "12%",
       render: (text: string, record: IParcelsListColumn) => (
         <>
           <div>Мест: {record.qt}</div>
@@ -125,12 +125,24 @@ export const parcelsDesktopColumns = (
     {
       title: "Статус",
       key: "status",
-      width: "16%",
+      width: "17%",
       render: (text: string, record: IParcelsListColumn) => (
         <>
           <div>{record.statusType}</div>
           <div>{record.statusValue}</div>
           <div>{dateToLocalString(record.statusDate)}</div>
+        </>
+      ),
+    },
+    {
+      title: "Расчётная дата доставки",
+      key: "status",
+      width: "17%",
+      render: (text: string, record: IParcelsListColumn) => (
+        <>
+          {record.status !== "delivered" && record.planDate && (
+            <div>{dateToLocalString(record.planDate)}</div>
+          )}
         </>
       ),
     },

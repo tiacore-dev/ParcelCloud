@@ -3,6 +3,7 @@ import { ParcelStatus } from "./IParcel";
 export interface IParcelsList {
   id: string;
   date: string;
+  planDate: string | undefined;
   customer: string;
   number: string;
   recCity: string;

@@ -27,6 +27,7 @@ export const ParcelPrint = React.forwardRef(
     const pod = data.status
       ? data.history.find((el) => el.type === "Доставлено")
       : undefined;
+
     const table = (
       <table className="parceltable">
         <tr>

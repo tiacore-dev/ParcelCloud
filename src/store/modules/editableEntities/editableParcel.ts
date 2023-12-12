@@ -24,6 +24,7 @@ const initialState: IEditableParcelState = {
   sent: false,
   id: undefined,
   number: "",
+  planDate: "",
   customer: "",
   payer: undefined,
   sendCity: "",

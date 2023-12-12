@@ -14,6 +14,7 @@ import { DeliveryParcelDialog } from "../../../hooks/ActionDialogs/DeliveryParce
 import { authToken, checkPermission } from "../../../hooks/useAuth";
 import { EditParcelDialog } from "../../../hooks/ActionDialogs/EditParcelDialog";
 import { CopyParcelDialog } from "../../../hooks/ActionDialogs";
+import { PrintStampModal } from "./printStampModal";
 
 interface IParcelActionsProps {
   parcelData: IParcel;
@@ -32,6 +33,7 @@ export const ParcelActions = (props: IParcelActionsProps) => {
 
   const parcelEditReceived = checkPermission("parcel-edit-received");
   const podCreateAll = checkPermission("pod-create-all");
+  const canPrintStamps = checkPermission("print-stamps");
 
   const canDelivery: boolean =
     (parcelData.toDelivery && podCreateMy) ||
@@ -113,6 +115,7 @@ export const ParcelActions = (props: IParcelActionsProps) => {
       <CopyParcelDialog parcel={parcelData} iconOnly />
 
       {parcelData && <PrintModal data={parcelData} />}
+      {parcelData && canPrintStamps && <PrintStampModal data={parcelData} />}
 
       {contextHolder}
     </div>

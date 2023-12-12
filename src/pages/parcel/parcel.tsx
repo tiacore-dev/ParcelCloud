@@ -32,6 +32,7 @@ import {
   setAppHeaderTitle,
   setShowBackButton,
 } from "../../store/modules/settings/general";
+import { dateToLocalString } from "../../utils/dateConverter";
 
 export interface IConvertedParcelItem {
   key: number;
@@ -252,6 +253,12 @@ export const Parcel = () => {
             {!!parcelData.description && (
               <p>Описание вложения: {parcelData.description}</p>
             )}
+            {parcelData.status !== "delivered" && parcelData.planDate && (
+              <div>
+                Расчётная дата доставки:{" "}
+                {dateToLocalString(parcelData.planDate)}
+              </div>
+            )}
           </Card>
           {!!parcelData.items?.length && (
             <>
@@ -286,7 +293,7 @@ export const Parcel = () => {
             <p>Тип оплаты: {parcelData.payType}</p>
           </Card>
 
-          {parcelData.history?.length && (
+          {!!parcelData.history?.length && (
             <History historyData={parcelData.history} bordered />
           )}
         </Content>
