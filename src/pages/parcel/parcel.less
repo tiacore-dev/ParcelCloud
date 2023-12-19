@@ -2,7 +2,7 @@
 
     &__title{
         display: flex;
-        flex-direction: row;
+        gap: 12px;
         margin: 12px 0;
         position: relative;
         min-height: 32px;
@@ -13,8 +13,8 @@
         font-weight: 600;
     }
     &__task {
-
-        margin: auto 20px;
+        display: flex;
+        margin: auto 0;
 
         &__delivery {
         
@@ -42,14 +42,13 @@
             color: rgb(115, 28, 28);
             background-color: lightpink;
             border: rgb(115, 28, 28);
-            position: relative;
+            width: fit-content;
             border-radius: 5px;
-            margin-left: 8px;
             padding: 5px 15px 7px 15px;
         }
     }
     &__actions {
-        position: absolute; 
+        
         right:0px;
         display: flex;
         flex-direction: row;

@@ -158,13 +158,16 @@ export const Parcel = () => {
       {isLoaded && parcelData && routeParams.parcelId === parcelData.id ? (
         <Content
           style={{
-            padding: "0 24px",
+            padding: "0 24px 12px 24px",
             margin: 0,
-            minHeight: minPageHeight(),
+            // minHeight: minPageHeight(),
             background: "#FFF",
           }}
         >
-          <div className="parcel__title">
+          <div
+            className="parcel__title"
+            style={{ flexDirection: isMobile() ? "column" : "row" }}
+          >
             {!isMobile() && (
               <div className="parcel__number">{`${parcelData.number}`}</div>
             )}

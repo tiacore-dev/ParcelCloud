@@ -8,13 +8,15 @@ import {
   acceptReceiveTask,
   setGeneralParcelStatus,
 } from "../../../hooks/ApiActions/parcel";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ReceiveParcelDialog } from "../../../hooks/ActionDialogs/ReceiveParcelDialog";
 import { DeliveryParcelDialog } from "../../../hooks/ActionDialogs/DeliveryParcelDialog";
 import { authToken, checkPermission } from "../../../hooks/useAuth";
 import { EditParcelDialog } from "../../../hooks/ActionDialogs/EditParcelDialog";
 import { CopyParcelDialog } from "../../../hooks/ActionDialogs";
 import { PrintStampModal } from "./printStampModal";
+import { isMobile } from "../../../utils/isMobile";
+import { getCustomers } from "../../../store/modules/auth";
 
 interface IParcelActionsProps {
   parcelData: IParcel;
@@ -48,6 +50,11 @@ export const ParcelActions = (props: IParcelActionsProps) => {
 
   const canEditItems: boolean =
     parcelData.status === "general" && parcelEditReceived;
+  const customers = useSelector(getCustomers);
+
+  const canCopy: boolean = customers.some(
+    (c) => c.name === parcelData.customer,
+  );
 
   const dispatch = useDispatch();
   const onAcceptReceiveTask = async () => {
@@ -77,7 +84,10 @@ export const ParcelActions = (props: IParcelActionsProps) => {
   };
 
   return (
-    <div className="parcel__actions">
+    <div
+      className="parcel__actions"
+      style={{ position: isMobile() ? "relative" : "absolute" }}
+    >
       {parcelData.toReceiveСonfirmed === false && (
         <Button
           type="primary"
@@ -112,7 +122,7 @@ export const ParcelActions = (props: IParcelActionsProps) => {
         />
       )}
 
-      <CopyParcelDialog parcel={parcelData} iconOnly />
+      {canCopy && <CopyParcelDialog parcel={parcelData} iconOnly />}
 
       {parcelData && <PrintModal data={parcelData} />}
       {parcelData && canPrintStamps && <PrintStampModal data={parcelData} />}
