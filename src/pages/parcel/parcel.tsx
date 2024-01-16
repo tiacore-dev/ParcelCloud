@@ -262,6 +262,9 @@ export const Parcel = () => {
                 {dateToLocalString(parcelData.planDate)}
               </div>
             )}
+            {parcelData.orderNumber && (
+              <div>Номер заказа: {parcelData.orderNumber}</div>
+            )}
           </Card>
           {!!parcelData.items?.length && (
             <>

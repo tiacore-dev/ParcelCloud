@@ -24,6 +24,7 @@ const initialState: IEditableParcelState = {
   sent: false,
   id: undefined,
   number: "",
+  orderNumber: "",
   planDate: "",
   customer: "",
   payer: undefined,
@@ -66,6 +67,7 @@ const setParcelData = (
   state.id = parcelData.id;
   state.date = parcelData.date;
   state.number = parcelData.number;
+  state.orderNumber = parcelData.orderNumber;
   state.customer = parcelData.customer;
   state.payer = undefined;
   state.sendCity = parcelData.sendCity;
@@ -124,6 +126,13 @@ const editableParcelSlice = createSlice({
 
     setNumber: (state: IEditableParcelState, action: { payload: string }) => {
       state.number = action.payload;
+    },
+
+    setOrderNumber: (
+      state: IEditableParcelState,
+      action: { payload: string },
+    ) => {
+      state.orderNumber = action.payload;
     },
 
     setSendCity: (state: IEditableParcelState, action: { payload: string }) => {

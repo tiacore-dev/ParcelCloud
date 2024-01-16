@@ -18,6 +18,10 @@ import {
 import { ManifestActions } from "./components/actions";
 import "./manifest.less";
 import { manifestParcelsDesktopColumns } from "./components/desktop.columns";
+import {
+  setAppHeaderTitle,
+  setShowBackButton,
+} from "../../store/modules/settings/general";
 
 export const Manifest = () => {
   const { Content } = Layout;
@@ -38,6 +42,18 @@ export const Manifest = () => {
   React.useEffect(() => {
     getManifest(dispatch, params);
   }, []);
+
+  const title = React.useMemo(
+    () => (manifestData ? "Манифест " + manifestData.number : "Манифест"),
+    [manifestData],
+  );
+
+  React.useEffect(() => {
+    if (isMobile()) {
+      dispatch(setShowBackButton(true));
+      dispatch(setAppHeaderTitle(title));
+    }
+  }, [title]);
 
   const isLoaded = useSelector((state: IState) => state.pages.manifest.loaded);
   const isLoading = useSelector(
@@ -119,12 +135,17 @@ export const Manifest = () => {
             background: "#FFF",
           }}
         >
-          <div className="manifest__title">
-            <div className="manifest__number">{`Манифест ${manifestData.number} 
+          {!isMobile() && (
+            <div className="manifest__title">
+              (
+              <div className="manifest__number">{`Манифест ${
+                manifestData.number
+              } 
             от ${dateToLocalString(manifestData.date)} `}</div>
-
-            <ManifestActions manifestData={manifestData} />
-          </div>
+              )
+              <ManifestActions manifestData={manifestData} />
+            </div>
+          )}
 
           <Card
             title="Перевозка:"

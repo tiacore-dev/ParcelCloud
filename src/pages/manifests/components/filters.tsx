@@ -51,49 +51,81 @@ export const Filters = (props: IFiltersProps) => {
     await dispatch(setManifestsFiltersNumber(number));
   };
 
-  return (
-    <Space
-      direction={isMobile() ? "vertical" : "horizontal"}
-      className="manifests_filters"
+  const createManifestButton = (
+    <Button
+      icon={<PlusCircleTwoTone twoToneColor="#ff1616" />}
+      onClick={() => {
+        dispatch(clearCreateManifestState());
+        navigate("/manifests/create");
+      }}
+      type="primary"
     >
-      <Space direction="horizontal">
-        <Button
-          icon={<PlusCircleTwoTone twoToneColor="#ff1616" />}
-          onClick={() => {
-            dispatch(clearCreateManifestState());
-            navigate("/manifests/create");
-          }}
-          type="primary"
-        >
-          Создать
-        </Button>
-        <Button icon={<ReloadOutlined />} onClick={() => onChange(param)} />
-        <Radio.Group
-          value={filters.manifestType}
-          buttonStyle="solid"
-          onChange={(e) => {
-            dispatch(setManifestsFiltersType(e.target.value));
-          }}
-        >
-          <Radio.Button value="incoming">Входящие</Radio.Button>
-          <Radio.Button value="outgoing">Исходящие</Radio.Button>
-          <Radio.Button value="all">Все</Radio.Button>
-        </Radio.Group>
-        <DatePicker
-          value={dayjs(filters.dateFrom)}
-          placeholder="Дата начала"
-          onChange={dateFromChangeHandler}
-          format={dateFormat}
-        />
-        <DatePicker
-          value={dayjs(filters.dateTo)}
-          placeholder="Дата окончания"
-          onChange={dateToChangeHandler}
-          format={dateFormat}
-        />
-      </Space>
+      Создать
+    </Button>
+  );
 
-      <Search placeholder="Поиск по номеру" onSearch={numberChangeHandler} />
+  const reloadButton = (
+    <Button icon={<ReloadOutlined />} onClick={() => onChange(param)} />
+  );
+
+  const manifestTypeFilter = (
+    <Radio.Group
+      value={filters.manifestType}
+      buttonStyle="solid"
+      onChange={(e) => {
+        dispatch(setManifestsFiltersType(e.target.value));
+      }}
+    >
+      <Radio.Button value="incoming">Входящие</Radio.Button>
+      <Radio.Button value="outgoing">Исходящие</Radio.Button>
+      <Radio.Button value="all">Все</Radio.Button>
+    </Radio.Group>
+  );
+
+  const dateFromPicker = (
+    <DatePicker
+      value={dayjs(filters.dateFrom)}
+      placeholder="Дата начала"
+      onChange={dateFromChangeHandler}
+      format={dateFormat}
+    />
+  );
+
+  const dateToPicker = (
+    <DatePicker
+      value={dayjs(filters.dateTo)}
+      placeholder="Дата окончания"
+      onChange={dateToChangeHandler}
+      format={dateFormat}
+    />
+  );
+
+  const searchByNumber = (
+    <Search placeholder="Поиск по номеру" onSearch={numberChangeHandler} />
+  );
+  return isMobile() ? (
+    <Space direction="vertical" style={{ padding: "12px 16px" }}>
+      <Space direction="horizontal">
+        {createManifestButton}
+        {reloadButton}
+      </Space>
+      {manifestTypeFilter}
+      <Space direction="horizontal">
+        {dateFromPicker}
+        {dateToPicker}
+      </Space>
+      {searchByNumber}
+    </Space>
+  ) : (
+    <Space direction="horizontal" className="manifests_filters">
+      <Space direction="horizontal">
+        {createManifestButton}
+        {reloadButton}
+        {manifestTypeFilter}
+        {dateFromPicker}
+        {dateToPicker}
+      </Space>
+      {searchByNumber}
     </Space>
   );
 };

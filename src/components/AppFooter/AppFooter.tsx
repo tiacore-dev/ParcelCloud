@@ -2,6 +2,7 @@ import * as React from "react";
 import { Flex, Layout, Space } from "antd";
 import { isMobile } from "../../utils/isMobile";
 import {
+  AppstoreOutlined,
   CalculatorOutlined,
   IdcardOutlined,
   MailOutlined,
@@ -40,6 +41,24 @@ export const AppFooter = () => {
       >
         <UnorderedListOutlined style={{ fontSize: "20px" }} />
         <div style={{ fontSize: "12px" }}>Задачи</div>
+      </Space>,
+    );
+  }
+  if (
+    checkPermission("manifest-incoming-view") ||
+    checkPermission("manifest-outgoing-view")
+  ) {
+    items.push(
+      <Space
+        size="small"
+        direction="vertical"
+        style={{ textAlign: "center" }}
+        onClick={() => {
+          navigate("/manifests");
+        }}
+      >
+        <AppstoreOutlined style={{ fontSize: "20px" }} />
+        <div style={{ fontSize: "12px" }}>Манифесты</div>
       </Space>,
     );
   }

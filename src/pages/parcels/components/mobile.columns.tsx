@@ -84,8 +84,12 @@ export const parcelsMobileColumns = (
                 onClick={() => navigate && navigate(`/parcels/${record.key}`)}
               >
                 {record.number}
-              </a>{" "}
+              </a>
+              {" от "}
               {dateToLocalString(record.date)}
+              {record.orderNumber && (
+                <div>{`Номер заказа: ${record.orderNumber}`}</div>
+              )}
             </div>
             <div>
               Отправитель: {record.sendCity}, {record.sendAddress},{" "}

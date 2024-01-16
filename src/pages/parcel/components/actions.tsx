@@ -8,7 +8,7 @@ import {
   acceptReceiveTask,
   setGeneralParcelStatus,
 } from "../../../hooks/ApiActions/parcel";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { ReceiveParcelDialog } from "../../../hooks/ActionDialogs/ReceiveParcelDialog";
 import { DeliveryParcelDialog } from "../../../hooks/ActionDialogs/DeliveryParcelDialog";
 import { authToken, checkPermission } from "../../../hooks/useAuth";
@@ -16,7 +16,6 @@ import { EditParcelDialog } from "../../../hooks/ActionDialogs/EditParcelDialog"
 import { CopyParcelDialog } from "../../../hooks/ActionDialogs";
 import { PrintStampModal } from "./printStampModal";
 import { isMobile } from "../../../utils/isMobile";
-import { getCustomers } from "../../../store/modules/auth";
 
 interface IParcelActionsProps {
   parcelData: IParcel;
@@ -35,7 +34,6 @@ export const ParcelActions = (props: IParcelActionsProps) => {
 
   const parcelEditReceived = checkPermission("parcel-edit-received");
   const podCreateAll = checkPermission("pod-create-all");
-  const canPrintStamps = checkPermission("print-stamps");
 
   const canDelivery: boolean =
     (parcelData.toDelivery && podCreateMy) ||
@@ -50,11 +48,6 @@ export const ParcelActions = (props: IParcelActionsProps) => {
 
   const canEditItems: boolean =
     parcelData.status === "general" && parcelEditReceived;
-  const customers = useSelector(getCustomers);
-
-  const canCopy: boolean = customers.some(
-    (c) => c.name === parcelData.customer,
-  );
 
   const dispatch = useDispatch();
   const onAcceptReceiveTask = async () => {
@@ -83,49 +76,53 @@ export const ParcelActions = (props: IParcelActionsProps) => {
     setGeneralParcelStatus(dispatch, receiveParcelParams);
   };
 
+  const toReceiveСonfirmedButton = parcelData.toReceiveСonfirmed === false && (
+    <Button
+      type="primary"
+      className="parcel__actions__button"
+      icon={<PlusCircleTwoTone twoToneColor="#ff1616" />}
+      onClick={onAcceptReceiveTask}
+    >
+      Принять в работу
+    </Button>
+  );
+
+  const receiveParcelDialog = canReceive && (
+    <ReceiveParcelDialog
+      onReceive={receiveParcel}
+      parcelId={parcelData.id}
+      parcelNumber={parcelData.number}
+    />
+  );
+
+  const deliveryParcelDialog = canDelivery && (
+    <DeliveryParcelDialog
+      parcelId={parcelData.id}
+      parcelNumber={parcelData.number}
+    />
+  );
+
+  const copyParcelDialog = <CopyParcelDialog parcel={parcelData} iconOnly />;
+
+  const editParcelDialog = (canEdit || canEditItems) && (
+    <EditParcelDialog parcel={parcelData} editItemsOnly={!canEdit} iconOnly />
+  );
+
+  const printModal = parcelData && <PrintModal data={parcelData} />;
+  const printStampModal = parcelData && <PrintStampModal data={parcelData} />;
+
   return (
     <div
       className="parcel__actions"
       style={{ position: isMobile() ? "relative" : "absolute" }}
     >
-      {parcelData.toReceiveСonfirmed === false && (
-        <Button
-          type="primary"
-          className="parcel__actions__button"
-          icon={<PlusCircleTwoTone twoToneColor="#ff1616" />}
-          onClick={onAcceptReceiveTask}
-        >
-          Принять в работу
-        </Button>
-      )}
-
-      {canReceive && (
-        <ReceiveParcelDialog
-          onReceive={receiveParcel}
-          parcelId={parcelData.id}
-          parcelNumber={parcelData.number}
-        />
-      )}
-
-      {canDelivery && (
-        <DeliveryParcelDialog
-          parcelId={parcelData.id}
-          parcelNumber={parcelData.number}
-        />
-      )}
-
-      {(canEdit || canEditItems) && (
-        <EditParcelDialog
-          parcel={parcelData}
-          editItemsOnly={!canEdit}
-          iconOnly
-        />
-      )}
-
-      {canCopy && <CopyParcelDialog parcel={parcelData} iconOnly />}
-
-      {parcelData && <PrintModal data={parcelData} />}
-      {parcelData && canPrintStamps && <PrintStampModal data={parcelData} />}
+      {toReceiveСonfirmedButton}
+      {receiveParcelDialog}
+      {deliveryParcelDialog}
+      {editParcelDialog}
+      {copyParcelDialog}
+      {printModal}
+      {printStampModal}
 
       {contextHolder}
     </div>

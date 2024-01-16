@@ -6,6 +6,7 @@ export interface IParcelsList {
   planDate: string | undefined;
   customer: string;
   number: string;
+  orderNumber?: string;
   recCity: string;
   recAddress: string;
   recCompany: string;

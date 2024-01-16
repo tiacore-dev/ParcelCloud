@@ -78,6 +78,9 @@ export const parcelsDesktopColumns = (
               {record.number}
             </a>{" "}
             от {dateToLocalString(record.date)}
+            {record.orderNumber && (
+              <div>{`Номер заказа: ${record.orderNumber}`}</div>
+            )}
           </div>
         </>
       ),

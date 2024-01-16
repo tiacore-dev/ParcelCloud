@@ -12,6 +12,10 @@ import { minPageHeight } from "../../utils/pageSettings";
 import { GetManifestsDto, getManifests } from "../../hooks/ApiActions/manifest";
 import { useNavigate } from "react-router-dom";
 import { IManifestList } from "../../interfaces/manifests/IManifestList";
+import {
+  setAppHeaderTitle,
+  setShowBackButton,
+} from "../../store/modules/settings/general";
 
 export const Manifests = () => {
   const { Content } = Layout;
@@ -48,6 +52,13 @@ export const Manifests = () => {
   React.useEffect(() => {
     getManifests(dispatch, param);
   }, [filters.dateFrom, filters.dateTo]);
+
+  React.useEffect(() => {
+    if (isMobile()) {
+      dispatch(setShowBackButton(false));
+      dispatch(setAppHeaderTitle("Манифесты"));
+    }
+  }, []);
 
   return (
     <>

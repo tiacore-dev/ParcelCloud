@@ -624,6 +624,15 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                 />
               </Form.Item>
 
+              {/* <Form.Item label="Номер заказа">
+                <Input
+                  value={data.orderNumber}
+                  onChange={(e) =>
+                    dispatch(editParcelAction.setOrderNumber(e.target.value))
+                  }
+                />
+              </Form.Item> */}
+
               <Form.Item label="Время приезда курьера">
                 <Input
                   value={data.sendTime}

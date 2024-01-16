@@ -36,6 +36,7 @@ export interface IParcel {
   date: number;
   planDate: string | undefined;
   number: string;
+  orderNumber?: string;
   customer: string;
   payer?: string;
   sendCity: string;

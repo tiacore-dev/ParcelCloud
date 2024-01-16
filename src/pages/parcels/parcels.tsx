@@ -38,11 +38,6 @@ export const Parcels = () => {
     checkPermission("parcel-view-assigned");
 
   React.useEffect(() => {
-    if (isMobile()) {
-      dispatch(setShowBackButton(false));
-      dispatch(setAppHeaderTitle("Накладные"));
-    }
-
     getParcels(dispatch, param);
   }, [
     filters.dateFrom,
@@ -51,6 +46,13 @@ export const Parcels = () => {
     filters.recCities,
     filters.sendCities,
   ]);
+
+  React.useEffect(() => {
+    if (isMobile()) {
+      dispatch(setShowBackButton(false));
+      dispatch(setAppHeaderTitle("Накладные"));
+    }
+  }, []);
 
   const data = React.useMemo(
     () =>
