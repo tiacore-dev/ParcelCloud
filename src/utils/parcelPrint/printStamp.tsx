@@ -38,7 +38,7 @@ export const ParcelStampPrint = React.forwardRef(
                 value={data.number}
                 format="CODE39"
                 width={1}
-                height={30}
+                height={40}
               />
             </div>
           </td>

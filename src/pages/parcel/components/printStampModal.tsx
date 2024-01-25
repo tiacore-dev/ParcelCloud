@@ -36,7 +36,7 @@ export const PrintStampModal = (props: IPrintModalProps) => {
       <Modal
         open={open}
         title={data.number}
-        width={"210mm"}
+        width={"1000px"}
         onOk={handlePrint}
         onCancel={handleClose}
         footer={[

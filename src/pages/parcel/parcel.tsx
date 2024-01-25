@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Alert, Breadcrumb, Card, Layout, Spin, Table } from "antd";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { IParcelItem } from "../../interfaces/parcels/IParcel";
 import { authToken } from "../../hooks/useAuth";
@@ -54,7 +54,7 @@ export const Parcel = () => {
   const routeParams = useParams();
 
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const token = authToken();
   const params: GetParcelDto = {
     authToken: token,
@@ -150,7 +150,10 @@ export const Parcel = () => {
           { title: "Главная" },
           {
             title: "Накладные",
-            // <Link to="/parcels">Накладные</Link>
+            onClick: () => {
+              navigate(`/parcels`);
+            },
+            className: "breadcrumb_item",
           },
           { title: parcelData?.number },
         ]}
