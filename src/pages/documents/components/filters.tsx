@@ -39,12 +39,14 @@ export const Filters = () => {
         placeholder="Дата начала"
         onChange={dateFromChangeHandler}
         format={dateFormat}
+        onFocus={(e) => e.target.blur()}
       />
       <DatePicker
         value={dayjs(filters.dateTo)}
         placeholder="Дата окончания"
         onChange={dateToChangeHandler}
         format={dateFormat}
+        onFocus={(e) => e.target.blur()}
       />
       <Search placeholder="Поиск по номеру" onSearch={numberChangeHandler} />
     </Space>

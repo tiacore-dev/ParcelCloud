@@ -79,6 +79,7 @@ export const DeliveryParcelDialog = (props: IReceiveParcelDialogProps) => {
           <DatePicker
             value={dayjs(recDate)}
             onChange={(date) => setRecDate(date.valueOf())}
+            onFocus={(e) => e.target.blur()}
           />
           <div> Укажите время доставки:</div>
           <TimePicker

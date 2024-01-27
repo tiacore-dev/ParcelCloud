@@ -621,6 +621,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     dispatch(editParcelAction.setDate(value.valueOf()))
                   }
                   format={dateFormat}
+                  onFocus={(e) => e.target.blur()}
                 />
               </Form.Item>
 

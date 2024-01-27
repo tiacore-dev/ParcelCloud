@@ -119,6 +119,7 @@ export const Filters = (props: IFiltersProps) => {
       placeholder="Дата начала"
       onChange={dateFromChangeHandler}
       format={dateFormat}
+      onFocus={(e) => e.target.blur()}
     />
   );
 
@@ -129,6 +130,7 @@ export const Filters = (props: IFiltersProps) => {
       placeholder="Дата окончания"
       onChange={dateToChangeHandler}
       format={dateFormat}
+      onFocus={(e) => e.target.blur()}
     />
   );
 
