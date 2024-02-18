@@ -41,8 +41,11 @@ export const ParcelPrint = React.forwardRef(
           <td style={{ width: "20mm" }}></td>
         </tr>
         <tr>
-          <td colSpan={3} rowSpan={2}>
+          <td rowSpan={2}>
             <QRCode value={data.number} size={64} />
+          </td>
+          <td colSpan={2} rowSpan={2}>
+            <div className="parcel_num">{data.number}</div>
           </td>
           <td rowSpan={2} className="parceltdcontact">
             <p className="p_contact">+7 (383) 212-41-97</p>
@@ -65,6 +68,7 @@ export const ParcelPrint = React.forwardRef(
                 format="CODE39"
                 width={1}
                 height={30}
+                displayValue={false}
               />
             </div>
           </td>

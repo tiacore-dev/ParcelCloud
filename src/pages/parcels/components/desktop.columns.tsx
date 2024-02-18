@@ -126,6 +126,14 @@ export const parcelsDesktopColumns = (
       ),
     },
     {
+      title: "Стоимость",
+      key: "cost",
+      width: "17%",
+      render: (text: string, record: IParcelsListColumn) => (
+        <>{!!record.cost && <div>{record.cost.toFixed(2)}</div>}</>
+      ),
+    },
+    {
       title: "Статус",
       key: "status",
       width: "17%",

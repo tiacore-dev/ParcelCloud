@@ -15,4 +15,5 @@ export const exportHeaderParcels = [
   { label: "Дата последнего статуса", key: "statusDate" },
   { label: "Тип статуса", key: "statusType" },
   { label: "Значение статуса", key: "statusValue" },
+  { label: "Стоимость доставки", key: "cost" },
 ];
