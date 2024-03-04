@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { editTemplate } from "../../../store/modules/pages/template";
 import { getCities } from "../../../store/modules/dictionaries/selectors/cities.selector";
 import { IState } from "../../../store/modules";
+import { selectFilterHandler } from "../../../utils/selectFilterHandler";
 
 export const TemplateContent = () => {
   const dispatch = useDispatch();
   const templateData = useSelector((state: IState) => state.pages.template);
   const componentDisabled = useSelector(
-    (state: IState) => state.pages.template.disabled,
+    (state: IState) => state.pages.template.disabled
   );
   const cities = useSelector(getCities);
   const citySelectOptions = cities.map((city) => ({
@@ -46,9 +47,7 @@ export const TemplateContent = () => {
           onChange={(value: string) =>
             dispatch(editTemplate.setTemplatStateCity(value))
           }
-          filterOption={(input, option) =>
-            (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
-          }
+          filterOption={selectFilterHandler}
           options={citySelectOptions}
         />
       </Form.Item>

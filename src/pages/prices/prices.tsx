@@ -32,6 +32,7 @@ import {
   setAppHeaderTitle,
   setShowBackButton,
 } from "../../store/modules/settings/general";
+import { selectFilterHandler } from "../../utils/selectFilterHandler";
 
 interface GetPricesDto {
   authToken: IauthToken;
@@ -100,7 +101,7 @@ export const Prices = () => {
     data.vatExtra,
     data.bonusModify,
     data.insureValue,
-    handleCreate,
+    handleCreate
   );
 
   React.useEffect(() => {
@@ -151,11 +152,7 @@ export const Prices = () => {
               onChange={(value: string) =>
                 dispatch(editPrices.setSendCity(value))
               }
-              filterOption={(input, option) =>
-                (option?.label ?? "")
-                  .toLowerCase()
-                  .includes(input.toLowerCase())
-              }
+              filterOption={selectFilterHandler}
               options={citySelectOptions}
             />
           </Form.Item>
@@ -168,11 +165,7 @@ export const Prices = () => {
               onChange={(value: string) =>
                 dispatch(editPrices.setRecCity(value))
               }
-              filterOption={(input, option) =>
-                (option?.label ?? "")
-                  .toLowerCase()
-                  .includes(input.toLowerCase())
-              }
+              filterOption={selectFilterHandler}
               options={citySelectOptions}
             />
           </Form.Item>

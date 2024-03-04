@@ -8,6 +8,7 @@ import {
   InputNumber,
   message,
   Table,
+  Select,
 } from "antd";
 import Title from "antd/es/typography/Title";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,6 +28,8 @@ import { parcelsInEditableManifestDesktopColumns } from "./components/desktop.co
 import { getParcelsInStorage } from "../../hooks/ApiActions/parcel";
 import { IParcelsInStorageList } from "../../interfaces/parcels/IParcelsList";
 import Search from "antd/es/input/Search";
+import { getCities } from "../../store/modules/dictionaries/selectors/cities.selector";
+import { selectFilterHandler } from "../../utils/selectFilterHandler";
 
 interface ICreateManifestProps {
   parcel?: IParcel;
@@ -38,9 +41,14 @@ export const CreateManifest = (props: ICreateManifestProps) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const cities = useSelector(getCities);
+  const citySelectOptions = cities.map((city) => ({
+    label: city,
+    value: city,
+  }));
 
   const data = useSelector(
-    (state: IState) => state.editableEntities.editableManifest,
+    (state: IState) => state.editableEntities.editableManifest
   );
 
   const { Content } = Layout;
@@ -85,11 +93,11 @@ export const CreateManifest = (props: ICreateManifestProps) => {
       data.id
         ? "Редактирование манифеста " + data.number
         : "Создание манифеста",
-    [data.id],
+    [data.id]
   );
 
   const parcelsOnStorage = useSelector(
-    (state: IState) => state.pages.parcelsInStorage.data,
+    (state: IState) => state.pages.parcelsInStorage.data
   );
 
   const handleAddParcel = (parcelNumber: string) => {
@@ -105,7 +113,7 @@ export const CreateManifest = (props: ICreateManifestProps) => {
     }
 
     const parcelFromList = parcelsOnStorage.find(
-      (parcel) => parcel.number === parcelNumber,
+      (parcel) => parcel.number === parcelNumber
     );
 
     if (parcelFromList) {
@@ -119,7 +127,7 @@ export const CreateManifest = (props: ICreateManifestProps) => {
         },
         (data: IParcelsInStorageList[]) => {
           const parcelFromList = data.find(
-            (parcel) => parcel.number === parcelNumber,
+            (parcel) => parcel.number === parcelNumber
           );
           if (parcelFromList) {
             editManifestAction.addParcel(parcelFromList);
@@ -127,10 +135,13 @@ export const CreateManifest = (props: ICreateManifestProps) => {
           } else {
             onError(`Не удалось найти накладную ${parcelNumber}`);
           }
-        },
+        }
       );
     }
   };
+
+  const setRecCityHandle = (value: string) =>
+    dispatch(editManifestAction.setRecCity(value));
 
   return (
     <>
@@ -169,6 +180,17 @@ export const CreateManifest = (props: ICreateManifestProps) => {
               <Input value={data.number} readOnly />
             </Form.Item>
           )}
+
+          <Form.Item label="Город получения">
+            <Select
+              value={data.recCity}
+              showSearch
+              optionFilterProp="children"
+              onChange={setRecCityHandle}
+              filterOption={selectFilterHandler}
+              options={citySelectOptions}
+            />
+          </Form.Item>
 
           <Form.Item label="Номер накладной перевозчика">
             <Input

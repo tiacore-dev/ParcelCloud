@@ -5,6 +5,7 @@ import { IParcelsList } from "../../../interfaces/parcels/IParcelsList";
 export interface IEditableManifestState {
   id?: string;
   number?: string;
+  recCity: string;
   transferNumber: string;
   manifestCompany: string;
   qtParcels: number;
@@ -18,6 +19,7 @@ export interface IEditableManifestState {
 
 const initialState: IEditableManifestState = {
   sent: false,
+  recCity: "",
   transferNumber: "",
   manifestCompany: "",
   id: undefined,
@@ -34,6 +36,7 @@ const setManifestData = (
 ) => {
   state.id = manifestData.id;
   state.number = manifestData.number;
+  state.recCity = manifestData.recCity;
   state.transferNumber = manifestData.transferNumber;
   state.manifestCompany = manifestData.manifestCompany;
   state.qtParcels = manifestData.qtParcels;
@@ -74,6 +77,13 @@ const editableManifestSlice = createSlice({
       action: { payload: string },
     ) => {
       state.transferNumber = action.payload;
+    },
+
+    setRecCity: (
+      state: IEditableManifestState,
+      action: { payload: string },
+    ) => {
+      state.recCity = action.payload;
     },
 
     setManifestCompany: (
