@@ -17,7 +17,6 @@ export const parcelsMobileColumns = (
 ): ColumnsType<IParcelsListColumn> => {
   return [
     {
-      title: "Накладные:",
       key: "mobileData",
       render: (text: string, record: IParcelsListColumn) => {
         const statusLabel = (status?: ParcelStatus) => {

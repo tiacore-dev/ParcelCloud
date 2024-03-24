@@ -15,19 +15,23 @@ export const AppFooter = () => {
   const { Footer } = Layout;
   const navigate = useNavigate();
 
-  const items: React.JSX.Element[] = [
-    <Space
-      size="small"
-      direction="vertical"
-      style={{ textAlign: "center" }}
-      onClick={() => {
-        navigate("/parcels");
-      }}
-    >
-      <MailOutlined style={{ fontSize: "20px" }} />
-      <div style={{ fontSize: "12px" }}>Накладные</div>
-    </Space>,
-  ];
+  const items: React.JSX.Element[] = [];
+
+  if (checkPermission("parcel-view-my")) {
+    items.push(
+      <Space
+        size="small"
+        direction="vertical"
+        style={{ textAlign: "center" }}
+        onClick={() => {
+          navigate("/parcels");
+        }}
+      >
+        <MailOutlined style={{ fontSize: "20px" }} />
+        <div style={{ fontSize: "12px" }}>Накладные</div>
+      </Space>,
+    );
+  }
 
   if (checkPermission("parcel-view-in-work")) {
     items.unshift(

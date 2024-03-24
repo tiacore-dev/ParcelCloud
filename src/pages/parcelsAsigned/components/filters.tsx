@@ -30,7 +30,7 @@ export const Filters = () => {
   return (
     <Space
       className="parcels-asigned_filters"
-      style={isMobile() && { padding: "12px 16px" }}
+      style={isMobile() ? { padding: "0 16px" } : { marginBottom: "24px" }}
       direction={isMobile() ? "vertical" : "horizontal"}
     >
       <Space>

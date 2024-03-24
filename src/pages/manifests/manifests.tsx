@@ -69,7 +69,7 @@ export const Manifests = () => {
       />
       <Content
         style={{
-          padding: isMobile() ? 0 : 16,
+          padding: isMobile() ? 0 : 8,
           margin: 0,
           minHeight: minPageHeight(),
           background: "#FFF",

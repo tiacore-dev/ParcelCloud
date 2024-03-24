@@ -13,7 +13,6 @@ export const parcelsAsignedMobileColumns =
 
     return [
       {
-        title: "Накладные:",
         key: "mobileData",
         render: (text: string, record: IParcelsAsignedListColumn) => (
           <>

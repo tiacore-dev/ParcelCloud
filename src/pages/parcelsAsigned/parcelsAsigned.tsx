@@ -64,7 +64,8 @@ export const ParcelsAsigned = () => {
                 -1) &&
             (filters.taskType === "all" ||
               (filters.taskType === "toDelivery" && el.toDelivery) ||
-              (filters.taskType === "toReceive" && el.toReceive)),
+              (filters.taskType === "toReceive" &&
+                (el.toReceive || el.received))),
         ),
     [parcelsData, filters],
   );
@@ -84,7 +85,7 @@ export const ParcelsAsigned = () => {
       />
       <Content
         style={{
-          padding: isMobile() ? 0 : 16,
+          padding: isMobile() ? 0 : 8,
           margin: 0,
           minHeight: minPageHeight(),
         }}
@@ -97,6 +98,7 @@ export const ParcelsAsigned = () => {
               ? parcelsAsignedMobileColumns()
               : parcelsAsignedDesktopColumns()
           }
+          showHeader={!isMobile()}
           loading={isLoading}
           onRow={(record) => {
             return {

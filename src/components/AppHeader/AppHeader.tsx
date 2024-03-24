@@ -127,51 +127,6 @@ export const AppHeader = React.memo(({ isMobile }: { isMobile: boolean }) => {
     },
   });
 
-  // const mobileItems: ItemType[] = [
-  //   {
-  //     key: "parcelsApp",
-  //     label: "Накладные",
-  //     onClick: () => {
-  //       navigate("/parcels");
-  //     },
-  //   },
-  //   {
-  //     key: "createParcel",
-  //     label: "Создать",
-  //     onClick: () => {
-  //       navigate("/parcels/create");
-  //     },
-  //   },
-  //   {
-  //     key: "templates",
-  //     label: "Шаблоны",
-  //     onClick: () => {
-  //       navigate("/templates");
-  //     },
-  //   },
-  //   {
-  //     key: "prices",
-  //     label: "Расчет тарифа",
-  //     onClick: () => {
-  //       navigate("/prices");
-  //     },
-  //   },
-  //   {
-  //     key: "documents",
-  //     label: "Документы",
-  //     onClick: () => {
-  //       navigate("/documents");
-  //     },
-  //   },
-  //   {
-  //     key: "auth",
-  //     label: "Аккаунт",
-  //     onClick: () => {
-  //       navigate("/auth");
-  //     },
-  //   },
-  // ];
-
   return isMobile ? (
     <Header className={"header"} style={{ backgroundColor: "white" }}>
       {showBackButton && (

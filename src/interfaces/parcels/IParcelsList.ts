@@ -31,6 +31,7 @@ export interface IParcelsListColumn extends IParcelsList {
 export interface IParcelsAsignedList extends IParcelsList {
   toDelivery: boolean;
   toReceive: boolean;
+  received: boolean;
   recTime: string;
   sendTime: string;
   delDate: string;

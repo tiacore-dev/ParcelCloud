@@ -51,6 +51,7 @@ import { clearCreateManifestState } from "../../store/modules/editableEntities/e
 import { CreateManifest } from "../../pages/createManifest/createManifest";
 import { Api } from "../../pages/info";
 import { isMobile } from "../../utils/isMobile";
+import { pageHeight } from "../../utils/pageSettings";
 
 interface useloadSourseDto {
   authToken: IauthToken;
@@ -115,17 +116,15 @@ export const App = () => {
   }
   const mobile = isMobile();
 
-  const pageHeight = document.documentElement.scrollHeight - 134;
-
   return (
     <>
       <Layout>
-        {isAuth && <AppHeader isMobile={mobile} />}
+        {isAuth && !mobile && <AppHeader isMobile={mobile} />}
 
         <Layout
           style={{
             padding: mobile ? "0" : "0 24px",
-            height: `${pageHeight}px`,
+            height: pageHeight(),
             overflowX: "auto",
             backgroundColor: "#FFFFFF",
           }}

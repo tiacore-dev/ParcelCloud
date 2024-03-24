@@ -2,7 +2,11 @@ import * as React from "react";
 import { ColumnsType } from "antd/es/table";
 import { dateToLocalString } from "../../../utils/dateConverter";
 import { IParcelsAsignedListColumn } from "../../../interfaces/parcels/IParcelsList";
-import { LoginOutlined, LogoutOutlined } from "@ant-design/icons";
+import {
+  CheckCircleTwoTone,
+  LoginOutlined,
+  LogoutOutlined,
+} from "@ant-design/icons";
 import { isMobile } from "../../../utils/isMobile";
 
 export const parcelsAsignedDesktopColumns =
@@ -15,18 +19,24 @@ export const parcelsAsignedDesktopColumns =
         render: (text: string, record: IParcelsAsignedListColumn) => (
           <div>
             <div>
-              {record.toDelivery ? (
+              {record.toDelivery && (
                 <LogoutOutlined className="parcels-asigned__table__delivery_icon" />
-              ) : (
+              )}
+              ;
+              {record.toReceive && (
                 <LoginOutlined className="parcels-asigned__table__receive_icon" />
               )}
-              {record.toDelivery
-                ? isMobile()
-                  ? "Доставить"
-                  : "Доставить получателю"
-                : isMobile()
-                ? "Получить"
-                : "Получить у отправителя"}{" "}
+              {record.received && (
+                <CheckCircleTwoTone
+                  twoToneColor={"#1677ff"}
+                  className="parcels-asigned__table__receive_icon"
+                />
+              )}
+              {record.toDelivery &&
+                (isMobile() ? "Доставить" : "Доставить получателю")}
+              {record.toReceive &&
+                (isMobile() ? "Получить" : "Получить у отправителя")}
+              {record.received && "Получено"}
             </div>
             <div>
               Дата:{" "}

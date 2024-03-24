@@ -3,7 +3,7 @@ import { Alert, Breadcrumb, Card, Layout, Spin, Table } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { IParcelItem } from "../../interfaces/parcels/IParcel";
-import { authToken } from "../../hooks/useAuth";
+import { authToken, checkPermission } from "../../hooks/useAuth";
 import { IState } from "../../store/modules";
 import { itemsColumns } from "./components/itemsColumns";
 import { minPageHeight } from "../../utils/pageSettings";
@@ -141,23 +141,43 @@ export const Parcel = () => {
     />
   );
 
-  return (
-    <>
+  const parcelMy = checkPermission("parcel-view-my");
+  const parcelAssigned = checkPermission("parcel-view-assigned");
+
+  const breadcrumb = React.useMemo(() => {
+    const items: { title: string; onClick?: () => void; className?: string }[] =
+      [{ title: "Главная" }];
+
+    if (parcelMy) {
+      items.push({
+        title: "Накладные",
+        onClick: () => {
+          navigate(`/parcels`);
+        },
+        className: "breadcrumb_item",
+      });
+    } else if (parcelAssigned) {
+      items.push({
+        title: "Задачи",
+        onClick: () => {
+          navigate(`/tasks`);
+        },
+        className: "breadcrumb_item",
+      });
+    }
+    items.push({ title: parcelData?.number });
+    return (
       <Breadcrumb
         className="breadcrumb"
         style={isMobile() && { backgroundColor: "#F8F8F8" }}
-        items={[
-          { title: "Главная" },
-          {
-            title: "Накладные",
-            onClick: () => {
-              navigate(`/parcels`);
-            },
-            className: "breadcrumb_item",
-          },
-          { title: parcelData?.number },
-        ]}
+        items={items}
       />
+    );
+  }, [parcelData?.number, parcelMy, parcelAssigned]);
+
+  return (
+    <>
+      {breadcrumb}
       {isLoaded && parcelData && routeParams.parcelId === parcelData.id ? (
         <Content
           style={{
