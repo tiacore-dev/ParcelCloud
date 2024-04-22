@@ -62,7 +62,7 @@ export const pricesColumns = (
     collumns.push({
       title: "Стоимость страховки",
       key: "time",
-      render: () => insureValue * 0.03,
+      render: () => insureValue * 0.003,
     });
   }
 

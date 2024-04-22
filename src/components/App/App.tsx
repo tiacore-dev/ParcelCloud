@@ -70,7 +70,6 @@ export const useloadSourse = (): [
     dispatch(clearParcelsInStorageSettingsState());
     dispatch(clearParcelsInStorageState());
     dispatch(clearCitiesState());
-    dispatch(clearCitiesState());
     dispatch(clearTemplatesState());
     dispatch(clearParcelState());
     dispatch(clearCreateParcelState());

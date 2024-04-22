@@ -71,7 +71,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
   const navigate = useNavigate();
   const { TextArea } = Input;
   const data = useSelector(
-    (state: IState) => state.editableEntities.editableParcel
+    (state: IState) => state.editableEntities.editableParcel,
   );
   const cities = useSelector(getCities);
   const company = useSelector((s: IState) => s.auth.company);
@@ -95,7 +95,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
     customerSelectOptions.push({
       label: customer.name,
       value: customer.id,
-    })
+    }),
   );
 
   const payerSelectOptions = payers.map((payer) => ({
@@ -105,7 +105,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
 
   const title = React.useMemo(
     () => (data.id ? "Редактирование " + data.number : "Создание накладной"),
-    [data.id]
+    [data.id],
   );
 
   React.useEffect(() => {
@@ -152,7 +152,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const templatesData = useSelector(
-    (state: IState) => state.pages.templates.data
+    (state: IState) => state.pages.templates.data,
   );
 
   const token = authToken();
@@ -393,7 +393,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     value={data.sendAddress}
                     onChange={(event) =>
                       dispatch(
-                        editParcelAction.setSendAddress(event.target.value)
+                        editParcelAction.setSendAddress(event.target.value),
                       )
                     }
                   />
@@ -404,7 +404,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     value={data.sendCompany}
                     onChange={(event) =>
                       dispatch(
-                        editParcelAction.setSendCompany(event.target.value)
+                        editParcelAction.setSendCompany(event.target.value),
                       )
                     }
                   />
@@ -415,7 +415,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     value={data.sendPerson}
                     onChange={(event) =>
                       dispatch(
-                        editParcelAction.setSendPerson(event.target.value)
+                        editParcelAction.setSendPerson(event.target.value),
                       )
                     }
                   />
@@ -426,7 +426,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     value={data.sendPhone}
                     onChange={(event) =>
                       dispatch(
-                        editParcelAction.setSendPhone(event.target.value)
+                        editParcelAction.setSendPhone(event.target.value),
                       )
                     }
                   />
@@ -437,7 +437,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     value={data.sendAddInfo}
                     onChange={(event) =>
                       dispatch(
-                        editParcelAction.setSendAddInfo(event.target.value)
+                        editParcelAction.setSendAddInfo(event.target.value),
                       )
                     }
                     rows={4}
@@ -502,7 +502,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     value={data.recAddress}
                     onChange={(event) =>
                       dispatch(
-                        editParcelAction.setRecAddress(event.target.value)
+                        editParcelAction.setRecAddress(event.target.value),
                       )
                     }
                   />
@@ -513,7 +513,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     value={data.recCompany}
                     onChange={(event) =>
                       dispatch(
-                        editParcelAction.setRecCompany(event.target.value)
+                        editParcelAction.setRecCompany(event.target.value),
                       )
                     }
                   />
@@ -524,7 +524,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     value={data.recPerson}
                     onChange={(event) =>
                       dispatch(
-                        editParcelAction.setRecPerson(event.target.value)
+                        editParcelAction.setRecPerson(event.target.value),
                       )
                     }
                   />
@@ -544,7 +544,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     value={data.recAddInfo}
                     onChange={(event) =>
                       dispatch(
-                        editParcelAction.setRecAddInfo(event.target.value)
+                        editParcelAction.setRecAddInfo(event.target.value),
                       )
                     }
                     rows={4}
@@ -711,7 +711,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
           </Form.Item>
 
           {!!data.cost && (
-            <Form.Item label="Стоимость доставвки">{data.cost} руб.</Form.Item>
+            <Form.Item label="Стоимость доставки">{data.cost} руб.</Form.Item>
           )}
           {!!data.cost && !!data.insureValue && (
             <Form.Item label="Стоимость страховки">

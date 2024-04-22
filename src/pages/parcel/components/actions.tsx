@@ -31,6 +31,7 @@ export const ParcelActions = (props: IParcelActionsProps) => {
   const receiveCreate = checkPermission("receive-create");
   const parcelEditMy = checkPermission("parcel-edit-my");
   const parcelEditAll = checkPermission("parcel-edit-all");
+  const parcelAccept = checkPermission("parcel-accept");
 
   const parcelEditReceived = checkPermission("parcel-edit-received");
   const podCreateAll = checkPermission("pod-create-all");
@@ -76,16 +77,17 @@ export const ParcelActions = (props: IParcelActionsProps) => {
     setGeneralParcelStatus(dispatch, receiveParcelParams);
   };
 
-  const toReceiveСonfirmedButton = parcelData.toReceiveСonfirmed === false && (
-    <Button
-      type="primary"
-      className="parcel__actions__button"
-      icon={<PlusCircleTwoTone twoToneColor="#ff1616" />}
-      onClick={onAcceptReceiveTask}
-    >
-      Принять в работу
-    </Button>
-  );
+  const toReceiveСonfirmedButton = parcelData.toReceiveСonfirmed === false &&
+    parcelAccept && (
+      <Button
+        type="primary"
+        className="parcel__actions__button"
+        icon={<PlusCircleTwoTone twoToneColor="#ff1616" />}
+        onClick={onAcceptReceiveTask}
+      >
+        Принять в работу
+      </Button>
+    );
 
   const receiveParcelDialog = canReceive && (
     <ReceiveParcelDialog

@@ -6,7 +6,6 @@ import { IParcelItem } from "../../interfaces/parcels/IParcel";
 import { authToken, checkPermission } from "../../hooks/useAuth";
 import { IState } from "../../store/modules";
 import { itemsColumns } from "./components/itemsColumns";
-import { minPageHeight } from "../../utils/pageSettings";
 import { isMobile } from "../../utils/isMobile";
 import { itemsColumnsMobile } from "./components/itemsColumnsMobile";
 import { convertItemsDataMobile } from "./components/convertItemsDataMobile";
@@ -33,6 +32,8 @@ import {
   setShowBackButton,
 } from "../../store/modules/settings/general";
 import { dateToLocalString } from "../../utils/dateConverter";
+import { CopyToClipboardButton } from "../../components/copyToClipboardButton";
+import { Callto } from "../../components/callto";
 
 export interface IConvertedParcelItem {
   key: number;
@@ -235,10 +236,16 @@ export const Parcel = () => {
             headStyle={{ backgroundColor: "#F8F8F8" }}
           >
             <p>Город: {parcelData.sendCity}</p>
-            <p>Адрес: {parcelData.sendAddress}</p>
+            <p>
+              Адрес: {parcelData.sendAddress}{" "}
+              <CopyToClipboardButton text={parcelData.sendAddress} />
+            </p>
             <p>Компания: {parcelData.sendCompany}</p>
             <p>ФИО: {parcelData.sendPerson}</p>
-            <p>Телефон: {parcelData.sendPhone}</p>
+            <p>
+              {`Телефон: `}
+              <Callto phone={parcelData.sendPhone} />
+            </p>
             <p>Дополнительная информация: {parcelData.sendAddInfo}</p>
             {!!parcelData.sendTime && (
               <p>Время забора: {parcelData.sendTime}</p>
@@ -256,10 +263,16 @@ export const Parcel = () => {
             style={{ margin: "8px 0" }}
           >
             <p>Город: {parcelData.recCity}</p>
-            <p>Адрес: {parcelData.recAddress}</p>
+            <p>
+              Адрес: {parcelData.recAddress}{" "}
+              <CopyToClipboardButton text={parcelData.recAddress} />
+            </p>
             <p>Компания: {parcelData.recCompany}</p>
             <p>ФИО: {parcelData.recPerson}</p>
-            <p>Телефон: {parcelData.recPhone}</p>
+            <p>
+              {`Телефон: `}
+              <Callto phone={parcelData.recPhone} />
+            </p>
             <p>Дополнительная информация: {parcelData.recAddInfo}</p>
           </Card>
           <Card
