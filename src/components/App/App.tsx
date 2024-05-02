@@ -52,6 +52,7 @@ import { CreateManifest } from "../../pages/createManifest/createManifest";
 import { Api } from "../../pages/info";
 import { isMobile } from "../../utils/isMobile";
 import { pageHeight } from "../../utils/pageSettings";
+import { webSocket } from "../../socket";
 
 interface useloadSourseDto {
   authToken: IauthToken;
@@ -114,6 +115,18 @@ export const App = () => {
     navigate("/auth");
   }
   const mobile = isMobile();
+
+  React.useEffect(() => {
+    function onNotification(data?: { header: string; text: string }) {
+      console.log(data);
+    }
+
+    webSocket.on(authData.userKey, onNotification);
+
+    return () => {
+      webSocket.off("connect", onNotification);
+    };
+  }, []);
 
   return (
     <>

@@ -23,13 +23,17 @@ import { IParcel } from "../../interfaces/parcels/IParcel";
 import { CreateManifestDto } from "./dto/createManifest.dto";
 import { editManifestAction } from "../../store/modules/editableEntities/editableManifest";
 import { createManifest } from "../../hooks/ApiActions/manifest";
-import { parcelsInStorageMobileColumns } from "../parcelsInStorage/components/mobile.columns";
 import { parcelsInEditableManifestDesktopColumns } from "./components/desktop.columns";
 import { getParcelsInStorage } from "../../hooks/ApiActions/parcel";
-import { IParcelsInStorageList } from "../../interfaces/parcels/IParcelsList";
+import {
+  IParcelsInStorageList,
+  IParcelsList,
+} from "../../interfaces/parcels/IParcelsList";
 import Search from "antd/es/input/Search";
 import { getCities } from "../../store/modules/dictionaries/selectors/cities.selector";
 import { selectFilterHandler } from "../../utils/selectFilterHandler";
+import { parcelsInEditableManifestMobileColumns } from "./components/mobile.columns";
+import { ColumnsType } from "antd/es/table";
 
 interface ICreateManifestProps {
   parcel?: IParcel;
@@ -48,7 +52,7 @@ export const CreateManifest = (props: ICreateManifestProps) => {
   }));
 
   const data = useSelector(
-    (state: IState) => state.editableEntities.editableManifest
+    (state: IState) => state.editableEntities.editableManifest,
   );
 
   const { Content } = Layout;
@@ -93,11 +97,11 @@ export const CreateManifest = (props: ICreateManifestProps) => {
       data.id
         ? "Редактирование манифеста " + data.number
         : "Создание манифеста",
-    [data.id]
+    [data.id],
   );
 
   const parcelsOnStorage = useSelector(
-    (state: IState) => state.pages.parcelsInStorage.data
+    (state: IState) => state.pages.parcelsInStorage.data,
   );
 
   const handleAddParcel = (parcelNumber: string) => {
@@ -113,7 +117,7 @@ export const CreateManifest = (props: ICreateManifestProps) => {
     }
 
     const parcelFromList = parcelsOnStorage.find(
-      (parcel) => parcel.number === parcelNumber
+      (parcel) => parcel.number === parcelNumber,
     );
 
     if (parcelFromList) {
@@ -127,7 +131,7 @@ export const CreateManifest = (props: ICreateManifestProps) => {
         },
         (data: IParcelsInStorageList[]) => {
           const parcelFromList = data.find(
-            (parcel) => parcel.number === parcelNumber
+            (parcel) => parcel.number === parcelNumber,
           );
           if (parcelFromList) {
             editManifestAction.addParcel(parcelFromList);
@@ -135,13 +139,17 @@ export const CreateManifest = (props: ICreateManifestProps) => {
           } else {
             onError(`Не удалось найти накладную ${parcelNumber}`);
           }
-        }
+        },
       );
     }
   };
 
   const setRecCityHandle = (value: string) =>
     dispatch(editManifestAction.setRecCity(value));
+
+  const columns: ColumnsType<IParcelsList> = isMobile()
+    ? parcelsInEditableManifestMobileColumns()
+    : parcelsInEditableManifestDesktopColumns(navigate, dispatch);
 
   return (
     <>
@@ -256,11 +264,7 @@ export const CreateManifest = (props: ICreateManifestProps) => {
 
           <Table
             dataSource={data.parcels}
-            columns={
-              isMobile()
-                ? parcelsInStorageMobileColumns()
-                : parcelsInEditableManifestDesktopColumns(navigate, dispatch)
-            }
+            columns={columns}
             pagination={false}
           />
 
