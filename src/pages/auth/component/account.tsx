@@ -1,7 +1,12 @@
 import { Button, Descriptions, Space } from "antd";
 import * as React from "react";
 import { useDispatch } from "react-redux";
-import { authData, checkPermission } from "../../../hooks/useAuth";
+import {
+  IauthToken,
+  authData,
+  authToken,
+  checkPermission,
+} from "../../../hooks/useAuth";
 import { authlogout } from "../../../store/modules/auth";
 import { useloadSourse } from "../../../components/App/App";
 import { clearParcelsSettingsState } from "../../../store/modules/settings/parcels";
@@ -18,10 +23,49 @@ import { clearParcelsInStorageSettingsState } from "../../../store/modules/setti
 import { clearParcelsInStorageState } from "../../../store/modules/pages/parcelsInStorage";
 import { clearCreateManifestState } from "../../../store/modules/editableEntities/editableManifest";
 import { useNavigate } from "react-router-dom";
+import { useApi } from "../../../hooks/useApi";
+
+interface notificationsSubscribeData {
+  authToken: IauthToken;
+  endpoint: string;
+  p256dh: string;
+  auth: string;
+}
+interface notificationsSubscribeResponse {
+  status: boolean;
+}
 
 export const Account = () => {
   const data = authData();
   const dispatch = useDispatch();
+  const token = authToken();
+
+  const handleSubscribe = React.useCallback(async () => {
+    try {
+      const registration = await navigator.serviceWorker.ready;
+      const subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: process.env.REACT_APP_WP_SVS,
+      });
+      console.log("Push Subscription:");
+      console.log(JSON.stringify(subscription));
+
+      const subscriptionData = JSON.parse(JSON.stringify(subscription));
+
+      useApi<notificationsSubscribeResponse, notificationsSubscribeData>(
+        "notifications",
+        "subscribe",
+        {
+          authToken: token,
+          endpoint: subscriptionData.endpoint,
+          p256dh: subscriptionData.keys.p256dh,
+          auth: subscriptionData.keys.auth,
+        },
+      );
+    } catch (error) {
+      console.error("Error subscribing to Push:", error);
+    }
+  }, []);
 
   const [load, clearStates] = useloadSourse();
   const navigate = useNavigate();
@@ -43,6 +87,7 @@ export const Account = () => {
       </Descriptions>
       <Space direction="vertical">
         <Button onClick={refresh}>Обновить данные</Button>
+        <Button onClick={handleSubscribe}>Подписаться</Button>
 
         <Button
           onClick={() => {

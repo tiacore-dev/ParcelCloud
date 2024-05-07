@@ -7,6 +7,7 @@ const persistConfig = {
   key: "root",
   storage,
   debug: true,
+  blacklist: ["settings", "editableEntities", "pages"],
 };
 
 export const store = configureStore({
