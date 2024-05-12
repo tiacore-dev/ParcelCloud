@@ -108,31 +108,12 @@ registerRoute(
   }),
 );
 
-self.addEventListener("install", () => {
-  console.log("Service Worker installed");
-});
-
-self.addEventListener("activate", () => {
-  console.log("Service Worker activated");
-});
-
 self.addEventListener("push", (event) => {
-  // const data = event.data.json();
-  console.log("Push Notification received:", event);
+  const jsonData = JSON.parse(event.data.text());
+
+  const { header, text } = jsonData;
   const options = {
-    body: "push 1",
-    // vibrate: [100, 50, 100],
-    // data: {
-    //   dateOfArrival: Date.now(),
-    //   primaryKey: "2",
-    // },
-    icon: "https://picmymenu.s3.eu-west-3.amazonaws.com/waelio_logo.png",
-    // actions: [
-    //   { action: "explore", title: "exp 1" },
-    //   { action: "explore 2", title: "exp 2" },
-    // ],
+    body: text,
   };
-  event.waitUntil(
-    self.registration.showNotification("test notification", options),
-  );
+  event.waitUntil(self.registration.showNotification(header, options));
 });
