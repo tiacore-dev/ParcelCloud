@@ -12,7 +12,7 @@ import { useloadSourse } from "../../../components/App/App";
 import { clearParcelsSettingsState } from "../../../store/modules/settings/parcels";
 import { clearParcelsState } from "../../../store/modules/pages/parcels";
 import { clearCitiesState } from "../../../store/modules/dictionaries/cities";
-import { clearTemplatesState } from "../../../store/modules/pages/templates";
+import { clearTemplatesState } from "../../../store/modules/dictionaries/templates";
 import { clearParcelState } from "../../../store/modules/pages/parcel";
 import { clearCreateParcelState } from "../../../store/modules/editableEntities/editableParcel";
 import { clearPricesState } from "../../../store/modules/pages/prices";

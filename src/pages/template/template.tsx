@@ -28,7 +28,7 @@ export const Template = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const templatesData = useSelector(
-    (state: IState) => state.pages.templates.data,
+    (state: IState) => state.dictionaries.templates.data,
   );
   const templateData = useSelector((state: IState) => state.pages.template);
 

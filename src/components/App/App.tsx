@@ -19,7 +19,7 @@ import {
   getTemplatesFailure,
   getTemplatesRequest,
   getTemplatesSuccess,
-} from "../../store/modules/pages/templates";
+} from "../../store/modules/dictionaries/templates";
 import { clearParcelsSettingsState } from "../../store/modules/settings/parcels";
 import { clearParcelsState } from "../../store/modules/pages/parcels";
 import { ITemplate } from "../../interfaces/templates/ITemplate";

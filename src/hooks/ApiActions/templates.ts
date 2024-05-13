@@ -7,7 +7,7 @@ import {
   getTemplatesFailure,
   getTemplatesRequest,
   getTemplatesSuccess,
-} from "../../store/modules/pages/templates";
+} from "../../store/modules/dictionaries/templates";
 
 export interface EditeTemplateDto extends ITemplate {
   authToken: IauthToken;

@@ -152,7 +152,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const templatesData = useSelector(
-    (state: IState) => state.pages.templates.data,
+    (state: IState) => state.dictionaries.templates.data,
   );
 
   const token = authToken();

@@ -19,7 +19,7 @@ import { CSS } from "@dnd-kit/utilities";
 import {
   getTemplatesFailure,
   getTemplatesSuccess,
-} from "../../../store/modules/pages/templates";
+} from "../../../store/modules/dictionaries/templates";
 import { useApi } from "../../../hooks/useApi";
 import { ITemplate } from "../../../interfaces/templates/ITemplate";
 import { IauthToken, authToken } from "../../../hooks/useAuth";
@@ -40,9 +40,11 @@ interface setTemplatesKeyDto {
 
 export const TemplatesTable = (props: TemplatesTableProps) => {
   const { search, sort, onRowClick } = props;
-  const templates = useSelector((state: IState) => state.pages.templates.data);
+  const templates = useSelector(
+    (state: IState) => state.dictionaries.templates.data,
+  );
   const isLoading = useSelector(
-    (state: IState) => state.pages.templates.loading,
+    (state: IState) => state.dictionaries.templates.loading,
   );
   const filters = useSelector(
     (state: IState) => state.settings.templatesSettings.filters,
