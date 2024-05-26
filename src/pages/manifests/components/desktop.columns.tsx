@@ -61,12 +61,14 @@ export const manifestsDesktopColumns =
                     className="status-icon"
                   />
                 )}
-                Статус:{" "}
-                {record.sent
-                  ? record.delivered
-                    ? "Завершено"
-                    : "В пути"
-                  : "Не отправлено"}
+                {`Статус: ${
+                  record.sent
+                    ? record.delivered
+                      ? "Завершено"
+                      : "В пути"
+                    : "Не отправлено"
+                }`}
+                {`Расчетная дата: ${dateToLocalString(record.planDate)}`}
               </div>
             )}
           </>

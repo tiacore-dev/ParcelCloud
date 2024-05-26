@@ -5,6 +5,7 @@ type taskType = "toDelivery" | "toReceive" | "all";
 interface IParcelsAsignedFilter {
   taskType: taskType;
   number: string;
+  date: number | null;
 }
 
 export interface IParcelsAsignedSettingsState {
@@ -15,6 +16,7 @@ const initialState: IParcelsAsignedSettingsState = {
   filters: {
     taskType: "all",
     number: "",
+    date: null,
   },
 };
 
@@ -36,6 +38,13 @@ const parcelsAsignedSettingsSlice = createSlice({
       state.filters.number = action.payload;
     },
 
+    setIParcelsAsignedFilterDate: (
+      state: IParcelsAsignedSettingsState,
+      action: { payload: number | null },
+    ) => {
+      state.filters.date = action.payload;
+    },
+
     clearParcelsAsignedSettingsState: (state: IParcelsAsignedSettingsState) => {
       state.filters = initialState.filters;
     },
@@ -45,6 +54,7 @@ const parcelsAsignedSettingsSlice = createSlice({
 export const {
   setIParcelsAsignedFilterTaskType,
   setIParcelsAsignedFilterNumber,
+  setIParcelsAsignedFilterDate,
   clearParcelsAsignedSettingsState,
 } = parcelsAsignedSettingsSlice.actions;
 

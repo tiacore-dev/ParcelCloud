@@ -81,7 +81,6 @@ export const Manifest = () => {
 
     setGeneralParcelsStatus(dispatch, receiveParcelsParams);
   }, [selectedRows, token]);
-  // setGeneralParcelsStatus
   const hasUnreceiver: boolean =
     manifestData?.parcels?.filter(
       (parcel) => parcel.status === "availableToReceive",
@@ -119,7 +118,6 @@ export const Manifest = () => {
           { title: "Главная" },
           {
             title: "Манифесты",
-            // <Link to="/manifests">Манифесты</Link>
           },
           { title: manifestData?.number },
         ]}
@@ -152,6 +150,7 @@ export const Manifest = () => {
             style={{ margin: "8px 0" }}
             headStyle={{ backgroundColor: "#F8F8F8" }}
           >
+            <p>Расчетная дата: {dateToLocalString(manifestData.planDate)}</p>
             <p>Перевозчик: {manifestData.manifestCompany}</p>
             <p>Номер накладной: {manifestData.transferNumber}</p>
           </Card>

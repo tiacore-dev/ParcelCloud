@@ -22,4 +22,5 @@ export interface IManifest {
   delivered: boolean;
   sent: boolean;
   type: ManifestType;
+  planDate: string;
 }

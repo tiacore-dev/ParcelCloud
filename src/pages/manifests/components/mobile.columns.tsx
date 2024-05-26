@@ -18,6 +18,7 @@ export const manifestsMobileColumns = (): ColumnsType<IManifestsListColumn> => {
           <div>
             Манифест: {record.number} от {dateToLocalString(record.date)}
           </div>
+          <div>Расчетная дата: {dateToLocalString(record.planDate)}</div>
           <div>
             Отправитель: {record.sendCity}, {record.sendCompany}
           </div>

@@ -15,6 +15,11 @@ import {
   setAppHeaderTitle,
   setShowBackButton,
 } from "../../store/modules/settings/general";
+import {
+  IParcelsAsignedGroup,
+  IParcelsAsignedGroupColumn,
+} from "../../interfaces/parcels/IParcelsList";
+import { parcelsAsignedMobileGroupColumns } from "./components/mobileGroup.columns";
 
 export interface GetParcelsAsignedDto {
   authToken: IauthToken;
@@ -49,25 +54,110 @@ export const ParcelsAsigned = () => {
   const parcelsData = useSelector(
     (state: IState) => state.pages.parcelsAsigned.data,
   );
-  const isLoading = useSelector(
-    (state: IState) => state.pages.parcelsAsigned.loading,
-  );
 
   const dataSource = React.useMemo(
     () =>
       parcelsData
         .map((el) => ({ ...el, key: el.id }))
-        .filter(
-          (el) =>
-            (filters.number === "" ||
-              el.number.toUpperCase().indexOf(filters.number.toUpperCase()) >
-                -1) &&
-            (filters.taskType === "all" ||
-              (filters.taskType === "toDelivery" && el.toDelivery) ||
-              (filters.taskType === "toReceive" &&
-                (el.toReceive || el.received))),
-        ),
+        .filter((el) => {
+          // Если есть фильтр по номеру то проверяем элемент, если не находим, то не возвращаем элемент
+          if (filters.number) {
+            const indexOf = el.number
+              .toUpperCase()
+              .indexOf(filters.number.toUpperCase());
+            if (indexOf === -1) {
+              return false;
+            }
+          }
+
+          // Если накладная на доставку, то проверяем фильтр типа задачи и фильтр расчетной даты доставки
+          if (el.toDelivery) {
+            if (filters.taskType === "toReceive") {
+              return false;
+            }
+            if (filters.date && Date.parse(el.date) !== filters.date) {
+              return false;
+            }
+          }
+
+          // Если накладная на забор, то проверяем фильтр типа задачи и фильтр даты накладной
+          if (el.toReceive || el.received) {
+            if (filters.taskType === "toDelivery") {
+              return false;
+            }
+            if (filters.date && Date.parse(el.planDate) !== filters.date) {
+              return false;
+            }
+          }
+
+          return true;
+        }),
     [parcelsData, filters],
+  );
+
+  const groups: IParcelsAsignedGroupColumn[] = React.useMemo(() => {
+    const convertedList: IParcelsAsignedGroup[] = dataSource.map((el) => ({
+      customer: el.customer,
+
+      sendAddress: (el.toReceive || el.received) && el.sendAddress,
+      sendCity: (el.toReceive || el.received) && el.sendCity,
+      sendCompany: (el.toReceive || el.received) && el.sendCompany,
+
+      recAddress: el.toDelivery && el.recAddress,
+      recCity: el.toDelivery && el.recCity,
+      recCompany: el.toDelivery && el.recCompany,
+
+      toDelivery: el.toDelivery,
+      toReceive: el.toReceive,
+      received: el.received,
+    }));
+
+    const convertedGroups: IParcelsAsignedGroupColumn[] = Array.from(
+      new Set(convertedList.map((group) => JSON.stringify(group))),
+    ).map((el, i) => ({ ...JSON.parse(el), key: i.toString() }));
+    return convertedGroups;
+  }, [dataSource]);
+
+  const expandedRowRender = React.useCallback(
+    (group: IParcelsAsignedGroupColumn) => {
+      const data = dataSource.filter(
+        (item) =>
+          item.customer === group.customer &&
+          item.toDelivery === group.toDelivery &&
+          item.toReceive === group.toReceive &&
+          (((item.toReceive || item.received) &&
+            item.sendAddress === group.sendAddress) ||
+            (item.toDelivery && item.recAddress === group.recAddress)) &&
+          (((item.toReceive || item.received) &&
+            item.sendCity === group.sendCity) ||
+            (item.toDelivery && item.recCity === group.recCity)) &&
+          (((item.toReceive || item.received) &&
+            item.sendCompany === group.sendCompany) ||
+            (item.toDelivery && item.recCompany === group.recCompany)),
+      );
+
+      return (
+        <Table
+          dataSource={data}
+          columns={parcelsAsignedMobileColumns()}
+          showHeader={!isMobile()}
+          loading={isLoading}
+          pagination={false}
+          onRow={(record) => {
+            return {
+              onClick: () => {
+                navigate(`/parcels/${record.key}`);
+              },
+            };
+          }}
+        />
+      );
+    },
+    [dataSource],
+  );
+
+  const isLoading = useSelector(
+    (state: IState) => state.pages.parcelsAsigned.loading,
   );
 
   React.useEffect(() => {
@@ -91,23 +181,30 @@ export const ParcelsAsigned = () => {
         }}
       >
         <Filters />
-        <Table
-          dataSource={dataSource}
-          columns={
-            isMobile()
-              ? parcelsAsignedMobileColumns()
-              : parcelsAsignedDesktopColumns()
-          }
-          showHeader={!isMobile()}
-          loading={isLoading}
-          onRow={(record) => {
-            return {
-              onClick: () => {
-                navigate(`/parcels/${record.key}`);
-              },
-            };
-          }}
-        />
+        {isMobile() ? (
+          <Table
+            dataSource={groups}
+            columns={parcelsAsignedMobileGroupColumns()}
+            expandable={{ expandedRowRender }}
+            showHeader={!isMobile()}
+            loading={isLoading}
+            pagination={false}
+          />
+        ) : (
+          <Table
+            dataSource={dataSource}
+            columns={parcelsAsignedDesktopColumns()}
+            showHeader={!isMobile()}
+            loading={isLoading}
+            onRow={(record) => {
+              return {
+                onClick: () => {
+                  navigate(`/parcels/${record.key}`);
+                },
+              };
+            }}
+          />
+        )}
       </Content>
     </>
   );

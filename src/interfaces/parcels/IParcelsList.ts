@@ -1,3 +1,4 @@
+import React from "react";
 import { ParcelStatus } from "./IParcel";
 
 export interface IParcelsList {
@@ -52,4 +53,21 @@ export interface IParcelsInStorageList extends IParcelsList {
 
 export interface IParcelsInStorageListColumn extends IParcelsInStorageList {
   key: string;
+}
+
+export interface IParcelsAsignedGroup {
+  customer: string;
+  sendCity?: string;
+  sendAddress?: string;
+  sendCompany?: string;
+  recCity?: string;
+  recAddress?: string;
+  recCompany?: string;
+  toDelivery: boolean;
+  toReceive: boolean;
+  received: boolean;
+}
+
+export interface IParcelsAsignedGroupColumn extends IParcelsAsignedGroup {
+  key: React.Key;
 }
