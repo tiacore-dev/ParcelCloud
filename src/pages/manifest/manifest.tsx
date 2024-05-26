@@ -150,7 +150,7 @@ export const Manifest = () => {
             style={{ margin: "8px 0" }}
             headStyle={{ backgroundColor: "#F8F8F8" }}
           >
-            <p>Расчетная дата: {dateToLocalString(manifestData.planDate)}</p>
+            <p>Расчетная дата: {dateToLocalString(manifestData.delDate)}</p>
             <p>Перевозчик: {manifestData.manifestCompany}</p>
             <p>Номер накладной: {manifestData.transferNumber}</p>
           </Card>

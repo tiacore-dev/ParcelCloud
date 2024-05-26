@@ -18,8 +18,9 @@ export const manifestsDesktopColumns =
         width: "30%",
         render: (text: string, record: IManifestsListColumn) => (
           <>
-            <div>Перевозчик: {record.manifestCompany}</div>
-            <div>Накладная: {record.transferNumber}</div>
+            <div>
+              Перевозка: {record.manifestCompany} {record.transferNumber}
+            </div>
             <div>
               Манифест: {record.number} от {dateToLocalString(record.date)}
             </div>
@@ -38,6 +39,11 @@ export const manifestsDesktopColumns =
                   />
                 )}
                 Статус: {record.delivered ? "Завершено" : "В работе"}
+              </div>
+            )}
+            {record.type === "incoming" && (
+              <div>
+                {`Расчетная дата: ${dateToLocalString(record.delDate)}`}
               </div>
             )}
 
@@ -68,7 +74,6 @@ export const manifestsDesktopColumns =
                       : "В пути"
                     : "Не отправлено"
                 }`}
-                {`Расчетная дата: ${dateToLocalString(record.planDate)}`}
               </div>
             )}
           </>
