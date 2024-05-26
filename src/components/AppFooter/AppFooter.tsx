@@ -5,6 +5,7 @@ import {
   AppstoreOutlined,
   CalculatorOutlined,
   IdcardOutlined,
+  InsertRowBelowOutlined,
   MailOutlined,
   UnorderedListOutlined,
 } from "@ant-design/icons";
@@ -16,6 +17,22 @@ export const AppFooter = () => {
   const navigate = useNavigate();
 
   const items: React.JSX.Element[] = [];
+
+  if (checkPermission("parcel-view-in-work")) {
+    items.push(
+      <Space
+        size="small"
+        direction="vertical"
+        style={{ textAlign: "center" }}
+        onClick={() => {
+          navigate("/tasks");
+        }}
+      >
+        <UnorderedListOutlined style={{ fontSize: "20px" }} />
+        <div style={{ fontSize: "12px" }}>Задачи</div>
+      </Space>,
+    );
+  }
 
   if (checkPermission("parcel-view-my")) {
     items.push(
@@ -34,20 +51,21 @@ export const AppFooter = () => {
   }
 
   if (checkPermission("parcel-view-in-work")) {
-    items.unshift(
+    items.push(
       <Space
         size="small"
         direction="vertical"
         style={{ textAlign: "center" }}
         onClick={() => {
-          navigate("/tasks");
+          navigate("/storage");
         }}
       >
-        <UnorderedListOutlined style={{ fontSize: "20px" }} />
-        <div style={{ fontSize: "12px" }}>Задачи</div>
+        <InsertRowBelowOutlined style={{ fontSize: "20px" }} />
+        <div style={{ fontSize: "12px" }}>Склад</div>
       </Space>,
     );
   }
+
   if (
     checkPermission("manifest-incoming-view") ||
     checkPermission("manifest-outgoing-view")

@@ -12,6 +12,9 @@ export const parcelsInStorageDesktopColumns = (
 
   const aptdPartner = checkPermission("parcel-view-aptd-partner");
   const aptdTransfer = checkPermission("parcel-view-aptd-transfer");
+  const internalInformation = checkPermission(
+    "parcel-view-internalInformation",
+  );
 
   columns.push({
     title: "Номер",
@@ -60,7 +63,7 @@ export const parcelsInStorageDesktopColumns = (
     ),
   });
 
-  if (aptdPartner || aptdTransfer) {
+  if (aptdPartner || aptdTransfer || internalInformation) {
     columns.push({
       title: "Перевозка",
       key: "rec",
@@ -69,6 +72,7 @@ export const parcelsInStorageDesktopColumns = (
         <>
           <div>Партнер: {record.aptdPartner}</div>
           <div>Перевозчик: {record.aptdTransfer}</div>
+          <div>Примечание: {record.internalInformation}</div>
         </>
       ),
     });

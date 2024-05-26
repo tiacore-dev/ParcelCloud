@@ -108,6 +108,7 @@ export const ParcelsInStorage = () => {
           }
           loading={isLoading}
           rowSelection={rowSelection}
+          pagination={false}
         />
       </Content>
     </>

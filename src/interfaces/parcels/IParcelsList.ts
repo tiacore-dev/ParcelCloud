@@ -44,6 +44,7 @@ export interface IParcelsAsignedListColumn extends IParcelsAsignedList {
 export interface IParcelsInStorageList extends IParcelsList {
   aptdPartner?: string;
   aptdTransfer?: string;
+  internalInformation?: string;
   toDelivery: boolean;
   toReceive: boolean;
   myOwn: boolean;
