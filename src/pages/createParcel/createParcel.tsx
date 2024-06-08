@@ -197,7 +197,11 @@ export const CreateParcel = (props: ICreateParcelProps) => {
       });
     }
 
-    useApi<{ cost: number }, CalculateDto>("calculate", "get", calculateParams)
+    useApi<{ cost: number; days: string }, CalculateDto>(
+      "calculate",
+      "get",
+      calculateParams,
+    )
       .then((result) => {
         if (result.cost === 0) {
           messageApi.open({
@@ -207,6 +211,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
         }
 
         dispatch(editParcelAction.setCost(result.cost));
+        dispatch(editParcelAction.setDays(result.days));
       })
       .catch(() => {});
   };
@@ -709,9 +714,11 @@ export const CreateParcel = (props: ICreateParcelProps) => {
           <Form.Item>
             <Button onClick={handleCalculate}>Расчет тарифа</Button>
           </Form.Item>
-
+          {!!data.days && (
+            <Form.Item label="Срок доставки">{`${data.days} раб.дн.`}</Form.Item>
+          )}
           {!!data.cost && (
-            <Form.Item label="Стоимость доставки">{data.cost} руб.</Form.Item>
+            <Form.Item label="Стоимость доставки">{`${data.cost} руб.`}</Form.Item>
           )}
           {!!data.cost && !!data.insureValue && (
             <Form.Item label="Стоимость страховки">

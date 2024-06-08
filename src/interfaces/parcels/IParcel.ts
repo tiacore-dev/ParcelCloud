@@ -58,7 +58,8 @@ export interface IParcel {
   weight: number;
   volume: number;
   priceId?: string;
-  cost: number;
+  cost?: number;
+  days?: string;
   insureValue: number;
   COD: number;
   payType: keyof typeof payTypeEnum;

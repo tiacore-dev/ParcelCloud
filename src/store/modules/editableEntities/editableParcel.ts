@@ -90,6 +90,7 @@ const setParcelData = (
   state.volume = parcelData.volume;
   state.priceId = parcelData.priceId;
   state.cost = parcelData.cost;
+  state.days = parcelData.days;
   state.insureValue = parcelData.insureValue;
   state.COD = parcelData.COD;
   state.payType = parcelData.payType;
@@ -200,6 +201,9 @@ const editableParcelSlice = createSlice({
     },
     setCost: (state: IEditableParcelState, action: { payload: number }) => {
       state.cost = action.payload;
+    },
+    setDays: (state: IEditableParcelState, action: { payload: string }) => {
+      state.days = action.payload;
     },
     setCustomer: (state: IEditableParcelState, action: { payload: string }) => {
       state.customer = action.payload;
