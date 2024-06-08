@@ -20,6 +20,7 @@ import {
   IParcelsAsignedGroupColumn,
 } from "../../interfaces/parcels/IParcelsList";
 import { parcelsAsignedMobileGroupColumns } from "./components/mobileGroup.columns";
+import { useReceiveParcelDialog } from "./components/hooks/useReceiveParcelDialog";
 
 export interface GetParcelsAsignedDto {
   authToken: IauthToken;
@@ -30,6 +31,8 @@ export const ParcelsAsigned = () => {
     () => [{ title: "Главная" }, { title: "Назначенные накладные" }],
     [],
   );
+
+  const getReceiveParcelDialog = useReceiveParcelDialog();
 
   const { Content } = Layout;
   const token = authToken();
@@ -55,45 +58,62 @@ export const ParcelsAsigned = () => {
     (state: IState) => state.pages.parcelsAsigned.data,
   );
 
-  const dataSource = React.useMemo(
-    () =>
-      parcelsData
-        .map((el) => ({ ...el, key: el.id }))
-        .filter((el) => {
-          // Если есть фильтр по номеру то проверяем элемент, если не находим, то не возвращаем элемент
-          if (filters.number) {
-            const indexOf = el.number
-              .toUpperCase()
-              .indexOf(filters.number.toUpperCase());
-            if (indexOf === -1) {
-              return false;
-            }
+  const dataSource = React.useMemo(() => {
+    return parcelsData
+      .map((el) => ({ ...el, key: el.id }))
+      .filter((el) => {
+        // Если есть фильтр по номеру то проверяем элемент, если не находим, то не возвращаем элемент
+        if (filters.number) {
+          const indexOf = el.number
+            .toUpperCase()
+            .indexOf(filters.number.toUpperCase());
+          if (indexOf === -1) {
+            return false;
           }
+        }
 
-          // Если накладная на доставку, то проверяем фильтр типа задачи и фильтр расчетной даты доставки
-          if (el.toDelivery) {
-            if (filters.taskType === "toReceive") {
-              return false;
-            }
-            if (filters.date && Date.parse(el.date) !== filters.date) {
-              return false;
-            }
+        // Если накладная на доставку, то проверяем фильтр типа задачи и фильтр расчетной даты доставки
+        if (el.toDelivery) {
+          if (filters.taskType !== "toDelivery" && filters.taskType !== "all") {
+            return false;
           }
-
-          // Если накладная на забор, то проверяем фильтр типа задачи и фильтр даты накладной
-          if (el.toReceive || el.received) {
-            if (filters.taskType === "toDelivery") {
-              return false;
-            }
-            if (filters.date && Date.parse(el.planDate) !== filters.date) {
-              return false;
-            }
+          if (filters.date && Date.parse(el.date) !== filters.date) {
+            return false;
           }
+        }
 
-          return true;
-        }),
-    [parcelsData, filters],
-  );
+        // Если накладная на забор, то проверяем фильтр типа задачи и фильтр даты накладной
+        if (el.toReceive) {
+          if (filters.taskType !== "toReceive" && filters.taskType !== "all") {
+            return false;
+          }
+          if (filters.date && Date.parse(el.planDate) !== filters.date) {
+            return false;
+          }
+        }
+
+        // Если накладная получена, то проверяем фильтр типа задачи и фильтр даты накладной
+        if (el.received) {
+          if (filters.taskType !== "received" && filters.taskType !== "all") {
+            return false;
+          }
+          if (filters.date && Date.parse(el.planDate) !== filters.date) {
+            return false;
+          }
+        }
+
+        return true;
+      })
+      .sort((a, b) => {
+        if (a.received < b.received) {
+          return -1;
+        }
+        if (a.received > b.received) {
+          return 1;
+        }
+        return 0;
+      });
+  }, [parcelsData, filters]);
 
   const groups: IParcelsAsignedGroupColumn[] = React.useMemo(() => {
     const convertedList: IParcelsAsignedGroup[] = dataSource.map((el) => ({
@@ -139,17 +159,13 @@ export const ParcelsAsigned = () => {
       return (
         <Table
           dataSource={data}
-          columns={parcelsAsignedMobileColumns()}
+          columns={parcelsAsignedMobileColumns(
+            getReceiveParcelDialog,
+            navigate,
+          )}
           showHeader={!isMobile()}
           loading={isLoading}
           pagination={false}
-          onRow={(record) => {
-            return {
-              onClick: () => {
-                navigate(`/parcels/${record.key}`);
-              },
-            };
-          }}
         />
       );
     },

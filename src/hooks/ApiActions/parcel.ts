@@ -30,6 +30,7 @@ import { delTypeEnum } from "../../enumerations/delTypeEnum";
 import { setManifestParcelsStatus } from "../../store/modules/pages/manifest";
 import { GetParcelsAsignedDto } from "../../pages/parcelsAsigned/parcelsAsigned";
 import {
+  changeParcelAsignedStatus,
   getParcelsAsignedFailure,
   getParcelsAsignedRequest,
   getParcelsAsignedSuccess,
@@ -115,6 +116,7 @@ export interface ParcelStatusData {
   status: ParcelStatus;
   toDelivery?: boolean;
   toReceive?: boolean;
+  received?: boolean;
   history?: IParcelHistory[];
 }
 
@@ -162,6 +164,12 @@ export const setGeneralParcelStatus = (
   )
     .then((response) => {
       dispatch(setParcelStatus(response));
+      dispatch(
+        changeParcelAsignedStatus({
+          id: setGeneralParcelStatusParam.parcelId,
+          statusData: response,
+        }),
+      );
     })
     .catch((err) => {
       dispatch(getParcelsFailure(err));
@@ -265,8 +273,6 @@ export const createParcel = (
       dispatch(clearCreateParcelState());
     })
     .catch((err) => {
-      console.log("err", err);
-
       if (onError) {
         onError(String(err));
       }

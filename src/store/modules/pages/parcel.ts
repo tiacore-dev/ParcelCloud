@@ -44,11 +44,13 @@ const parcelSlice = createSlice({
       state: IParcelState,
       action: { payload: ParcelStatusData },
     ) => {
-      state.loading = false;
-      state.loaded = true;
-      state.data.status = action.payload.status;
-      state.data.toReceive = action.payload.toReceive;
-      state.data.toDelivery = action.payload.toDelivery;
+      if (state.data) {
+        state.loading = false;
+        state.loaded = true;
+        state.data.status = action.payload.status;
+        state.data.toReceive = action.payload.toReceive;
+        state.data.toDelivery = action.payload.toDelivery;
+      }
     },
 
     clearParcelState: (state: IParcelState) => {

@@ -47,15 +47,12 @@ export const parcelsAsignedMobileGroupColumns =
             )}
             {(record.toReceive || record.received) && (
               <div>
-                <div>Отправитель: </div>
-                <div>{record.sendCity}</div>
                 <div style={{ fontWeight: 600 }}>{record.sendAddress}</div>
                 <div style={{ fontWeight: 600 }}>{record.sendCompany}</div>
               </div>
             )}
             {record.toDelivery && (
               <div>
-                <div>Получатель:</div>
                 <div>{record.recCity}</div>
                 <div style={{ fontWeight: 600 }}>{record.recAddress}</div>
                 <div style={{ fontWeight: 600 }}>{record.recCompany}</div>

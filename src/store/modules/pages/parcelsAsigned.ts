@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IParcelsAsignedList } from "../../../interfaces/parcels/IParcelsList";
+import { ParcelStatusData } from "../../../hooks/ApiActions/parcel";
 
 interface IParcelsAsignedState {
   data: IParcelsAsignedList[];
@@ -19,6 +20,28 @@ const parcelsAsignedSlice = createSlice({
   name: "parcelsAsigned",
   initialState,
   reducers: {
+    changeParcelAsignedStatus: (
+      state: IParcelsAsignedState,
+      action: {
+        payload: { id: string; statusData: ParcelStatusData };
+      },
+    ) => {
+      state.data = state.data.map((el) =>
+        el.id === action.payload.id
+          ? {
+              ...el,
+              status: action.payload.statusData.status,
+              toDelivery: action.payload.statusData.toDelivery
+                ? action.payload.statusData.toDelivery
+                : el.toDelivery,
+              received: action.payload.statusData.received
+                ? action.payload.statusData.received
+                : el.received,
+            }
+          : el,
+      );
+    },
+
     getParcelsAsignedRequest: (state: IParcelsAsignedState) => {
       state.loading = true;
       state.loaded = false;
@@ -49,6 +72,7 @@ const parcelsAsignedSlice = createSlice({
 });
 
 export const {
+  changeParcelAsignedStatus,
   getParcelsAsignedRequest,
   getParcelsAsignedFailure,
   getParcelsAsignedSuccess,

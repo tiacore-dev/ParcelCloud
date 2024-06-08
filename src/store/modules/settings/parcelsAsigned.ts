@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-type taskType = "toDelivery" | "toReceive" | "all";
+type taskType = "toDelivery" | "toReceive" | "received" | "all";
 
 interface IParcelsAsignedFilter {
   taskType: taskType;

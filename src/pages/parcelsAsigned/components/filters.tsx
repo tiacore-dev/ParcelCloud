@@ -68,6 +68,7 @@ export const Filters = () => {
       >
         <Radio.Button value="toDelivery">Доставки</Radio.Button>
         <Radio.Button value="toReceive">Заборы</Radio.Button>
+        <Radio.Button value="received">Получено</Radio.Button>
         <Radio.Button value="all">Всё</Radio.Button>
       </Radio.Group>
 

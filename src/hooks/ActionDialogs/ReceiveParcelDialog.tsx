@@ -6,18 +6,23 @@ interface IReceiveParcelDialogProps {
   parcelId?: string;
   parcelNumber?: string;
   iconOnly?: boolean;
-
+  buttonType?: "link" | "primary" | "text" | "default" | "dashed";
   onReceive: () => void;
 }
 
 export const ReceiveParcelDialog = (props: IReceiveParcelDialogProps) => {
-  const { onReceive, parcelNumber, iconOnly = false } = props;
+  const {
+    onReceive,
+    parcelNumber,
+    iconOnly = false,
+    buttonType = "primary",
+  } = props;
 
   return (
     <ActionDialog
       onConfirm={onReceive}
       buttonText={iconOnly ? "" : "Получено"}
-      buttonType="primary"
+      buttonType={buttonType}
       buttonIcon={<CheckCircleTwoTone twoToneColor="#ff1616" />}
       modalTitle={`Подтверждение получения ${parcelNumber}`}
       modalText={
