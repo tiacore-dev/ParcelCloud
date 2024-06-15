@@ -16,6 +16,7 @@ import { EditParcelDialog } from "../../../hooks/ActionDialogs/EditParcelDialog"
 import { CopyParcelDialog } from "../../../hooks/ActionDialogs";
 import { PrintStampModal } from "./printStampModal";
 import { isMobile } from "../../../utils/isMobile";
+import { DownloadButton } from "./downloadButton";
 
 interface IParcelActionsProps {
   parcelData: IParcel;
@@ -112,6 +113,7 @@ export const ParcelActions = (props: IParcelActionsProps) => {
 
   const printModal = parcelData && <PrintModal data={parcelData} />;
   const printStampModal = parcelData && <PrintStampModal data={parcelData} />;
+  const downloadButton = parcelData && <DownloadButton data={parcelData} />;
 
   return (
     <div
@@ -125,7 +127,7 @@ export const ParcelActions = (props: IParcelActionsProps) => {
       {copyParcelDialog}
       {printModal}
       {printStampModal}
-
+      {downloadButton}
       {contextHolder}
     </div>
   );

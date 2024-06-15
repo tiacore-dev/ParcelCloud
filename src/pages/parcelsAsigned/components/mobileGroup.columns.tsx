@@ -49,6 +49,7 @@ export const parcelsAsignedMobileGroupColumns =
               <div>
                 <div style={{ fontWeight: 600 }}>{record.sendAddress}</div>
                 <div style={{ fontWeight: 600 }}>{record.sendCompany}</div>
+                <div style={{ fontWeight: 600 }}>{record.sendTime}</div>
               </div>
             )}
             {record.toDelivery && (
@@ -56,6 +57,7 @@ export const parcelsAsignedMobileGroupColumns =
                 <div>{record.recCity}</div>
                 <div style={{ fontWeight: 600 }}>{record.recAddress}</div>
                 <div style={{ fontWeight: 600 }}>{record.recCompany}</div>
+                <div style={{ fontWeight: 600 }}>{record.recTime}</div>
               </div>
             )}
           </>

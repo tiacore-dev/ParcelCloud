@@ -122,10 +122,12 @@ export const ParcelsAsigned = () => {
       sendAddress: (el.toReceive || el.received) && el.sendAddress,
       sendCity: (el.toReceive || el.received) && el.sendCity,
       sendCompany: (el.toReceive || el.received) && el.sendCompany,
+      sendTime: (el.toReceive || el.received) && el.sendTime,
 
       recAddress: el.toDelivery && el.recAddress,
       recCity: el.toDelivery && el.recCity,
       recCompany: el.toDelivery && el.recCompany,
+      recTime: el.toDelivery && el.recTime,
 
       toDelivery: el.toDelivery,
       toReceive: el.toReceive,

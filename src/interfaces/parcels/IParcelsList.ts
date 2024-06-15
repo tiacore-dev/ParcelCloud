@@ -60,9 +60,11 @@ export interface IParcelsAsignedGroup {
   sendCity?: string;
   sendAddress?: string;
   sendCompany?: string;
+  sendTime?: string;
   recCity?: string;
   recAddress?: string;
   recCompany?: string;
+  recTime?: string;
   toDelivery: boolean;
   toReceive: boolean;
   received: boolean;
