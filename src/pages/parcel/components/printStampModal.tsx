@@ -28,6 +28,7 @@ export const PrintStampModal = (props: IPrintModalProps) => {
     <>
       {!isMobile() && (
         <Button
+          size="large"
           className="parcel__actions__button"
           icon={<AppstoreTwoTone twoToneColor="#ff1616" />}
           onClick={showModal}
@@ -40,10 +41,11 @@ export const PrintStampModal = (props: IPrintModalProps) => {
         onOk={handlePrint}
         onCancel={handleClose}
         footer={[
-          <Button key="back" onClick={handleClose}>
+          <Button size="large" key="back" onClick={handleClose}>
             Отмена
           </Button>,
           <Button
+            size="large"
             key="submit"
             type="primary"
             onClick={() => {

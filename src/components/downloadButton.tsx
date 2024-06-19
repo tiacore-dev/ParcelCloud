@@ -18,6 +18,7 @@ export const DownloadButton = ({
   className = "parcels_filters_right-button",
 }: IDownloadButtonProps) => (
   <Button
+    size="large"
     className={className}
     icon={<FileExcelTwoTone twoToneColor="#ff1616" />}
   >

@@ -120,7 +120,9 @@ export const columns = () => {
                   okText="Да"
                   cancelText="Нет"
                 >
-                  <Button danger>Удалить</Button>
+                  <Button size="large" danger>
+                    Удалить
+                  </Button>
                 </Popconfirm>
               </Form.Item>
             </Card>
@@ -211,6 +213,7 @@ export const columns = () => {
               />
               <Space>
                 <Button
+                  size="large"
                   disabled={!record || record.qt <= 1}
                   onClick={() => {
                     const value = (record?.qt || 0) - 1;
@@ -219,6 +222,7 @@ export const columns = () => {
                   icon={<MinusCircleOutlined />}
                 />
                 <Button
+                  size="large"
                   onClick={() => {
                     const value = (record?.qt || 0) + 1;
                     dispatch(editParcelAction.editItemQt({ index, value }));
@@ -247,10 +251,12 @@ export const columns = () => {
           render: (text: string, record: IParcelItem, index: number) => (
             <Space>
               <Button
+                size="large"
                 icon={<CopyTwoTone twoToneColor="#ff1616" />}
                 onClick={() => handleCopy(index)}
               />
               <Button
+                size="large"
                 icon={<DeleteTwoTone twoToneColor="#ff1616" />}
                 onClick={() => handleDelete(index)}
               />

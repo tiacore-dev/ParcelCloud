@@ -27,6 +27,7 @@ export const ItemsTable = ({ data }: { data: IEditableParcelState }) => {
         pagination={false}
       />
       <Button
+        size="large"
         onClick={handleAddItem}
         type="primary"
         style={{

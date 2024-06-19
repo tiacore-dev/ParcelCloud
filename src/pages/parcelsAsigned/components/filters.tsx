@@ -43,12 +43,14 @@ export const Filters = () => {
     >
       <Space>
         <Button
+          size="large"
           className="parcels-asigned_filters_button"
           icon={<ReloadOutlined />}
           onClick={() => getParcelsAsigned(dispatch, param)}
         />
 
         <Input
+          size="large"
           className="parcels_filters_search"
           placeholder="Фильтр по номеру"
           value={filters.number}
@@ -60,6 +62,7 @@ export const Filters = () => {
       </Space>
 
       <Radio.Group
+        size="large"
         value={filters.taskType}
         buttonStyle="solid"
         onChange={(e) => {
@@ -73,6 +76,7 @@ export const Filters = () => {
       </Radio.Group>
 
       <DatePicker
+        size="large"
         className="parcels_filters_date-picker"
         value={filters.date ? dayjs(filters.date) : null}
         placeholder="Дата"

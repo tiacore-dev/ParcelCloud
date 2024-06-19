@@ -64,6 +64,7 @@ export const ManifestActions = (props: IManifestActionsProps) => {
     <div className="manifest__actions">
       {manifestData.type === "outgoing" && !manifestData.sent && (
         <Button
+          size="large"
           type="primary"
           className="manifest__actions__button"
           icon={<PlusCircleTwoTone twoToneColor="#ff1616" />}
@@ -75,6 +76,7 @@ export const ManifestActions = (props: IManifestActionsProps) => {
 
       {manifestData.type === "outgoing" && !manifestData.sent && (
         <Button
+          size="large"
           className="manifest__actions__button"
           icon={<DeleteTwoTone twoToneColor="#ff1616" />}
           onClick={deleteManifestHandler}

@@ -199,7 +199,11 @@ export const Manifest = () => {
           )}
 
           {!!selectedRows.length && !!manifestData.parcels && (
-            <Button onClick={receiveParcels} style={{ margin: "8px 0" }}>
+            <Button
+              size="large"
+              onClick={receiveParcels}
+              style={{ margin: "8px 0" }}
+            >
               Принять накладные на склад
               {` (${selectedRows.length} из ${manifestData.parcels.length})`}
             </Button>
@@ -223,7 +227,10 @@ export const Manifest = () => {
                 type="error"
                 closable
               />
-              <Button onClick={() => getManifest(dispatch, params)} />
+              <Button
+                size="large"
+                onClick={() => getManifest(dispatch, params)}
+              />
             </>
           )}
         </Content>

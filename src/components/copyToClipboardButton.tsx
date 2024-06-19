@@ -12,6 +12,7 @@ export const CopyToClipboardButton = ({
   className = "without-border",
 }: ICopyToClipboardButtonProps) => (
   <Button
+    size="large"
     className={className}
     icon={<CopyOutlined />}
     onClick={() => {

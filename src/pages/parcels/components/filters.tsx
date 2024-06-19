@@ -97,6 +97,7 @@ export const Filters = (props: IFiltersProps) => {
 
   const createButton = (
     <Button
+      size="large"
       icon={<PlusCircleTwoTone twoToneColor="#ff1616" />}
       onClick={() => {
         dispatch(clearCreateParcelState());
@@ -109,11 +110,16 @@ export const Filters = (props: IFiltersProps) => {
   );
 
   const reloadButton = (
-    <Button icon={<ReloadOutlined />} onClick={() => onChange(param)} />
+    <Button
+      size="large"
+      icon={<ReloadOutlined />}
+      onClick={() => onChange(param)}
+    />
   );
 
   const datePickerFrom = (
     <DatePicker
+      size="large"
       className="parcels_filters_date-picker"
       value={dayjs(filters.dateFrom)}
       placeholder="Дата начала"
@@ -125,6 +131,7 @@ export const Filters = (props: IFiltersProps) => {
 
   const datePickerTo = (
     <DatePicker
+      size="large"
       className="parcels_filters_date-picker"
       value={dayjs(filters.dateTo)}
       placeholder="Дата окончания"
@@ -136,6 +143,7 @@ export const Filters = (props: IFiltersProps) => {
 
   const numberFilter = (
     <Search
+      size="large"
       className="parcels_filters_search"
       placeholder="Поиск по номеру"
       defaultValue={filters.number}
@@ -146,6 +154,7 @@ export const Filters = (props: IFiltersProps) => {
 
   const sendCityFilter = (
     <Select
+      size="large"
       mode="multiple"
       value={filters.sendCities}
       allowClear
@@ -158,6 +167,7 @@ export const Filters = (props: IFiltersProps) => {
 
   const recCityFilter = (
     <Select
+      size="large"
       mode="multiple"
       value={filters.recCities}
       allowClear
@@ -170,6 +180,7 @@ export const Filters = (props: IFiltersProps) => {
 
   const statusFilter = (
     <Select
+      size="large"
       mode="multiple"
       value={filters.statuses}
       className="parcels_filters_select"

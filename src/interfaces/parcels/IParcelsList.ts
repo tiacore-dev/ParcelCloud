@@ -35,7 +35,7 @@ export interface IParcelsAsignedList extends IParcelsList {
   received: boolean;
   recTime: string;
   sendTime: string;
-  delDate: string;
+  planDate: string;
 }
 
 export interface IParcelsAsignedListColumn extends IParcelsAsignedList {

@@ -4,6 +4,7 @@ import { IParcelsAsignedGroupColumn } from "../../../interfaces/parcels/IParcels
 import { checkPermission } from "../../../hooks/useAuth";
 import {
   CheckCircleOutlined,
+  FieldTimeOutlined,
   LoginOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
@@ -49,7 +50,12 @@ export const parcelsAsignedMobileGroupColumns =
               <div>
                 <div style={{ fontWeight: 600 }}>{record.sendAddress}</div>
                 <div style={{ fontWeight: 600 }}>{record.sendCompany}</div>
-                <div style={{ fontWeight: 600 }}>{record.sendTime}</div>
+                {record.sendTime && (
+                  <div style={{ fontWeight: 600 }}>
+                    <FieldTimeOutlined className="parcels-asigned__time_icon" />
+                    {record.sendTime}
+                  </div>
+                )}
               </div>
             )}
             {record.toDelivery && (
@@ -57,7 +63,12 @@ export const parcelsAsignedMobileGroupColumns =
                 <div>{record.recCity}</div>
                 <div style={{ fontWeight: 600 }}>{record.recAddress}</div>
                 <div style={{ fontWeight: 600 }}>{record.recCompany}</div>
-                <div style={{ fontWeight: 600 }}>{record.recTime}</div>
+                {record.recTime && (
+                  <div style={{ fontWeight: 600 }}>
+                    <FieldTimeOutlined className="parcels-asigned__time_icon" />
+                    {record.recTime}
+                  </div>
+                )}
               </div>
             )}
           </>

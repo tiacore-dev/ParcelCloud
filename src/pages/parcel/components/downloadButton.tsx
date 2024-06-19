@@ -53,6 +53,7 @@ export const DownloadButton = (props: IDownloadButtonProps) => {
     <>
       <Button
         className="parcel__actions__button"
+        size="large"
         icon={<DownloadOutlined style={{ color: "#ff1616" }} />}
         onClick={showModal}
       ></Button>
@@ -63,10 +64,11 @@ export const DownloadButton = (props: IDownloadButtonProps) => {
         onOk={dowload}
         onCancel={handleClose}
         footer={[
-          <Button key="back" onClick={handleClose}>
+          <Button size="large" key="back" onClick={handleClose}>
             Отмена
           </Button>,
           <Button
+            size="large"
             key="submit"
             type="primary"
             onClick={() => {

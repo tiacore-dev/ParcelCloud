@@ -34,6 +34,7 @@ export const Filters = ({ selectedRows }: { selectedRows: IParcelsList[] }) => {
 
   const reloadButton = (
     <Button
+      size="large"
       className="parcels-asigned_filters_button"
       icon={<ReloadOutlined />}
       onClick={() => getParcelsInStorage(dispatch, param)}
@@ -42,6 +43,7 @@ export const Filters = ({ selectedRows }: { selectedRows: IParcelsList[] }) => {
 
   const search = (
     <Input
+      size="large"
       className="parcels_filters_search"
       placeholder="Фильтр по номеру"
       value={filters.number}
@@ -54,6 +56,7 @@ export const Filters = ({ selectedRows }: { selectedRows: IParcelsList[] }) => {
 
   const filterRadioSelect = (
     <Radio.Group
+      size="large"
       value={filters.parcelInStorageType}
       buttonStyle="solid"
       onChange={(e) => {
@@ -69,6 +72,7 @@ export const Filters = ({ selectedRows }: { selectedRows: IParcelsList[] }) => {
 
   const createButton = (
     <Button
+      size="large"
       icon={<PlusCircleTwoTone twoToneColor="#ff1616" />}
       onClick={() => {
         dispatch(

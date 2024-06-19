@@ -14,9 +14,9 @@ export interface IParcelsAsignedSettingsState {
 
 const initialState: IParcelsAsignedSettingsState = {
   filters: {
-    taskType: "all",
+    taskType: "toReceive",
     number: "",
-    date: null,
+    date: new Date().valueOf(),
   },
 };
 

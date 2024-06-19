@@ -82,6 +82,7 @@ export const parcelsInEditableManifestDesktopColumns = (
       render: (text: string, record: IParcelsList) => (
         <Space>
           <Button
+            size="large"
             icon={<DeleteTwoTone twoToneColor="#ff1616" />}
             onClick={() => handleDelete(record.id)}
           />

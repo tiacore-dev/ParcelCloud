@@ -98,19 +98,25 @@ export const Template = () => {
           <Form.Item>
             <Space>
               <Button
+                size="large"
                 type="primary"
                 onClick={() => editTemplateHandler(params)}
               >
                 Сохранить
               </Button>
               <Button
+                size="large"
                 onClick={() => {
                   navigate(`/templates`);
                 }}
               >
                 Закрыть
               </Button>
-              <Button danger onClick={() => deleteTemplateHandler(params)}>
+              <Button
+                size="large"
+                danger
+                onClick={() => deleteTemplateHandler(params)}
+              >
                 Удалить
               </Button>
             </Space>

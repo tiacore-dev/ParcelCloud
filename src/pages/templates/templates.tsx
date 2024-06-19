@@ -29,6 +29,7 @@ export const Templates = () => {
         }}
       >
         <Button
+          size="large"
           type="primary"
           onClick={() => {
             navigate(`/templates/create`);

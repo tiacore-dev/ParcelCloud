@@ -77,7 +77,7 @@ export const ParcelsAsigned = () => {
           if (filters.taskType !== "toDelivery" && filters.taskType !== "all") {
             return false;
           }
-          if (filters.date && Date.parse(el.date) !== filters.date) {
+          if (filters.date && Date.parse(el.planDate) !== filters.date) {
             return false;
           }
         }
@@ -87,7 +87,7 @@ export const ParcelsAsigned = () => {
           if (filters.taskType !== "toReceive" && filters.taskType !== "all") {
             return false;
           }
-          if (filters.date && Date.parse(el.planDate) !== filters.date) {
+          if (filters.date && Date.parse(el.date) !== filters.date) {
             return false;
           }
         }
@@ -97,7 +97,7 @@ export const ParcelsAsigned = () => {
           if (filters.taskType !== "received" && filters.taskType !== "all") {
             return false;
           }
-          if (filters.date && Date.parse(el.planDate) !== filters.date) {
+          if (filters.date && Date.parse(el.date) !== filters.date) {
             return false;
           }
         }

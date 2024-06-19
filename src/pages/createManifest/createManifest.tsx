@@ -271,6 +271,7 @@ export const CreateManifest = (props: ICreateManifestProps) => {
           {!hideSaveButton && (
             <Form.Item>
               <Button
+                size="large"
                 style={{ marginTop: "12px" }}
                 loading={data.sent}
                 onClick={handleSave}

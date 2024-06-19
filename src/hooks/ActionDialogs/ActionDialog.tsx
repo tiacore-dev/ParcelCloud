@@ -59,6 +59,7 @@ export const ActionDialog = (props: IActionDialogProps) => {
 
   const button = (
     <Button
+      size="large"
       type={buttonType}
       onClick={showModal}
       icon={buttonIcon}
@@ -69,10 +70,11 @@ export const ActionDialog = (props: IActionDialogProps) => {
   );
 
   const footer = [
-    <Button key="back" onClick={handleCancel}>
+    <Button size="large" key="back" onClick={handleCancel}>
       Отмена
     </Button>,
     <Button
+      size="large"
       key="submit"
       type="primary"
       loading={modalOkLoading}

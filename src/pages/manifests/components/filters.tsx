@@ -53,6 +53,7 @@ export const Filters = (props: IFiltersProps) => {
 
   const createManifestButton = (
     <Button
+      size="large"
       icon={<PlusCircleTwoTone twoToneColor="#ff1616" />}
       onClick={() => {
         dispatch(clearCreateManifestState());
@@ -65,7 +66,11 @@ export const Filters = (props: IFiltersProps) => {
   );
 
   const reloadButton = (
-    <Button icon={<ReloadOutlined />} onClick={() => onChange(param)} />
+    <Button
+      size="large"
+      icon={<ReloadOutlined />}
+      onClick={() => onChange(param)}
+    />
   );
 
   const manifestTypeFilter = (

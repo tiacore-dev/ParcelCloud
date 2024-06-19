@@ -41,7 +41,7 @@ export const parcelsAsignedDesktopColumns =
             <div>
               Дата:{" "}
               {record.toDelivery
-                ? dateToLocalString(record.delDate)
+                ? dateToLocalString(record.planDate)
                 : dateToLocalString(record.date)}
             </div>
             <div>

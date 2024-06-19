@@ -81,6 +81,7 @@ export const ParcelActions = (props: IParcelActionsProps) => {
   const toReceiveСonfirmedButton = parcelData.toReceiveСonfirmed === false &&
     parcelAccept && (
       <Button
+        size="large"
         type="primary"
         className="parcel__actions__button"
         icon={<PlusCircleTwoTone twoToneColor="#ff1616" />}

@@ -86,10 +86,15 @@ export const Account = () => {
         <Descriptions.Item label="e-mail">{data.email}</Descriptions.Item>
       </Descriptions>
       <Space direction="vertical">
-        <Button onClick={refresh}>Обновить данные</Button>
-        <Button onClick={handleSubscribe}>Подписаться</Button>
+        <Button size="large" onClick={refresh}>
+          Обновить данные
+        </Button>
+        <Button size="large" onClick={handleSubscribe}>
+          Подписаться
+        </Button>
 
         <Button
+          size="large"
           onClick={() => {
             dispatch(clearParcelsSettingsState());
             dispatch(clearParcelsState());
@@ -113,6 +118,7 @@ export const Account = () => {
 
         {checkPermission("template-view") && (
           <Button
+            size="large"
             onClick={() => {
               navigate("/templates");
             }}
@@ -123,6 +129,7 @@ export const Account = () => {
 
         {checkPermission("document-view") && (
           <Button
+            size="large"
             onClick={() => {
               navigate("/documents");
             }}
