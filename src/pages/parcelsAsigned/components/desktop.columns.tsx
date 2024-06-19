@@ -22,7 +22,6 @@ export const parcelsAsignedDesktopColumns =
               {record.toDelivery && (
                 <LogoutOutlined className="parcels-asigned__table__delivery_icon" />
               )}
-              ;
               {record.toReceive && (
                 <LoginOutlined className="parcels-asigned__table__receive_icon" />
               )}

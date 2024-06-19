@@ -12,11 +12,13 @@ export interface IParcelsAsignedSettingsState {
   filters: IParcelsAsignedFilter;
 }
 
+const today = new Date().setUTCHours(-7, 0, 0, 0).valueOf();
+
 const initialState: IParcelsAsignedSettingsState = {
   filters: {
     taskType: "toReceive",
     number: "",
-    date: new Date().valueOf(),
+    date: today,
   },
 };
 
