@@ -125,6 +125,11 @@ export interface ParcelsStatusData {
   status: ParcelStatus;
 }
 
+export interface FindParcelDto {
+  number: string;
+  authToken: IauthToken;
+}
+
 export const getParcels = (
   dispatch: Dispatch<AnyAction>,
   getParcelsParam: GetParcelsDto,
@@ -314,4 +319,25 @@ export const getParcelsInStorage = (
     .catch((err) => {
       dispatch(getParcelsInStorageFailure(err));
     });
+};
+
+export const findParcel = async (
+  navigate: NavigateFunction,
+  errFunc: (errorMessage: string) => void,
+  findParcelParam: FindParcelDto,
+) => {
+  try {
+    const parcels = await useApi<Array<{ id: string }>, FindParcelDto>(
+      "parcelfind",
+      "get",
+      findParcelParam,
+    );
+    if (parcels && parcels.length) {
+      navigate(`/parcels/${parcels[0].id}`);
+    } else {
+      errFunc("Накладная не найдена");
+    }
+  } catch (err) {
+    errFunc(err);
+  }
 };

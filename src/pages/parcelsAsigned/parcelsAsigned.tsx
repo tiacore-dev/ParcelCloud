@@ -21,12 +21,13 @@ import {
 } from "../../interfaces/parcels/IParcelsList";
 import { parcelsAsignedMobileGroupColumns } from "./components/mobileGroup.columns";
 import { useReceiveParcelDialog } from "./components/hooks/useReceiveParcelDialog";
+import { NotificationInstance } from "antd/es/notification/interface";
 
 export interface GetParcelsAsignedDto {
   authToken: IauthToken;
 }
 
-export const ParcelsAsigned = () => {
+export const ParcelsAsigned = ({ api }: { api: NotificationInstance }) => {
   const breadcrumbItems = React.useMemo(
     () => [{ title: "Главная" }, { title: "Назначенные накладные" }],
     [],
@@ -198,7 +199,7 @@ export const ParcelsAsigned = () => {
           minHeight: minPageHeight(),
         }}
       >
-        <Filters />
+        <Filters api={api} />
         {isMobile() ? (
           <Table
             dataSource={groups}

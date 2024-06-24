@@ -20,7 +20,7 @@ module.exports = () => {
     devtool: "inline-source-map",
     output: {
       path: path.join(__dirname, "/dist"),
-      filename: "5e370ddc1ecb156a538df482.bundle.js",
+      filename: "5e370ddc1ecb156a538df483.bundle.js",
       publicPath: "/",
       clean: true,
     },

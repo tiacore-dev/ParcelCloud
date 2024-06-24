@@ -12,9 +12,11 @@ interface IActionDialogProps {
   modalOkText?: string;
   modalOkLoading?: boolean;
 
+  footerDisable?: boolean;
+
   width?: string;
   onOpen?: () => void;
-  onConfirm: () => void;
+  onConfirm?: () => void;
 }
 
 export const ActionDialog = (props: IActionDialogProps) => {
@@ -27,6 +29,7 @@ export const ActionDialog = (props: IActionDialogProps) => {
     modalText,
     modalOkLoading,
     modalOkText,
+    footerDisable,
     width,
     onOpen,
     onConfirm,
@@ -46,8 +49,9 @@ export const ActionDialog = (props: IActionDialogProps) => {
 
   const handleOk = async () => {
     setConfirmLoading(true);
-
-    void onConfirm();
+    if (onConfirm) {
+      void onConfirm();
+    }
 
     setOpen(false);
     setConfirmLoading(false);
@@ -69,20 +73,22 @@ export const ActionDialog = (props: IActionDialogProps) => {
     </Button>
   );
 
-  const footer = [
-    <Button size="large" key="back" onClick={handleCancel}>
-      Отмена
-    </Button>,
-    <Button
-      size="large"
-      key="submit"
-      type="primary"
-      loading={modalOkLoading}
-      onClick={handleOk}
-    >
-      {modalOkText ?? "Ок"}
-    </Button>,
-  ];
+  const footer = footerDisable
+    ? null
+    : [
+        <Button size="large" key="back" onClick={handleCancel}>
+          Отмена
+        </Button>,
+        <Button
+          size="large"
+          key="submit"
+          type="primary"
+          loading={modalOkLoading}
+          onClick={handleOk}
+        >
+          {modalOkText ?? "Ок"}
+        </Button>,
+      ];
 
   return (
     <>

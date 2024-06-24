@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Layout } from "antd";
+import { Layout, notification } from "antd";
 import { AppHeader } from "../AppHeader/AppHeader";
 import { AppFooter } from "../AppFooter/AppFooter";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -115,6 +115,8 @@ export const App = () => {
   }
   const mobile = isMobile();
 
+  const [api, contextHolder] = notification.useNotification();
+
   return (
     <>
       <Layout>
@@ -135,7 +137,7 @@ export const App = () => {
               <Route path="parcels">
                 <Route index={true} element={<Parcels />} />
                 <Route path="create" element={<CreateParcel />} />
-                <Route path=":parcelId" element={<Parcel />} />
+                <Route path=":parcelId" element={<Parcel api={api} />} />
               </Route>
               <Route path="templates">
                 <Route index={true} element={<Templates />} />
@@ -150,7 +152,7 @@ export const App = () => {
                 <Route index={true} element={<Documents />} />
                 <Route path=":documentId" element={<Document />} />
               </Route>
-              <Route path="tasks" element={<ParcelsAsigned />} />
+              <Route path="tasks" element={<ParcelsAsigned api={api} />} />
               <Route path="storage" element={<ParcelsInStorage />} />
               <Route path="history" element={<HistoryPage />} />
               <Route path="prices" element={<Prices />} />
@@ -160,6 +162,7 @@ export const App = () => {
         </Layout>
 
         {isAuth && <AppFooter />}
+        {contextHolder}
       </Layout>
     </>
   );

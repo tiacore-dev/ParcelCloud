@@ -1,7 +1,7 @@
 import * as React from "react";
 import { IParcel } from "../../../interfaces/parcels/IParcel";
 import { PrintModal } from "./printModal";
-import { notification, Button } from "antd";
+import { Button } from "antd";
 import { PlusCircleTwoTone } from "@ant-design/icons";
 import {
   GetParcelDto,
@@ -17,16 +17,17 @@ import { CopyParcelDialog } from "../../../hooks/ActionDialogs";
 import { PrintStampModal } from "./printStampModal";
 import { isMobile } from "../../../utils/isMobile";
 import { DownloadButton } from "./downloadButton";
+import { NotificationInstance } from "antd/es/notification/interface";
 
 interface IParcelActionsProps {
+  api: NotificationInstance;
   parcelData: IParcel;
   params: GetParcelDto;
 }
 
 export const ParcelActions = (props: IParcelActionsProps) => {
-  const { parcelData, params } = props;
+  const { parcelData, params, api } = props;
 
-  const [api, contextHolder] = notification.useNotification();
   const token = authToken();
   const podCreateMy = checkPermission("pod-create-my");
   const receiveCreate = checkPermission("receive-create");
@@ -129,7 +130,6 @@ export const ParcelActions = (props: IParcelActionsProps) => {
       {printModal}
       {printStampModal}
       {downloadButton}
-      {contextHolder}
     </div>
   );
 };

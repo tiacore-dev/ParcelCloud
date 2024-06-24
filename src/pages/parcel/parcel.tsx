@@ -34,6 +34,7 @@ import {
 import { dateToLocalString } from "../../utils/dateConverter";
 import { CopyToClipboardButton } from "../../components/copyToClipboardButton";
 import { Callto } from "../../components/callto";
+import { NotificationInstance } from "antd/es/notification/interface";
 
 export interface IConvertedParcelItem {
   key: number;
@@ -49,7 +50,7 @@ export interface IConvertedParcelItem {
   mobileData?: JSX.Element;
 }
 
-export const Parcel = () => {
+export const Parcel = ({ api }: { api: NotificationInstance }) => {
   const { Content } = Layout;
 
   const routeParams = useParams();
@@ -222,7 +223,7 @@ export const Parcel = () => {
               </div>
             )}
 
-            <ParcelActions parcelData={parcelData} params={params} />
+            <ParcelActions api={api} parcelData={parcelData} params={params} />
           </div>
 
           <Card

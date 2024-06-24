@@ -14,8 +14,10 @@ import { IState } from "../../../store/modules";
 import { isMobile } from "../../../utils/isMobile";
 import dayjs, { Dayjs } from "dayjs";
 import { dateFormat } from "../../../utils/dateConverter";
+import { FindParcelDialog } from "../../../hooks/ActionDialogs/FindParcelDialog";
+import { NotificationInstance } from "antd/es/notification/interface";
 
-export const Filters = () => {
+export const Filters = ({ api }: { api: NotificationInstance }) => {
   const dispatch = useDispatch();
   const token = authToken();
   const param: GetParcelsAsignedDto = {
@@ -59,6 +61,7 @@ export const Filters = () => {
           }}
           style={{ maxWidth: "200px" }}
         />
+        <FindParcelDialog api={api} />
       </Space>
 
       <Radio.Group
