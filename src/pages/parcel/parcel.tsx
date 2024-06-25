@@ -54,7 +54,7 @@ export const Parcel = ({ api }: { api: NotificationInstance }) => {
   const { Content } = Layout;
 
   const routeParams = useParams();
-
+  const parcelAccept = checkPermission("parcel-accept");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = authToken();
@@ -217,7 +217,7 @@ export const Parcel = ({ api }: { api: NotificationInstance }) => {
                 (isMobile() ? "Получить" : "Получить у отправителя")}
               {parcelData.status === "delivered" && "Доставлено"}
             </div>
-            {parcelData.toReceiveСonfirmed === false && (
+            {parcelAccept && parcelData.toReceiveСonfirmed === false && (
               <div className="parcel__task_unconfirmed">
                 Не принято в работу
               </div>
