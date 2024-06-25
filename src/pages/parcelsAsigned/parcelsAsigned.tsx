@@ -159,7 +159,10 @@ export const ParcelsAsigned = ({ api }: { api: NotificationInstance }) => {
             (item.toDelivery && item.recCity === group.recCity)) &&
           (((item.toReceive || item.received) &&
             item.sendCompany === group.sendCompany) ||
-            (item.toDelivery && item.recCompany === group.recCompany)),
+            (item.toDelivery && item.recCompany === group.recCompany)) &&
+          (((item.toReceive || item.received) &&
+            item.sendTime === group.sendTime) ||
+            (item.toDelivery && item.recTime === group.recTime)),
       );
 
       return (
