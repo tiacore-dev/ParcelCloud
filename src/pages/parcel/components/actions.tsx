@@ -72,11 +72,14 @@ export const ParcelActions = (props: IParcelActionsProps) => {
 
   const receiveParcelParams: GetParcelDto = {
     authToken: token,
+    number: parcelData.number,
+    customer: parcelData.customer,
+    sendAddress: parcelData.sendAddress,
     parcelId: parcelData.id,
   };
 
   const receiveParcel = () => {
-    setGeneralParcelStatus(dispatch, receiveParcelParams);
+    setGeneralParcelStatus(dispatch, receiveParcelParams, api);
   };
 
   const toReceiveСonfirmedButton = parcelData.toReceiveСonfirmed === false &&

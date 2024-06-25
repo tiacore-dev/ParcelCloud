@@ -33,7 +33,7 @@ export const ParcelsAsigned = ({ api }: { api: NotificationInstance }) => {
     [],
   );
 
-  const getReceiveParcelDialog = useReceiveParcelDialog();
+  const getReceiveParcelDialog = useReceiveParcelDialog(api);
 
   const { Content } = Layout;
   const token = authToken();
@@ -119,7 +119,6 @@ export const ParcelsAsigned = ({ api }: { api: NotificationInstance }) => {
   const groups: IParcelsAsignedGroupColumn[] = React.useMemo(() => {
     const convertedList: IParcelsAsignedGroup[] = dataSource.map((el) => ({
       customer: el.customer,
-
       sendAddress: (el.toReceive || el.received) && el.sendAddress,
       sendCity: (el.toReceive || el.received) && el.sendCity,
       sendCompany: (el.toReceive || el.received) && el.sendCompany,
@@ -137,7 +136,11 @@ export const ParcelsAsigned = ({ api }: { api: NotificationInstance }) => {
 
     const convertedGroups: IParcelsAsignedGroupColumn[] = Array.from(
       new Set(convertedList.map((group) => JSON.stringify(group))),
-    ).map((el, i) => ({ ...JSON.parse(el), key: i.toString() }));
+    ).map((el, i) => {
+      const group: IParcelsAsignedGroupColumn = JSON.parse(el);
+      group.key = `${i}${group.customer}`;
+      return group;
+    });
     return convertedGroups;
   }, [dataSource]);
 

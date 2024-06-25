@@ -6,10 +6,15 @@ import {
   setGeneralParcelStatus,
 } from "../../../../hooks/ApiActions/parcel";
 import { ReceiveParcelDialog } from "../../../../hooks/ActionDialogs";
+import { NotificationInstance } from "antd/es/notification/interface";
 
-export const useReceiveParcelDialog = (): ((
+export const useReceiveParcelDialog = (
+  api: NotificationInstance,
+): ((
   id: string,
   number: string,
+  customer: string,
+  sendAddress: string,
   toReceive: boolean,
 ) => ReactNode) => {
   const receiveCreate = checkPermission("receive-create");
@@ -17,7 +22,13 @@ export const useReceiveParcelDialog = (): ((
   const dispatch = useDispatch();
 
   const getReceiveParcelDialog = useCallback(
-    (id: string, number: string, toReceive: boolean) => {
+    (
+      id: string,
+      number: string,
+      customer: string,
+      sendAddress: string,
+      toReceive: boolean,
+    ) => {
       const canReceive: boolean = toReceive && receiveCreate;
 
       if (!canReceive) {
@@ -25,12 +36,15 @@ export const useReceiveParcelDialog = (): ((
       }
 
       const receiveParcelParams: GetParcelDto = {
+        number: number,
+        customer: customer,
+        sendAddress: sendAddress,
         authToken: token,
         parcelId: id,
       };
 
       const receiveParcel = () => {
-        setGeneralParcelStatus(dispatch, receiveParcelParams);
+        setGeneralParcelStatus(dispatch, receiveParcelParams, api);
       };
 
       return (

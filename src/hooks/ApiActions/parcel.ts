@@ -52,6 +52,7 @@ import {
   getParcelsInStorageSuccess,
 } from "../../store/modules/pages/parcelsInStorage";
 import { GetParcelsInStorageDto } from "../../pages/parcelsInStorage/parcelsInStorage";
+import { NotificationInstance } from "antd/es/notification/interface";
 
 export interface GetParcelsDto extends IParcelsSettingsState {
   authToken: IauthToken;
@@ -59,6 +60,9 @@ export interface GetParcelsDto extends IParcelsSettingsState {
 
 export interface GetParcelDto {
   parcelId: string;
+  number?: string;
+  customer?: string;
+  sendAddress?: string;
   authToken: IauthToken;
 }
 
@@ -161,6 +165,7 @@ export const getParcel = (
 export const setGeneralParcelStatus = (
   dispatch: Dispatch<AnyAction>,
   setGeneralParcelStatusParam: GetParcelDto,
+  api: NotificationInstance,
 ) => {
   useApi<ParcelStatusData, GetParcelDto>(
     "generalstatus",
@@ -175,9 +180,25 @@ export const setGeneralParcelStatus = (
           statusData: response,
         }),
       );
+      api.success({
+        message: `Успешно`,
+        description: `Получено от ${setGeneralParcelStatusParam.customer ? setGeneralParcelStatusParam.customer : "отправителя"}
+        ${setGeneralParcelStatusParam.number ? setGeneralParcelStatusParam.number : null}
+        ${setGeneralParcelStatusParam.sendAddress ? setGeneralParcelStatusParam.sendAddress : null}
+        `,
+        placement: "bottomRight",
+      });
     })
     .catch((err) => {
       dispatch(getParcelsFailure(err));
+      api.error({
+        message: `Ошибка`,
+        description: `При получении от ${setGeneralParcelStatusParam.customer ? setGeneralParcelStatusParam.customer : "отправителя"}
+        ${setGeneralParcelStatusParam.number ? setGeneralParcelStatusParam.number : null}
+        ${setGeneralParcelStatusParam.sendAddress ? setGeneralParcelStatusParam.sendAddress : null}
+        `,
+        placement: "bottomRight",
+      });
     });
 };
 
@@ -216,7 +237,7 @@ export const deliveryParcel = (
   dispatch: Dispatch<AnyAction>,
   deliveryParcelParam: DeliveryParcelDto,
 ) => {
-  useApi<ParcelStatusData, GetParcelDto>(
+  useApi<ParcelStatusData, DeliveryParcelDto>(
     "deliveryparcel",
     "set",
     deliveryParcelParam,

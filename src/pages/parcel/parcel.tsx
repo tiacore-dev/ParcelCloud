@@ -223,7 +223,16 @@ export const Parcel = ({ api }: { api: NotificationInstance }) => {
               </div>
             )}
 
-            <ParcelActions api={api} parcelData={parcelData} params={params} />
+            <ParcelActions
+              api={api}
+              parcelData={parcelData}
+              params={{
+                ...params,
+                number: parcelData.number,
+                customer: parcelData.customer,
+                sendAddress: parcelData.sendAddress,
+              }}
+            />
           </div>
 
           <Card

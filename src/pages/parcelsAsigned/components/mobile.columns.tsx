@@ -8,6 +8,8 @@ export const parcelsAsignedMobileColumns = (
   getReceiveParcelDialog: (
     id: string,
     number: string,
+    customer: string,
+    sendAddress: string,
     toReceive: boolean,
   ) => React.ReactNode,
   navigate?: NavigateFunction,
@@ -19,6 +21,8 @@ export const parcelsAsignedMobileColumns = (
         const receiveParcelDialog = getReceiveParcelDialog(
           record.id,
           record.number,
+          record.customer,
+          record.sendAddress,
           record.toReceive,
         );
 

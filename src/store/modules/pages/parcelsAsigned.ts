@@ -34,6 +34,9 @@ const parcelsAsignedSlice = createSlice({
               toDelivery: action.payload.statusData.toDelivery
                 ? action.payload.statusData.toDelivery
                 : el.toDelivery,
+              toReceive: action.payload.statusData.toReceive
+                ? action.payload.statusData.toReceive
+                : el.toReceive,
               received: action.payload.statusData.received
                 ? action.payload.statusData.received
                 : el.received,
