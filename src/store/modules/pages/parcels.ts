@@ -36,6 +36,12 @@ const parcelsSlice = createSlice({
       state.loaded = true;
       state.data = action.payload;
     },
+    deleteParcelFromState: (
+      state: IParcelsState,
+      action: { payload: string },
+    ) => {
+      state.data = state.data.filter((parcel) => parcel.id !== action.payload);
+    },
     clearParcelsState: (state: IParcelsState) => {
       state.data = initialState.data;
       state.loaded = initialState.loaded;
@@ -49,6 +55,7 @@ export const {
   getParcelsRequest,
   getParcelsFailure,
   getParcelsSuccess,
+  deleteParcelFromState,
   clearParcelsState,
 } = parcelsSlice.actions;
 

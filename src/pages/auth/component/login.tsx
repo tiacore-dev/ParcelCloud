@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Form, Input, message } from "antd";
+import { Button, Form, Input, Space, message } from "antd";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useApi } from "../../../hooks/useApi";
@@ -38,7 +38,7 @@ export const Login = () => {
           textAlign: "center",
         }}
       >
-        SVS Logistik Parcel Cloud
+        SVS Logistik
       </Title>
       <Form
         name="login"
@@ -69,9 +69,20 @@ export const Login = () => {
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit">
-            Вход
-          </Button>
+          <Space>
+            <Button type="primary" htmlType="submit">
+              Вход
+            </Button>
+
+            <Button
+              type="default"
+              onClick={() => {
+                location.href = "http://www.svs-logistik.ru";
+              }}
+            >
+              Вернуться на сайт
+            </Button>
+          </Space>
         </Form.Item>
       </Form>
     </>

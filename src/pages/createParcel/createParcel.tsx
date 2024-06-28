@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useCallback } from "react";
 import {
   Breadcrumb,
   Layout,
@@ -43,7 +44,7 @@ import { getCustomers, getPayers } from "../../store/modules/auth";
 import { IParcel } from "../../interfaces/parcels/IParcel";
 import { createParcel } from "../../hooks/ApiActions/parcel";
 import { ActionDialog } from "../../hooks/ActionDialogs";
-import { AppstoreTwoTone } from "@ant-design/icons";
+import { AppstoreTwoTone, SwapOutlined } from "@ant-design/icons";
 import { TemplateContent } from "../template/components/content";
 import { ITemplate } from "../../interfaces/templates/ITemplate";
 import { setTemplatStateData } from "../../store/modules/pages/template";
@@ -172,6 +173,10 @@ export const CreateParcel = (props: ICreateParcelProps) => {
   const handleSave = () => {
     createParcel(dispatch, navigate, createParcelParams, onError);
   };
+
+  const handeSwap = useCallback(() => {
+    dispatch(editParcelAction.swapAddressData());
+  }, []);
 
   const calculateParams: CalculateDto = {
     authToken: authToken(),
@@ -341,9 +346,10 @@ export const CreateParcel = (props: ICreateParcelProps) => {
         >
           {!showItemsOnly && (
             <Row>
-              <Col span={isMobile() ? 24 : 12}>
-                <Form.Item>Данные отправителя</Form.Item>
-
+              <Col span={isMobile() ? 24 : 11}>
+                <div className="create-parcel__address-table__header">
+                  Данные отправителя
+                </div>
                 {!hideTemplates && (
                   <Form.Item noStyle>
                     <Space
@@ -378,7 +384,6 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     </Space>
                   </Form.Item>
                 )}
-
                 <Form.Item label="Город">
                   <Select
                     value={data.sendCity}
@@ -392,7 +397,6 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     options={citySelectOptions}
                   />
                 </Form.Item>
-
                 <Form.Item label="Адрес">
                   <Input
                     value={data.sendAddress}
@@ -403,7 +407,6 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     }
                   />
                 </Form.Item>
-
                 <Form.Item label="Компания">
                   <Input
                     value={data.sendCompany}
@@ -414,7 +417,6 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     }
                   />
                 </Form.Item>
-
                 <Form.Item label="Контактное лицо">
                   <Input
                     value={data.sendPerson}
@@ -425,7 +427,6 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     }
                   />
                 </Form.Item>
-
                 <Form.Item label="Контактный телефон">
                   <Input
                     value={data.sendPhone}
@@ -436,7 +437,6 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                     }
                   />
                 </Form.Item>
-
                 <Form.Item label="Доп. информация">
                   <TextArea
                     value={data.sendAddInfo}
@@ -449,8 +449,18 @@ export const CreateParcel = (props: ICreateParcelProps) => {
                   />
                 </Form.Item>
               </Col>
-              <Col span={isMobile() ? 24 : 12}>
-                <Form.Item>Данные получателя</Form.Item>
+              <Col span={isMobile() ? 24 : 2}>
+                <Button
+                  size="large"
+                  onClick={handeSwap}
+                  style={{ color: "rgb(115, 28, 28)" }}
+                  icon={<SwapOutlined />}
+                />
+              </Col>
+              <Col span={isMobile() ? 24 : 11}>
+                <div className="create-parcel__address-table__header">
+                  Данные получателя
+                </div>
                 {!hideTemplates && (
                   <Form.Item noStyle>
                     <Space

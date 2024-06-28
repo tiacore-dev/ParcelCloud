@@ -4,8 +4,10 @@ import { PrintModal } from "./printModal";
 import { Button } from "antd";
 import { PlusCircleTwoTone } from "@ant-design/icons";
 import {
+  DeleteParcelDto,
   GetParcelDto,
   acceptReceiveTask,
+  deleteParcel,
   setGeneralParcelStatus,
 } from "../../../hooks/ApiActions/parcel";
 import { useDispatch } from "react-redux";
@@ -18,6 +20,8 @@ import { PrintStampModal } from "./printStampModal";
 import { isMobile } from "../../../utils/isMobile";
 import { DownloadButton } from "./downloadButton";
 import { NotificationInstance } from "antd/es/notification/interface";
+import { DeleteParcelDialog } from "../../../hooks/ActionDialogs/DeleteParcelDialo";
+import { useNavigate } from "react-router-dom";
 
 interface IParcelActionsProps {
   api: NotificationInstance;
@@ -34,9 +38,9 @@ export const ParcelActions = (props: IParcelActionsProps) => {
   const parcelEditMy = checkPermission("parcel-edit-my");
   const parcelEditAll = checkPermission("parcel-edit-all");
   const parcelAccept = checkPermission("parcel-accept");
-
   const parcelEditReceived = checkPermission("parcel-edit-received");
   const podCreateAll = checkPermission("pod-create-all");
+  const parcelDeleteMy = checkPermission("parcel-delete-my");
 
   const canDelivery: boolean =
     (parcelData.toDelivery && podCreateMy) ||
@@ -46,6 +50,8 @@ export const ParcelActions = (props: IParcelActionsProps) => {
 
   const canReceive: boolean = parcelData.toReceive && receiveCreate;
 
+  const canDelete: boolean = parcelData.deletionAvailable && parcelDeleteMy;
+
   const canEdit: boolean =
     (parcelData.status === "expected" && parcelEditMy) || parcelEditAll;
 
@@ -53,6 +59,7 @@ export const ParcelActions = (props: IParcelActionsProps) => {
     parcelData.status === "general" && parcelEditReceived;
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const onAcceptReceiveTask = async () => {
     const result = await acceptReceiveTask(dispatch, params);
     if (result) {
@@ -78,9 +85,20 @@ export const ParcelActions = (props: IParcelActionsProps) => {
     parcelId: parcelData.id,
   };
 
+  const deleteParcelParams: DeleteParcelDto = {
+    authToken: token,
+    parcelId: parcelData.id,
+  };
+
   const receiveParcel = () => {
     setGeneralParcelStatus(dispatch, receiveParcelParams, api);
   };
+
+  const handleDeleteParcel = React.useCallback(() => {
+    deleteParcel(dispatch, deleteParcelParams, () => {
+      navigate("/parcels");
+    });
+  }, []);
 
   const toReceiveСonfirmedButton = parcelData.toReceiveСonfirmed === false &&
     parcelAccept && (
@@ -110,6 +128,14 @@ export const ParcelActions = (props: IParcelActionsProps) => {
     />
   );
 
+  const deleteParcelDialog = canDelete && (
+    <DeleteParcelDialog
+      onDelete={handleDeleteParcel}
+      parcelId={parcelData.id}
+      parcelNumber={parcelData.number}
+    />
+  );
+
   const copyParcelDialog = <CopyParcelDialog parcel={parcelData} iconOnly />;
 
   const editParcelDialog = (canEdit || canEditItems) && (
@@ -133,6 +159,7 @@ export const ParcelActions = (props: IParcelActionsProps) => {
       {printModal}
       {printStampModal}
       {downloadButton}
+      {deleteParcelDialog}
     </div>
   );
 };

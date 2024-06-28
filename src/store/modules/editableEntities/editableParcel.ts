@@ -125,6 +125,40 @@ const editableParcelSlice = createSlice({
       });
     },
 
+    swapAddressData: (state: IEditableParcelState) => {
+      const recCity = state.sendCity;
+      const recPerson = state.sendPerson;
+      const recAddress = state.sendAddress;
+      const recCompany = state.sendCompany;
+      const recAddInfo = state.sendAddInfo;
+      const recPhone = state.sendPhone;
+      const recTime = state.sendTime;
+
+      const sendCity = state.recCity;
+      const sendPerson = state.recPerson;
+      const sendAddress = state.recAddress;
+      const sendCompany = state.recCompany;
+      const sendAddInfo = state.recAddInfo;
+      const sendPhone = state.recPhone;
+      const sendTime = state.recTime;
+
+      state.recCity = recCity;
+      state.recPerson = recPerson;
+      state.recAddress = recAddress;
+      state.recCompany = recCompany;
+      state.recAddInfo = recAddInfo;
+      state.recPhone = recPhone;
+      state.recTime = recTime;
+
+      state.sendCity = sendCity;
+      state.sendPerson = sendPerson;
+      state.sendAddress = sendAddress;
+      state.sendCompany = sendCompany;
+      state.sendAddInfo = sendAddInfo;
+      state.sendPhone = sendPhone;
+      state.sendTime = sendTime;
+    },
+
     setNumber: (state: IEditableParcelState, action: { payload: string }) => {
       state.number = action.payload;
     },

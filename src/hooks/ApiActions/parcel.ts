@@ -2,6 +2,7 @@ import { AnyAction, Dispatch } from "redux";
 import { IParcelsSettingsState } from "../../store/modules/settings/parcels";
 import { IauthToken } from "../useAuth";
 import {
+  deleteParcelFromState,
   getParcelsFailure,
   getParcelsRequest,
   getParcelsSuccess,
@@ -113,6 +114,11 @@ export interface DeliveryParcelDto {
   parcelId: string;
   recName: string;
   recDate: string;
+  authToken: IauthToken;
+}
+
+export interface DeleteParcelDto {
+  parcelId: string;
   authToken: IauthToken;
 }
 
@@ -335,6 +341,24 @@ export const getParcelsInStorage = (
       dispatch(getParcelsInStorageSuccess(parcelsData));
       if (onSuccess) {
         onSuccess(parcelsData);
+      }
+    })
+    .catch((err) => {
+      dispatch(getParcelsInStorageFailure(err));
+    });
+};
+
+export const deleteParcel = (
+  dispatch: Dispatch<AnyAction>,
+  deleteParcelsParam: DeleteParcelDto,
+  onSuccess?: () => void,
+) => {
+  dispatch(getParcelsInStorageRequest());
+  useApi<string, DeleteParcelDto>("deleteparcel", "delete", deleteParcelsParam)
+    .then((deletedParcelId) => {
+      dispatch(deleteParcelFromState(deletedParcelId));
+      if (onSuccess) {
+        onSuccess();
       }
     })
     .catch((err) => {
