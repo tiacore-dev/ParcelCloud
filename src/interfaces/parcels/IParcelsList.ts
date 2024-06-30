@@ -19,6 +19,7 @@ export interface IParcelsList {
   weight: number;
   volume: number;
   cost?: number;
+  price?: number;
   status?: ParcelStatus;
   statusType?: string;
   statusValue?: string;

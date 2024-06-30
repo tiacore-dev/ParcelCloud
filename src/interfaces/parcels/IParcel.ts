@@ -59,6 +59,7 @@ export interface IParcel {
   volume: number;
   priceId?: string;
   cost?: number;
+  price?: number;
   days?: string;
   insureValue: number;
   COD: number;

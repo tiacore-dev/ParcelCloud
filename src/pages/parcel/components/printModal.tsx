@@ -5,12 +5,14 @@ import { ParcelPrint } from "../../../utils/parcelPrint/printTemplates";
 import { useReactToPrint } from "react-to-print";
 import { isMobile } from "../../../utils/isMobile";
 import { PrinterTwoTone } from "@ant-design/icons";
+import { checkPermission } from "../../../hooks/useAuth";
 
 interface IPrintModalProps {
   data: IParcel;
 }
 
 export const PrintModal = (props: IPrintModalProps) => {
+  const doublePrint = checkPermission("print_4_parcels");
   const { data } = props;
   const componentRef = React.useRef();
   const [open, setOpen] = React.useState(false);
@@ -57,7 +59,7 @@ export const PrintModal = (props: IPrintModalProps) => {
           </Button>,
         ]}
       >
-        <ParcelPrint data={data} ref={componentRef} />
+        <ParcelPrint doublePrint={doublePrint} data={data} ref={componentRef} />
       </Modal>
     </>
   );

@@ -86,6 +86,8 @@ export const Filters = (props: IFiltersProps) => {
         ...el,
         weight: el.weight.toLocaleString("ru"),
         volume: el.volume.toLocaleString("ru"),
+        cost: el.cost.toFixed(2).toString().replace(".", ","),
+        price: el.price.toFixed(2).toString().replace(".", ","),
         date: dayjs(el.date).format(dateFormat),
         statusDate:
           el.statusDate === "0001-01-01T00:00:00"

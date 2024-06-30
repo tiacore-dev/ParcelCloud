@@ -335,14 +335,17 @@ export const Parcel = ({ api }: { api: NotificationInstance }) => {
             </>
           )}
 
-          <Card
-            title="Информация об оплате:"
-            headStyle={{ backgroundColor: "#F8F8F8" }}
-            style={{ margin: "8px 0" }}
-          >
+          <Card title="Информация об оплате:" style={{ margin: "8px 0" }}>
             <p>Тип доставки: {parcelData.delType}</p>
-            {!!parcelData.cost && <p>Стоимость доставки: {parcelData.cost}</p>}
-            <p>Тип оплаты: {parcelData.payType}</p>
+            {!!parcelData.price && (
+              <p>Расчетная стоимость доставки: {parcelData.price.toFixed(2)}</p>
+            )}
+            {!!parcelData.cost && (
+              <p>
+                Фактическая стоимость доставки: {parcelData.cost.toFixed(2)}
+              </p>
+            )}
+            <p>Метод оплаты: {parcelData.payType}</p>
           </Card>
 
           {!!parcelData.history?.length && (

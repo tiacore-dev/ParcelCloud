@@ -65,7 +65,7 @@ export const parcelsDesktopColumns = (
       title: "Номер",
       key: "number",
 
-      width: customerView ? "20%" : "15%",
+      width: "15%",
       render: (text: string, record: IParcelsListColumn) => (
         <>
           <div>{statusLabel(record.status)}</div>
@@ -88,7 +88,7 @@ export const parcelsDesktopColumns = (
     {
       title: "Отправитель",
       key: "send",
-      width: "27%",
+      width: "22%",
       render: (text: string, record: IParcelsListColumn) => (
         <>
           <div>{record.sendCity}</div>
@@ -102,7 +102,7 @@ export const parcelsDesktopColumns = (
     {
       title: "Получатель",
       key: "rec",
-      width: "27%",
+      width: "22%",
       render: (text: string, record: IParcelsListColumn) => (
         <>
           <div>{record.recCity}</div>
@@ -116,7 +116,7 @@ export const parcelsDesktopColumns = (
     {
       title: "Грузы",
       key: "items",
-      width: "12%",
+      width: "10%",
       render: (text: string, record: IParcelsListColumn) => (
         <>
           <div>Мест: {record.qt}</div>
@@ -128,15 +128,20 @@ export const parcelsDesktopColumns = (
     {
       title: "Стоимость",
       key: "cost",
-      width: "17%",
+      width: "10%",
       render: (text: string, record: IParcelsListColumn) => (
-        <>{!!record.cost && <div>{record.cost.toFixed(2)}</div>}</>
+        <>
+          {!!record.price && (
+            <div>{`Расчетная: ${record.price.toFixed(2)}`}</div>
+          )}
+          {!!record.cost && <div>{record.cost.toFixed(2)}</div>}
+        </>
       ),
     },
     {
       title: "Статус",
       key: "status",
-      width: "17%",
+      width: "13%",
       render: (text: string, record: IParcelsListColumn) => (
         <>
           <div>{record.statusType}</div>
@@ -148,7 +153,7 @@ export const parcelsDesktopColumns = (
     {
       title: "Расчётная дата доставки",
       key: "status",
-      width: "17%",
+      width: "14%",
       render: (text: string, record: IParcelsListColumn) => (
         <>
           {record.status !== "delivered" && record.planDate && (
