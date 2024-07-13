@@ -1,5 +1,6 @@
 import React from "react";
 import { ParcelStatus } from "./IParcel";
+import { payTypeValues } from "../../enumerations/payTypeEnum";
 
 export interface IParcelsList {
   id: string;
@@ -37,6 +38,7 @@ export interface IParcelsAsignedList extends IParcelsList {
   recTime: string;
   sendTime: string;
   planDate: string;
+  payType: payTypeValues;
 }
 
 export interface IParcelsAsignedListColumn extends IParcelsAsignedList {
@@ -69,6 +71,7 @@ export interface IParcelsAsignedGroup {
   toDelivery: boolean;
   toReceive: boolean;
   received: boolean;
+  hasPay?: boolean;
 }
 
 export interface IParcelsAsignedGroupColumn extends IParcelsAsignedGroup {

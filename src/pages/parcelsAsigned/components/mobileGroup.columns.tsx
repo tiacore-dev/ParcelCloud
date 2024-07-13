@@ -4,6 +4,7 @@ import { IParcelsAsignedGroupColumn } from "../../../interfaces/parcels/IParcels
 import { checkPermission } from "../../../hooks/useAuth";
 import {
   CheckCircleOutlined,
+  DollarOutlined,
   FieldTimeOutlined,
   LoginOutlined,
   LogoutOutlined,
@@ -50,6 +51,9 @@ export const parcelsAsignedMobileGroupColumns =
               <div>
                 <div style={{ fontWeight: 600 }}>{record.sendAddress}</div>
                 <div style={{ fontWeight: 600 }}>{record.sendCompany}</div>
+                {record.hasPay && (
+                  <DollarOutlined className="parcels-asigned__table__pay_icon" />
+                )}
                 {record.sendTime && (
                   <div style={{ fontWeight: 600 }}>
                     <FieldTimeOutlined className="parcels-asigned__time_icon" />
@@ -63,6 +67,9 @@ export const parcelsAsignedMobileGroupColumns =
                 <div>{record.recCity}</div>
                 <div style={{ fontWeight: 600 }}>{record.recAddress}</div>
                 <div style={{ fontWeight: 600 }}>{record.recCompany}</div>
+                {record.hasPay && (
+                  <DollarOutlined className="parcels-asigned__table__pay_icon" />
+                )}
                 {record.recTime && (
                   <div style={{ fontWeight: 600 }}>
                     <FieldTimeOutlined className="parcels-asigned__time_icon" />

@@ -18,6 +18,7 @@ import {
 import {
   IParcelsAsignedGroup,
   IParcelsAsignedGroupColumn,
+  IParcelsAsignedList,
 } from "../../interfaces/parcels/IParcelsList";
 import { parcelsAsignedMobileGroupColumns } from "./components/mobileGroup.columns";
 import { useReceiveParcelDialog } from "./components/hooks/useReceiveParcelDialog";
@@ -116,6 +117,24 @@ export const ParcelsAsigned = ({ api }: { api: NotificationInstance }) => {
       });
   }, [parcelsData, filters]);
 
+  const dataGroupFilter = (
+    item: IParcelsAsignedList,
+    group: IParcelsAsignedGroupColumn,
+  ) =>
+    item.customer === group.customer &&
+    item.toDelivery === group.toDelivery &&
+    item.toReceive === group.toReceive &&
+    (((item.toReceive || item.received) &&
+      item.sendAddress === group.sendAddress) ||
+      (item.toDelivery && item.recAddress === group.recAddress)) &&
+    (((item.toReceive || item.received) && item.sendCity === group.sendCity) ||
+      (item.toDelivery && item.recCity === group.recCity)) &&
+    (((item.toReceive || item.received) &&
+      item.sendCompany === group.sendCompany) ||
+      (item.toDelivery && item.recCompany === group.recCompany)) &&
+    (((item.toReceive || item.received) && item.sendTime === group.sendTime) ||
+      (item.toDelivery && item.recTime === group.recTime));
+
   const groups: IParcelsAsignedGroupColumn[] = React.useMemo(() => {
     const convertedList: IParcelsAsignedGroup[] = dataSource.map((el) => ({
       customer: el.customer,
@@ -138,6 +157,17 @@ export const ParcelsAsigned = ({ api }: { api: NotificationInstance }) => {
       new Set(convertedList.map((group) => JSON.stringify(group))),
     ).map((el, i) => {
       const group: IParcelsAsignedGroupColumn = JSON.parse(el);
+      const data = dataSource.filter((item) => dataGroupFilter(item, group));
+      console.log(data);
+      group.hasPay = data.some(
+        (el) =>
+          (el.price &&
+            el.toReceive &&
+            el.payType === "Оплата наличными при отправлении") ||
+          (el.price &&
+            el.toDelivery &&
+            el.payType === "Оплата наличными при получении"),
+      );
       group.key = `${i}${group.customer}`;
       return group;
     });
@@ -146,24 +176,7 @@ export const ParcelsAsigned = ({ api }: { api: NotificationInstance }) => {
 
   const expandedRowRender = React.useCallback(
     (group: IParcelsAsignedGroupColumn) => {
-      const data = dataSource.filter(
-        (item) =>
-          item.customer === group.customer &&
-          item.toDelivery === group.toDelivery &&
-          item.toReceive === group.toReceive &&
-          (((item.toReceive || item.received) &&
-            item.sendAddress === group.sendAddress) ||
-            (item.toDelivery && item.recAddress === group.recAddress)) &&
-          (((item.toReceive || item.received) &&
-            item.sendCity === group.sendCity) ||
-            (item.toDelivery && item.recCity === group.recCity)) &&
-          (((item.toReceive || item.received) &&
-            item.sendCompany === group.sendCompany) ||
-            (item.toDelivery && item.recCompany === group.recCompany)) &&
-          (((item.toReceive || item.received) &&
-            item.sendTime === group.sendTime) ||
-            (item.toDelivery && item.recTime === group.recTime)),
-      );
+      const data = dataSource.filter((item) => dataGroupFilter(item, group));
 
       return (
         <Table
