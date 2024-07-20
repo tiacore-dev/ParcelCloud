@@ -43,8 +43,12 @@ export const useReceiveParcelDialog = (
         parcelId: id,
       };
 
-      const receiveParcel = () => {
-        setGeneralParcelStatus(dispatch, receiveParcelParams, api);
+      const receiveParcel = (number: string) => {
+        setGeneralParcelStatus(
+          dispatch,
+          { ...receiveParcelParams, number },
+          api,
+        );
       };
 
       return (

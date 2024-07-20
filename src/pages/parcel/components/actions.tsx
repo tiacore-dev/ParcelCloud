@@ -90,8 +90,8 @@ export const ParcelActions = (props: IParcelActionsProps) => {
     parcelId: parcelData.id,
   };
 
-  const receiveParcel = () => {
-    setGeneralParcelStatus(dispatch, receiveParcelParams, api);
+  const receiveParcel = (number: string) => {
+    setGeneralParcelStatus(dispatch, { ...receiveParcelParams, number }, api);
   };
 
   const handleDeleteParcel = React.useCallback(() => {
