@@ -6,9 +6,11 @@ import { PlusCircleTwoTone } from "@ant-design/icons";
 import {
   DeleteParcelDto,
   GetParcelDto,
+  SetParcelReceiveResponsibleDto,
   acceptReceiveTask,
   deleteParcel,
   setGeneralParcelStatus,
+  setParcelReceiveResponsible,
 } from "../../../hooks/ApiActions/parcel";
 import { useDispatch } from "react-redux";
 import { ReceiveParcelDialog } from "../../../hooks/ActionDialogs/ReceiveParcelDialog";
@@ -22,6 +24,7 @@ import { DownloadButton } from "./downloadButton";
 import { NotificationInstance } from "antd/es/notification/interface";
 import { DeleteParcelDialog } from "../../../hooks/ActionDialogs/DeleteParcelDialo";
 import { useNavigate } from "react-router-dom";
+import { SetReceiveResponsibleDialog } from "../../../hooks/ActionDialogs/SetReceiveResponsibleDialog";
 
 interface IParcelActionsProps {
   api: NotificationInstance;
@@ -94,8 +97,22 @@ export const ParcelActions = (props: IParcelActionsProps) => {
     parcelId: parcelData.id,
   };
 
+  const setParcelReceiveResponsibleParam: SetParcelReceiveResponsibleDto = {
+    authToken: token,
+    parcelId: parcelData.id,
+  };
+
   const receiveParcel = (number: string) => {
     setGeneralParcelStatus(dispatch, { ...receiveParcelParams, number }, api);
+  };
+
+  const setReceiveResponsible = (responsibleId: string) => {
+    setParcelReceiveResponsible(
+      dispatch,
+      navigate,
+      { ...setParcelReceiveResponsibleParam, responsibleId },
+      api,
+    );
   };
 
   const handleDeleteParcel = React.useCallback(() => {
@@ -132,6 +149,15 @@ export const ParcelActions = (props: IParcelActionsProps) => {
     />
   );
 
+  const setReceiveResponsibleDialog = canSetReceivingResp && (
+    <SetReceiveResponsibleDialog
+      parcelId={parcelData.id}
+      parcelNumber={parcelData.number}
+      onConfirm={setReceiveResponsible}
+      iconOnly
+    />
+  );
+
   const deleteParcelDialog = canDelete && (
     <DeleteParcelDialog
       onDelete={handleDeleteParcel}
@@ -158,6 +184,7 @@ export const ParcelActions = (props: IParcelActionsProps) => {
       {toReceiveСonfirmedButton}
       {receiveParcelDialog}
       {deliveryParcelDialog}
+      {setReceiveResponsibleDialog}
       {editParcelDialog}
       {copyParcelDialog}
       {printModal}

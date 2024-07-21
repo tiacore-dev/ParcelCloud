@@ -19,14 +19,12 @@ export const SetReceiveResponsibleDialog = (
 ) => {
   const {
     onConfirm,
-    parcelId,
     parcelNumber,
     iconOnly = false,
-    buttonType = "primary",
+    buttonType = "default",
   } = props;
 
-  const [responsibleId, setResponsibleId] =
-    React.useState<string>(parcelNumber);
+  const [responsibleId, setResponsibleId] = React.useState<string>("");
 
   const responsibleList = useSelector(getResponsible);
 
@@ -39,7 +37,7 @@ export const SetReceiveResponsibleDialog = (
 
   return (
     <ActionDialog
-      onConfirm={() => onConfirm(parcelId)}
+      onConfirm={() => onConfirm(responsibleId)}
       buttonText={iconOnly ? "" : "Назначить курьера"}
       buttonType={buttonType}
       buttonIcon={<UserOutlined style={{ color: "#ff1616" }} />}
@@ -50,6 +48,7 @@ export const SetReceiveResponsibleDialog = (
           <Space>
             Назначенный курьер:
             <Select
+              style={{ minWidth: "200px" }}
               value={responsibleId}
               showSearch
               optionFilterProp="children"

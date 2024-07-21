@@ -36,6 +36,7 @@ export const ParcelsInStorage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [selectedRows, setSelectedRows] = React.useState<IParcelsList[]>([]);
+  const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>([]);
 
   const filters = useSelector(
     (state: IState) => state.settings.parcelsInStorageSettings?.filters,
@@ -74,13 +75,28 @@ export const ParcelsInStorage = () => {
   }, []);
 
   const rowSelection: TableRowSelection<IParcelsInStorageListColumn> = {
+    selectedRowKeys,
     type: "checkbox",
     onChange: (
       selectedRowKeys: React.Key[],
       selectedRows: IParcelsInStorageListColumn[],
     ) => {
+      setSelectedRowKeys(selectedRowKeys);
       setSelectedRows(selectedRows);
     },
+  };
+
+  const selectRow = (parcelNumber: string) => {
+    const newRow = dataSource.find((parcel) => parcel.number === parcelNumber);
+    const newRows = [...selectedRows];
+    const newRowKeys = [...selectedRowKeys];
+
+    if (newRow) {
+      newRows.push(newRow);
+      newRowKeys.push(newRow.id);
+    }
+    setSelectedRowKeys(newRowKeys);
+    setSelectedRows(newRows);
   };
 
   return (
@@ -98,7 +114,7 @@ export const ParcelsInStorage = () => {
           background: "#FFF",
         }}
       >
-        <Filters selectedRows={selectedRows} />
+        <Filters selectedRows={selectedRows} selectRow={selectRow} />
         <Table
           dataSource={dataSource}
           columns={

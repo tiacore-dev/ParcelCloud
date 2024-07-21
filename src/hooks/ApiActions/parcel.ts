@@ -67,6 +67,12 @@ export interface GetParcelDto {
   authToken: IauthToken;
 }
 
+export interface SetParcelReceiveResponsibleDto {
+  parcelId: string;
+  responsibleId?: string;
+  authToken: IauthToken;
+}
+
 export interface GetHistoryDto {
   parcelNumber: string;
   authToken: IauthToken;
@@ -203,6 +209,36 @@ export const setGeneralParcelStatus = (
         ${setGeneralParcelStatusParam.number ? setGeneralParcelStatusParam.number : null}
         ${setGeneralParcelStatusParam.sendAddress ? setGeneralParcelStatusParam.sendAddress : null}
         `,
+        placement: "bottomRight",
+      });
+    });
+};
+
+export const setParcelReceiveResponsible = (
+  dispatch: Dispatch<AnyAction>,
+  navigate: NavigateFunction,
+  setParcelReceiveResponsibleParam: SetParcelReceiveResponsibleDto,
+  api: NotificationInstance,
+) => {
+  useApi<void, SetParcelReceiveResponsibleDto>(
+    "receiveresponsible",
+    "set",
+    setParcelReceiveResponsibleParam,
+  )
+    .then(() => {
+      navigate(`/tasks`);
+      getParcelsAsigned(dispatch, setParcelReceiveResponsibleParam);
+      api.success({
+        message: `Успешно`,
+        description: `Ответствнный назначен`,
+        placement: "bottomRight",
+      });
+    })
+    .catch((err) => {
+      dispatch(getParcelsFailure(err));
+      api.error({
+        message: `Ошибка`,
+        description: `При назначении ответственного`,
         placement: "bottomRight",
       });
     });

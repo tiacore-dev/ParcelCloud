@@ -15,7 +15,13 @@ import { editManifestAction } from "../../../store/modules/editableEntities/edit
 import { IParcelsList } from "../../../interfaces/parcels/IParcelsList";
 import { isMobile } from "../../../utils/isMobile";
 
-export const Filters = ({ selectedRows }: { selectedRows: IParcelsList[] }) => {
+export const Filters = ({
+  selectedRows,
+  selectRow,
+}: {
+  selectedRows: IParcelsList[];
+  selectRow: (parcelNumber: string) => void;
+}) => {
   const dispatch = useDispatch();
   const token = authToken();
   const param: GetParcelsInStorageDto = {
@@ -49,6 +55,19 @@ export const Filters = ({ selectedRows }: { selectedRows: IParcelsList[] }) => {
       value={filters.number}
       onChange={(e) => {
         numberChangeHandler(e.target.value);
+      }}
+      style={{ maxWidth: "200px" }}
+    />
+  );
+
+  const add = (
+    <Input
+      size="large"
+      className="parcels_filters_search"
+      placeholder="Добавть по номеру"
+      value={filters.number}
+      onChange={(e) => {
+        selectRow(e.target.value);
       }}
       style={{ maxWidth: "200px" }}
     />
@@ -97,6 +116,7 @@ export const Filters = ({ selectedRows }: { selectedRows: IParcelsList[] }) => {
       <Space direction="horizontal">
         {reloadButton}
         {search}
+        {add}
       </Space>
       {filterRadioSelect}
     </Space>
@@ -104,6 +124,7 @@ export const Filters = ({ selectedRows }: { selectedRows: IParcelsList[] }) => {
     <Space className="parcels-asigned_filters">
       {reloadButton}
       {search}
+      {add}
       {filterRadioSelect}
       {!!selectedRows.length && createButton}
     </Space>

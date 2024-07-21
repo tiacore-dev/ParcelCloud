@@ -104,9 +104,11 @@ export const useloadSourse = (): [
     })
       .then((response) => {
         dispatch(getResponsibleSuccess(response));
+        console.log(response);
       })
       .catch((err) => {
         dispatch(getResponsibleFailure(err));
+        console.log(err);
       });
 
     // Загрузка шаблонов
