@@ -118,7 +118,7 @@ export const ParcelsInStorage = ({ api }: { api: NotificationInstance }) => {
         });
       }
     },
-    [dataSource],
+    [dataSource, selectedRows, selectedRowKeys],
   );
 
   return (
