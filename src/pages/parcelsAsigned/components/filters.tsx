@@ -1,7 +1,11 @@
 import * as React from "react";
 import { Button, DatePicker, Input, Radio, Space } from "antd";
 import { ReloadOutlined } from "@ant-design/icons";
-import { getParcelsAsigned } from "../../../hooks/ApiActions/parcel";
+import {
+  findParcel,
+  FindParcelDto,
+  getParcelsAsigned,
+} from "../../../hooks/ApiActions/parcel";
 import { useDispatch, useSelector } from "react-redux";
 import { authToken } from "../../../hooks/useAuth";
 import { GetParcelsAsignedDto } from "../parcelsAsigned";
@@ -16,6 +20,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { dateFormat } from "../../../utils/dateConverter";
 import { FindParcelDialog } from "../../../hooks/ActionDialogs/FindParcelDialog";
 import { NotificationInstance } from "antd/es/notification/interface";
+import { useNavigate } from "react-router-dom";
 
 export const Filters = ({ api }: { api: NotificationInstance }) => {
   const dispatch = useDispatch();
@@ -36,6 +41,28 @@ export const Filters = ({ api }: { api: NotificationInstance }) => {
     const value = date ? date.valueOf() : null;
     dispatch(setIParcelsAsignedFilterDate(value));
   }, []);
+
+  const navigate = useNavigate();
+  const getParams: (parcelNumber: string) => FindParcelDto = React.useCallback(
+    (parcelNumber: string) => ({
+      authToken: token,
+      number: parcelNumber,
+    }),
+    [token],
+  );
+
+  const errFunc = React.useCallback((errorMessage: string) => {
+    api.error({
+      message: `Ошибка`,
+      description: errorMessage,
+      placement: "bottomRight",
+    });
+  }, []);
+
+  const handleFind = (number: string) => {
+    const params = getParams(number);
+    findParcel(navigate, errFunc, params);
+  };
 
   return (
     <Space
@@ -61,7 +88,7 @@ export const Filters = ({ api }: { api: NotificationInstance }) => {
           }}
           style={{ maxWidth: "200px" }}
         />
-        <FindParcelDialog api={api} />
+        <FindParcelDialog handleFind={handleFind} />
       </Space>
 
       <Radio.Group

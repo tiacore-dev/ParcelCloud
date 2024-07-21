@@ -175,7 +175,7 @@ export const App = () => {
                 <Route path=":documentId" element={<Document />} />
               </Route>
               <Route path="tasks" element={<ParcelsAsigned api={api} />} />
-              <Route path="storage" element={<ParcelsInStorage />} />
+              <Route path="storage" element={<ParcelsInStorage api={api} />} />
               <Route path="history" element={<HistoryPage />} />
               <Route path="prices" element={<Prices />} />
               <Route path="api" element={<Api />} />

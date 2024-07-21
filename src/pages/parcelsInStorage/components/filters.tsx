@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { editManifestAction } from "../../../store/modules/editableEntities/editableManifest";
 import { IParcelsList } from "../../../interfaces/parcels/IParcelsList";
 import { isMobile } from "../../../utils/isMobile";
+import { FindParcelDialog } from "../../../hooks/ActionDialogs/FindParcelDialog";
 
 export const Filters = ({
   selectedRows,
@@ -60,18 +61,7 @@ export const Filters = ({
     />
   );
 
-  const add = (
-    <Input
-      size="large"
-      className="parcels_filters_search"
-      placeholder="Добавть по номеру"
-      value={filters.number}
-      onChange={(e) => {
-        selectRow(e.target.value);
-      }}
-      style={{ maxWidth: "200px" }}
-    />
-  );
+  const add = <FindParcelDialog handleFind={selectRow} />;
 
   const filterRadioSelect = (
     <Radio.Group

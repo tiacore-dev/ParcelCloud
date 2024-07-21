@@ -1,45 +1,18 @@
 import React, { useCallback } from "react";
 import { ActionDialog } from "./ActionDialog";
 import { SearchOutlined } from "@ant-design/icons";
-import { FindParcelDto, findParcel } from "../ApiActions/parcel";
-import { authToken } from "../useAuth";
 import { Button, Input, Space } from "antd";
-import { useNavigate } from "react-router-dom";
 import { IDetectedBarcode, Scanner } from "@yudiel/react-qr-scanner";
-import { NotificationInstance } from "antd/es/notification/interface";
 
 interface IReceiveParcelDialogProps {
   iconOnly?: boolean;
-  api: NotificationInstance;
+  handleFind: (number: string) => void;
 }
 
 export const FindParcelDialog = (props: IReceiveParcelDialogProps) => {
-  const { iconOnly = true, api } = props;
-  const navigate = useNavigate();
+  const { iconOnly = true, handleFind } = props;
 
   const [number, setNumber] = React.useState("");
-
-  const token = authToken();
-  const getParams: (parcelNumber: string) => FindParcelDto = useCallback(
-    (parcelNumber: string) => ({
-      authToken: token,
-      number: parcelNumber,
-    }),
-    [token],
-  );
-
-  const errFunc = useCallback((errorMessage: string) => {
-    api.error({
-      message: `Ошибка`,
-      description: errorMessage,
-      placement: "bottomRight",
-    });
-  }, []);
-
-  const handleFind = (number: string) => {
-    const params = getParams(number);
-    findParcel(navigate, errFunc, params);
-  };
 
   const handleScan = useCallback((result: IDetectedBarcode[]) => {
     if (result && result.length) {
@@ -68,6 +41,7 @@ export const FindParcelDialog = (props: IReceiveParcelDialogProps) => {
               size="large"
               onClick={() => {
                 handleFind(number);
+                setNumber("");
               }}
               icon={<SearchOutlined />}
             />

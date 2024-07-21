@@ -16,12 +16,13 @@ import {
   IParcelsInStorageListColumn,
   IParcelsList,
 } from "../../interfaces/parcels/IParcelsList";
+import { NotificationInstance } from "antd/es/notification/interface";
 
 export interface GetParcelsInStorageDto {
   authToken: IauthToken;
 }
 
-export const ParcelsInStorage = () => {
+export const ParcelsInStorage = ({ api }: { api: NotificationInstance }) => {
   const breadcrumbItems = React.useMemo(
     () => [{ title: "Главная" }, { title: "Накладные на складе" }],
     [],
@@ -86,19 +87,40 @@ export const ParcelsInStorage = () => {
     },
   };
 
-  const selectRow = (parcelNumber: string) => {
-    const newRow = dataSource.find((parcel) => parcel.number === parcelNumber);
-    const newRows = [...selectedRows];
-    const newRowKeys = [...selectedRowKeys];
+  const selectRow = React.useCallback(
+    (parcelNumber: string) => {
+      const newRow = dataSource.find(
+        (parcel) => parcel.number === parcelNumber.toString(),
+      );
 
-    if (newRow) {
-      newRows.push(newRow);
-      newRowKeys.push(newRow.id);
-    }
-    setSelectedRowKeys(newRowKeys);
-    setSelectedRows(newRows);
-  };
+      const newRows = [...selectedRows];
+      const newRowKeys = [...selectedRowKeys];
 
+      if (newRow) {
+        newRows.push(newRow);
+        newRowKeys.push(newRow.id);
+        if (selectedRowKeys.includes(newRow.id)) {
+          api.warning({
+            message: `Накладная ${parcelNumber} уже добавлена в манифест`,
+            placement: "bottomRight",
+          });
+        } else {
+          api.success({
+            message: `Накладная ${parcelNumber} добавлена в манифест`,
+            placement: "bottomRight",
+          });
+          setSelectedRowKeys(newRowKeys);
+          setSelectedRows(newRows);
+        }
+      } else {
+        api.error({
+          message: `Накладная ${parcelNumber} найдена на складе`,
+          placement: "bottomRight",
+        });
+      }
+    },
+    [dataSource],
+  );
   return (
     <>
       <Breadcrumb
