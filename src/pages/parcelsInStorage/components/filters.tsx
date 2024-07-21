@@ -12,10 +12,7 @@ import {
 } from "../../../store/modules/settings/parcelsInStorage";
 import { useNavigate } from "react-router-dom";
 import { editManifestAction } from "../../../store/modules/editableEntities/editableManifest";
-import {
-  IParcelsInStorageListColumn,
-  IParcelsList,
-} from "../../../interfaces/parcels/IParcelsList";
+import { IParcelsList } from "../../../interfaces/parcels/IParcelsList";
 import { isMobile } from "../../../utils/isMobile";
 import { FindParcelDialog } from "../../../hooks/ActionDialogs/FindParcelDialog";
 
@@ -23,7 +20,6 @@ export const Filters = ({
   selectedRows,
   selectRow,
 }: {
-  data: IParcelsInStorageListColumn[];
   selectedRows: IParcelsList[];
   selectRow: (parcelNumber: string) => void;
 }) => {

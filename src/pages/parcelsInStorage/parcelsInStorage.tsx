@@ -87,17 +87,22 @@ export const ParcelsInStorage = ({ api }: { api: NotificationInstance }) => {
     },
   };
 
+  const addRow = (row: IParcelsInStorageListColumn) => {
+    setSelectedRows([...selectedRows, row]);
+  };
+
+  const addRowKey = (key: string) => {
+    console.log(selectedRowKeys);
+    setSelectedRowKeys([...selectedRowKeys, key]);
+  };
+
   const selectRow = React.useCallback(
     (parcelNumber: string) => {
       const newRow = dataSource.find(
         (parcel) => parcel.number === parcelNumber.toString(),
       );
 
-      const newRows = [...selectedRows];
-      const newRowKeys = [...selectedRowKeys];
       if (newRow) {
-        newRows.push(newRow);
-        newRowKeys.push(newRow.id);
         if (selectedRowKeys.includes(newRow.id)) {
           api.warning({
             message: `Накладная ${parcelNumber} уже добавлена в манифест`,
@@ -108,8 +113,8 @@ export const ParcelsInStorage = ({ api }: { api: NotificationInstance }) => {
             message: `Накладная ${parcelNumber} добавлена в манифест`,
             placement: "bottomRight",
           });
-          setSelectedRowKeys(newRowKeys);
-          setSelectedRows(newRows);
+          addRowKey(newRow.id);
+          addRow(newRow);
         }
       } else {
         api.error({
@@ -118,7 +123,7 @@ export const ParcelsInStorage = ({ api }: { api: NotificationInstance }) => {
         });
       }
     },
-    [dataSource, selectedRows, selectedRowKeys],
+    [addRow, addRowKey, dataSource, selectedRows, selectedRowKeys],
   );
 
   return (
@@ -136,11 +141,7 @@ export const ParcelsInStorage = ({ api }: { api: NotificationInstance }) => {
           background: "#FFF",
         }}
       >
-        <Filters
-          data={dataSource}
-          selectedRows={selectedRows}
-          selectRow={selectRow}
-        />
+        <Filters selectedRows={selectedRows} selectRow={selectRow} />
         <Table
           dataSource={dataSource}
           columns={
