@@ -41,6 +41,7 @@ export const ParcelActions = (props: IParcelActionsProps) => {
   const parcelEditReceived = checkPermission("parcel-edit-received");
   const podCreateAll = checkPermission("pod-create-all");
   const parcelDeleteMy = checkPermission("parcel-delete-my");
+  const setReceivingResponsible = checkPermission("set_receiving_responsible");
 
   const canDelivery: boolean =
     (parcelData.toDelivery && podCreateMy) ||
@@ -51,6 +52,9 @@ export const ParcelActions = (props: IParcelActionsProps) => {
   const canReceive: boolean = parcelData.toReceive && receiveCreate;
 
   const canDelete: boolean = parcelData.deletionAvailable && parcelDeleteMy;
+
+  const canSetReceivingResp: boolean =
+    parcelData.toReceive && setReceivingResponsible;
 
   const canEdit: boolean =
     (parcelData.status === "expected" && parcelEditMy) || parcelEditAll;

@@ -52,6 +52,13 @@ import { CreateManifest } from "../../pages/createManifest/createManifest";
 import { Api } from "../../pages/info";
 import { isMobile } from "../../utils/isMobile";
 import { pageHeight } from "../../utils/pageSettings";
+import {
+  clearResponsibleState,
+  getResponsibleFailure,
+  getResponsibleRequest,
+  getResponsibleSuccess,
+} from "../../store/modules/dictionaries/responsible";
+import { IResponsible } from "../../interfaces/responsible/IResponsible";
 
 interface useloadSourseDto {
   authToken: IauthToken;
@@ -70,6 +77,7 @@ export const useloadSourse = (): [
     dispatch(clearParcelsInStorageSettingsState());
     dispatch(clearParcelsInStorageState());
     dispatch(clearCitiesState());
+    dispatch(clearResponsibleState());
     dispatch(clearTemplatesState());
     dispatch(clearParcelState());
     dispatch(clearCreateParcelState());
@@ -87,6 +95,18 @@ export const useloadSourse = (): [
       })
       .catch((err) => {
         dispatch(getCitiesFailure(err));
+      });
+
+    // Загрузка списка назначаемых ответственных
+    dispatch(getResponsibleRequest());
+    useApi<IResponsible[], useloadSourseDto>("responsible", "get", {
+      authToken: authData,
+    })
+      .then((response) => {
+        dispatch(getResponsibleSuccess(response));
+      })
+      .catch((err) => {
+        dispatch(getResponsibleFailure(err));
       });
 
     // Загрузка шаблонов
