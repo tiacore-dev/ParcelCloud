@@ -14,12 +14,15 @@ export const FindParcelDialog = (props: IReceiveParcelDialogProps) => {
 
   const [number, setNumber] = React.useState("");
 
-  const handleScan = useCallback((result: IDetectedBarcode[]) => {
-    if (result && result.length) {
-      const rawValue = result[0].rawValue;
-      handleFind(rawValue);
-    }
-  }, []);
+  const handleScan = useCallback(
+    (result: IDetectedBarcode[]) => {
+      if (result && result.length) {
+        const rawValue = result[0].rawValue;
+        handleFind(rawValue);
+      }
+    },
+    [handleFind],
+  );
   return (
     <ActionDialog
       footerDisable={true}

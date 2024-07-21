@@ -95,7 +95,6 @@ export const ParcelsInStorage = ({ api }: { api: NotificationInstance }) => {
 
       const newRows = [...selectedRows];
       const newRowKeys = [...selectedRowKeys];
-
       if (newRow) {
         newRows.push(newRow);
         newRowKeys.push(newRow.id);
@@ -114,13 +113,14 @@ export const ParcelsInStorage = ({ api }: { api: NotificationInstance }) => {
         }
       } else {
         api.error({
-          message: `Накладная ${parcelNumber} найдена на складе`,
+          message: `Накладная ${parcelNumber} не найдена на складе`,
           placement: "bottomRight",
         });
       }
     },
     [dataSource],
   );
+
   return (
     <>
       <Breadcrumb
@@ -136,7 +136,11 @@ export const ParcelsInStorage = ({ api }: { api: NotificationInstance }) => {
           background: "#FFF",
         }}
       >
-        <Filters selectedRows={selectedRows} selectRow={selectRow} />
+        <Filters
+          data={dataSource}
+          selectedRows={selectedRows}
+          selectRow={selectRow}
+        />
         <Table
           dataSource={dataSource}
           columns={

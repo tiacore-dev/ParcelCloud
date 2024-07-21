@@ -12,7 +12,10 @@ import {
 } from "../../../store/modules/settings/parcelsInStorage";
 import { useNavigate } from "react-router-dom";
 import { editManifestAction } from "../../../store/modules/editableEntities/editableManifest";
-import { IParcelsList } from "../../../interfaces/parcels/IParcelsList";
+import {
+  IParcelsInStorageListColumn,
+  IParcelsList,
+} from "../../../interfaces/parcels/IParcelsList";
 import { isMobile } from "../../../utils/isMobile";
 import { FindParcelDialog } from "../../../hooks/ActionDialogs/FindParcelDialog";
 
@@ -20,6 +23,7 @@ export const Filters = ({
   selectedRows,
   selectRow,
 }: {
+  data: IParcelsInStorageListColumn[];
   selectedRows: IParcelsList[];
   selectRow: (parcelNumber: string) => void;
 }) => {
@@ -61,7 +65,7 @@ export const Filters = ({
     />
   );
 
-  const add = <FindParcelDialog handleFind={selectRow} />;
+  const findParcelDialog = <FindParcelDialog handleFind={selectRow} />;
 
   const filterRadioSelect = (
     <Radio.Group
@@ -106,7 +110,7 @@ export const Filters = ({
       <Space direction="horizontal">
         {reloadButton}
         {search}
-        {add}
+        {findParcelDialog}
       </Space>
       {filterRadioSelect}
     </Space>
@@ -114,7 +118,7 @@ export const Filters = ({
     <Space className="parcels-asigned_filters">
       {reloadButton}
       {search}
-      {add}
+      {findParcelDialog}
       {filterRadioSelect}
       {!!selectedRows.length && createButton}
     </Space>
