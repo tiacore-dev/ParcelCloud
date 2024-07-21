@@ -1,6 +1,6 @@
 import React from "react";
 import { ActionDialog } from "./ActionDialog";
-import { CheckCircleTwoTone, UserOutlined } from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 import { Select, Space } from "antd";
 import { selectFilterHandler } from "../../utils/selectFilterHandler";
 import { getResponsible } from "../../store/modules/dictionaries/selectors/responsible.selector";
@@ -11,14 +11,15 @@ interface ISetReceiveResponsibleDialogProps {
   parcelNumber?: string;
   iconOnly?: boolean;
   buttonType?: "link" | "primary" | "text" | "default" | "dashed";
-  onReceive: (number: string) => void;
+  onConfirm: (number: string) => void;
 }
 
 export const SetReceiveResponsibleDialog = (
   props: ISetReceiveResponsibleDialogProps,
 ) => {
   const {
-    onReceive,
+    onConfirm,
+    parcelId,
     parcelNumber,
     iconOnly = false,
     buttonType = "primary",
@@ -38,7 +39,7 @@ export const SetReceiveResponsibleDialog = (
 
   return (
     <ActionDialog
-      // onConfirm={() => onReceive(parcelNumber)}
+      onConfirm={() => onConfirm(parcelId)}
       buttonText={iconOnly ? "" : "Назначить курьера"}
       buttonType={buttonType}
       buttonIcon={<UserOutlined style={{ color: "#ff1616" }} />}
