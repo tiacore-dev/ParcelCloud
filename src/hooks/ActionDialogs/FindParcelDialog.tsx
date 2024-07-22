@@ -18,7 +18,7 @@ export const FindParcelDialog = (props: IReceiveParcelDialogProps) => {
     (result: IDetectedBarcode[]) => {
       if (result && result.length) {
         const rawValue = result[0].rawValue;
-        handleFind(rawValue);
+        setNumber(rawValue);
       }
     },
     [handleFind],
