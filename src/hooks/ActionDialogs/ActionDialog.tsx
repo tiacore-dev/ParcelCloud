@@ -94,6 +94,7 @@ export const ActionDialog = (props: IActionDialogProps) => {
     <>
       {button}
       <Modal
+        // header={footer}
         width={width}
         title={modalTitle}
         open={open}
