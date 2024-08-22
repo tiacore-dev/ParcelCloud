@@ -55,6 +55,7 @@ const initialState: IEditableParcelState = {
   tMax: 0,
   tMin: 0,
   fragile: false,
+  returnParcel: false,
   containerRent: false,
   date: Date.now(),
   items: [initialItem],
@@ -62,7 +63,7 @@ const initialState: IEditableParcelState = {
 
 const setParcelData = (
   state: IEditableParcelState,
-  parcelData: Partial<IParcel>,
+  parcelData: Partial<IParcel>
 ) => {
   state.id = parcelData.id;
   state.date = parcelData.date;
@@ -98,6 +99,7 @@ const setParcelData = (
   state.tMax = parcelData.tMax;
   state.tMin = parcelData.tMin;
   state.fragile = parcelData.fragile;
+  state.returnParcel = parcelData.returnParcel;
   state.containerRent = parcelData.containerRent;
   state.items = parcelData.items;
   state.sent = false;
@@ -109,14 +111,14 @@ const editableParcelSlice = createSlice({
   reducers: {
     setParcelData: (
       state: IEditableParcelState,
-      action: { payload: IParcel },
+      action: { payload: IParcel }
     ) => {
       setParcelData(state, action.payload);
     },
 
     setCopyParcelData: (
       state: IEditableParcelState,
-      action: { payload: IParcel },
+      action: { payload: IParcel }
     ) => {
       setParcelData(state, {
         ...action.payload,
@@ -165,7 +167,7 @@ const editableParcelSlice = createSlice({
 
     setOrderNumber: (
       state: IEditableParcelState,
-      action: { payload: string },
+      action: { payload: string }
     ) => {
       state.orderNumber = action.payload;
     },
@@ -175,31 +177,31 @@ const editableParcelSlice = createSlice({
     },
     setSendPerson: (
       state: IEditableParcelState,
-      action: { payload: string },
+      action: { payload: string }
     ) => {
       state.sendPerson = action.payload;
     },
     setSendAddress: (
       state: IEditableParcelState,
-      action: { payload: string },
+      action: { payload: string }
     ) => {
       state.sendAddress = action.payload;
     },
     setSendCompany: (
       state: IEditableParcelState,
-      action: { payload: string },
+      action: { payload: string }
     ) => {
       state.sendCompany = action.payload;
     },
     setSendAddInfo: (
       state: IEditableParcelState,
-      action: { payload: string },
+      action: { payload: string }
     ) => {
       state.sendAddInfo = action.payload;
     },
     setSendPhone: (
       state: IEditableParcelState,
-      action: { payload: string },
+      action: { payload: string }
     ) => {
       state.sendPhone = action.payload;
     },
@@ -211,25 +213,25 @@ const editableParcelSlice = createSlice({
     },
     setRecPerson: (
       state: IEditableParcelState,
-      action: { payload: string },
+      action: { payload: string }
     ) => {
       state.recPerson = action.payload;
     },
     setRecAddress: (
       state: IEditableParcelState,
-      action: { payload: string },
+      action: { payload: string }
     ) => {
       state.recAddress = action.payload;
     },
     setRecCompany: (
       state: IEditableParcelState,
-      action: { payload: string },
+      action: { payload: string }
     ) => {
       state.recCompany = action.payload;
     },
     setRecAddInfo: (
       state: IEditableParcelState,
-      action: { payload: string },
+      action: { payload: string }
     ) => {
       state.recAddInfo = action.payload;
     },
@@ -253,7 +255,7 @@ const editableParcelSlice = createSlice({
     },
     setDescription: (
       state: IEditableParcelState,
-      action: { payload: string },
+      action: { payload: string }
     ) => {
       state.description = action.payload;
     },
@@ -265,13 +267,13 @@ const editableParcelSlice = createSlice({
     },
     setPayType: (
       state: IEditableParcelState,
-      action: { payload: keyof typeof payTypeEnum },
+      action: { payload: keyof typeof payTypeEnum }
     ) => {
       state.payType = action.payload;
     },
     setDelType: (
       state: IEditableParcelState,
-      action: { payload: keyof typeof delTypeEnum },
+      action: { payload: keyof typeof delTypeEnum }
     ) => {
       state.delType = action.payload;
     },
@@ -283,7 +285,7 @@ const editableParcelSlice = createSlice({
     },
     setInsureValue: (
       state: IEditableParcelState,
-      action: { payload: number },
+      action: { payload: number }
     ) => {
       state.insureValue = action.payload;
     },
@@ -293,77 +295,80 @@ const editableParcelSlice = createSlice({
     toggleFragile: (state: IEditableParcelState) => {
       state.fragile = !state.fragile;
     },
+    toggleReturnParcel: (state: IEditableParcelState) => {
+      state.returnParcel = !state.returnParcel;
+    },
     toggleContainerRent: (state: IEditableParcelState) => {
       state.containerRent = !state.containerRent;
     },
     setItems: (
       state: IEditableParcelState,
-      action: { payload: IParcelItem[] },
+      action: { payload: IParcelItem[] }
     ) => {
       state.items = action.payload;
       state.qt = state.items.reduce(
         (qt: number, item: IParcelItem) => qt + item.qt || 0,
-        0,
+        0
       );
       state.weight = state.items.reduce(
         (weight: number, item: IParcelItem) => weight + item.tWeight || 0,
-        0,
+        0
       );
       state.volume = state.items.reduce(
         (volume: number, item: IParcelItem) => volume + item.tVolume || 0,
-        0,
+        0
       );
     },
     addItem: (state: IEditableParcelState) => {
       state.items = [...state.items, { ...initialItem } as IParcelItem];
       state.qt = state.items.reduce(
         (qt: number, item: IParcelItem) => qt + item.qt || 0,
-        0,
+        0
       );
       state.weight = state.items.reduce(
         (weight: number, item: IParcelItem) => weight + item.tWeight || 0,
-        0,
+        0
       );
       state.volume = state.items.reduce(
         (volume: number, item: IParcelItem) => volume + item.tVolume || 0,
-        0,
+        0
       );
     },
     deleteItem: (state: IEditableParcelState, action: { payload: number }) => {
       state.items = state.items.filter(
-        (item, index) => index !== action.payload,
+        (item, index) => index !== action.payload
       );
       state.qt = state.items.reduce(
         (qt: number, item: IParcelItem) => qt + item.qt || 0,
-        0,
+        0
       );
       state.weight = state.items.reduce(
         (weight: number, item: IParcelItem) => weight + item.tWeight || 0,
-        0,
+        0
       );
       state.volume = state.items.reduce(
         (volume: number, item: IParcelItem) => volume + item.tVolume || 0,
-        0,
+        0
       );
     },
     copyItem: (state: IEditableParcelState, action: { payload: number }) => {
       state.items.push({ ...state.items[action.payload] });
       state.qt = state.items.reduce(
         (qt: number, item: IParcelItem) => qt + item.qt || 0,
-        0,
+        0
       );
       state.weight = state.items.reduce(
         (weight: number, item: IParcelItem) => weight + item.tWeight || 0,
-        0,
+        0
       );
       state.volume = state.items.reduce(
         (volume: number, item: IParcelItem) => volume + item.tVolume || 0,
-        0,
+        0
       );
     },
     editItemWeight: (
       state: IEditableParcelState,
-      action: { payload: { index: number; value: number } },
+      action: { payload: { index: number; value: number } }
     ) => {
       state.items = state.items.map((item, index) =>
         index === action.payload.index
@@ -372,16 +377,16 @@ const editableParcelSlice = createSlice({
               weight: action.payload.value,
               tWeight: Number((action.payload.value * item.qt).toFixed(3)),
             }
-          : item,
+          : item
       );
       state.weight = state.items.reduce(
         (weight: number, item: IParcelItem) => weight + item.tWeight || 0,
-        0,
+        0
       );
     },
     editItemL: (
       state: IEditableParcelState,
-      action: { payload: { index: number; value: number } },
+      action: { payload: { index: number; value: number } }
     ) => {
       state.items = state.items.map((item, index) => {
         if (index === action.payload.index) {
@@ -394,12 +399,12 @@ const editableParcelSlice = createSlice({
       });
       state.volume = state.items.reduce(
         (volume: number, item: IParcelItem) => volume + item.tVolume || 0,
-        0,
+        0
       );
     },
     editItemW: (
       state: IEditableParcelState,
-      action: { payload: { index: number; value: number } },
+      action: { payload: { index: number; value: number } }
     ) => {
       state.items = state.items.map((item, index) => {
         if (index === action.payload.index) {
@@ -412,12 +417,12 @@ const editableParcelSlice = createSlice({
       });
       state.volume = state.items.reduce(
         (volume: number, item: IParcelItem) => volume + item.tVolume || 0,
-        0,
+        0
       );
     },
     editItemH: (
       state: IEditableParcelState,
-      action: { payload: { index: number; value: number } },
+      action: { payload: { index: number; value: number } }
     ) => {
       state.items = state.items.map((item, index) => {
         if (index === action.payload.index) {
@@ -430,12 +435,12 @@ const editableParcelSlice = createSlice({
       });
       state.volume = state.items.reduce(
         (volume: number, item: IParcelItem) => volume + item.tVolume || 0,
-        0,
+        0
       );
     },
     editItemQt: (
       state: IEditableParcelState,
-      action: { payload: { index: number; value: number } },
+      action: { payload: { index: number; value: number } }
     ) => {
       state.items = state.items.map((item, index) =>
         index === action.payload.index
@@ -445,19 +450,19 @@ const editableParcelSlice = createSlice({
               tVolume: Number((item.volume * action.payload.value).toFixed(3)),
               tWeight: Number((item.weight * action.payload.value).toFixed(3)),
             }
-          : item,
+          : item
       );
       state.volume = state.items.reduce(
         (volume: number, item: IParcelItem) => volume + item.tVolume || 0,
-        0,
+        0
       );
       state.weight = state.items.reduce(
         (weight: number, item: IParcelItem) => weight + item.tWeight || 0,
-        0,
+        0
       );
       state.qt = state.items.reduce(
         (qt: number, item: IParcelItem) => qt + item.qt || 0,
-        0,
+        0
       );
     },
     sendParcel: (state: IEditableParcelState) => {
@@ -465,7 +470,7 @@ const editableParcelSlice = createSlice({
     },
     savedParcel: (
       state: IEditableParcelState,
-      action: { payload: { number: string; id: string } },
+      action: { payload: { number: string; id: string } }
     ) => {
       state.id = action.payload.id;
       state.number = action.payload.number;

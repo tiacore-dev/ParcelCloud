@@ -111,6 +111,7 @@ export interface EditParcelDto {
   tMax?: number;
   tMin?: number;
   fragile?: boolean;
+  returnParcel?: boolean;
   containerRent?: boolean;
   items?: IParcelItem[];
   authToken: IauthToken;
@@ -148,7 +149,7 @@ export interface FindParcelDto {
 
 export const getParcels = (
   dispatch: Dispatch<AnyAction>,
-  getParcelsParam: GetParcelsDto,
+  getParcelsParam: GetParcelsDto
 ) => {
   dispatch(getParcelsRequest());
   useApi<IParcelsList[], GetParcelsDto>("parcels", "get", getParcelsParam)
@@ -162,7 +163,7 @@ export const getParcels = (
 
 export const getParcel = (
   dispatch: Dispatch<AnyAction>,
-  getParcelParam: GetParcelDto,
+  getParcelParam: GetParcelDto
 ) => {
   dispatch(getParcelRequest());
   useApi<IParcel, GetParcelDto>("parcel", "get", getParcelParam)
@@ -177,12 +178,12 @@ export const getParcel = (
 export const setGeneralParcelStatus = (
   dispatch: Dispatch<AnyAction>,
   setGeneralParcelStatusParam: GetParcelDto,
-  api: NotificationInstance,
+  api: NotificationInstance
 ) => {
   useApi<ParcelStatusData, GetParcelDto>(
     "generalstatus",
     "set",
-    setGeneralParcelStatusParam,
+    setGeneralParcelStatusParam
   )
     .then((response) => {
       dispatch(setParcelStatus(response));
@@ -190,7 +191,7 @@ export const setGeneralParcelStatus = (
         changeParcelAsignedStatus({
           id: setGeneralParcelStatusParam.parcelId,
           statusData: response,
-        }),
+        })
       );
       api.success({
         message: `Успешно`,
@@ -218,12 +219,12 @@ export const setParcelReceiveResponsible = (
   dispatch: Dispatch<AnyAction>,
   navigate: NavigateFunction,
   setParcelReceiveResponsibleParam: SetParcelReceiveResponsibleDto,
-  api: NotificationInstance,
+  api: NotificationInstance
 ) => {
   useApi<void, SetParcelReceiveResponsibleDto>(
     "receiveresponsible",
     "set",
-    setParcelReceiveResponsibleParam,
+    setParcelReceiveResponsibleParam
   )
     .then(() => {
       navigate(`/tasks`);
@@ -246,12 +247,12 @@ export const setParcelReceiveResponsible = (
 
 export const setGeneralParcelsStatus = (
   dispatch: Dispatch<AnyAction>,
-  setGeneralParcelStatusParam: GeneralStatusParcelsSetDto,
+  setGeneralParcelStatusParam: GeneralStatusParcelsSetDto
 ) => {
   useApi<ParcelsStatusData[], GeneralStatusParcelsSetDto>(
     "generalparcelsstatus",
     "set",
-    setGeneralParcelStatusParam,
+    setGeneralParcelStatusParam
   ).then((response) => {
     dispatch(setManifestParcelsStatus(response));
   });
@@ -259,13 +260,13 @@ export const setGeneralParcelsStatus = (
 
 export const getParcelsAsigned = (
   dispatch: Dispatch<AnyAction>,
-  getParcelsParam: GetParcelsAsignedDto,
+  getParcelsParam: GetParcelsAsignedDto
 ) => {
   dispatch(getParcelsAsignedRequest());
   useApi<IParcelsAsignedList[], GetParcelsAsignedDto>(
     "parcelsasigned",
     "get",
-    getParcelsParam,
+    getParcelsParam
   )
     .then((parcelsData) => {
       dispatch(getParcelsAsignedSuccess(parcelsData));
@@ -277,12 +278,12 @@ export const getParcelsAsigned = (
 
 export const deliveryParcel = (
   dispatch: Dispatch<AnyAction>,
-  deliveryParcelParam: DeliveryParcelDto,
+  deliveryParcelParam: DeliveryParcelDto
 ) => {
   useApi<ParcelStatusData, DeliveryParcelDto>(
     "deliveryparcel",
     "set",
-    deliveryParcelParam,
+    deliveryParcelParam
   )
     .then((response) => {
       dispatch(setParcelStatus(response));
@@ -294,7 +295,7 @@ export const deliveryParcel = (
 
 export const acceptReceiveTask = async (
   dispatch: Dispatch<AnyAction>,
-  getParcelParam: GetParcelDto,
+  getParcelParam: GetParcelDto
 ): Promise<boolean> => {
   return useApi<boolean, GetParcelDto>("toreceive", "confirm", getParcelParam)
     .then((response) => {
@@ -311,7 +312,7 @@ export const acceptReceiveTask = async (
 
 export const editParcel = (
   dispatch: Dispatch<AnyAction>,
-  editParcelParam: EditParcelDto,
+  editParcelParam: EditParcelDto
 ) => {
   useApi<IParcel, EditParcelDto>("parceledit", "edit", editParcelParam)
     .then((response) => {
@@ -326,14 +327,14 @@ export const createParcel = (
   dispatch: Dispatch<AnyAction>,
   navigate: NavigateFunction,
   createParcelParams: CreateParcelDto,
-  onError?: (err: string) => void,
+  onError?: (err: string) => void
 ) => {
   dispatch(editParcelAction.sendParcel());
 
   useApi<{ id: string; number: string }, CreateParcelDto>(
     "parcelcreate",
     "create",
-    createParcelParams,
+    createParcelParams
   )
     .then((parcelData) => {
       dispatch(editParcelAction.savedParcel(parcelData));
@@ -350,7 +351,7 @@ export const createParcel = (
 
 export const getHistory = (
   dispatch: Dispatch<AnyAction>,
-  getHistoryParam: GetHistoryDto,
+  getHistoryParam: GetHistoryDto
 ) => {
   dispatch(getHistoryRequest());
   useApi<IParcelHistory[], GetHistoryDto>("history", "get", getHistoryParam)
@@ -365,13 +366,13 @@ export const getHistory = (
 export const getParcelsInStorage = (
   dispatch: Dispatch<AnyAction>,
   getParcelsParam: GetParcelsInStorageDto,
-  onSuccess?: (parcelsData: IParcelsInStorageList[]) => void,
+  onSuccess?: (parcelsData: IParcelsInStorageList[]) => void
 ) => {
   dispatch(getParcelsInStorageRequest());
   useApi<IParcelsInStorageList[], GetParcelsInStorageDto>(
     "parcelsinstorage",
     "get",
-    getParcelsParam,
+    getParcelsParam
   )
     .then((parcelsData) => {
       dispatch(getParcelsInStorageSuccess(parcelsData));
@@ -387,7 +388,7 @@ export const getParcelsInStorage = (
 export const deleteParcel = (
   dispatch: Dispatch<AnyAction>,
   deleteParcelsParam: DeleteParcelDto,
-  onSuccess?: () => void,
+  onSuccess?: () => void
 ) => {
   dispatch(getParcelsInStorageRequest());
   useApi<string, DeleteParcelDto>("deleteparcel", "delete", deleteParcelsParam)
@@ -405,13 +406,13 @@ export const deleteParcel = (
 export const findParcel = async (
   navigate: NavigateFunction,
   errFunc: (errorMessage: string) => void,
-  findParcelParam: FindParcelDto,
+  findParcelParam: FindParcelDto
 ) => {
   try {
     const parcels = await useApi<Array<{ id: string }>, FindParcelDto>(
       "parcelfind",
       "get",
-      findParcelParam,
+      findParcelParam
     );
     if (parcels && parcels.length) {
       navigate(`/parcels/${parcels[0].id}`);

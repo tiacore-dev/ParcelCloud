@@ -84,16 +84,16 @@ export const parcelTable = ({
         <tr></tr>
         {renderRow([
           {
-            content: "1. ОТ КОГО (ОТПРАВИТЕЛЬ)",
+            content: "ОТ КОГО (ОТПРАВИТЕЛЬ)",
             colSpan: 4,
             className: "parcelth",
           },
           {
-            content: "4. СТРАХОВАНИЕ ОТПРАВЛЕНИЯ",
+            content: "СТРАХОВАНИЕ ОТПРАВЛЕНИЯ",
             colSpan: 2,
             className: "parcelth",
           },
-          { content: "5. СРОЧНОСТЬ", colSpan: 2, className: "parcelth" },
+          { content: "СРОЧНОСТЬ", colSpan: 2, className: "parcelth" },
         ])}
         {renderRow([
           { content: "Название организации", className: "parceltd" },
@@ -110,7 +110,7 @@ export const parcelTable = ({
           { content: "ФИО Отправителя", className: "parceltd" },
           { content: data.sendPerson, colSpan: 3, className: "parceltd" },
           {
-            content: "7. ДОПОЛНИТЕЛЬНЫЕ УСЛУГИ",
+            content: "ДОПОЛНИТЕЛЬНЫЕ УСЛУГИ",
             colSpan: 4,
             className: "parcelth",
           },
@@ -177,7 +177,7 @@ export const parcelTable = ({
           <>
             {renderRow([
               {
-                content: "2. КОМУ (ПОЛУЧАТЕЛЬ)",
+                content: "КОМУ (ПОЛУЧАТЕЛЬ)",
                 colSpan: 4,
                 className: "parcelth",
               },
@@ -225,7 +225,7 @@ export const parcelTable = ({
           { content: "Телефон", className: "parceltd" },
           { content: data.recPhone, colSpan: 3, className: "parceltd" },
           {
-            content: "9. ПРИЕМ ОТПРАВЛЕНИЯ",
+            content: "ПРИЕМ ОТПРАВЛЕНИЯ",
             colSpan: 4,
             className: "parcelth",
           },
@@ -261,7 +261,7 @@ export const parcelTable = ({
         ])}
         {renderRow([
           {
-            content: "10. ИНФОРМАЦИЯ О ВРУЧЕНИИ ОТПРАВЛЕНИЯ",
+            content: "ИНФОРМАЦИЯ О ВРУЧЕНИИ ОТПРАВЛЕНИЯ",
             colSpan: 4,
             className: "parcelth",
           },
@@ -297,70 +297,7 @@ export const parcelTable = ({
           { content: "Должность", colSpan: 2, className: "parceltd" },
         ])}
 
-        {/* {renderRow([
-   
-          { content: "ФИО Сотрудника", colSpan: 2, className: "parceltd" },
-          { content: "Подпись Сотрудника", colSpan: 2, className: "parceltd" },
-        ])} */}
-        {/* {data.description ? (
-          renderRow([
-            { content: data.description, colSpan: 4, rowSpan: 5, className: "parceltd" },
-            // { content: "10. ИНФОРМАЦИЯ О ВРУЧЕНИИ ОТПРАВЛЕНИЯ", colSpan: 4, className: "parcelth" },
-          ])
-        ) : (
-          <>
-            {renderRow([
-              { content: "Общее описание", className: "parceltd" },
-              { content: "Кол-во мест", className: "parceltd" },
-              { content: "Вес (кг)", className: "parceltd" },
-              { content: "Габариты (см)", className: "parceltd" },
-              { content: "10. ИНФОРМАЦИЯ О ВРУЧЕНИИ ОТПРАВЛЕНИЯ", colSpan: 4, className: "parcelth" },
-            ])}
-            {renderRow([
-              { content: "", className: "parceltd" },
-              { content: "", className: "parceltd" },
-              { content: "", className: "parceltd" },
-              { content: "", className: "parceltd" },
-              // {
-              //   content: pod ? `Дата: ${dateToLocalString(pod.date)}` : "Дата _____._____ 20_____г.",
-              //   colSpan: 2,
-              //   className: "parceltd",
-              // },
-              // {
-              //   content: pod ? `Время: ${timeToLocalString(pod.date)}` : " Время _______:_______",
-              //   colSpan: 2,
-              //   className: "parceltd",
-              // },
-            ])}
-            {renderRow([
-              { content: "", className: "parceltd" },
-              { content: "", className: "parceltd" },
-              { content: "", className: "parceltd" },
-              { content: "", className: "parceltd" },
-              // {
-              //   content: `ФИО Получателя ${pod ? `: ${pod.comment}` : ""}`,
-              //   colSpan: 4,
-              //   rowSpan: 2,
-              //   className: "parceltd",
-              //   style: { verticalAlign: "top" },
-              // },
-            ])}
-            {renderRow([
-              { content: "", className: "parceltd" },
-              { content: "", className: "parceltd" },
-              { content: "", className: "parceltd" },
-              { content: "", className: "parceltd" },
-            ])}
-          </>
-        )}
-        {renderRow([
-          { content: "", className: "parceltd" },
-          { content: "", className: "parceltd" },
-          { content: "", className: "parceltd" },
-          { content: "", className: "parceltd" },
-          { content: "Подпись Получателя", colSpan: 2, className: "parceltd" },
-          { content: "Должность", colSpan: 2, className: "parceltd" },
-        ])} */}
+        
         {renderRow([
           { content: "", className: "parceltd" },
           { content: `Всего ${data.qt}`, className: "parceltd" },
