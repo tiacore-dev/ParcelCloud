@@ -690,7 +690,7 @@ export const CreateParcel = (props: ICreateParcelProps) => {
               </Form.Item>
 
               <Form.Item
-                label="Создать накладную на забор при доставке"
+                label="Создать обратную накладную для возврата"
                 valuePropName="checked"
               >
                 <Switch

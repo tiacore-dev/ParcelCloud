@@ -121,7 +121,7 @@ export const parcelTable = ({
           { content: "Терморежим", className: "parceltd" },
           { content: temperature, className: "parceltd" },
           { content: "Аренда ТК", className: "parceltd" },
-          { content: data.containerRent ? "V" : "", className: "parceltd" },
+          { content: data.containerRent ? "Да" : "Нет", className: "parceltd" },
         ])}
         {renderRow([
           { content: "Адрес", className: "parceltd" },
@@ -297,7 +297,6 @@ export const parcelTable = ({
           { content: "Должность", colSpan: 2, className: "parceltd" },
         ])}
 
-        
         {renderRow([
           { content: "", className: "parceltd" },
           { content: `Всего ${data.qt}`, className: "parceltd" },

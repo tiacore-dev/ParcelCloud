@@ -25,31 +25,33 @@ export const ParcelPrint = React.forwardRef(
       ? data.history.find((el) => el.type === "Доставлено")
       : undefined;
 
-    const table = parcelTable({data, temperature, pod})
+    const table = parcelTable({ data, temperature, pod });
 
     const page = (
       <div className="parcel_wrapper">
-        {table}
-        <div className="parcel_data">
-          {" "}
-          Я подтверждаю, что отправления не содержат предметы, запрещенные к
-          пересылке.
+        <div>
+          {table}
+          <div className="parcel_data">
+            {" "}
+            Я подтверждаю, что отправления не содержат предметы, запрещенные к
+            пересылке.
+          </div>
+          <div className="parcel_data">
+            С условиями пересылки согласен. С регламентом компании ознакомлен.
+            Подпись отправителя:
+          </div>
         </div>
-        <div className="parcel_data">
-          С условиями пересылки согласен. С регламентом компании ознакомлен.
-          Подпись отправителя:
-        </div>
-
-        <p> </p>
-        {table}
-        <div className="parcel_data">
-          {" "}
-          Я подтверждаю, что отправления не содержат предметы, запрещенные к
-          пересылке.
-        </div>
-        <div className="parcel_data">
-          С условиями пересылки согласен. С регламентом компании ознакомлен.
-          Подпись отправителя:
+        <div>
+          {table}
+          <div className="parcel_data">
+            {" "}
+            Я подтверждаю, что отправления не содержат предметы, запрещенные к
+            пересылке.
+          </div>
+          <div className="parcel_data">
+            С условиями пересылки согласен. С регламентом компании ознакомлен.
+            Подпись отправителя:
+          </div>
         </div>
       </div>
     );
@@ -59,5 +61,5 @@ export const ParcelPrint = React.forwardRef(
         {doublePrint && page}
       </div>
     );
-  },
+  }
 );
