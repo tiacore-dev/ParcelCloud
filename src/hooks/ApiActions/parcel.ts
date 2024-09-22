@@ -354,7 +354,15 @@ export const getHistory = (
   getHistoryParam: GetHistoryDto
 ) => {
   dispatch(getHistoryRequest());
-  useApi<IParcelHistory[], GetHistoryDto>("history", "get", getHistoryParam)
+  useApi<
+    {
+      data: IParcelHistory[];
+      qt?: number;
+      weight?: number;
+      volume?: number;
+    },
+    GetHistoryDto
+  >("history", "get", getHistoryParam)
     .then((response) => {
       dispatch(getHistorySuccess(response));
     })

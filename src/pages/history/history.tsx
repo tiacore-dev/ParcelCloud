@@ -12,12 +12,10 @@ import { isMobile } from "../../utils/isMobile";
 
 export const HistoryPage = () => {
   const parcelNumber = useSelector(
-    (state: IState) => state.pages.history.parcelNumber,
+    (state: IState) => state.pages.history.parcelNumber
   );
 
-  const historyData = useSelector(
-    (state: IState) => state.pages.history.history,
-  );
+  const historyData = useSelector((state: IState) => state.pages.history);
   const dispatch = useDispatch();
 
   const token = authToken();
@@ -26,7 +24,7 @@ export const HistoryPage = () => {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       dispatch(setParcelNumber(e.target.value));
     },
-    [],
+    []
   );
 
   const handleFind = React.useCallback((number: string) => {
@@ -66,7 +64,12 @@ export const HistoryPage = () => {
           />
 
           <Button onClick={() => handleFind(parcelNumber)}>Отследить</Button>
-          {!!historyData.length && <History historyData={historyData} />}
+          {!!historyData.qt && `Количество мест: ${historyData.qt}`}
+          {!!historyData.qt && `Фактический вес: ${historyData.weight}`}
+          {!!historyData.qt && `Объемный вес: ${historyData.volume}`}
+          {!!historyData.history.length && (
+            <History historyData={historyData.history} />
+          )}
         </Space>
       </Content>
     </>

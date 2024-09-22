@@ -5,6 +5,9 @@ export interface IHistoryState {
   loading: boolean;
   loaded: boolean;
   parcelNumber: string;
+  qt?: number;
+  weight?: number;
+  volume?: number;
   history: IParcelHistory[];
 }
 
@@ -25,11 +28,25 @@ const historySlice = createSlice({
     },
     getHistorySuccess: (
       state: IHistoryState,
-      action: { payload: IParcelHistory[] },
+      action: {
+        payload: {
+          data: IParcelHistory[];
+          qt?: number;
+          weight?: number;
+          volume?: number;
+        };
+      }
     ) => {
       state.loading = false;
       state.loaded = true;
-      state.history = action.payload;
+      if (Array.isArray(action.payload)) {
+        state.history = action.payload;
+      } else {
+        state.history = action.payload.data;
+        state.qt = action.payload.qt;
+        state.weight = action.payload.weight;
+        state.volume = action.payload.volume;
+      }
     },
     getHistoryFailure: (state: IHistoryState) => {
       state.loading = false;
