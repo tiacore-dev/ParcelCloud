@@ -74,6 +74,7 @@ export interface IParcel {
   history: IParcelHistory[];
   status: ParcelStatus;
   deletionAvailable?: boolean;
+  haveScan?: boolean;
   toDelivery?: boolean;
   toReceive?: boolean;
   toReceiveСonfirmed?: boolean;

@@ -25,6 +25,7 @@ import { NotificationInstance } from "antd/es/notification/interface";
 import { DeleteParcelDialog } from "../../../hooks/ActionDialogs/DeleteParcelDialo";
 import { useNavigate } from "react-router-dom";
 import { SetReceiveResponsibleDialog } from "../../../hooks/ActionDialogs/SetReceiveResponsibleDialog";
+import { ScanDialog } from "../../../hooks/ActionDialogs/ScanDialog";
 
 interface IParcelActionsProps {
   api: NotificationInstance;
@@ -134,6 +135,10 @@ export const ParcelActions = (props: IParcelActionsProps) => {
       </Button>
     );
 
+  const scanDialog = parcelData.haveScan && (
+    <ScanDialog api={api} parcelId={parcelData.id} />
+  );
+
   const receiveParcelDialog = canReceive && (
     <ReceiveParcelDialog
       onReceive={receiveParcel}
@@ -185,6 +190,7 @@ export const ParcelActions = (props: IParcelActionsProps) => {
       {receiveParcelDialog}
       {deliveryParcelDialog}
       {setReceiveResponsibleDialog}
+      {scanDialog}
       {editParcelDialog}
       {copyParcelDialog}
       {printModal}
