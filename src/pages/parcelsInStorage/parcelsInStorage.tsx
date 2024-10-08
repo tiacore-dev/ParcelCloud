@@ -25,7 +25,7 @@ export interface GetParcelsInStorageDto {
 export const ParcelsInStorage = ({ api }: { api: NotificationInstance }) => {
   const breadcrumbItems = React.useMemo(
     () => [{ title: "Главная" }, { title: "Накладные на складе" }],
-    [],
+    []
   );
 
   const { Content } = Layout;
@@ -40,15 +40,15 @@ export const ParcelsInStorage = ({ api }: { api: NotificationInstance }) => {
   const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>([]);
 
   const filters = useSelector(
-    (state: IState) => state.settings.parcelsInStorageSettings?.filters,
+    (state: IState) => state.settings.parcelsInStorageSettings?.filters
   );
 
   const parcelsData = useSelector(
-    (state: IState) => state.pages.parcelsInStorage.data,
+    (state: IState) => state.pages.parcelsInStorage.data
   );
 
   const isLoading = useSelector(
-    (state: IState) => state.pages.parcelsInStorage.loading,
+    (state: IState) => state.pages.parcelsInStorage.loading
   );
 
   const dataSource: IParcelsInStorageListColumn[] = React.useMemo(
@@ -64,9 +64,9 @@ export const ParcelsInStorage = ({ api }: { api: NotificationInstance }) => {
               (filters?.parcelInStorageType === "toDelivery" &&
                 el.toDelivery) ||
               (filters?.parcelInStorageType === "myOwn" && el.myOwn) ||
-              (filters?.parcelInStorageType === "toReceive" && el.toReceive)),
+              (filters?.parcelInStorageType === "toReceive" && el.toReceive))
         ),
-    [parcelsData, filters.parcelInStorageType, filters.number],
+    [parcelsData, filters.parcelInStorageType, filters.number]
   );
 
   React.useEffect(() => {
@@ -80,7 +80,7 @@ export const ParcelsInStorage = ({ api }: { api: NotificationInstance }) => {
     type: "checkbox",
     onChange: (
       selectedRowKeys: React.Key[],
-      selectedRows: IParcelsInStorageListColumn[],
+      selectedRows: IParcelsInStorageListColumn[]
     ) => {
       setSelectedRowKeys(selectedRowKeys);
       setSelectedRows(selectedRows);
@@ -92,14 +92,13 @@ export const ParcelsInStorage = ({ api }: { api: NotificationInstance }) => {
   };
 
   const addRowKey = (key: string) => {
-    console.log(selectedRowKeys);
     setSelectedRowKeys([...selectedRowKeys, key]);
   };
 
   const selectRow = React.useCallback(
     (parcelNumber: string) => {
       const newRow = dataSource.find(
-        (parcel) => parcel.number === parcelNumber.toString(),
+        (parcel) => parcel.number === parcelNumber.toString()
       );
 
       if (newRow) {
@@ -123,7 +122,7 @@ export const ParcelsInStorage = ({ api }: { api: NotificationInstance }) => {
         });
       }
     },
-    [addRow, addRowKey, dataSource, selectedRows, selectedRowKeys],
+    [addRow, addRowKey, dataSource, selectedRows, selectedRowKeys]
   );
 
   return (

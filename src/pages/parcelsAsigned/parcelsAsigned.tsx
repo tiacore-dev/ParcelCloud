@@ -31,7 +31,7 @@ export interface GetParcelsAsignedDto {
 export const ParcelsAsigned = ({ api }: { api: NotificationInstance }) => {
   const breadcrumbItems = React.useMemo(
     () => [{ title: "Главная" }, { title: "Назначенные накладные" }],
-    [],
+    []
   );
 
   const getReceiveParcelDialog = useReceiveParcelDialog(api);
@@ -53,11 +53,11 @@ export const ParcelsAsigned = ({ api }: { api: NotificationInstance }) => {
   }, []);
 
   const filters = useSelector(
-    (state: IState) => state.settings.parcelsAsignedSettings.filters,
+    (state: IState) => state.settings.parcelsAsignedSettings.filters
   );
 
   const parcelsData = useSelector(
-    (state: IState) => state.pages.parcelsAsigned.data,
+    (state: IState) => state.pages.parcelsAsigned.data
   );
 
   const dataSource = React.useMemo(() => {
@@ -119,7 +119,7 @@ export const ParcelsAsigned = ({ api }: { api: NotificationInstance }) => {
 
   const dataGroupFilter = (
     item: IParcelsAsignedList,
-    group: IParcelsAsignedGroupColumn,
+    group: IParcelsAsignedGroupColumn
   ) =>
     item.customer === group.customer &&
     item.toDelivery === group.toDelivery &&
@@ -154,11 +154,10 @@ export const ParcelsAsigned = ({ api }: { api: NotificationInstance }) => {
     }));
 
     const convertedGroups: IParcelsAsignedGroupColumn[] = Array.from(
-      new Set(convertedList.map((group) => JSON.stringify(group))),
+      new Set(convertedList.map((group) => JSON.stringify(group)))
     ).map((el, i) => {
       const group: IParcelsAsignedGroupColumn = JSON.parse(el);
       const data = dataSource.filter((item) => dataGroupFilter(item, group));
-      console.log(data);
       group.hasPay = data.some(
         (el) =>
           (el.price &&
@@ -166,7 +165,7 @@ export const ParcelsAsigned = ({ api }: { api: NotificationInstance }) => {
             el.payType === "Оплата наличными при отправлении") ||
           (el.price &&
             el.toDelivery &&
-            el.payType === "Оплата наличными при получении"),
+            el.payType === "Оплата наличными при получении")
       );
       group.key = `${i}${group.customer}`;
       return group;
@@ -183,7 +182,7 @@ export const ParcelsAsigned = ({ api }: { api: NotificationInstance }) => {
           dataSource={data}
           columns={parcelsAsignedMobileColumns(
             getReceiveParcelDialog,
-            navigate,
+            navigate
           )}
           showHeader={!isMobile()}
           loading={isLoading}
@@ -191,11 +190,11 @@ export const ParcelsAsigned = ({ api }: { api: NotificationInstance }) => {
         />
       );
     },
-    [dataSource],
+    [dataSource]
   );
 
   const isLoading = useSelector(
-    (state: IState) => state.pages.parcelsAsigned.loading,
+    (state: IState) => state.pages.parcelsAsigned.loading
   );
 
   React.useEffect(() => {

@@ -47,8 +47,6 @@ export const Account = () => {
         userVisibleOnly: true,
         applicationServerKey: process.env.REACT_APP_WP_SVS,
       });
-      console.log("Push Subscription:");
-      console.log(JSON.stringify(subscription));
 
       const subscriptionData = JSON.parse(JSON.stringify(subscription));
 
@@ -60,7 +58,7 @@ export const Account = () => {
           endpoint: subscriptionData.endpoint,
           p256dh: subscriptionData.keys.p256dh,
           auth: subscriptionData.keys.auth,
-        },
+        }
       );
     } catch (error) {
       console.error("Error subscribing to Push:", error);
