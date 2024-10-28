@@ -1,5 +1,5 @@
 # Use an official node image as the base
-FROM node:14-alpine as build
+FROM node:14-slim as build
 
 # Set working directory
 WORKDIR /app
@@ -10,7 +10,9 @@ RUN npm install
 
 # Copy the rest of the application and build it
 COPY . .
-RUN npm run build && ls /app/dist
+RUN npm run build
+RUN ls /app/dist
+
 
 # Use nginx to serve the static files
 FROM nginx:alpine
