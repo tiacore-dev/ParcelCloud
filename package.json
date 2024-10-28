@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/Tim-Elias/ParcelCloud#readme",
   "devDependencies": {
+    "webpack-bundle-analyzer": "^4.0.0",
     "@babel/core": "^7.20.7",
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-react": "^7.18.6",
