@@ -5,12 +5,12 @@ FROM node:14-alpine as build
 WORKDIR /app
 
 # Copy package.json and install dependencies
-COPY package.json yarn.lock ./
-RUN yarn install
+COPY package.json package-lock.json ./
+RUN npm install
 
 # Copy the rest of the application and build it
 COPY . .
-RUN yarn build
+RUN npm run build
 
 # Use nginx to serve the static files
 FROM nginx:alpine
