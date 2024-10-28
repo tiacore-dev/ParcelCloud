@@ -2,7 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 const dotenv = require("dotenv");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 
@@ -67,7 +67,6 @@ module.exports = () => {
       extensions: [".tsx", ".ts", ".js"],
     },
     plugins: [
-      
       new HtmlWebpackPlugin({
         template: "./index.html",
       }),
@@ -84,10 +83,6 @@ module.exports = () => {
         swDest: "sw.js",
       }),
       new webpack.DefinePlugin({ process: { env: envKeys } }),
-      new BundleAnalyzerPlugin({
-        analyzerMode: 'static', // Создает статический HTML файл
-        openAnalyzer: false, // Не открывает анализатор автоматически
-      }),
     ],
   };
 };

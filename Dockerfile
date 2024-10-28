@@ -15,7 +15,7 @@ ENV NODE_OPTIONS="--max-old-space-size=2048"
 # Copy the rest of the application and build it
 COPY . .
 RUN npm run build
-RUN ls /app/dist
+
 
 
 
