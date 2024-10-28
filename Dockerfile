@@ -10,7 +10,7 @@ RUN npm install
 
 # Copy the rest of the application and build it
 COPY . .
-RUN npm run build
+RUN npm run build && ls /app/dist
 
 # Use nginx to serve the static files
 FROM nginx:alpine
