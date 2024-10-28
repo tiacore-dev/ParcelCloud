@@ -2,7 +2,6 @@ const path = require("path");
 const webpack = require("webpack");
 const dotenv = require("dotenv");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 
@@ -20,11 +19,10 @@ module.exports = () => {
     devtool: "inline-source-map",
     output: {
       path: path.join(__dirname, "/dist"),
-      filename: "5e370ddc1ecb156a538df501.bundle.js",
+      filename: "bundle.js", // Убедитесь, что имя файла уникально
       publicPath: "/",
       clean: true,
     },
-    devtool: "inline-source-map",
     devServer: {
       static: "./dist",
       historyApiFallback: true,
@@ -47,12 +45,7 @@ module.exports = () => {
         },
         {
           test: /\.less$/i,
-          use: [
-            // compiles Less to CSS
-            "style-loader",
-            "css-loader",
-            "less-loader",
-          ],
+          use: ["style-loader", "css-loader", "less-loader"],
         },
         {
           test: /\.(png|jpe?g|gif|jp2|webp)$/,
@@ -81,6 +74,7 @@ module.exports = () => {
       new WorkboxWebpackPlugin.InjectManifest({
         swSrc: "./src/src-sw.js",
         swDest: "sw.js",
+        maximumFileSizeToCacheInBytes: 15 * 1024 * 1024, // Установите желаемый размер
       }),
       new webpack.DefinePlugin({ process: { env: envKeys } }),
     ],
