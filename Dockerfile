@@ -10,7 +10,7 @@ RUN npm install --save-dev webpack-bundle-analyzer
 # Copy package.json and install dependencies
 COPY package.json package-lock.json ./
 RUN npm install
-ENV NODE_OPTIONS="--max-old-space-size=2048"
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 
 # Copy the rest of the application and build it
 COPY . .
