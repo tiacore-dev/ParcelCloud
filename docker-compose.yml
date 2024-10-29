@@ -10,14 +10,15 @@ services:
     networks:
       - frontend-network
 
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"  # Nginx на 80
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf  # Подключите свой конфигурационный файл Nginx
-    networks:
-      - frontend-network  # Подключаем nginx к одной сети с frontend
+  #nginx:
+    #image: nginx:alpine
+    #ports:
+    #  - "80:80"  # Nginx на 80
+    #volumes:
+    #  - ./nginx.conf:/etc/nginx/nginx.conf  # Подключите свой конфигурационный файл Nginx
+    #networks:
+    #  - frontend-network  # Подключаем nginx к одной сети с frontend
+
 
 networks:
   frontend-network:
