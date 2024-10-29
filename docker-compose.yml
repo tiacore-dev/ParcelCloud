@@ -1,4 +1,3 @@
-version: '3'
 services:
   frontend:
     build:
@@ -9,6 +8,13 @@ services:
     restart: always
     networks:
       - frontend-network
+    deploy:  # Если вы используете Swarm
+      resources:
+        limits:
+          memory: 4G  # Установите ограничение по памяти
+
+# Если вы не используете Swarm, добавьте параметры ресурсов ниже, вне секции deploy
+    mem_limit: 4g  # Ограничение по памяти для контейнера
 
 networks:
   frontend-network:
