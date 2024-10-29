@@ -25,4 +25,4 @@ FROM nginx:alpine
 COPY --from=build /app/dist /usr/share/nginx/html
 
 # Expose the default port
-EXPOSE 80
+EXPOSE 8005
