@@ -1,11 +1,11 @@
-version: '3'
+
 services:
   frontend:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8005:8005"
+      - "8005:8005"  # Вы можете оставить это, чтобы тестировать приложение отдельно, но Nginx будет использовать внутреннюю связь
     restart: always
     networks:
       - frontend-network
@@ -13,10 +13,11 @@ services:
   nginx:
     image: nginx:alpine
     ports:
-      - "80:80"  # Нginx на 80
+      - "80:80"  # Nginx на 80
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf  # Подключите свой конфигурационный файл Nginx
-
+    networks:
+      - frontend-network  # Подключаем nginx к одной сети с frontend
 
 networks:
   frontend-network:
