@@ -28,7 +28,10 @@ self.skipWaiting();
  * This variable must be present somewhere in your service worker file,
  * even if you decide not to use precaching. See https://cra.link/PWA
  */
-precacheAndRoute(self.__WB_MANIFEST);
+precacheAndRoute(self.__WB_MANIFEST, {
+  maximumFileSizeToCacheInBytes: 15 * 1024 * 1024, // 15 MB
+});
+
 
 // Cache the Google Fonts stylesheets with a stale-while-revalidate strategy.
 // @see https://developers.google.com/web/tools/workbox/guides/common-recipes#google_fonts
