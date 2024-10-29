@@ -9,7 +9,7 @@ services:
     restart: always
     networks:
       - frontend-network
-    mem_limit: 8g  # Попробуйте увеличить до 8ГБ или больше
+    mem_limit: 16g  # Попробуйте увеличить до 8ГБ или больше
 
 networks:
   frontend-network:
