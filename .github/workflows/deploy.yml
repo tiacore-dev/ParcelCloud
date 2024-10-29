@@ -27,5 +27,5 @@ jobs:
 
 
       - name: Update Front
-        run: ssh -t ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} "cd apps/flask-schedule-app-backend && git pull origin main && docker-compose down && docker-compose up -d"
+        run: ssh -t ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} "cd apps/ParcelCloud && git pull origin main && docker-compose down && docker-compose up -d"
 
